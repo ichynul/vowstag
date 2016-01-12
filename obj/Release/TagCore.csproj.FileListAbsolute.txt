@@ -1,0 +1,7 @@
+E:\vsPrj\TagCore\bin\Release\TagCore.dll
+E:\vsPrj\TagCore\bin\Release\TagCore.pdb
+E:\vsPrj\TagCore\bin\Release\Newtonsoft.Json.dll
+E:\vsPrj\TagCore\bin\Release\Newtonsoft.Json.pdb
+E:\vsPrj\TagCore\bin\Release\Newtonsoft.Json.xml
+E:\vsPrj\TagCore\obj\Release\TagCore.dll
+E:\vsPrj\TagCore\obj\Release\TagCore.pdb

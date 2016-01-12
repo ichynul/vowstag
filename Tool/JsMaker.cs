@@ -1,0 +1,114 @@
+﻿
+using System.Text;
+namespace Tag.Vows
+{
+    class JsMaker
+    {
+        public static StringBuilder getCallBackJs()
+        {
+            StringBuilder script = new StringBuilder(300);
+            script.Append("\r\n    <script type=\"text/javascript\">\r\n");
+            script.Append("        /* ajax 脚本支持 Created by VowsTag */\r\n");
+            script.Append("        var _tagcall = {\r\n");
+            script.Append("            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallBackResult DoCallBack()以处理请求。\r\n");
+            script.Append("            //用方法:this.CallValue(\"key1\")可获取value1',context参数可省略.(详细请了解asp.net的'callback'机制)\r\n");
+            script.Append("            $: function (arg ,async ,context)\r\n");
+            script.Append("            {\r\n");
+            script.Append("                //请求发起前预处理方法，一般显示一个提示\r\n");
+            script.Append("                if (typeof(BeforCallback) == 'function' )\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    BeforCallback();\r\n");
+            script.Append("                }\r\n");
+            script.Append("                if (async != false)//异步\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    <% = ClientScript.GetCallbackEventReference(this ,\"arg\" ,\"this.success\" ,\"this.error\" ,\"context\" ,true) %>;\r\n");
+            script.Append("                }\r\n");
+            script.Append("                else\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    <% = ClientScript.GetCallbackEventReference(this ,\"arg\" ,\"this.success\" ,\"this.error\" ,\"context\" ,false) %>;\r\n");
+            script.Append("                }\r\n");
+            script.Append("            },\r\n");
+            script.Append("            success: function (result ,context)//异步发起请求成功\r\n");
+            script.Append("            {\r\n");
+            script.Append("                //看是否有处理的方法\r\n");
+            script.Append("                if (typeof(CallbackSuccess) == 'function' )\r\n");
+            script.Append("               {\r\n");
+            script.Append("                    CallbackSuccess(result ,context);\r\n");
+            script.Append("                }\r\n");
+            script.Append("                else\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    alert('服务端返回：\\r\\n' + result+'\\r\\n请实现js方法CallbackSuccess(result)以处理返回结果。');\r\n");
+            script.Append("                }\r\n");
+            script.Append("            },\r\n");
+            script.Append("            error: function (error ,context)//异步发起请求错误\r\n");
+            script.Append("            {\r\n");
+            script.Append("                if (window.console);\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    window.console.log( '出错了！--' + error );\r\n");
+            script.Append("                }\r\n");
+            script.Append("                //看是否有处理的方法\r\n");
+            script.Append("                if (typeof(CallbackError) == 'function' )\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    CallbackError(error ,context);\r\n");
+            script.Append("                }\r\n");
+            script.Append("                else\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    alert('请求出现错误！服务端返回：\\r\\n' + error+'\\r\\n请实现js方法CallbackError(result)以处理返回结果。');\r\n");
+            script.Append("                }\r\n");
+            script.Append("            },\r\n");
+            script.Append("            formqstr: '',\r\n");
+            script.Append("            form: function (formname ,async)//form标签发起请求\r\n");
+            script.Append("            {\r\n");
+            script.Append("                var elemArray = theForm.elements;\r\n");
+            script.Append("                this.formqstr ='';\r\n");
+            script.Append("                for (var i = 0; i < elemArray.length; i++) {\r\n");
+            script.Append("                    var element = elemArray[i];\r\n");
+            script.Append("                    var elemType = element.type.toUpperCase();\r\n");
+            script.Append("                    var elemName = element.name;\r\n");
+            script.Append("                    if (elemName) {\r\n");
+            script.Append("                        if ( elemType == 'TEXT' || elemType == 'TEXTAREA'\r\n");
+            script.Append("                             || elemType == 'PASSWORD' || elemType == 'FILE' || elemType == 'HIDDEN')\r\n");
+            script.Append("                        {\r\n");
+            script.Append("                            this.getElemValue(elemName, element.value);\r\n");
+            script.Append("                        }\r\n");
+            script.Append("                        else if (elemType == 'CHECKBOX' && element.checked)\r\n");
+            script.Append("                        {\r\n");
+            script.Append("                            this.getElemValue(elemName, element.value ? element.value : 'On');\r\n");
+            script.Append("                        }\r\n");
+            script.Append("                        else if (elemType == 'RADIO' && element.checked)\r\n");
+            script.Append("                        {\r\n");
+            script.Append("                            this.getElemValue(elemName, element.value);\r\n");
+            script.Append("                        }\r\n");
+            script.Append("                        else if (elemType.indexOf('SELECT') != -1)\r\n");
+            script.Append("                        {\r\n");
+            script.Append("                            for (var j = 0; j < element.options.length; j++) {\r\n");
+            script.Append("                                var option = element.options[j];\r\n");
+            script.Append("                                if (option.selected)\r\n");
+            script.Append("                                {\r\n");
+            script.Append("                                    this.getElemValue(elemName, option.value ? option.value : option.text); }\r\n");
+            script.Append("                                }\r\n");
+            script.Append("                           }\r\n");
+            script.Append("                       }\r\n");
+            script.Append("                  }\r\n");
+            script.Append("                this.$('formname=' + formname + '&' + this.formqstr ,async ,formname);\r\n");
+            script.Append("            },\r\n");
+            script.Append("            getElemValue: function(name ,value) {\r\n");
+            script.Append("                if (name == '__VIEWSTATE' || name == '__VIEWSTATEGENERATOR'||\r\n");
+            script.Append("                        name == '__EVENTTARGET' || name =='__EVENTARGUMENT')\r\n");
+            script.Append("                {\r\n");
+            script.Append("                    return;\r\n");
+            script.Append("                }\r\n");
+            script.Append("                this.formqstr += (this.formqstr.length > 0 ? '&' : '') + name + '=' + value;\r\n");
+            script.Append("            },\r\n");
+            script.Append("            json: function (jsonname ,otenparams ,async)//json标签发起请求\r\n");
+            script.Append("            {\r\n");
+            script.Append("                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);\r\n");
+            script.Append("            }\r\n");
+            script.Append("        };\r\n");
+            script.Append("        _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用\r\n");
+            script.Append("        var _tagcallback = _tagcall;//兼容旧版\r\n");
+            script.Append("    </script>\r\n");
+            return script;
+        }
+    }
+}
