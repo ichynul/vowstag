@@ -778,11 +778,13 @@ namespace Tag.Vows
             match = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                Html = Html.Replace(match.Value, string.Concat(match.Value, "\r\n<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:", DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n"));
+                Html = Html.Replace(match.Value, string.Concat(match.Value, "\r\n<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:"
+                                , DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n"));
             }
             else
             {
-                Html = string.Concat("<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:", DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n", Html);
+                Html = string.Concat("<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:",
+                            DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n", Html);
             }
             string msg = "";
             bool success = false;

@@ -20,7 +20,8 @@ namespace Tag.Vows
 
         public override string toTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：EmptyTag，内容：" + Regex.Replace(("" + this.Style).Replace("<", "&lt;").Replace(">", "&gt;"), @"[\r\n\s]", "") + "】<br />";
+            string s = "【全局名称" + this.getTagName() + ",标签类型：EmptyTag，内容：" + 
+                Regex.Replace(("" + this.Style).Replace("<", "&lt;").Replace(">", "&gt;"), @"[\r\n\s]", "") + "】<br />";
             return s;
         }
     }

@@ -9,7 +9,8 @@ namespace Tag.Vows
             #region 标签正则表达式
             /********tag tests*******/
             TagTest = string.Concat("(?s)", tagLeft, @"\s*[\w].*?/?", tagRight, "(?-s)");
-            QueryBase = @"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:=|!=|>|<|%|!%)(?:[\w\-/:]+|\-?\d+(?:\.\d+)?|""""|(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|\w+\.\w+(?:[\+\-\*/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?";
+            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:=|!=|>|<|%|!%)(?:[\w\-/:]+|\-?\d+(?:\.\d+)?|""""|(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|"
+                        , @"\w+\.\w+(?:[\+\-\*/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
             ListTest = string.Concat(tagLeft, "list=", QueryBase, tagRight);
             ReadTest = string.Concat(tagLeft, "read=", QueryBase, tagRight);
             FormTest = string.Concat(tagLeft, "form=", QueryBase, tagRight);

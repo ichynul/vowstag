@@ -59,7 +59,8 @@ namespace Tag.Vows
                     if (!Regex.IsMatch(w.VarName, @"^request|call\.\w+$", RegexOptions.IgnoreCase))
                     {
                         sb.AppendFormat(
-                            "{0}/* {1}有误！仅支持 null|empty|none  与request 或 call 参数进行比较，如 null判断url参数是否存在(==null)，empty 判断url参数存在但为空(==\"\")，none为null或empey其一(string.IsNullOrEmpty). */\r\n",
+                            "{0}/* {1}有误！仅支持 null|empty|none  与request 或 call 参数进行比较，"
+                            + "如 null判断url参数是否存在(==null)，empty 判断url参数存在但为空(==\"\")，none为null或empey其一(string.IsNullOrEmpty). */\r\n",
                             Method.getSpaces(2), w.VarName);
                     }
                     else if (w.Compare != "==" && w.Compare != "!=")

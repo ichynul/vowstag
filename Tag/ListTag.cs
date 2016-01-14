@@ -175,13 +175,15 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.path).linq_getList(this.DataName, this.BaseParams, this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
+                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.path).linq_getList(this.DataName, this.BaseParams,
+                                                        this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
                     bindList_or_useAscx.body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     bindList_or_useAscx.body.Append(Method.getSpaces(2) + "{\r\n");
                     string emptytext = (this.SubPage as ItemPage).getEmptyText();
                     if (!string.IsNullOrEmpty(emptytext))
                     {
-                        bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3), this.getTagName(), Regex.Replace(emptytext, @"""", "\\\""));
+                        bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
+                                                            this.getTagName(), Regex.Replace(emptytext, @"""", "\\\""));
                     }
                     else
                     {
@@ -193,7 +195,8 @@ namespace Tag.Vows
                         }
                         if (emptytext != "none")
                         {
-                            bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"<div class='emptydiv'><span class='emptytext'>{2}</span></div>\";\r\n", Method.getSpaces(3), this.getTagName(), emptytext);
+                            bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"<div class='emptydiv'><span class='emptytext'>{2}</span></div>\";\r\n",
+                                Method.getSpaces(3), this.getTagName(), emptytext);
                         }
                     }
                     bindList_or_useAscx.body.Append(Method.getSpaces(3) + "return;\r\n");

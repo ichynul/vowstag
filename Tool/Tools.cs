@@ -94,8 +94,8 @@ namespace Tag.Vows
 
         public string RemovePageParams(string url)
         {
-            url = Regex.Match(url, "[^/]+$").Value;
-            return Regex.Replace(url, @"&?page=[^&]*(?=&|$)", string.Empty, RegexOptions.IgnoreCase);
+            string pageName = url = Regex.Match(url, "[^/]+$").Value;
+            return Regex.Replace(pageName, @"&?page=[^&]*(?=&|$)", string.Empty, RegexOptions.IgnoreCase);
         }
     }
 }
