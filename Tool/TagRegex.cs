@@ -20,10 +20,7 @@ namespace Tag.Vows
             MethodTest = string.Concat(tagLeft, @"\w+(?:\.\w+)*\([^\)]*\)/?", tagRight);
             PagerTest = string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight);
             CommandTest = string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.]+(?:&|<br/?>)?)+?/?", tagRight);
-            /********if tests*******/
-            IfTest = string.Concat(tagLeft, @"if\?.*?/?", tagRight);
-            ElseIfTest = string.Concat(tagLeft, @"el(?:se)?if\?.*?/?", tagRight); ;
-            ElseTest = string.Concat(tagLeft, @"else.*?/?", tagRight); ;
+
             /********wrong tests*******/
             RequestValue = @"request\.\w+";
             SessionValue = @"session\.\w+";
@@ -40,14 +37,16 @@ namespace Tag.Vows
             ServerCodeTest = @"(?s)<%(?<code>.*?)%>(?-s)";
             ServerScriptTest = @"(?s)<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>(?-s)";
             /********pairs tests*******/
-            TagPairEndTest = string.Concat("(?s)", tagLeft, @"\s*/?(?<name>(?:list|read|label|static|form|json|cmd|pager|if|elsif|else|endif))\s*", tagRight);
+            TagPairEndTest = string.Concat("(?s)", tagLeft, @"\s*/?(?<name>(?:list|read|label|static|form|json|cmd|pager))\s*", tagRight);
             TagPairTest = string.Concat("(?s)", tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
                                                                "(?<style>.+?", tagLeft, @"\s*/?\1\s*", tagRight, ")(?-s)");
             EmptyPairTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight,
                                                                "(?<style>.+?)", tagLeft, @"\s*/?empty\s*", tagRight, "(?-s)");
-            IfPairTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(?<test>.*?)", tagRight, "(?<style>(?:(?<open>", tagLeft, @"\s*if\s*\?.*?",
-                                                         tagRight, ")|(?<-open>", tagLeft, @"\s*/?endif\s*", tagRight, ")|.*?)*(?(open)(?!)))",
-                                                               tagLeft, @"\s*/?endif\s*", tagRight, "(?-s)");
+            /********if tests*******/
+            IfTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
+            ElseIfTest = string.Concat("(?s)", tagLeft, @"\s*el(?:se)?if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
+            ElseTest = string.Concat("(?s)", tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?endif\s*", tagRight, ")", "(?-s)");
+            IfPairTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?endif\s*", tagRight, "(?-s)");
             EmptyTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight);
             #endregion
 

@@ -30,6 +30,7 @@ namespace Tag.Vows
         protected string AspxCsCode { get; private set; }
         protected string ext = ".html";
         protected MatchCollection matches;
+        protected Match match;
         protected StringBuilder MethodLines;
         protected StringBuilder MethodRects;
         protected StringBuilder CallMethods;
@@ -37,7 +38,6 @@ namespace Tag.Vows
         internal List<BaseTag> TagList = new List<BaseTag>();
         internal List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
-        protected Match match;
 
         protected BasePage() { }
 
@@ -261,21 +261,6 @@ namespace Tag.Vows
                     StaticTag tag = new StaticTag(match.Value, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.path, this.TagList.Count);
                     TagList.Add(tag);
                 }
-                else if (type == TagType._tag_if)
-                {
-                    IfTag tag = new IfTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
-                }
-                else if (type == TagType._tag_elseif)
-                {
-                    ElseIfTag tag = new ElseIfTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
-                }
-                else if (type == TagType._tag_else)
-                {
-                    ElseTag tag = new ElseTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
-                }
                 else if (type == TagType._tag_filed)
                 {
                     FieldTag tag = new FieldTag(match.Value, origin, Deep, this.path, this.TagList.Count);
@@ -449,7 +434,7 @@ namespace Tag.Vows
                     Html = Html.Replace(m.Value, path.convert_pairs[0] + name + path.convert_pairs[1]);
                     continue;
                 }
-                if (!includelistAndRead && (name == "list" || name == "read" || name == "empty" || name == "if" || name == "endif" || name == "elif" || name == "elseif" || name == "else"))
+                if (!includelistAndRead && (name == "list" || name == "read" || name == "empty" /*|| name == "if" || name == "endif" || name == "elif" || name == "elseif" || name == "else"*/))
                 {
                     continue;
                 }
@@ -497,16 +482,9 @@ namespace Tag.Vows
         private void FindIfPairs(string text)
         {
             matches = Regex.Matches(text, this.path.tagregex.IfPairTest, RegexOptions.IgnoreCase);
-            string test, origin, style;
             foreach (Match m in matches)
             {
-                origin = m.Groups["test"].Value;
-                style = m.Groups["style"].Value;
-                test = Regex.Replace(origin, @"\s", string.Empty, RegexOptions.IgnoreCase);
-                test = Regex.Replace(test, @"<br/>", "&", RegexOptions.IgnoreCase);
-                test = Regex.Replace(test, @"<hr/>", "|", RegexOptions.IgnoreCase);
-                IfGroupTag ifGroup = new IfGroupTag(test, origin, this.Deep, this.path, this.TagList.Count);
-                ifGroup.SetStyle(style);
+                IfGroupTag ifGroup = new IfGroupTag(m.Value, this.Deep, this.path, this.TagList.Count);
                 this.TagList.Add(ifGroup);
             }
         }

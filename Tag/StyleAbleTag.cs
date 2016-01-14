@@ -15,6 +15,7 @@
             this.Style = style;
         }
 
+
         public bool HasStyle()
         {
             return !string.IsNullOrEmpty(this.Style);

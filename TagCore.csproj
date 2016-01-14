@@ -47,6 +47,7 @@
     <Compile Include="Bean\CallBackResult.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />
+    <Compile Include="Enum\IfType.cs" />
     <Compile Include="Enum\MethodType.cs" />
     <Compile Include="Interface\ICallBackAble.cs" />
     <Compile Include="Interface\ICallBackControl.cs" />
@@ -60,11 +61,10 @@
     <Compile Include="Interface\ITableUseable.cs" />
     <Compile Include="Interface\IUC.cs" />
     <Compile Include="Interface\IUpDataAble.cs" />
+    <Compile Include="Interface\ITestAble.cs" />
     <Compile Include="Page\IfPage.cs" />
     <Compile Include="Page\ReadPage.cs" />
     <Compile Include="Tag\CMDTag.cs" />
-    <Compile Include="Tag\ElseIfTag.cs" />
-    <Compile Include="Tag\ElseTag.cs" />
     <Compile Include="Tag\EmptyTag.cs" />
     <Compile Include="Tag\IfGroupTag.cs" />
     <Compile Include="Tag\IfTag.cs" />
