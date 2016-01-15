@@ -19,7 +19,7 @@ namespace Tag.Vows
             this.LabeName = this.path.tagregex.getDataName(this.Text);
         }
 
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             if (ParPageName == this.LabeName)
             {

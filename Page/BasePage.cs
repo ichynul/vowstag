@@ -9,8 +9,7 @@ namespace Tag.Vows
 {
     /// <summary>
     ///At 2015/07/15
-    ///By LiangHaiyun  ichynul@outlook.com
-    ///Last edit 2015/12/03
+    ///By ichynul@outlook.com
     /// </summary>
     public class BasePage : IHtmlAble
     {
@@ -60,7 +59,7 @@ namespace Tag.Vows
                 this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, path.MAXDEEP);
                 return;
             }
-            getTegs(false);
+            GetTegs(false);
         }
 
         public BasePage(string style, int mDeep, mPaths path, string fakeName)
@@ -75,7 +74,7 @@ namespace Tag.Vows
                 this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, path.MAXDEEP);
                 return;
             }
-            getTegs(true);
+            GetTegs(true);
         }
 
         public string getMsg()
@@ -83,7 +82,7 @@ namespace Tag.Vows
             return this.Msg;
         }
 
-        protected void getTegs(bool style)
+        protected void GetTegs(bool style)
         {
             if (!style)
             {
@@ -129,6 +128,7 @@ namespace Tag.Vows
             {
                 DissAbleServerScript();
             }
+
             ReplaceSpacesAndMatchAll();
             if (!this.path.convert)
             {
@@ -136,14 +136,19 @@ namespace Tag.Vows
             }
             ReplaceEnd(false);
             FindListOrReadPairs(Html, 1);
-            FindIfPairs(Html);
-            ReplaceEnd(true);
             foreach (var x in this.TagList)
             {
                 if (x is ListTag)
                 {
                     (x as ListTag).LazyLoad();
                 }
+                this.Html = x.ReplaceTagText(this.Html);
+            }
+            FindIfPairs(Html);
+            ReplaceEnd(true);
+            foreach (var x in this.TagList)
+            {
+                //this.Html = x.RecoverTagText(this.Html);
             }
         }
 
@@ -181,10 +186,6 @@ namespace Tag.Vows
                 tag = Regex.Replace(tag, @"<hr/>", "|", RegexOptions.IgnoreCase);
                 //
                 Match(tag, origin, this.path.tagregex.StaticTest, TagType._tag_static);
-                // Match(tag, origin, this.path.tagregex.IfTest, TagType._tag_if);
-                // Match(tag, origin, this.path.tagregex.ElseIfTest, TagType._tag_elseif);
-                // Match(tag, origin, this.path.tagregex.ElseTest, TagType._tag_else);
-
                 Match(tag, origin, this.path.tagregex.FiledTest, TagType._tag_filed);
                 Match(tag, origin, this.path.tagregex.MethodTest, TagType._tag_method);
                 if (this is StaticPage)
@@ -218,74 +219,74 @@ namespace Tag.Vows
 
         private void Match(string text, string origin, string pa, TagType type)
         {
+            if (Regex.IsMatch(text, this.path.tagregex.TagPairEndTest) || Regex.IsMatch(text, this.path.tagregex.EmptyTest) || Regex.IsMatch(text, this.path.tagregex.ifTagKeyTest))
+            {
+                return;
+            }
             match = Regex.Match(text, pa, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                if (Regex.IsMatch(match.Value, this.path.tagregex.TagPairEndTest) || Regex.IsMatch(match.Value, this.path.tagregex.EmptyTest))
-                {
-                    return;
-                }
-                Html = Html.Replace(origin, text);
+                this.Html = this.Html.Replace(origin, text);
                 if (type == TagType._tag_command)
                 {
                     CMDTag tag = new CMDTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
                     getCMD(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_list)
                 {
                     if (this is SubListPage)
                     {
                         ListTag tag = new ListTag(match.Value, origin, Deep, (this as SubListPage).PageName, this.path, this.TagList.Count);
-                        TagList.Add(tag);
+                        this.TagList.Add(tag);
                     }
                     else
                     {
                         ListTag tag = new ListTag(match.Value, origin, Deep, this is ItemPage ? (this as ItemPage).PageName : "", this.path, this.TagList.Count);
-                        TagList.Add(tag);
+                        this.TagList.Add(tag);
                     }
                 }
                 else if (type == TagType._tag_read)
                 {
                     ReadTag tag = new ReadTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_label)
                 {
                     LabelTag tag = new LabelTag(match.Value, origin, Deep, this is LabelPage ? (this as LabelPage).PageName : "", this.path, this.TagList.Count);
                     tag.LazyLoad();
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_static)
                 {
                     StaticTag tag = new StaticTag(match.Value, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_filed)
                 {
                     FieldTag tag = new FieldTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_method)
                 {
                     MethodTag tag = new MethodTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_pager)
                 {
                     PagerTag tag = new PagerTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_form)
                 {
                     FormTag tag = new FormTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                     this.TagCallBack = "form";
                 }
                 else if (type == TagType._tag_json)
                 {
                     JsonTag tag = new JsonTag(match.Value, origin, Deep, this.path, this.TagList.Count);
-                    TagList.Add(tag);
+                    this.TagList.Add(tag);
                     this.TagCallBack = "json";
                 }
             }
@@ -434,7 +435,7 @@ namespace Tag.Vows
                     Html = Html.Replace(m.Value, path.convert_pairs[0] + name + path.convert_pairs[1]);
                     continue;
                 }
-                if (!includelistAndRead && (name == "list" || name == "read" || name == "empty" /*|| name == "if" || name == "endif" || name == "elif" || name == "elseif" || name == "else"*/))
+                if (!includelistAndRead && (name == "list" || name == "read" || name == "empty"))
                 {
                     continue;
                 }
@@ -486,10 +487,25 @@ namespace Tag.Vows
             {
                 IfGroupTag ifGroup = new IfGroupTag(m.Value, this.Deep, this.path, this.TagList.Count);
                 this.TagList.Add(ifGroup);
+                this.Html = this.Html.Replace(m.Value, ifGroup.getTagName());
+            }
+            if (matches.Count > 0)
+            {
+                FindIfPairs(this.Html);
             }
         }
 
-        public virtual string getAspxCode()
+
+        protected void RecoverIfGroupTags()
+        {
+            foreach (var c in this.TagList.Where(x => x is IfGroupTag))
+            {
+                Html = c.RecoverTagText(Html);
+                this.Msg += c.getMsg();
+            }
+        }
+
+        protected void RecoverOtherTags()
         {
             ITableUseable ck = null;
             foreach (var c in this.TagList)
@@ -504,9 +520,16 @@ namespace Tag.Vows
                         continue;
                     }
                 }
-                Html = Html.Replace(c.Text, c.getCodeForAspx());
+                Html = c.RecoverTagText(Html);
                 this.Msg += c.getMsg();
             }
+        }
+
+        public virtual string getAspxCode()
+        {
+            RecoverOtherTags();
+            RecoverOtherTags();
+
             if (!(this is IUC) && (this.TagCallBack == "json" || this.TagCallBack == "form" ||
                 (this.CallBack == null && path.creatScriptForAllPages) || this.CallBack == true))
             {

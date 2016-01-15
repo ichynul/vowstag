@@ -12,7 +12,7 @@ namespace Tag.Vows
         private string ParPageName;
 
         public StaticTag(string mtext, string mOrigin, int Deep, string mParPageName, mPaths path, int no_)
-            : base(mtext,mOrigin, Deep, path, no_)
+            : base(mtext, mOrigin, Deep, path, no_)
         {
             this.ParPageName = mParPageName;
         }
@@ -30,7 +30,7 @@ namespace Tag.Vows
             }
         }
 
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             if (ParPageName == this.StaticName)
             {

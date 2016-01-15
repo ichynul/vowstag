@@ -9,7 +9,7 @@ namespace Tag.Vows
         {
         }
 
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             return "";
         }

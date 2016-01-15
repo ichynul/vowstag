@@ -19,6 +19,15 @@ namespace Tag.Vows
         internal IMakeAble SubPage = null;
         protected int Deep;
         protected BaseTag() { }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="mText">经过处理的标签文本（去除空格 \s*、br/hr替换）</param>
+        /// <param name="mOrigin">未经过处理的标签原始文本</param>
+        /// <param name="mDeep"></param>
+        /// <param name="path"></param>
+        /// <param name="no_"></param>
         protected BaseTag(string mText, string mOrigin, int mDeep, mPaths path, int no_)
         {
             this.path = path;
@@ -31,8 +40,32 @@ namespace Tag.Vows
             Discover();
         }
 
-        public abstract string getCodeForAspx();
+        /// <summary>
+        /// 将标签文本替换成名称...{tagtext...} => tagname
+        /// </summary>
+        /// <param name="PageHtml"></param>
+        /// <returns></returns>
+        public string ReplaceTagText(string PageHtml)
+        {
+            string re = PageHtml.Replace(this.Text, this.tagName);
+            return re;
+        }
 
+        /// <summary>
+        /// 将标签成名称替换为经过处理的文本... tagname => tagcode
+        /// </summary>
+        /// <param name="PageHtml"></param>
+        /// <returns></returns>
+        public string RecoverTagText(string PageHtml)
+        {
+            string re = PageHtml.Replace(this.tagName, this.getCodeForAspx());
+            return re;
+        }
+
+        /// <summary>
+        /// 当执行标签对转换时调用
+        /// </summary>
+        /// <returns></returns>
         public string convertTagPair()
         {
             if (path.convert_pairs != null || path.convert_pairs.Length == 2)
@@ -56,8 +89,19 @@ namespace Tag.Vows
             }
             return this.Msg;
         }
+        /// <summary>
+        /// 子类实现将标签转换为代码的具体逻辑
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string getCodeForAspx();
+        /// <summary>
+        /// 子类实现一些初始化工作
+        /// </summary>
         protected abstract void Discover();
-
+        /// <summary>
+        /// 输出标签的内容，以供调试
+        /// </summary>
+        /// <returns></returns>
         public abstract string toTagString();
     }
 }

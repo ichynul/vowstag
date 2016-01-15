@@ -34,7 +34,7 @@ namespace Tag.Vows
                 style = match.Groups["style"].Value;
                 st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && match.Value.Contains(x.Text)) as IStyleAble;
                 empty = new EmptyTag(match.Value, match.Value, Deep, this.path, this.TagList.Count);
-                TagList.Add(empty);
+                this.TagList.Add(empty);
                 empty.SetStyle(style);
                 Html = Html.Replace(match.Value, string.Empty);
             }

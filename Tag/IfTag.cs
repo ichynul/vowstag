@@ -12,7 +12,7 @@ namespace Tag.Vows
         {
             this.Type = type;
         }
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             return string.Format("<!-- {0} -->", this.tagName);
         }
@@ -25,6 +25,22 @@ namespace Tag.Vows
         {
             string s = "【全局名称" + this.getTagName() + ",标签类型：" + this.Type + "，内容：if(" + this.Test + "){" + this.Conttent + "}】<br />";
             return s;
+        }
+
+        public string getCode()
+        {
+            if (this.Type == IfType._if)
+            {
+                return string.Concat("<% if (", this.Test, ") %>\r\n<% { %>", this.Conttent, "<% } %>\r\n");
+            }
+            else if (this.Type == IfType._else_if)
+            {
+                return string.Concat("<% else if (", this.Test, ") %>\r\n<% { %>", this.Conttent, "<% } %>\r\n");
+            }
+            else
+            {
+                return string.Concat("<% else %>\r\n<% { %>", this.Conttent, "<% } %>\r\n");
+            }
         }
 
         public void SetTest(string test)

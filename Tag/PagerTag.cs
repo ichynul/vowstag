@@ -30,7 +30,7 @@ namespace Tag.Vows
         {
             return Used;
         }
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             return string.Format("<asp:Literal ID=\"{0}\" runat=\"server\"></asp:Literal>", this.getTagName());
         }

@@ -108,9 +108,9 @@ namespace Tag.Vows
             }
         }
 
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
-            if (ParPageName == this.ItemName)
+            if (this.ParPageName == this.ItemName)
             {
                 return string.Format("<!--（未加载套用自己的list标签）。{0}-->", string.Concat(this.Text, "--", ParPageName, "---", ItemName));
             }

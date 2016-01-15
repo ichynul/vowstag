@@ -44,7 +44,7 @@ namespace Tag.Vows
         {
             method.forname = this.getTagName();
         }
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             return string.Format("<!-- {0} -->", this.tagName);
         }

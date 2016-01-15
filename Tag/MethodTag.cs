@@ -40,7 +40,7 @@ namespace Tag.Vows
             }
         }
 
-        public override string getCodeForAspx()
+        protected override string getCodeForAspx()
         {
             if (string.IsNullOrEmpty(this.Dataname) && this.Type == MethodType.itemValue)
             {

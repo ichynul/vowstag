@@ -38,7 +38,8 @@ namespace Tag.Vows
             ServerCodeTest = @"(?s)<%(?<code>.*?)%>(?-s)";
             ServerScriptTest = @"(?s)<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>(?-s)";
             /********pairs tests*******/
-            TagPairEndTest = string.Concat("(?s)", tagLeft, @"\s*/?(?<name>(?:list|read|label|static|form|json|cmd|pager))\s*", tagRight);
+            TagPairEndTest = string.Concat("(?s)", tagLeft, @"\s*/?(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight);
+            ifTagKeyTest = string.Concat("(?s)", tagLeft, @"\s*(?:else|endif)\s*", tagRight);
             TagPairTest = string.Concat("(?s)", tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
                                                                "(?<style>.+?", tagLeft, @"\s*/?\1\s*", tagRight, ")(?-s)");
             EmptyPairTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight,
@@ -47,6 +48,7 @@ namespace Tag.Vows
             IfTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
             ElseIfTest = string.Concat("(?s)", tagLeft, @"\s*el(?:se)?if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
             ElseTest = string.Concat("(?s)", tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?endif\s*", tagRight, ")", "(?-s)");
+            EndifTest = string.Concat("(?s)", tagLeft, @"\s*(?:else|endif)\s*", tagRight);
             IfPairTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?endif\s*", tagRight, "(?-s)");
             EmptyTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight);
             #endregion
@@ -79,9 +81,11 @@ namespace Tag.Vows
         public string ElseIfTest { private set; get; }
         public string ElseTest { private set; get; }
         public string TagPairEndTest { private set; get; }
+        public string ifTagKeyTest { private set; get; }
         public string EmptyPairTest { private set; get; }
         public string IfPairTest { private set; get; }
         public string EmptyTest { private set; get; }
+        public string EndifTest { private set; get; }
         /********wrong tests*******/
         public string RequestValue { private set; get; }
         public string SessionValue { private set; get; }
