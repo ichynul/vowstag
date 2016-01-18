@@ -374,7 +374,7 @@ namespace Tag.Vows
         /// <param name="panmes">字段名称数组</param>
         /// <param name="where">查询条件</param>
         /// <returns></returns>
-        internal string linq_getList(string listname, string baseParms, List<string> fields,
+        internal string linq_getList(string listname, string baseParms, HashSet<string> fields,
             out string modType, string upDataName, out string UpdataType, PagerTag pager)
         {
             UpdataType = "";
@@ -479,10 +479,7 @@ namespace Tag.Vows
                 {
                     foreach (string s in orderbylist)
                     {
-                        if (!fields.Contains(s.ToLower()))
-                        {
-                            fields.Add(s);
-                        }
+                        fields.Add(s.ToLower());
                     }
                 }
                 if (fields != null && fields.Count > 0)
@@ -556,14 +553,14 @@ namespace Tag.Vows
                     {
                         linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1}, RemovePageParams(Request.RawUrl), {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
                             Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "fase");
-                        linq.AppendFormat("{0}{1}.Text = \"<div id='pager'>\" + pager.MakeLinks() +\"</div>\"; \r\n", Method.getSpaces(2), pager.getTagName());
+                        linq.AppendFormat("{0}{1}.Text = \"<div id='pager'>\" + pager.MakeLinks() +\"</div>\"; \r\n", Method.getSpaces(2), pager.GetTagName());
                     }
                     else
                     {
                         linq.AppendFormat("{0}string urlparams = RemovePageParams(Request.RawUrl);\r\n", Method.getSpaces(2));
                         linq.AppendFormat(
                             "{0}{2}.Text = \"<div id='pagerinfo' style='display:none;'>\"\r\n{1}+ \"{3}\"\r\n{1}+ \"{4}\"\r\n{1}+ \"{5}\"\r\n{1} + \"{6}\"\r\n{1}+ \"\\r\\n</div>\";\r\n",
-                            Method.getSpaces(2), Method.getSpaces(4), pager.getTagName(),
+                            Method.getSpaces(2), Method.getSpaces(4), pager.GetTagName(),
                            "\\r\\n<input type='hidden' id='list_size' value='\" + totalsize + \"' data-info='总纪录条数' />",
                             "\\r\\n<input type='hidden' id='num_per_page' value='\" + " + pagesize + " + \"' data-info='每页显示' />",
                             "\\r\\n<input type='hidden' id='current_page' value='\" + page + \"' data-info='当前页' />",
@@ -616,7 +613,7 @@ namespace Tag.Vows
             bool desc = true;
             int pagesize = 0;//每页显示条数
             int take = 0;
-            List<string> fields = getFields(listname);
+            HashSet<string> fields = getFields(listname);
             #region where 筛选
             if (baseWheres.Count > 0)
             {
@@ -652,7 +649,11 @@ namespace Tag.Vows
                     }
                     else if (w.FiledName == "fields")
                     {
-                        fields = w.VarName.ToLower().Split(',').ToList();
+                        var names = w.VarName.ToLower().Split(',');
+                        foreach (var x in names)
+                        {
+                            fields.Add(x.ToLower());
+                        }
                         continue;
                     }
                     if (first)
@@ -910,12 +911,13 @@ namespace Tag.Vows
             return DataHelper.getPropertyName(this.path.db, name);
         }
 
-        internal List<string> getFields(string tableName)
+        internal HashSet<string> getFields(string tableName)
         {
             object model = getModObj(tableName);
+            HashSet<string> names = new HashSet<string>();
             if (model != null)
             {
-                List<string> names = new List<string>();
+
                 PropertyInfo[] ps = model.GetType().GetProperties();
                 foreach (PropertyInfo p in ps)
                 {
@@ -925,9 +927,8 @@ namespace Tag.Vows
                     }
                     names.Add(p.Name.ToLower());
                 }
-                return names;
             }
-            return null;
+            return names;
         }
 
         internal StringBuilder getDbcontex(IMakeAble page)

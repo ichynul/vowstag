@@ -27,7 +27,7 @@ namespace Tag.Vows
                 }
                 else if (c is MethodTag)
                 {
-                    (c as MethodTag).setDataName(DataName, MethodType.readValue);
+                    (c as MethodTag).setDataName(DataName, MethodType.readValueMethod);
                 }
             }
         }

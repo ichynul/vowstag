@@ -18,7 +18,7 @@ namespace Tag.Vows
         protected List<string> dataLists = new List<string>();
         protected string UpDataname;
         protected PagerTag Pger;
-        private List<string> ItemFields;
+        private HashSet<string> ItemFields;
         public bool Inside_Read { get; private set; }
         public bool HasReadParams { get; private set; }
         protected bool isSublist;
@@ -31,6 +31,7 @@ namespace Tag.Vows
 
         public void setUpDataName(string upDataName, FieldType type)
         {
+            System.Web.HttpContext.Current.Response.Write(upDataName + "<br />");
             if (type == FieldType.itemValue)
             {
                 this.isSublist = true;
@@ -54,16 +55,16 @@ namespace Tag.Vows
 
         protected override void Discover()
         {
-            this.DataName = this.path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Path.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "take = 99";
             }
-            this.HasReadParams = Regex.IsMatch(this.BaseParams, this.path.tagregex.ReadValue);
+            this.HasReadParams = Regex.IsMatch(this.BaseParams, this.Path.tagregex.ReadValue);
             if (!this.In_Pairs)
             {
-                this.ItemName = this.path.tagregex.getItemPath(this.BaseParams);
+                this.ItemName = this.Path.tagregex.getItemPath(this.BaseParams);
             }
             else
             {
@@ -93,7 +94,7 @@ namespace Tag.Vows
                     {
                         var lp = this.SubPage as ItemPage;
                         this.ItemFields = lp.GetItemFields();
-                        if (this.HasStyle() && path.convert)
+                        if (this.HasStyle() && Path.convert)
                         {
                             lp.ConverterTags();
                         }
@@ -108,7 +109,7 @@ namespace Tag.Vows
             }
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
             if (this.ParPageName == this.ItemName)
             {
@@ -121,12 +122,12 @@ namespace Tag.Vows
                     "\r\n    <ItemTemplate>{1}</ItemTemplate>" +
                     "\r\n</asp:Repeater>" +
                     "\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>",
-                    this.getTagName(), this.SubPage.getAspxCode());
+                    this.GetTagName(), this.SubPage.GetAspxCode());
             }
             else
             {
                 return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>" +
-                    "\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>\r\n", this.getTagName());
+                    "\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>\r\n", this.GetTagName());
             }
         }
 
@@ -135,11 +136,11 @@ namespace Tag.Vows
             ItemPage itempage = null;
             if (HasStyle())
             {
-                itempage = new ItemPage(this.Style, Deep, this.path);
+                itempage = new ItemPage(this.Style, Deep, this.Path);
             }
             else
             {
-                itempage = new ItemPage(this.path.ItemPath, this.ItemName, Deep, this.path);
+                itempage = new ItemPage(this.Path.ItemPath, this.ItemName, Deep, this.Path);
             }
             this.SubPage = itempage.getItemInstance();
         }
@@ -150,11 +151,7 @@ namespace Tag.Vows
             bool in_page_load = false;
             if (this.HasReadParams)
             {
-                if (!Inside_Read)
-                {
-                    return null;
-                }
-                in_page_load = false;
+                in_page_load = Inside_Read ? false : true;
             }
             else
             {
@@ -163,7 +160,7 @@ namespace Tag.Vows
             if (this.SubPage != null && bindList_or_useAscx == null)
             {
                 bindList_or_useAscx = new Method();
-                bindList_or_useAscx.name = string.Concat("Bind_", this.getTagName());
+                bindList_or_useAscx.name = string.Concat("Bind_", this.GetTagName());
                 bindList_or_useAscx.in_page_load = in_page_load;
                 if (!CheckDataUseable())
                 {
@@ -171,11 +168,11 @@ namespace Tag.Vows
                 }
                 else if (ParPageName == this.ItemName)
                 {
-                    bindList_or_useAscx.body.AppendFormat("{0}/*（未加载套用自己的标签）。{1}*/\r\n", Method.getSpaces(2), this.tagName);
+                    bindList_or_useAscx.body.AppendFormat("{0}/*（未加载套用自己的标签）。{1}*/\r\n", Method.getSpaces(2), this.TagName);
                 }
                 else
                 {
-                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.path).linq_getList(this.DataName, this.BaseParams,
+                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Path).linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
                     bindList_or_useAscx.body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     bindList_or_useAscx.body.Append(Method.getSpaces(2) + "{\r\n");
@@ -183,7 +180,7 @@ namespace Tag.Vows
                     if (!string.IsNullOrEmpty(emptytext))
                     {
                         bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
-                                                            this.getTagName(), Regex.Replace(emptytext, @"""", "\\\""));
+                                                            this.GetTagName(), Regex.Replace(emptytext, @"""", "\\\""));
                     }
                     else
                     {
@@ -196,7 +193,7 @@ namespace Tag.Vows
                         if (emptytext != "none")
                         {
                             bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"<div class='emptydiv'><span class='emptytext'>{2}</span></div>\";\r\n",
-                                Method.getSpaces(3), this.getTagName(), emptytext);
+                                Method.getSpaces(3), this.GetTagName(), emptytext);
                         }
                     }
                     bindList_or_useAscx.body.Append(Method.getSpaces(3) + "return;\r\n");
@@ -210,8 +207,8 @@ namespace Tag.Vows
         private string BindRepeater()
         {
             StringBuilder code = new StringBuilder();
-            code.AppendFormat("{0}{1}.DataSource = list;\r\n", Method.getSpaces(2), this.getTagName());
-            code.AppendFormat("{0}{1}.DataBind();\r\n", Method.getSpaces(2), this.getTagName());
+            code.AppendFormat("{0}{1}.DataSource = list;\r\n", Method.getSpaces(2), this.GetTagName());
+            code.AppendFormat("{0}{1}.DataBind();\r\n", Method.getSpaces(2), this.GetTagName());
             return code.ToString();
         }
 
@@ -224,14 +221,14 @@ namespace Tag.Vows
             code.AppendFormat("{0}uc_item.SetItem(item);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}uc_item.SetDb(db);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}uc_item.SetConfig(this.config);\r\n", Method.getSpaces(3));
-            code.AppendFormat("{0}{1}.Controls.Add(uc_item);\r\n", Method.getSpaces(3), this.getTagName());
+            code.AppendFormat("{0}{1}.Controls.Add(uc_item);\r\n", Method.getSpaces(3), this.GetTagName());
             code.Append(Method.getSpaces(2) + "}\r\n");
             return code.ToString();
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：list，数据源名称：" +
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：list，数据源名称：" +
                 this.DataName + "，item文件名：" + this.ItemName + "，数据参数：" + this.BaseParams
                 + (!HasSubList() ? "，item为简单页面" : "，item为复合页面") + "】<br />";
             if (this.SubPage != null)
@@ -260,7 +257,7 @@ namespace Tag.Vows
 
         public bool CheckDataUseable()
         {
-            return this.path.TableUseable(this.DataName);
+            return this.Path.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()

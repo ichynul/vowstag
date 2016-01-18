@@ -9,7 +9,7 @@ namespace Tag.Vows
         {
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
             return "";
         }
@@ -18,9 +18,9 @@ namespace Tag.Vows
         {
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：EmptyTag，内容：" + 
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：EmptyTag，内容：" + 
                 Regex.Replace(("" + this.Style).Replace("<", "&lt;").Replace(">", "&gt;"), @"[\r\n\s]", "") + "】<br />";
             return s;
         }

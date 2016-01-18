@@ -12,8 +12,7 @@ namespace Tag.Vows
 
         public void setUpDataName(string DataName, FieldType type)
         {
-            var tages = TagList;
-            foreach (var c in tages)
+            foreach (var c in this.TagList)
             {
                 if (c is ListTag)
                 {
@@ -22,10 +21,6 @@ namespace Tag.Vows
                 else if (c is FieldTag)
                 {
                     (c as FieldTag).setDataName(DataName, FieldType.itemValue);
-                }
-                else if (c is MethodTag)
-                {
-                    (c as MethodTag).setDataName(DataName, MethodType.itemValue);
                 }
             }
         }

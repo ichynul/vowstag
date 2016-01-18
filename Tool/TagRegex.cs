@@ -57,9 +57,9 @@ namespace Tag.Vows
             DataNameRegex = string.Concat(@"(?<=(?:list|read|label||form|json)=)\w+?(?=(\?|/?", tagRight, "))");
             ItemPathRegex = @"(?<=item=)\w+?(?=&|\||<[bh]r/?>|$)";
             BaseParamsRegex = string.Concat(@"(?<=\?).*?(?=/?", tagRight, ")");
-            FiledObjRegex = string.Concat("(?<=", tagLeft, @")\w+(\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")");
-            MethodObjRegex = string.Concat("(?<=", tagLeft, @")\w+(\.\w+)*\([^\)]*\)(?=/?", tagRight, ")");
-            PagerRegex = string.Concat("(?<=", tagLeft, @")pager(\?(\w+=.+(&|<br/?>)?)*)?(?=/?", tagRight, ")");
+            FiledObjRegex = string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")");
+            MethodObjRegex = string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*\([^\)]*\)(?=/?", tagRight, ")");
+            PagerRegex = string.Concat("(?<=", tagLeft, @")pager(\?(?:\w+=.+(&|<br/?>)?)*)?(?=/?", tagRight, ")");
             #endregion
         }
 

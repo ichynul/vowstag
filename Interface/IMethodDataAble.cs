@@ -1,9 +1,10 @@
 ﻿
+using System.Collections.Generic;
 namespace Tag.Vows
 {
     interface IMethodDataAble
     {
         void setDataName(string DataName, MethodType type);
-        string getFieldName();
+        HashSet<string> getFieldName();
     }
 }

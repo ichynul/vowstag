@@ -17,24 +17,24 @@ namespace Tag.Vows
 
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
-            return this.getTagName();
+            return this.GetTagName();
         }
 
         protected override void Discover()
         {
-            this.DataName = this.path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Path.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "pagesize = 99";
             }
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            return "【全局名称" + this.getTagName() + ",标签类型：json，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
+            return "【全局名称" + this.GetTagName() + ",标签类型：json，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
         }
 
         public string getPageName()
@@ -44,7 +44,7 @@ namespace Tag.Vows
 
         public bool CheckDataUseable()
         {
-            return this.path.TableUseable(this.DataName);
+            return this.Path.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()
@@ -57,7 +57,7 @@ namespace Tag.Vows
             if (CallBack == null)
             {
                 CallBack = new Method();
-                CallBack.name = "CallBack_" + this.getTagName();
+                CallBack.name = "CallBack_" + this.GetTagName();
                 CallBack.returnType = "CallBackResult";
                 CallBack.in_page_load = false;
                 if (!CheckDataUseable())
@@ -66,7 +66,7 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    CallBack.body.Append(TempleHelper.getTempleHelper(this.path).linq_getJson(this.DataName, this.BaseParams, out ModType, this.getTagName()));
+                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Path).linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
                 }
             }
             return CallBack;

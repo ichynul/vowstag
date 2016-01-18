@@ -19,7 +19,7 @@ namespace Tag.Vows
 
         protected override void Discover()
         {
-            this.StaticName = this.path.tagregex.getDataName(this.Text);
+            this.StaticName = this.Path.tagregex.getDataName(this.Text);
             if (this.StaticName != null)
             {
                 this.LoadSubPage();
@@ -30,29 +30,29 @@ namespace Tag.Vows
             }
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
             if (ParPageName == this.StaticName)
             {
                 return string.Format("<!--（未加载套用自己的static标签）。{0}-->", this.Text);
             }
             return this.SubPage != null ?
-                this.SubPage.getAspxCode() :
+                this.SubPage.GetAspxCode() :
                 string.Format("<!--加载静态页{0}面出错! -->\r\n", this.StaticName);
         }
 
         public void LoadSubPage()
         {
-            this.SubPage = new StaticPage(this.path.StaticlPath, (this as StaticTag).StaticName, Deep, this.path);
-            if (path.convert)
+            this.SubPage = new StaticPage(this.Path.StaticlPath, (this as StaticTag).StaticName, Deep, this.Path);
+            if (Path.convert)
             {
                 SubPage.ConverterTags();
             }
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：static，标签文件名：" + this.StaticName + "】<br />";
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：static，标签文件名：" + this.StaticName + "】<br />";
             return s;
         }
     }

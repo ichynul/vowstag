@@ -4,6 +4,6 @@ namespace Tag.Vows
 {
     interface IFieldsList
     {
-        List<string> GetItemFields();
+        HashSet<string> GetItemFields();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Tag.Vows
 {
@@ -18,19 +19,15 @@ namespace Tag.Vows
 
         protected override void Discover()
         {
-            this.Obj = this.path.tagregex.getMethodObj(this.Text);
+            this.Obj = this.Path.tagregex.getMethodObj(this.Text);
             string[] arr = Obj.Split('(');
             this.Method = arr[0];
             this.Params = arr[1].Replace(")", string.Empty);
-            if (Params.Contains("item."))
+            if (Regex.IsMatch(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase))
             {
-                this.Type = MethodType.itemValue;
+                this.Type = MethodType.readValueMethod;
             }
-            else if (this.Params.Contains("read."))
-            {
-                this.Type = MethodType.readValue;
-            }
-            else if (Method.Contains("form."))
+            else if (Regex.IsMatch(Obj, this.Path.tagregex.FormValue, RegexOptions.IgnoreCase))
             {
                 this.Type = MethodType.formMethod;
             }
@@ -40,77 +37,69 @@ namespace Tag.Vows
             }
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
-            if (string.IsNullOrEmpty(this.Dataname) && this.Type == MethodType.itemValue)
-            {
-                string tag = Regex.Replace(Obj, @"(\{|\})", string.Empty, RegexOptions.IgnoreCase);
-                string[] arr = tag.Split('(');
-                string Method = arr[0];
-                string itemField = "";
-                string mParams = arr[1].Replace(")", string.Empty);
-                if (mParams.Contains(','))
-                {
-                    arr = Params.Split(',');
-                    string s = arr.FirstOrDefault(a => a.Contains("item."));
-                    arr = s.Split('.');
-                }
-                else
-                {
-                    arr = Params.Split('.');
-                }
-
-                for (int j = 0; j < arr.Length; j += 1)
-                {
-                    if (arr[j] == "item" && j < arr.Length - 1)
-                    {
-                        itemField = arr[j + 1];
-                        break;
-                    }
-                }
-                return string.Format("<%# {0}({1}) %>", Method,
-                    Params.Replace("item." + itemField, "Eval(\"" + itemField + "\")"));
-            }
-            else if (this.Type == MethodType.formMethod)
+            if (this.Type == MethodType.formMethod)
             {
                 return string.Format("_tagcall.form('{0}'{1}); return false;", this.forname, this.Params.ToLower() == "false" ? " ,false" : " ,true");
             }
-            else if (!string.IsNullOrEmpty(this.Dataname) && (this.Type == MethodType.itemValue || this.Type == MethodType.readValue))
+            if (!string.IsNullOrEmpty(this.Dataname) && this.Type == MethodType.readValueMethod)
             {
-                string oldItemField = "";
-                string itemField = "";
-                string[] arr = null;
-                if (this.Params.Contains(','))
+                var resdMatches = Regex.Matches(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase);
+                if (resdMatches.Count > 0)
                 {
-                    arr = this.Params.Split(',');
-                    string s = arr.FirstOrDefault(a => a.Contains("read.") || a.Contains("item."));
-                    arr = s.Split('.');
-                }
-                else
-                {
-                    arr = this.Params.Split('.');
-                }
-                for (int i = 0; i < arr.Length; i += 1)
-                {
-                    if ((arr[i] == "item" || arr[i] == "read") && i < arr.Length - 1)
+                    Dataname = TempleHelper.getTempleHelper(this.Path).getTableName(Dataname);
+                    string itemField = "";
+                    foreach (Match m in resdMatches)
                     {
-                        oldItemField = arr[i + 1];
+                        itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, m.Value.Split('.')[1]);
+                        if (!string.IsNullOrEmpty(itemField))
+                        {
+                            this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField ));
+                        }
                     }
                 }
-
-                Dataname = TempleHelper.getTempleHelper(this.path).getTableName(Dataname);
-                itemField = TempleHelper.getTempleHelper(this.path).getModFieldName(Dataname, oldItemField);
-                if (!string.IsNullOrEmpty(oldItemField) && !string.IsNullOrEmpty(itemField))
+            }
+            var matches = Regex.Matches(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(oldItemField, itemField);
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"" , m.Value.Split('.')[1] , "\")"));
+                }
+            }
+            matches = Regex.Matches(Obj, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase);
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Session[\"" , m.Value.Split('.')[1], "\"]"));
+                }
+            }
+            matches = Regex.Matches(Obj, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase);
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.QueryString[\"" , m.Value.Split('.')[1], "\"]"));
+                }
+            }
+            matches = Regex.Matches(Obj, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase);
+            //需放在 RequestValue之后，避免混淆  如Request.Cookies["xxx"]
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"" , m.Value.Split('.')[1], "\"]"));
                 }
             }
             return string.Format("<% ={0} %>", this.Obj);
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            return "【全局名称" + this.getTagName() + ",标签类型：Method，全名：" + this.Obj + "，方法：" + this.Method + "，参数：" + this.Params + "】<br />";
+            return "【全局名称" + this.GetTagName() + ",标签类型：Method，全名：" + this.Obj + "，方法："
+                + this.Method + "，参数：" + this.Params + "】<br />";
         }
 
         public void setDataName(string DataName, MethodType type)
@@ -121,37 +110,18 @@ namespace Tag.Vows
             }
         }
 
-        public string getFieldName()
+        public HashSet<string> getFieldName()
         {
-            if (this.Type == MethodType.itemValue)
+            var Fields = new HashSet<string>();
+            var matches = Regex.Matches(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            if (matches.Count > 0)
             {
-                string tag = Regex.Replace(Obj, @"(\{|\})", string.Empty, RegexOptions.IgnoreCase);
-                string[] arr = tag.Split('(');
-                string Method = arr[0];
-                string itemField = "";
-                string mParams = arr[1].Replace(")", string.Empty);
-                if (mParams.Contains(','))
+                foreach (Match m in matches)
                 {
-                    arr = Params.Split(',');
-                    string s = arr.FirstOrDefault(a => a.Contains("item."));
-                    arr = s.Split('.');
-                }
-                else
-                {
-                    arr = Params.Split('.');
-                }
-
-                for (int j = 0; j < arr.Length; j += 1)
-                {
-                    if (arr[j] == "item" && j < arr.Length - 1)
-                    {
-                        itemField = arr[j + 1];
-                        return itemField;
-                    }
+                    Fields.Add(m.Value.Split('.')[1]);
                 }
             }
-
-            return null;
+            return Fields;
         }
     }
 }

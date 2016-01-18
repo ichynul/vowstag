@@ -30,16 +30,16 @@ namespace Tag.Vows
         {
             return Used;
         }
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
-            return string.Format("<asp:Literal ID=\"{0}\" runat=\"server\"></asp:Literal>", this.getTagName());
+            return string.Format("<asp:Literal ID=\"{0}\" runat=\"server\"></asp:Literal>", this.GetTagName());
         }
 
         protected override void Discover()
         {
             if (this.Text.IndexOf('?') != -1)
             {
-                this.PageParams = this.path.tagregex.getBaseParams(this.Text);
+                this.PageParams = this.Path.tagregex.getBaseParams(this.Text);
                 if (!string.IsNullOrEmpty(PageParams))
                 {
                     string[] arr = PageParams.Split('&');
@@ -94,9 +94,9 @@ namespace Tag.Vows
             }
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            return "【全局名称：" + this.getTagName() + ",标签类型：pager" + "，分页方式：" +
+            return "【全局名称：" + this.GetTagName() + ",标签类型：pager" + "，分页方式：" +
                 (this.type == PagerType.js ? "js" : "cs") + "，首尾显示：" + this.Num_edge + "条，显示上下翻页："
                 + this.PrevOrNext_show + "，next文字：" + this.Next_text + "，prev文字："
                 + this.Prev_text + "，省略符号：" + this.Ellipse_text + "】<br />";

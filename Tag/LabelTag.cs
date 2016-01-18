@@ -16,16 +16,16 @@ namespace Tag.Vows
 
         protected override void Discover()
         {
-            this.LabeName = this.path.tagregex.getDataName(this.Text);
+            this.LabeName = this.Path.tagregex.getDataName(this.Text);
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
             if (ParPageName == this.LabeName)
             {
                 return string.Format("<!--（未加载套用自己的label标签）。{0}-->", this.Text);
             }
-            return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>", this.getTagName());
+            return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>", this.GetTagName());
         }
 
         public Method getGloabalMethod()
@@ -34,7 +34,7 @@ namespace Tag.Vows
             if (this.SubPage != null && loadAscx == null)
             {
                 loadAscx = new Method();
-                loadAscx.name = "Load_" + this.tagName;
+                loadAscx.name = "Load_" + this.TagName;
                 loadAscx.in_page_load = true;
                 if (ParPageName == this.LabeName)
                 {
@@ -45,7 +45,7 @@ namespace Tag.Vows
                     loadAscx.body.AppendFormat("{0}SubControl uc_label=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(2), this.LabeName);
                     loadAscx.body.AppendFormat("{0}uc_label.SetDb(db);\r\n", Method.getSpaces(2));
                     loadAscx.body.AppendFormat("{0}uc_label.SetConfig(this.config);\r\n", Method.getSpaces(2));
-                    loadAscx.body.AppendFormat("{0}{1}.Controls.Add(uc_label);\r\n", Method.getSpaces(2), this.getTagName());
+                    loadAscx.body.AppendFormat("{0}{1}.Controls.Add(uc_label);\r\n", Method.getSpaces(2), this.GetTagName());
                 }
             }
             return loadAscx;
@@ -74,12 +74,12 @@ namespace Tag.Vows
 
         public void LoadSubPage()
         {
-            this.SubPage = new LabelPage(this.path.LabelPath, (this as LabelTag).LabeName, Deep, this.path);
+            this.SubPage = new LabelPage(this.Path.LabelPath, (this as LabelTag).LabeName, Deep, this.Path);
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：label，标签文件名：" + this.LabeName + "】<br />";
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：label，标签文件名：" + this.LabeName + "】<br />";
             if (this.SubPage != null)
             {
                 s += "============子页面===========<br />" + this.SubPage.ToPageString() + "<br />";

@@ -15,31 +15,31 @@ namespace Tag.Vows
 
         protected override void Discover()
         {
-            this.Obj = this.path.tagregex.getFiledObj(this.Text);
+            this.Obj = this.Path.tagregex.getFiledObj(this.Text);
             if (this.Obj.IndexOf(".") != -1)
             {
                 mParams = this.Obj.Split('.');
-                if (Regex.IsMatch(Obj, this.path.tagregex.RequestValue, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(Obj, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.requestValue;
                 }
-                else if (Regex.IsMatch(Obj, this.path.tagregex.SessionValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.sessionValue;
                 }
-                else if (Regex.IsMatch(Obj, this.path.tagregex.CookieValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.cookieValue;
                 }
-                else if (Regex.IsMatch(Obj, this.path.tagregex.ItemValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.itemValue;
                 }
-                else if (Regex.IsMatch(Obj, this.path.tagregex.ReadValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.readValue;
                 }
-                else if (Regex.IsMatch(Obj, this.path.tagregex.FormValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Path.tagregex.FormValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.formValue;
                 }
@@ -50,7 +50,7 @@ namespace Tag.Vows
             }
             else
             {
-                if (Obj == "page")
+                if (Obj.ToLower() == "page")
                 {
                     this.Type = FieldType.page;
                 }
@@ -61,7 +61,7 @@ namespace Tag.Vows
             }
         }
 
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
             if (this.Type == FieldType.page)
             {
@@ -84,7 +84,7 @@ namespace Tag.Vows
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.path).getModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 else
@@ -99,7 +99,7 @@ namespace Tag.Vows
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.path).getModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 return this.Text;
@@ -114,9 +114,9 @@ namespace Tag.Vows
             }
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            return "【全局名称" + this.getTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
+            return "【全局名称" + this.GetTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
         }
 
         public void setDataName(string DataName, FieldType type)
@@ -143,7 +143,6 @@ namespace Tag.Vows
                 mParams[index] = newValue;
             }
         }
-
 
         public string getFieldName()
         {

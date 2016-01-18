@@ -2,7 +2,7 @@
 {
     interface IHtmlAble : IMakeAble
     {
-        string getAspxCode();
+        string GetAspxCode();
         string ToPageString();
         string GetPageName();
     }

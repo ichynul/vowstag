@@ -26,7 +26,6 @@ namespace Tag.Vows
         public FormTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
             : base(mtext, mOrigin, Deep, path, no_)
         {
-
         }
 
         public void AddField(FieldTag field)
@@ -42,25 +41,25 @@ namespace Tag.Vows
 
         public void SetMethod(MethodTag method)
         {
-            method.forname = this.getTagName();
+            method.forname = this.GetTagName();
         }
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
-            return string.Format("<!-- {0} -->", this.tagName);
+            return string.Format("<!-- {0} -->", this.TagName);
         }
 
         protected override void Discover()
         {
-            this.DataName = this.path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Path.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "desc = true";
             }
-            model = TempleHelper.getTempleHelper(this.path).getModObj(DataName);
+            model = TempleHelper.getTempleHelper(this.Path).getModObj(DataName);
             if (!string.IsNullOrEmpty(BaseParams))
             {
-                baseWheres = TempleHelper.getTempleHelper(this.path).linq_queryParams(model, BaseParams);
+                baseWheres = TempleHelper.getTempleHelper(this.Path).linq_queryParams(model, BaseParams);
                 mWhere add = baseWheres.FirstOrDefault(x => x.FiledName == "action");
                 if (add != null)
                 {
@@ -73,9 +72,9 @@ namespace Tag.Vows
             }
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            return "【全局名称" + this.getTagName() + ",标签类型：form，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
+            return "【全局名称" + this.GetTagName() + ",标签类型：form，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
         }
 
         public string GetCode()
@@ -92,7 +91,7 @@ namespace Tag.Vows
             string dataName = "_" + modName.ToLower();
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + BaseParams + "*/\r\n");
             linq.AppendFormat("{0}string formname = this.CallValue(\"formname\");\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}if (formname != \"{1}\")\r\n", Method.getSpaces(2), this.getTagName());
+            linq.AppendFormat("{0}if (formname != \"{1}\")\r\n", Method.getSpaces(2), this.GetTagName());
             linq.Append(Method.getSpaces(2) + "{\r\n");
             linq.Append(Method.getSpaces(3) + "return null;\r\n");
             linq.Append(Method.getSpaces(2) + "}\r\n");
@@ -131,7 +130,7 @@ namespace Tag.Vows
                     }
                     if (first)
                     {
-                        linq.Append(TempleHelper.getTempleHelper(this.path).getWhereParams(model, baseWheres, BaseParams));
+                        linq.Append(TempleHelper.getTempleHelper(this.Path).getWhereParams(model, baseWheres, BaseParams));
                         linq.AppendFormat("\r\n{0}{1} = db.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), dataName, modName, Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -185,7 +184,7 @@ namespace Tag.Vows
                 {
                     linq.AppendFormat("{0}/*添加&编辑模式（action = both），未找到记录则创建*/;\r\n", Method.getSpaces(3));
                     linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modName);
-                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.path).getAddMethod(modName), dataName);
+                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Path).getAddMethod(modName), dataName);
                 }
                 linq.Append(Method.getSpaces(2) + "}\r\n");
 
@@ -194,7 +193,7 @@ namespace Tag.Vows
             {
                 linq.AppendFormat("{0}/*添加模式（action = both），新建记录*/;\r\n", Method.getSpaces(3));
                 linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modName, dataName);
-                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.path).getAddMethod(modName), dataName);
+                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Path).getAddMethod(modName), dataName);
             }
             FromVar v = null;
             vname = "";
@@ -276,7 +275,7 @@ namespace Tag.Vows
 
         public bool CheckDataUseable()
         {
-            return this.path.TableUseable(this.DataName);
+            return this.Path.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()
@@ -289,7 +288,7 @@ namespace Tag.Vows
             if (CallBack == null)
             {
                 CallBack = new Method();
-                CallBack.name = "CallBack_" + this.getTagName();
+                CallBack.name = "CallBack_" + this.GetTagName();
                 CallBack.returnType = "CallBackResult";
                 CallBack.in_page_load = false;
                 if (!CheckDataUseable())

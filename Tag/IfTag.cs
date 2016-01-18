@@ -12,18 +12,18 @@ namespace Tag.Vows
         {
             this.Type = type;
         }
-        protected override string getCodeForAspx()
+        protected override string GetCodeForAspx()
         {
-            return string.Format("<!-- {0} -->", this.tagName);
+            return string.Format("<!-- {0} -->", this.TagName);
         }
 
         protected override void Discover()
         {
         }
 
-        public override string toTagString()
+        public override string ToTagString()
         {
-            string s = "【全局名称" + this.getTagName() + ",标签类型：" + this.Type + "，内容：if(" + this.Test + "){" + this.Conttent + "}】<br />";
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：" + this.Type + "，内容：if(" + this.Test + "){" + this.Conttent + "}】<br />";
             return s;
         }
 

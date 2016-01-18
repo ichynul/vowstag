@@ -9,7 +9,7 @@ namespace Tag.Vows
         private EmptyTag empty;
         public ItemPage getItemInstance()
         {
-            return thisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.path);
+            return thisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Path);
         }
 
         public ItemPage(string mHtmlpPath, string mPageName, int mDeep, mPaths path)
@@ -26,17 +26,17 @@ namespace Tag.Vows
 
         public void doForItem()
         {
-            match = Regex.Match(this.Html, this.path.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
+            Match = Regex.Match(this.Html, this.Path.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
             string style = "";
             IStyleAble st = null;
-            if (match.Success)
+            if (Match.Success)
             {
-                style = match.Groups["style"].Value;
-                st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && match.Value.Contains(x.Text)) as IStyleAble;
-                empty = new EmptyTag(match.Value, match.Value, Deep, this.path, this.TagList.Count);
+                style = Match.Groups["style"].Value;
+                st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && Match.Value.Contains(x.Text)) as IStyleAble;
+                empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Path, this.TagList.Count);
                 this.TagList.Add(empty);
                 empty.SetStyle(style);
-                Html = Html.Replace(match.Value, string.Empty);
+                Html = Html.Replace(Match.Value, string.Empty);
             }
         }
 
@@ -50,21 +50,22 @@ namespace Tag.Vows
             return this.TagList.FirstOrDefault(c => c is ListTag) == null;
         }
 
-        public List<string> GetItemFields()
+        public HashSet<string> GetItemFields()
         {
-            List<string> fields = new List<string>();
+            var fields = new HashSet<string>();
             IMethodDataAble m = null;
             IFieldDataAble f = null;
             string name = null;
+            var names = new HashSet<string>();
             foreach (var c in this.TagList)
             {
                 if (c is IMethodDataAble)
                 {
                     m = c as IMethodDataAble;
-                    name = m.getFieldName();
-                    if (!string.IsNullOrEmpty(name) && !fields.Contains(name.ToLower()))
+                    names = m.getFieldName();
+                    foreach (var fname in names)
                     {
-                        fields.Add(name.ToLower());
+                        fields.Add(fname.ToLower());
                     }
                 }
                 else if (c is IFieldDataAble)

@@ -2,6 +2,6 @@
 {
     interface IConvertAble
     {
-        string convertTagPair();
+        string ConvertTagPair();
     }
 }

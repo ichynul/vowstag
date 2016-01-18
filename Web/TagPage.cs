@@ -112,12 +112,17 @@ namespace Tag.Vows
                     }
                     else
                     {
-                        call = new CallBackResult(string.Concat("服务端已收到：", this._callBackstr, "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallBackResult DoCallBack"));
+                        call = new CallBackResult(new
+                        {
+                            code = "1",
+                            msg = string.Concat("服务端已收到：", this._callBackstr,
+                            "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallBackResult DoCallBack")
+                        });
                     }
                 }
                 catch (Exception ex)
                 {
-                    call = new CallBackResult("出错了！\n" + ex.ToString());
+                    call = new CallBackResult(new { code = "1", msg = "出错了！\n" + ex.ToString() });
                     call.type = "error";
                 }
             }

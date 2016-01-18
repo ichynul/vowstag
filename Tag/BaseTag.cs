@@ -10,8 +10,9 @@ namespace Tag.Vows
     {
         public int Sort = 0;
         protected int NO_ = 0;
-        protected mPaths path;
-        protected string tagName;
+        protected mPaths Path;
+        protected string TagName;
+        protected string PlaceholderName;
         public bool In_Pairs { get; private set; }
         public string Text { get; protected set; }
         public string Origin { get; protected set; }
@@ -30,14 +31,15 @@ namespace Tag.Vows
         /// <param name="no_"></param>
         protected BaseTag(string mText, string mOrigin, int mDeep, mPaths path, int no_)
         {
-            this.path = path;
+            this.Path = path;
             this.Deep = mDeep;
             this.Text = mText;
             this.Origin = mOrigin;
             this.NO_ = no_;
-            this.tagName = this.GetType().Name + "_" + this.Text.Length + "_" + (this.NO_ + 1);
+            this.TagName = string.Concat(this.GetType().Name, "_", this.Text.Length, "_", (this.NO_ + 1));
+            this.PlaceholderName = string.Concat(this.GetType().Name, this.Text.Length, (this.NO_ + 1));
             this.In_Pairs = this.Text.LastIndexOf('/') != this.Text.Length - 2;
-            Discover();
+            this.Discover();
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace Tag.Vows
         /// <returns></returns>
         public string ReplaceTagText(string PageHtml)
         {
-            string re = PageHtml.Replace(this.Text, this.tagName);
+            string re = PageHtml.Replace(this.Text, this.PlaceholderName);
             return re;
         }
 
@@ -58,7 +60,7 @@ namespace Tag.Vows
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
-            string re = PageHtml.Replace(this.tagName, this.getCodeForAspx());
+            string re = PageHtml.Replace(this.PlaceholderName, this.GetCodeForAspx());
             return re;
         }
 
@@ -66,22 +68,22 @@ namespace Tag.Vows
         /// 当执行标签对转换时调用
         /// </summary>
         /// <returns></returns>
-        public string convertTagPair()
+        public string ConvertTagPair()
         {
-            if (path.convert_pairs != null || path.convert_pairs.Length == 2)
+            if (Path.convert_pairs != null || Path.convert_pairs.Length == 2)
             {
-                this.Origin = Regex.Replace(this.Origin, "^" + path.tagLeft, path.convert_pairs[0]);
-                this.Origin = Regex.Replace(this.Origin, path.tagRight + "$", path.convert_pairs[1]);
+                this.Origin = Regex.Replace(this.Origin, "^" + Path.tagLeft, Path.convert_pairs[0]);
+                this.Origin = Regex.Replace(this.Origin, Path.tagRight + "$", Path.convert_pairs[1]);
             }
             return this.Origin;
         }
 
-        public string getTagName()
+        public string GetTagName()
         {
-            return this.tagName;
+            return this.TagName;
         }
 
-        public string getMsg()
+        public string GetMsg()
         {
             if (this.SubPage != null)
             {
@@ -93,7 +95,7 @@ namespace Tag.Vows
         /// 子类实现将标签转换为代码的具体逻辑
         /// </summary>
         /// <returns></returns>
-        protected abstract string getCodeForAspx();
+        protected abstract string GetCodeForAspx();
         /// <summary>
         /// 子类实现一些初始化工作
         /// </summary>
@@ -102,6 +104,6 @@ namespace Tag.Vows
         /// 输出标签的内容，以供调试
         /// </summary>
         /// <returns></returns>
-        public abstract string toTagString();
+        public abstract string ToTagString();
     }
 }
