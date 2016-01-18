@@ -17,17 +17,17 @@ namespace Tag.Vows
         {
         }
 
-        public void setUpDataName(string DataName, FieldType type)
+        public void SetUpperDataName(string dataName, FieldType type)
         {
             foreach (var c in TagList)
             {
                 if (c is FieldTag)
                 {
-                    (c as FieldTag).setDataName(DataName, FieldType.readValue);
+                    (c as FieldTag).SetDataName(dataName, FieldType.read_value);
                 }
                 else if (c is MethodTag)
                 {
-                    (c as MethodTag).setDataName(DataName, MethodType.readValueMethod);
+                    (c as MethodTag).SetDataName(dataName, MethodType.read_value_method);
                 }
             }
         }
@@ -40,9 +40,9 @@ namespace Tag.Vows
             foreach (var x in this.TagList.Where(x => x is ListTag))
             {
                 list = x as ListTag;
-                list.setUpDataName(DataName, FieldType.readValue);
+                list.SetUpperDataName(DataName, FieldType.read_value);
                 list.set_Inside_Read();
-                Method m = list.getGloabalMethod();
+                Method m = list.GetGloabalMethod();
                 if (m != null)
                 {
                     listMethods.Add(m);

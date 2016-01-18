@@ -43,7 +43,7 @@ namespace Tag.Vows
             return "【全局名称" + this.GetTagName() + ",标签类型：read，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
         }
 
-        public Method getGloabalMethod()
+        public Method GetGloabalMethod()
         {
             if (ReadData == null)
             {
@@ -86,7 +86,7 @@ namespace Tag.Vows
             return subLsitMethod;
         }
 
-        public string getGloabalField()
+        public string GetGloabalField()
         {
             if (HasStyle())
             {
@@ -113,7 +113,7 @@ namespace Tag.Vows
         public void LoadSubPage()
         {
             this.SubPage = new ReadPage(this.Style, Deep, this.Path);
-            this.SubPage.setUpDataName(this.DataName, FieldType.readValue);
+            this.SubPage.SetUpperDataName(this.DataName, FieldType.read_value);
             this.subLsitMethod = this.SubPage.getListMethods(this.DataName);
         }
     }

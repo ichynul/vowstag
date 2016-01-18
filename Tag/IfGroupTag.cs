@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 namespace Tag.Vows
 {
-    class IfGroupTag : BaseTag, IFieldDataAble
+    class IfGroupTag : BaseTag, IMethodDataAble
     {
         private List<IfTag> IfTags;
         protected MatchCollection matches;
@@ -11,16 +11,20 @@ namespace Tag.Vows
         public IfGroupTag(string mtext, int Deep, mPaths path, int no_)
             : base(mtext, mtext, Deep, path, no_)
         {
+
+            this.TagName += "xxx";
+            this.PlaceholderName += "5555";
+
         }
 
         protected override string GetCodeForAspx()
         {
             foreach (var iftag in this.IfTags)
             {
-                this.Text = this.Text.Replace(iftag.Text, iftag.getCode());
+                this.Text = this.Text.Replace(iftag.Text, iftag.GetCode());
             }
-            this.Text = Regex.Replace(this.Text, this.Path.tagregex.ifTagKeyTest, string.Empty, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            System.Web.HttpContext.Current.Response.Write(this.Text + "@@==<br />");
+            this.Text = Regex.Replace(this.Text, this.Path.tagregex.ifTagKeyTest, string.Empty
+                        , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             return this.Text;
         }
 
@@ -59,12 +63,12 @@ namespace Tag.Vows
             return s;
         }
 
-        public void setDataName(string DataName, FieldType type)
+        public void SetDataName(string dataName, MethodType type)
         {
             throw new System.NotImplementedException();
         }
 
-        public string getFieldName()
+        public HashSet<string> GetFieldName()
         {
             throw new System.NotImplementedException();
         }

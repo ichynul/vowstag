@@ -28,7 +28,7 @@ namespace Tag.Vows
             return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>", this.GetTagName());
         }
 
-        public Method getGloabalMethod()
+        public Method GetGloabalMethod()
         {
 
             if (this.SubPage != null && loadAscx == null)

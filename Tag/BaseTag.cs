@@ -49,8 +49,10 @@ namespace Tag.Vows
         /// <returns></returns>
         public string ReplaceTagText(string PageHtml)
         {
-            string re = PageHtml.Replace(this.Text, this.PlaceholderName);
-            return re;
+            System.Web.HttpContext.Current.Response.Write("rp" + PlaceholderName + "<br />");
+
+            string newHtml = PageHtml.Replace(this.Text, this.PlaceholderName);
+            return newHtml;
         }
 
         /// <summary>
@@ -60,8 +62,9 @@ namespace Tag.Vows
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
-            string re = PageHtml.Replace(this.PlaceholderName, this.GetCodeForAspx());
-            return re;
+            System.Web.HttpContext.Current.Response.Write("rc" + PlaceholderName + "<br />");
+            string newHtml = PageHtml.Replace(this.PlaceholderName, this.GetCodeForAspx());
+            return newHtml;
         }
 
         /// <summary>
@@ -83,11 +86,16 @@ namespace Tag.Vows
             return this.TagName;
         }
 
+        public string GetPlaceholderName()
+        {
+            return this.PlaceholderName;
+        }
+
         public string GetMsg()
         {
             if (this.SubPage != null)
             {
-                this.Msg += SubPage.getMsg();
+                this.Msg += SubPage.GetMsg();
             }
             return this.Msg;
         }

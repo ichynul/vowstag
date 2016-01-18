@@ -4,7 +4,7 @@ namespace Tag.Vows
 {
     interface IMethodDataAble
     {
-        void setDataName(string DataName, MethodType type);
-        HashSet<string> getFieldName();
+        void SetDataName(string dataName, MethodType type);
+        HashSet<string> GetFieldName();
     }
 }

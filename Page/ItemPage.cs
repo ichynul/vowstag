@@ -42,7 +42,7 @@ namespace Tag.Vows
 
         public string getEmptyText()
         {
-            return this.empty == null ? "" : Regex.Replace(this.empty.getStyle(), "[\r\n]", "");
+            return this.empty == null ? "" : Regex.Replace(this.empty.GetStyle(), "[\r\n]", "");
         }
 
         private bool thisIsSimple()
@@ -62,7 +62,7 @@ namespace Tag.Vows
                 if (c is IMethodDataAble)
                 {
                     m = c as IMethodDataAble;
-                    names = m.getFieldName();
+                    names = m.GetFieldName();
                     foreach (var fname in names)
                     {
                         fields.Add(fname.ToLower());
@@ -71,7 +71,7 @@ namespace Tag.Vows
                 else if (c is IFieldDataAble)
                 {
                     f = c as IFieldDataAble;
-                    name = f.getFieldName();
+                    name = f.GetFieldName();
                     if (!string.IsNullOrEmpty(name) && !fields.Contains(name.ToLower()))
                     {
                         fields.Add(name.ToLower());

@@ -21,7 +21,7 @@
             return !string.IsNullOrEmpty(this.Style);
         }
 
-        public string getStyle()
+        public string GetStyle()
         {
             return this.Style;
         }

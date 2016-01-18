@@ -5,6 +5,6 @@ namespace Tag.Vows
     {
         void SetStyle(string style);
         bool HasStyle();
-        string getStyle();
+        string GetStyle();
     }
 }

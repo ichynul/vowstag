@@ -9,7 +9,7 @@ namespace Tag.Vows
         private string Obj;
         private string Params;
         private string Method;
-        private string Dataname = "";
+        private string ReadDataname = "";
         public MethodType Type { get; private set; }
         public string forname { get; set; }
         public MethodTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
@@ -25,11 +25,11 @@ namespace Tag.Vows
             this.Params = arr[1].Replace(")", string.Empty);
             if (Regex.IsMatch(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase))
             {
-                this.Type = MethodType.readValueMethod;
+                this.Type = MethodType.read_value_method;
             }
             else if (Regex.IsMatch(Obj, this.Path.tagregex.FormValue, RegexOptions.IgnoreCase))
             {
-                this.Type = MethodType.formMethod;
+                this.Type = MethodType.form_method;
             }
             else
             {
@@ -39,20 +39,20 @@ namespace Tag.Vows
 
         protected override string GetCodeForAspx()
         {
-            if (this.Type == MethodType.formMethod)
+            if (this.Type == MethodType.form_method)
             {
                 return string.Format("_tagcall.form('{0}'{1}); return false;", this.forname, this.Params.ToLower() == "false" ? " ,false" : " ,true");
             }
-            if (!string.IsNullOrEmpty(this.Dataname) && this.Type == MethodType.readValueMethod)
+            if (!string.IsNullOrEmpty(this.ReadDataname) && this.Type == MethodType.read_value_method)
             {
                 var resdMatches = Regex.Matches(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase);
                 if (resdMatches.Count > 0)
                 {
-                    Dataname = TempleHelper.getTempleHelper(this.Path).getTableName(Dataname);
+                    ReadDataname = TempleHelper.getTempleHelper(this.Path).getTableName(ReadDataname);
                     string itemField = "";
                     foreach (Match m in resdMatches)
                     {
-                        itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, m.Value.Split('.')[1]);
+                        itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(ReadDataname, m.Value.Split('.')[1]);
                         if (!string.IsNullOrEmpty(itemField))
                         {
                             this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField ));
@@ -102,15 +102,15 @@ namespace Tag.Vows
                 + this.Method + "，参数：" + this.Params + "】<br />";
         }
 
-        public void setDataName(string DataName, MethodType type)
+        public void SetDataName(string dataName, MethodType type)
         {
             if (this.Type == type)
             {
-                this.Dataname = DataName;
+                this.ReadDataname = dataName;
             }
         }
 
-        public HashSet<string> getFieldName()
+        public HashSet<string> GetFieldName()
         {
             var Fields = new HashSet<string>();
             var matches = Regex.Matches(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase);

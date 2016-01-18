@@ -29,10 +29,10 @@ namespace Tag.Vows
             ParPageName = mParPageName;
         }
 
-        public void setUpDataName(string upDataName, FieldType type)
+        public void SetUpperDataName(string upDataName, FieldType type)
         {
             System.Web.HttpContext.Current.Response.Write(upDataName + "<br />");
-            if (type == FieldType.itemValue)
+            if (type == FieldType.item_value)
             {
                 this.isSublist = true;
             }
@@ -87,7 +87,7 @@ namespace Tag.Vows
                     if (SubPage is SubListPage)
                     {
                         var lp = this.SubPage as SubListPage;
-                        lp.setUpDataName(this.DataName, FieldType.itemValue);
+                        lp.SetUpperDataName(this.DataName, FieldType.item_value);
                         this.SubPage.MakePage();
                     }
                     else
@@ -146,7 +146,7 @@ namespace Tag.Vows
         }
 
 
-        public Method getGloabalMethod()
+        public Method GetGloabalMethod()
         {
             bool in_page_load = false;
             if (this.HasReadParams)
@@ -239,7 +239,7 @@ namespace Tag.Vows
             return s;
         }
 
-        public string getGloabalField()
+        public string GetGloabalField()
         {
             if (!this.isSublist || UpDataname == null)
             {

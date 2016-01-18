@@ -4,6 +4,6 @@
     {
         void MakePage();
         void ConverterTags();
-        string getMsg();
+        string GetMsg();
     }
 }

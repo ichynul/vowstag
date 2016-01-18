@@ -4,12 +4,12 @@ namespace Tag.Vows
     enum FieldType
     {
         normal,
-        readValue,
-        itemValue,
-        formValue,
-        requestValue,
-        sessionValue,
-        cookieValue,
+        read_value,
+        item_value,
+        form_value,
+        request_value,
+        session_value,
+        cookie_value,
         page
     }
 }

@@ -4,7 +4,7 @@ namespace Tag.Vows
     enum MethodType
     {
         normal,
-        readValueMethod,
-        formMethod,
+        read_value_method,
+        form_method,
     }
 }

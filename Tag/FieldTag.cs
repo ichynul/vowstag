@@ -21,27 +21,27 @@ namespace Tag.Vows
                 mParams = this.Obj.Split('.');
                 if (Regex.IsMatch(Obj, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.requestValue;
+                    this.Type = FieldType.request_value;
                 }
                 else if (Regex.IsMatch(Obj, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.sessionValue;
+                    this.Type = FieldType.session_value;
                 }
                 else if (Regex.IsMatch(Obj, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.cookieValue;
+                    this.Type = FieldType.cookie_value;
                 }
                 else if (Regex.IsMatch(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.itemValue;
+                    this.Type = FieldType.item_value;
                 }
                 else if (Regex.IsMatch(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.readValue;
+                    this.Type = FieldType.read_value;
                 }
                 else if (Regex.IsMatch(Obj, this.Path.tagregex.FormValue, RegexOptions.IgnoreCase))
                 {
-                    this.Type = FieldType.formValue;
+                    this.Type = FieldType.form_value;
                 }
                 else
                 {
@@ -67,19 +67,19 @@ namespace Tag.Vows
             {
                 return "<% = page %>";
             }
-            if (this.Type == FieldType.requestValue)
+            if (this.Type == FieldType.request_value)
             {
                 return string.Format("<% = Request.QueryString[\"{0}\"] %>", mParams[1]);
             }
-            else if (this.Type == FieldType.sessionValue)
+            else if (this.Type == FieldType.session_value)
             {
                 return string.Format("<% = \"\" + Session[\"{0}\"] %>", mParams[1]);
             }
-            else if (this.Type == FieldType.cookieValue)
+            else if (this.Type == FieldType.cookie_value)
             {
                 return string.Format("<% = \"\" + Request.Cookies[\"{0}\"] %>", mParams[1]);
             }
-            else if (this.Type == FieldType.itemValue)
+            else if (this.Type == FieldType.item_value)
             {
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
@@ -94,7 +94,7 @@ namespace Tag.Vows
                     );
                 }
             }
-            else if (this.Type == FieldType.readValue)
+            else if (this.Type == FieldType.read_value)
             {
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
@@ -104,7 +104,7 @@ namespace Tag.Vows
                 }
                 return this.Text;
             }
-            else if (this.Type == FieldType.formValue)
+            else if (this.Type == FieldType.form_value)
             {
                 return mParams[1];
             }
@@ -119,7 +119,7 @@ namespace Tag.Vows
             return "【全局名称" + this.GetTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
         }
 
-        public void setDataName(string DataName, FieldType type)
+        public void SetDataName(string DataName, FieldType type)
         {
             if (this.Type == type)
             {
@@ -144,9 +144,9 @@ namespace Tag.Vows
             }
         }
 
-        public string getFieldName()
+        public string GetFieldName()
         {
-            if (this.Type == FieldType.itemValue)
+            if (this.Type == FieldType.item_value)
             {
                 return Regex.Replace(Obj, @"(item|\.|\{|\})", string.Empty, RegexOptions.IgnoreCase);
             }

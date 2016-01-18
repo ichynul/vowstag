@@ -77,7 +77,7 @@ namespace Tag.Vows
             GetTegs(true);
         }
 
-        public string getMsg()
+        public string GetMsg()
         {
             return this.Msg;
         }
@@ -364,15 +364,15 @@ namespace Tag.Vows
                 {
                     if (c is FieldTag)
                     {
-                        (c as FieldTag).setDataName(dataName, FieldType.readValue);
+                        (c as FieldTag).SetDataName(dataName, FieldType.read_value);
                     }
                     else if (c is MethodTag)
                     {
-                        (c as MethodTag).setDataName(dataName, MethodType.readValueMethod);
+                        (c as MethodTag).SetDataName(dataName, MethodType.read_value_method);
                     }
                     else if (c is ListTag)
                     {
-                        (c as ListTag).setUpDataName(dataName, FieldType.readValue);
+                        (c as ListTag).SetUpperDataName(dataName, FieldType.read_value);
                     }
                 }
             }
@@ -393,15 +393,15 @@ namespace Tag.Vows
                     if (c is FieldTag)
                     {
                         field = c as FieldTag;
-                        if (field.Type == FieldType.formValue)
+                        if (field.Type == FieldType.form_value)
                         {
-                            field.setDataName(dataName, FieldType.formValue);
+                            field.SetDataName(dataName, FieldType.form_value);
                             form.AddField(field);
                         }
                     }
                 }
 
-                theTag = TagList.FirstOrDefault(a => a is MethodTag && (a as MethodTag).Type == MethodType.formMethod);
+                theTag = TagList.FirstOrDefault(a => a is MethodTag && (a as MethodTag).Type == MethodType.form_method);
                 if (theTag != null)
                 {
                     MethodTag method = theTag as MethodTag;
@@ -475,7 +475,7 @@ namespace Tag.Vows
             {
                 IfGroupTag ifGroup = new IfGroupTag(m.Value, this.Deep, this.Path, this.TagList.Count);
                 this.TagList.Add(ifGroup);
-                this.Html = this.Html.Replace(m.Value, ifGroup.GetTagName());
+                this.Html = this.Html.Replace(m.Value, ifGroup.GetPlaceholderName());
             }
             if (Matches.Count > 0)
             {
@@ -483,12 +483,11 @@ namespace Tag.Vows
             }
         }
 
-
         protected void RecoverIfGroupTags()
         {
             foreach (var c in this.TagList.Where(x => x is IfGroupTag))
             {
-                Html = c.RecoverTagText(Html);
+                this.Html = c.RecoverTagText(this.Html);
                 this.Msg += c.GetMsg();
             }
         }
@@ -515,9 +514,8 @@ namespace Tag.Vows
 
         public virtual string GetAspxCode()
         {
-            RecoverOtherTags();
-            RecoverOtherTags();
-
+            this.RecoverIfGroupTags();
+            this.RecoverOtherTags();
             if (!(this is IUC) && (this.TagCallBack == "json" || this.TagCallBack == "form" ||
                 (this.CallBack == null && Path.creatScriptForAllPages) || this.CallBack == true))
             {
@@ -574,7 +572,7 @@ namespace Tag.Vows
                 if (c is ICallBackAble)
                 {
                     call = c as ICallBackAble;
-                    method = call.getCallMethod();
+                    method = call.GetCallMethod();
                     GetMethodsLines(method);
                     CallMethods.AppendFormat("{0}callBack = {1}();\r\n", Method.getSpaces(2), method.name);
                     CallMethods.AppendFormat("{0}if (callBack != null)\r\n", Method.getSpaces(2));
@@ -586,7 +584,7 @@ namespace Tag.Vows
                 if (c is IGlobalMethod)
                 {
                     loadmethod = c as IGlobalMethod;
-                    method = loadmethod.getGloabalMethod();
+                    method = loadmethod.GetGloabalMethod();
                     GetMethodsLines(method);
                     if (c is ReadTag)
                     {
@@ -604,7 +602,7 @@ namespace Tag.Vows
                 }
                 if (c is IGlobalField)
                 {
-                    field = (c as IGlobalField).getGloabalField();
+                    field = (c as IGlobalField).GetGloabalField();
                     if (GloabalFileds.Contains(field))
                     {
                         continue;

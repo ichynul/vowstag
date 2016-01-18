@@ -3,6 +3,6 @@ namespace Tag.Vows
 {
     interface IGlobalMethod
     {
-        Method getGloabalMethod();
+        Method GetGloabalMethod();
     }
 }

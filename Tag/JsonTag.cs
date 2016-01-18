@@ -52,7 +52,7 @@ namespace Tag.Vows
             return string.Format("数据表{0}已被设置为不可用，您无权操作该表！", this.DataName);
         }
 
-        public Method getCallMethod()
+        public Method GetCallMethod()
         {
             if (CallBack == null)
             {

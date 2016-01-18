@@ -63,7 +63,6 @@
     <Compile Include="Interface\IUpDataAble.cs" />
     <Compile Include="Interface\ITestAble.cs" />
     <Compile Include="Page\HashSet.cs" />
-    <Compile Include="Page\IfPage.cs" />
     <Compile Include="Page\ReadPage.cs" />
     <Compile Include="Tag\CMDTag.cs" />
     <Compile Include="Tag\EmptyTag.cs" />

@@ -3,7 +3,7 @@ namespace Tag.Vows
 {
     interface IFieldDataAble
     {
-        void setDataName(string DataName, FieldType type);
-        string getFieldName();
+        void SetDataName(string dataName, FieldType type);
+        string GetFieldName();
     }
 }

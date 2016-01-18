@@ -1,20 +1,22 @@
 ﻿
 namespace Tag.Vows
 {
-    class IfTag : BaseTag, ITestAble
+    class IfTag : BaseTag, ITestAble, IMethodDataAble
     {
         private string Test;
         private string Conttent;
         private IfType Type;
+        private string DataName;
 
         public IfTag(string mtext, IfType type, int Deep, mPaths path, int no_)
             : base(mtext, mtext, Deep, path, no_)
         {
             this.Type = type;
         }
+
         protected override string GetCodeForAspx()
         {
-            return string.Format("<!-- {0} -->", this.TagName);
+            return string.Empty;
         }
 
         protected override void Discover()
@@ -27,7 +29,7 @@ namespace Tag.Vows
             return s;
         }
 
-        public string getCode()
+        public string GetCode()
         {
             if (this.Type == IfType._if)
             {
@@ -51,6 +53,16 @@ namespace Tag.Vows
         public void SetContent(string content)
         {
             this.Conttent = content;
+        }
+
+        public void SetDataName(string dataName, MethodType type)
+        {
+            this.DataName = dataName;
+        }
+
+        public System.Collections.Generic.HashSet<string> GetFieldName()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
