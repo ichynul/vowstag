@@ -36,7 +36,7 @@ namespace Tag.Vows.Tag
     {
         public int Sort = 0;
         protected int NO_ = 0;
-        protected mPaths Path;
+        protected TagConfig Config;
         protected string TagName;
         protected string PlaceholderName;
         public bool In_Pairs { get; private set; }
@@ -55,9 +55,9 @@ namespace Tag.Vows.Tag
         /// <param name="mDeep"></param>
         /// <param name="path"></param>
         /// <param name="no_"></param>
-        protected BaseTag(string mText, string mOrigin, int mDeep, mPaths path, int no_)
+        protected BaseTag(string mText, string mOrigin, int mDeep, TagConfig config, int no_)
         {
-            this.Path = path;
+            this.Config = config;
             this.Deep = mDeep;
             this.Text = mText;
             this.Origin = mOrigin;
@@ -99,10 +99,10 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string ConvertTagPair()
         {
-            if (Path.convert_pairs != null || Path.convert_pairs.Length == 2)
+            if (Config.convert_pairs != null || Config.convert_pairs.Length == 2)
             {
-                this.Origin = Regex.Replace(this.Origin, "^" + Path.tagLeft, Path.convert_pairs[0]);
-                this.Origin = Regex.Replace(this.Origin, Path.tagRight + "$", Path.convert_pairs[1]);
+                this.Origin = Regex.Replace(this.Origin, "^" + Config.tagLeft, Config.convert_pairs[0]);
+                this.Origin = Regex.Replace(this.Origin, Config.tagRight + "$", Config.convert_pairs[1]);
             }
             return this.Origin;
         }

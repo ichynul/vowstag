@@ -32,7 +32,7 @@ using System.Reflection;
 using Tag.Vows.Interface;
 using Tag.Vows.Enum;
 using Tag.Vows.Bean;
-using Tag.Vows.TPage;
+using Tag.Vows.Page;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
@@ -49,14 +49,14 @@ namespace Tag.Vows.Data
         private object UpperDataModel = null;
         private static TempleHelper Helper;
         private TempleHelper() { }
-        private mPaths Path;
-        public static TempleHelper getTempleHelper(mPaths path)
+        private TagConfig Config;
+        public static TempleHelper getTempleHelper(TagConfig config)
         {
             if (Helper == null)
             {
                 Helper = new TempleHelper();
             }
-            Helper.Path = path;
+            Helper.Config = config;
             return Helper;
         }
 
@@ -100,7 +100,7 @@ namespace Tag.Vows.Data
                     }
                     else
                     {
-                        query = Regex.IsMatch(w.VarName, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
+                        query = Regex.IsMatch(w.VarName, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
                         vname = Regex.Replace(w.VarName, @"(?:request|call)\.", string.Empty, RegexOptions.IgnoreCase);
                         ifTag = string.Format("{0}{1}|", w.FiledName, vname);
                         if (w.FiledName == "null")
@@ -217,10 +217,10 @@ namespace Tag.Vows.Data
                     w.FiledName = filed;
                     q = Regex.Replace(w.VarName, @"(?:request|session|cookie|call)\.", string.Empty, RegexOptions.IgnoreCase);
                     vname = string.Format("{0}_{1}", dataType, q);
-                    query = Regex.IsMatch(w.VarName, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString"
-                        : Regex.IsMatch(w.VarName, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase) ? "\"\" + Session"
-                        : Regex.IsMatch(w.VarName, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase) ? "\"\" + Request.Cookies"
-                        : Regex.IsMatch(w.VarName, this.Path.tagregex.CallValue, RegexOptions.IgnoreCase) ? "\"\" + this.CallString" :
+                    query = Regex.IsMatch(w.VarName, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString"
+                        : Regex.IsMatch(w.VarName, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase) ? "\"\" + Session"
+                        : Regex.IsMatch(w.VarName, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase) ? "\"\" + Request.Cookies"
+                        : Regex.IsMatch(w.VarName, this.Config.tagregex.CallValue, RegexOptions.IgnoreCase) ? "\"\" + this.CallString" :
                         "";
                     if (requests.Contains(vname))
                     {
@@ -797,7 +797,7 @@ namespace Tag.Vows.Data
         internal string Linq_getRead(string dataName, string query, out string modType, string readname)
         {
             object model = null;
-            PropertyInfo basepi = DataHelper.GetProperty(this.Path.db, dataName);
+            PropertyInfo basepi = DataHelper.GetProperty(this.Config.db, dataName);
             if (basepi != null)//获取正确的表名 比如有表名为 Table1 ,那么listname为table1也能匹配到该表
             {
                 dataName = basepi.Name;// table1 => Table1
@@ -893,13 +893,13 @@ namespace Tag.Vows.Data
             {
                 return null;
             }
-            Type ts = this.Path.db.GetType();
+            Type ts = this.Config.db.GetType();
             PropertyInfo pi = ts.GetProperties().FirstOrDefault(a => a.Name.ToLower() == tableName.ToLower());
             if (pi == null)
             {
                 return null;
             }
-            var v = pi.GetValue(this.Path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
+            var v = pi.GetValue(this.Config.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
             //ObjectSet<>             DbSet<>
             object model = v.GetType().GetMethods().FirstOrDefault(a => a.Name == "CreateObject" || a.Name == "Create").Invoke(v, null);
             return model;
@@ -911,13 +911,13 @@ namespace Tag.Vows.Data
             {
                 return "";
             }
-            Type ts = this.Path.db.GetType();
+            Type ts = this.Config.db.GetType();
             PropertyInfo pi = ts.GetProperties().FirstOrDefault(a => a.Name.ToLower() == tableName.ToLower());
             if (pi == null)
             {
                 return null; ;
             }
-            var v = pi.GetValue(this.Path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
+            var v = pi.GetValue(this.Config.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
             //ObjectSet<>             DbSet<>
             return v.GetType().GetMethods().FirstOrDefault(a => a.Name == "AddObject" || a.Name == "Add").Name;
         }
@@ -939,7 +939,7 @@ namespace Tag.Vows.Data
         /// <returns>正确的表名</returns>
         internal string GetTableName(string name)
         {
-            return DataHelper.GetPropertyName(this.Path.db, name);
+            return DataHelper.GetPropertyName(this.Config.db, name);
         }
 
         internal HashSet<string> GetFields(string tableName)
@@ -967,20 +967,20 @@ namespace Tag.Vows.Data
             StringBuilder sb = new StringBuilder();
             if (page is SubListPage || page is LabelPage)
             {
-                sb.AppendFormat("{0}protected {1} db;\r\n", Method.space, this.Path.entitiesName);
+                sb.AppendFormat("{0}protected {1} db;\r\n", Method.space, this.Config.entitiesName);
                 sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.space, "{");
-                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Path.entitiesName, Method.space, "}");
+                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Config.entitiesName, Method.space, "}");
             }
             else
             {
-                sb.AppendFormat("{0}private {1} _db;\r\n", Method.space, this.Path.entitiesName);
-                sb.AppendFormat("{0}protected {1} db\r\n", Method.space, this.Path.entitiesName);
+                sb.AppendFormat("{0}private {1} _db;\r\n", Method.space, this.Config.entitiesName);
+                sb.AppendFormat("{0}protected {1} db\r\n", Method.space, this.Config.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.space, "{");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "get");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "{");
                 sb.AppendFormat("{0}if (_db == null)\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "{");
-                sb.AppendFormat("{0}_db = new {1}();\r\n", Method.getSpaces(4), this.Path.entitiesName);
+                sb.AppendFormat("{0}_db = new {1}();\r\n", Method.getSpaces(4), this.Config.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "}");
                 sb.AppendFormat("{0}return _db;\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "}");

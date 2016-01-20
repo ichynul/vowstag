@@ -22,18 +22,16 @@
 *SOFTWARE.
 */
 
-using System.Web.UI;
-using System.Collections.Generic;
-using System.Linq;
 using System;
 using System.Collections.Specialized;
-using Tag.Vows.Interface;
 using Tag.Vows.Bean;
+using Tag.Vows.Interface;
 using Tag.Vows.Tool;
+using System.Web.UI;
 
 namespace Tag.Vows.Web
 {
-    public class TagPage : Page, IComTools, ICallBackControl, ICallbackEventHandler
+    public class TagPage : System.Web.UI.Page, IComTools, ICallBackControl, ICallbackEventHandler
     {
         /// <summary>
         /// 用于保存站点及页面的通用信息

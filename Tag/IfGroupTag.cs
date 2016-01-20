@@ -12,13 +12,9 @@ namespace Tag.Vows.Tag
         protected MatchCollection matches;
         protected Match match;
 
-        public IfGroupTag(string mtext, int Deep, mPaths path, int no_)
-            : base(mtext, mtext, Deep, path, no_)
+        public IfGroupTag(string mtext, int Deep, TagConfig config, int no_)
+            : base(mtext, mtext, Deep, config, no_)
         {
-
-            this.TagName += "xxx";
-            this.PlaceholderName += "5555";
-
         }
 
         protected override string GetCodeForAspx()
@@ -27,7 +23,7 @@ namespace Tag.Vows.Tag
             {
                 this.Text = this.Text.Replace(iftag.Text, iftag.GetCode());
             }
-            this.Text = Regex.Replace(this.Text, this.Path.tagregex.ifTagKeyTest, string.Empty
+            this.Text = Regex.Replace(this.Text, this.Config.tagregex.ifTagKeyTest, string.Empty
                         , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             return this.Text;
         }
@@ -35,26 +31,26 @@ namespace Tag.Vows.Tag
         protected override void Discover()
         {
             this.IfTags = new List<IfTag>();
-            match = Regex.Match(this.Text, this.Path.tagregex.IfTest, RegexOptions.IgnoreCase);
+            match = Regex.Match(this.Text, this.Config.tagregex.IfTest, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                IfTag iftag = new IfTag(match.Value, IfType._if, this.Deep, this.Path, IfTags.Count + 1);
+                IfTag iftag = new IfTag(match.Value, IfType._if, this.Deep, this.Config, IfTags.Count + 1);
                 iftag.SetTest(match.Groups["test"].Value);
                 iftag.SetContent(match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
-            matches = Regex.Matches(this.Text, this.Path.tagregex.ElseIfTest, RegexOptions.IgnoreCase);
+            matches = Regex.Matches(this.Text, this.Config.tagregex.ElseIfTest, RegexOptions.IgnoreCase);
             foreach (Match m in matches)
             {
-                IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Path, IfTags.Count + 1);
+                IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
                 iftag.SetTest(match.Groups["test"].Value);
                 iftag.SetContent(match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
-            match = Regex.Match(this.Text, this.Path.tagregex.ElseTest, RegexOptions.IgnoreCase);
+            match = Regex.Match(this.Text, this.Config.tagregex.ElseTest, RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                IfTag iftag = new IfTag(match.Value, IfType._else, this.Deep, this.Path, IfTags.Count + 1);
+                IfTag iftag = new IfTag(match.Value, IfType._else, this.Deep, this.Config, IfTags.Count + 1);
                 iftag.SetTest(match.Groups["test"].Value);
                 iftag.SetContent(match.Groups["content"].Value);
                 this.IfTags.Add(iftag);

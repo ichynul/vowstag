@@ -6,8 +6,8 @@ namespace Tag.Vows.Tag
     {
         protected string Style { get; private set; }
 
-        protected StyleAbleTag(string mtext, string origin, int mdeep, mPaths path, int no_)
-            : base(mtext, origin, mdeep, path, no_)
+        protected StyleAbleTag(string mtext, string origin, int mdeep, TagConfig config, int no_)
+            : base(mtext, origin, mdeep, config, no_)
         {
 
         }

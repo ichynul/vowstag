@@ -1,7 +1,7 @@
 ﻿using System;
 using Tag.Vows.Interface;
 using Tag.Vows.Bean;
-using Tag.Vows.TPage;
+using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -12,15 +12,15 @@ namespace Tag.Vows.Tag
         private Method loadAscx;
         private string ParPageName;
         protected new IHtmlAble SubPage;
-        public LabelTag(string mtext, string mOrigin, int Deep, string mParPageName, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public LabelTag(string mtext, string mOrigin, int Deep, string mParPageName, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
             this.ParPageName = mParPageName;
         }
 
         protected override void Discover()
         {
-            this.LabeName = this.Path.tagregex.getDataName(this.Text);
+            this.LabeName = this.Config.tagregex.getDataName(this.Text);
         }
 
         protected override string GetCodeForAspx()
@@ -78,7 +78,7 @@ namespace Tag.Vows.Tag
 
         public void LoadSubPage()
         {
-            this.SubPage = new LabelPage(this.Path.LabelPath, (this as LabelTag).LabeName, Deep, this.Path);
+            this.SubPage = new LabelPage(this.Config.LabelPath, (this as LabelTag).LabeName, Deep, this.Config);
         }
 
         public override string ToTagString()

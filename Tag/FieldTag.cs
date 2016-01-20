@@ -12,38 +12,38 @@ namespace Tag.Vows.Tag
         private string Dataname;
         private string[] mParams;
         public FieldType Type { get; private set; }
-        public FieldTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public FieldTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
         }
 
         protected override void Discover()
         {
-            this.Obj = this.Path.tagregex.getFiledObj(this.Text);
+            this.Obj = this.Config.tagregex.getFiledObj(this.Text);
             if (this.Obj.IndexOf(".") != -1)
             {
                 mParams = this.Obj.Split('.');
-                if (Regex.IsMatch(Obj, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(Obj, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.request_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.session_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.cookie_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Path.tagregex.ItemValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.item_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.read_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Path.tagregex.FormValue, RegexOptions.IgnoreCase))
+                else if (Regex.IsMatch(Obj, this.Config.tagregex.FormValue, RegexOptions.IgnoreCase))
                 {
                     this.Type = FieldType.form_value;
                 }
@@ -88,7 +88,7 @@ namespace Tag.Vows.Tag
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Path).GetModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 else
@@ -103,7 +103,7 @@ namespace Tag.Vows.Tag
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Path).GetModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 return this.Text;

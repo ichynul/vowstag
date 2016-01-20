@@ -1,6 +1,4 @@
 using System.Web.UI;
-using System.Collections.Generic;
-using System.Linq;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 

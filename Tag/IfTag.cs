@@ -12,8 +12,8 @@ namespace Tag.Vows.Tag
         private IfType Type;
         private string DataName;
 
-        public IfTag(string mtext, IfType type, int Deep, mPaths path, int no_)
-            : base(mtext, mtext, Deep, path, no_)
+        public IfTag(string mtext, IfType type, int Deep, TagConfig config, int no_)
+            : base(mtext, mtext, Deep, config, no_)
         {
             this.Type = type;
         }

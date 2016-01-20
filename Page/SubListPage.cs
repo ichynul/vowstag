@@ -4,12 +4,12 @@ using Tag.Vows.Enum;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
-namespace Tag.Vows.TPage
+namespace Tag.Vows.Page
 {
     class SubListPage : ItemPage, IParentDataAble, IUC
     {
-        public SubListPage(string mHtmlpPath, string mPageName, int mDeep, mPaths path)
-            : base(mHtmlpPath, mPageName, mDeep, path)
+        public SubListPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
+            : base(mHtmlpPath, mPageName, mDeep, config)
         {
 
         }

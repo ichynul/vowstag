@@ -2,12 +2,10 @@
 using System.IO;
 using System.Text;
 using System.Web;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace Tag.Vows.Tool
 {
-    public class mPaths
+    public class TagConfig
     {
         internal TagRegex tagregex;
         /// <summary>

@@ -6,7 +6,7 @@ using Tag.Vows.Interface;
 using Tag.Vows.Enum;
 using Tag.Vows.Bean;
 using Tag.Vows.Data;
-using Tag.Vows.TPage;
+using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -29,8 +29,8 @@ namespace Tag.Vows.Tag
         public bool HasReadParams { get; private set; }
         protected bool isSublist;
 
-        public ListTag(string mtext, string origin, int Deep, string mParPageName, mPaths path, int no_)
-            : base(mtext, origin, Deep, path, no_)
+        public ListTag(string mtext, string origin, int Deep, string mParPageName, TagConfig config, int no_)
+            : base(mtext, origin, Deep, config, no_)
         {
             ParPageName = mParPageName;
         }
@@ -61,16 +61,16 @@ namespace Tag.Vows.Tag
 
         protected override void Discover()
         {
-            this.DataName = this.Path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Config.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Config.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "take = 99";
             }
-            this.HasReadParams = Regex.IsMatch(this.BaseParams, this.Path.tagregex.ReadValue);
+            this.HasReadParams = Regex.IsMatch(this.BaseParams, this.Config.tagregex.ReadValue);
             if (!this.In_Pairs)
             {
-                this.ItemName = this.Path.tagregex.getItemPath(this.BaseParams);
+                this.ItemName = this.Config.tagregex.getItemPath(this.BaseParams);
             }
             else
             {
@@ -100,7 +100,7 @@ namespace Tag.Vows.Tag
                     {
                         var lp = this.SubPage as ItemPage;
                         this.ItemFields = lp.GetItemFields();
-                        if (this.HasStyle() && Path.convert)
+                        if (this.HasStyle() && Config.convert)
                         {
                             lp.ConverterTags();
                         }
@@ -142,11 +142,11 @@ namespace Tag.Vows.Tag
             ItemPage itempage = null;
             if (HasStyle())
             {
-                itempage = new ItemPage(this.Style, Deep, this.Path);
+                itempage = new ItemPage(this.Style, Deep, this.Config);
             }
             else
             {
-                itempage = new ItemPage(this.Path.ItemPath, this.ItemName, Deep, this.Path);
+                itempage = new ItemPage(this.Config.ItemPath, this.ItemName, Deep, this.Config);
             }
             this.SubPage = itempage.GetItemInstance();
         }
@@ -178,7 +178,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getList(this.DataName, this.BaseParams,
+                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
                     bindList_or_useAscx.body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     bindList_or_useAscx.body.Append(Method.getSpaces(2) + "{\r\n");
@@ -263,7 +263,7 @@ namespace Tag.Vows.Tag
 
         public bool CheckDataUseable()
         {
-            return this.Path.TableUseable(this.DataName);
+            return this.Config.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()

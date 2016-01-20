@@ -1,6 +1,6 @@
 ﻿using System;
 using Tag.Vows.Interface;
-using Tag.Vows.TPage;
+using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -14,15 +14,15 @@ namespace Tag.Vows.Tag
         protected new IHtmlAble SubPage;
         private string ParPageName;
 
-        public StaticTag(string mtext, string mOrigin, int Deep, string mParPageName, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public StaticTag(string mtext, string mOrigin, int Deep, string mParPageName, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
             this.ParPageName = mParPageName;
         }
 
         protected override void Discover()
         {
-            this.StaticName = this.Path.tagregex.getDataName(this.Text);
+            this.StaticName = this.Config.tagregex.getDataName(this.Text);
             if (this.StaticName != null)
             {
                 this.LoadSubPage();
@@ -46,8 +46,8 @@ namespace Tag.Vows.Tag
 
         public void LoadSubPage()
         {
-            this.SubPage = new StaticPage(this.Path.StaticlPath, (this as StaticTag).StaticName, Deep, this.Path);
-            if (Path.convert)
+            this.SubPage = new StaticPage(this.Config.StaticlPath, (this as StaticTag).StaticName, Deep, this.Config);
+            if (Config.convert)
             {
                 SubPage.ConverterTags();
             }

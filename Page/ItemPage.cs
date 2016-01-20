@@ -5,38 +5,38 @@ using Tag.Vows.Interface;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
-namespace Tag.Vows.TPage
+namespace Tag.Vows.Page
 {
     class ItemPage : BasePage, IFieldsList
     {
         private EmptyTag Empty;
         public ItemPage GetItemInstance()
         {
-            return ThisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Path);
+            return ThisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Config);
         }
 
-        public ItemPage(string mHtmlpPath, string mPageName, int mDeep, mPaths path)
-            : base(mHtmlpPath, mPageName, mDeep, path)
+        public ItemPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
+            : base(mHtmlpPath, mPageName, mDeep, config)
         {
             DoForItem();
         }
 
-        public ItemPage(string style, int mDeep, mPaths path)
-            : base(style, mDeep, path, "x-item-fake-x")
+        public ItemPage(string style, int mDeep, TagConfig config)
+            : base(style, mDeep, config, "x-item-fake-x")
         {
             DoForItem();
         }
 
         public void DoForItem()
         {
-            Match = Regex.Match(this.Html, this.Path.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
+            Match = Regex.Match(this.Html, this.Config.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
             string style = "";
             IStyleAble st = null;
             if (Match.Success)
             {
                 style = Match.Groups["style"].Value;
                 st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && Match.Value.Contains(x.Text)) as IStyleAble;
-                Empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Path, this.TagList.Count);
+                Empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Config, this.TagList.Count);
                 this.TagList.Add(Empty);
                 Empty.SetStyle(style);
                 Html = Html.Replace(Match.Value, string.Empty);

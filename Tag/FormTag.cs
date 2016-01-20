@@ -27,8 +27,8 @@ namespace Tag.Vows.Tag
         bool isNullAble = false;
         string newName = "";
         //
-        public FormTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public FormTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
         }
 
@@ -54,16 +54,16 @@ namespace Tag.Vows.Tag
 
         protected override void Discover()
         {
-            this.DataName = this.Path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Config.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Config.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "desc = true";
             }
-            model = TempleHelper.getTempleHelper(this.Path).GetModObj(DataName);
+            model = TempleHelper.getTempleHelper(this.Config).GetModObj(DataName);
             if (!string.IsNullOrEmpty(BaseParams))
             {
-                baseWheres = TempleHelper.getTempleHelper(this.Path).Linq_queryParams(model, BaseParams);
+                baseWheres = TempleHelper.getTempleHelper(this.Config).Linq_queryParams(model, BaseParams);
                 mWhere add = baseWheres.FirstOrDefault(x => x.FiledName == "action");
                 if (add != null)
                 {
@@ -134,7 +134,7 @@ namespace Tag.Vows.Tag
                     }
                     if (first)
                     {
-                        linq.Append(TempleHelper.getTempleHelper(this.Path).GetWhereParams(model, baseWheres, BaseParams));
+                        linq.Append(TempleHelper.getTempleHelper(this.Config).GetWhereParams(model, baseWheres, BaseParams));
                         linq.AppendFormat("\r\n{0}{1} = db.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), dataName, modName, Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -188,7 +188,7 @@ namespace Tag.Vows.Tag
                 {
                     linq.AppendFormat("{0}/*添加&编辑模式（action = both），未找到记录则创建*/;\r\n", Method.getSpaces(3));
                     linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modName);
-                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Path).GetAddMethod(modName), dataName);
+                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modName), dataName);
                 }
                 linq.Append(Method.getSpaces(2) + "}\r\n");
 
@@ -197,7 +197,7 @@ namespace Tag.Vows.Tag
             {
                 linq.AppendFormat("{0}/*添加模式（action = both），新建记录*/;\r\n", Method.getSpaces(3));
                 linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modName, dataName);
-                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Path).GetAddMethod(modName), dataName);
+                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modName), dataName);
             }
             FromVar v = null;
             vname = "";
@@ -279,7 +279,7 @@ namespace Tag.Vows.Tag
 
         public bool CheckDataUseable()
         {
-            return this.Path.TableUseable(this.DataName);
+            return this.Config.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()

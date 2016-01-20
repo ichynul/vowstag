@@ -5,8 +5,8 @@ namespace Tag.Vows.Tag
 {
     class EmptyTag : StyleAbleTag
     {
-        public EmptyTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public EmptyTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
         }
 

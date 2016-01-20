@@ -15,8 +15,8 @@ namespace Tag.Vows.Tag
         public List<FromVar> Vars = new List<FromVar>();
         private Method CallBack;
         private string ModType;
-        public JsonTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public JsonTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
 
         }
@@ -28,8 +28,8 @@ namespace Tag.Vows.Tag
 
         protected override void Discover()
         {
-            this.DataName = this.Path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Config.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Config.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "pagesize = 99";
@@ -48,7 +48,7 @@ namespace Tag.Vows.Tag
 
         public bool CheckDataUseable()
         {
-            return this.Path.TableUseable(this.DataName);
+            return this.Config.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()
@@ -70,7 +70,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
+                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
                 }
             }
             return CallBack;

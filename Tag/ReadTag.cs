@@ -5,7 +5,7 @@ using Tag.Vows.Interface;
 using Tag.Vows.Enum;
 using Tag.Vows.Bean;
 using Tag.Vows.Data;
-using Tag.Vows.TPage;
+using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -19,8 +19,8 @@ namespace Tag.Vows.Tag
         private string ModType = "";
         private string modType;
         private List<Method> subLsitMethod;
-        public ReadTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
 
         }
@@ -35,13 +35,13 @@ namespace Tag.Vows.Tag
 
         protected override void Discover()
         {
-            this.DataName = this.Path.tagregex.getDataName(this.Text);
-            this.BaseParams = this.Path.tagregex.getBaseParams(this.Text);
+            this.DataName = this.Config.tagregex.getDataName(this.Text);
+            this.BaseParams = this.Config.tagregex.getBaseParams(this.Text);
             if (string.IsNullOrEmpty(this.BaseParams))
             {
                 this.BaseParams = "desc = true";
             }
-            this.ModType = TempleHelper.getTempleHelper(this.Path).GetTableName(DataName);
+            this.ModType = TempleHelper.getTempleHelper(this.Config).GetTableName(DataName);
         }
 
         public override string ToTagString()
@@ -62,7 +62,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    ReadData.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
+                    ReadData.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
                     if (this.HasStyle())
                     {
                         if (subLsitMethod != null)
@@ -82,7 +82,6 @@ namespace Tag.Vows.Tag
         {
             if (this.HasStyle())
             {
-                string field = TempleHelper.getTempleHelper(this.Path).GetTableName(DataName);
                 foreach (Method x in subLsitMethod)
                 {
                     x.parsmstr = string.Concat(ModType, " read");
@@ -108,7 +107,7 @@ namespace Tag.Vows.Tag
 
         public bool CheckDataUseable()
         {
-            return this.Path.TableUseable(this.DataName);
+            return this.Config.TableUseable(this.DataName);
         }
 
         public string TabledisAbledMsg()
@@ -118,7 +117,7 @@ namespace Tag.Vows.Tag
 
         public void LoadSubPage()
         {
-            this.SubPage = new ReadPage(this.Style, Deep, this.Path);
+            this.SubPage = new ReadPage(this.Style, Deep, this.Config);
             this.SubPage.SetUpperDataName(this.DataName, FieldType.read_value);
             this.subLsitMethod = this.SubPage.getListMethods(this.DataName);
         }

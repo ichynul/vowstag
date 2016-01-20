@@ -11,8 +11,8 @@ namespace Tag.Vows.Tag
         private string BaseParams;
         private NameValueCollection _cmdParams;
 
-        public CMDTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public CMDTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
 
         }
@@ -24,7 +24,7 @@ namespace Tag.Vows.Tag
 
         protected override void Discover()
         {
-            BaseParams = this.Path.tagregex.getBaseParams(this.Text);
+            BaseParams = this.Config.tagregex.getBaseParams(this.Text);
             _cmdParams = new NameValueCollection();
             if (!string.IsNullOrEmpty(this.BaseParams))
             {

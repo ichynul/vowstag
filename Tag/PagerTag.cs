@@ -5,8 +5,8 @@ namespace Tag.Vows.Tag
 {
     class PagerTag : BaseTag
     {
-        public PagerTag(string mtext, string mOrigin, int Deep, mPaths path, int no_)
-            : base(mtext, mOrigin, Deep, path, no_)
+        public PagerTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
+            : base(mtext, mOrigin, Deep, config, no_)
         {
 
         }
@@ -41,7 +41,7 @@ namespace Tag.Vows.Tag
         {
             if (this.Text.IndexOf('?') != -1)
             {
-                this.PageParams = this.Path.tagregex.getBaseParams(this.Text);
+                this.PageParams = this.Config.tagregex.getBaseParams(this.Text);
                 if (!string.IsNullOrEmpty(PageParams))
                 {
                     string[] arr = PageParams.Split('&');

@@ -7,18 +7,18 @@ using Tag.Vows.Bean;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
-namespace Tag.Vows.TPage
+namespace Tag.Vows.Page
 {
     class ReadPage : BasePage, IParentDataAble
     {
-        public ReadPage(string mHtmlpPath, string mPageName, int mDeep, mPaths path)
-            : base(mHtmlpPath, mPageName, mDeep, path)
+        public ReadPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
+            : base(mHtmlpPath, mPageName, mDeep, config)
         {
 
         }
 
-        public ReadPage(string style, int mDeep, mPaths path)
-            : base(style, mDeep, path, "x-read-fake-x")
+        public ReadPage(string style, int mDeep, TagConfig config)
+            : base(style, mDeep, config, "x-read-fake-x")
         {
         }
 
