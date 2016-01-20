@@ -1,6 +1,6 @@
-﻿using System.Web.UI;
-
-namespace Tag.Vows
+﻿
+using Tag.Vows.Bean;
+namespace Tag.Vows.Interface
 {
     interface ICallBackControl
     {

@@ -1,5 +1,9 @@
-﻿
-namespace Tag.Vows
+﻿using System.Collections.Generic;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Tool;
+
+namespace Tag.Vows.Tag
 {
     class IfTag : BaseTag, ITestAble, IMethodDataAble
     {
@@ -60,7 +64,7 @@ namespace Tag.Vows
             this.DataName = dataName;
         }
 
-        public System.Collections.Generic.HashSet<string> GetFieldName()
+        public HashSet<string> GetFieldName()
         {
             throw new System.NotImplementedException();
         }

@@ -1,6 +1,10 @@
 ﻿using System.Text.RegularExpressions;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Data;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class FieldTag : BaseTag, IFieldDataAble
     {
@@ -84,7 +88,7 @@ namespace Tag.Vows
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Path).GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 else
@@ -99,7 +103,7 @@ namespace Tag.Vows
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(Dataname, mParams[1]);
+                    string itemField = TempleHelper.getTempleHelper(this.Path).GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 return this.Text;

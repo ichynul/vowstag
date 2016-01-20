@@ -1,5 +1,6 @@
 ﻿
-namespace Tag.Vows
+using Tag.Vows.Enum;
+namespace Tag.Vows.Interface
 {
     interface IParentDataAble
     {

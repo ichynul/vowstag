@@ -1,6 +1,7 @@
-﻿namespace Tag.Vows
+﻿using Tag.Vows.Interface;
+using Tag.Vows.Tool;
+namespace Tag.Vows.Tag
 {
-
     abstract class StyleAbleTag : BaseTag, IStyleAble
     {
         protected string Style { get; private set; }

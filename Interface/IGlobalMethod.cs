@@ -1,5 +1,6 @@
 ﻿
-namespace Tag.Vows
+using Tag.Vows.Bean;
+namespace Tag.Vows.Interface
 {
     interface IGlobalMethod
     {

@@ -2,11 +2,12 @@ using System;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Tag.Vows.Interface;
 /***
  * Thanks Newtonsoft  https://github.com/JamesNK/Newtonsoft.Json
  ***/
 
-namespace Tag.Vows
+namespace Tag.Vows.Tool
 {
     class Tools : IComTools
     {

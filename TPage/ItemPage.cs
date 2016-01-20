@@ -1,30 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Tag.Vows.Interface;
+using Tag.Vows.Tag;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.TPage
 {
     class ItemPage : BasePage, IFieldsList
     {
-        private EmptyTag empty;
-        public ItemPage getItemInstance()
+        private EmptyTag Empty;
+        public ItemPage GetItemInstance()
         {
-            return thisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Path);
+            return ThisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Path);
         }
 
         public ItemPage(string mHtmlpPath, string mPageName, int mDeep, mPaths path)
             : base(mHtmlpPath, mPageName, mDeep, path)
         {
-            doForItem();
+            DoForItem();
         }
 
         public ItemPage(string style, int mDeep, mPaths path)
             : base(style, mDeep, path, "x-item-fake-x")
         {
-            doForItem();
+            DoForItem();
         }
 
-        public void doForItem()
+        public void DoForItem()
         {
             Match = Regex.Match(this.Html, this.Path.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
             string style = "";
@@ -33,19 +36,19 @@ namespace Tag.Vows
             {
                 style = Match.Groups["style"].Value;
                 st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && Match.Value.Contains(x.Text)) as IStyleAble;
-                empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Path, this.TagList.Count);
-                this.TagList.Add(empty);
-                empty.SetStyle(style);
+                Empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Path, this.TagList.Count);
+                this.TagList.Add(Empty);
+                Empty.SetStyle(style);
                 Html = Html.Replace(Match.Value, string.Empty);
             }
         }
 
-        public string getEmptyText()
+        public string GetEmptyText()
         {
-            return this.empty == null ? "" : Regex.Replace(this.empty.GetStyle(), "[\r\n]", "");
+            return this.Empty == null ? "" : Regex.Replace(this.Empty.GetStyle(), "[\r\n]", "");
         }
 
-        private bool thisIsSimple()
+        private bool ThisIsSimple()
         {
             return this.TagList.FirstOrDefault(c => c is ListTag) == null;
         }

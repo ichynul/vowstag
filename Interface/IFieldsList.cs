@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-namespace Tag.Vows
+namespace Tag.Vows.Interface
 {
     interface IFieldsList
     {

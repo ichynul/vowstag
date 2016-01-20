@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Bean;
+using Tag.Vows.Tag;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.TPage
 {
     class ReadPage : BasePage, IParentDataAble
     {

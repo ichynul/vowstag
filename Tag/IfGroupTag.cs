@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-namespace Tag.Vows
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Tool;
+
+namespace Tag.Vows.Tag
 {
     class IfGroupTag : BaseTag, IMethodDataAble
     {
@@ -65,12 +69,28 @@ namespace Tag.Vows
 
         public void SetDataName(string dataName, MethodType type)
         {
-            throw new System.NotImplementedException();
+            foreach (var ift in this.IfTags)
+            {
+                ift.SetDataName(dataName, type);
+            }
         }
 
         public HashSet<string> GetFieldName()
         {
-            throw new System.NotImplementedException();
+            HashSet<string> fields = new HashSet<string>();
+            HashSet<string> f = null;
+            foreach (var ift in this.IfTags)
+            {
+                f = ift.GetFieldName();
+                if (f != null)
+                {
+                    foreach (var x in f)
+                    {
+                        fields.Add(x);
+                    }
+                }
+            }
+            return fields;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using Tag.Vows.Interface;
+using Tag.Vows.TPage;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     /// <summary>
     ///HeadTag 的摘要说明

@@ -1,9 +1,40 @@
-﻿using System;
+﻿/*
+* The MIT License (MIT)
+
+*Copyright (c) 2015 ichynul
+
+*Permission is hereby granted, free of charge, to any person obtaining a copy
+*of this software and associated documentation files (the "Software"), to deal
+*in the Software without restriction, including without limitation the rights
+*to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*copies of the Software, and to permit persons to whom the Software is
+*furnished to do so, subject to the following conditions:
+
+*The above copyright notice and this permission notice shall be included in all
+*copies or substantial portions of the Software.
+
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*SOFTWARE.
+*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Bean;
+using Tag.Vows.TPage;
+using Tag.Vows.Tag;
+using Tag.Vows.Tool;
 
 /// <summary>
 /// TempleHelper 的摘要说明
@@ -11,26 +42,26 @@ using System.Reflection;
 /// lianghaiyun
 /// </summary>
 /// 
-namespace Tag.Vows
+namespace Tag.Vows.Data
 {
-    public class TempleHelper
+    internal class TempleHelper
     {
-        private object upDataModel = null;
-        private static TempleHelper helper;
+        private object UpperDataModel = null;
+        private static TempleHelper Helper;
         private TempleHelper() { }
-        private mPaths path;
+        private mPaths Path;
         public static TempleHelper getTempleHelper(mPaths path)
         {
-            if (helper == null)
+            if (Helper == null)
             {
-                helper = new TempleHelper();
+                Helper = new TempleHelper();
             }
-            helper.path = path;
-            return helper;
+            Helper.Path = path;
+            return Helper;
         }
 
-        #region getWhereParams
-        internal StringBuilder getWhereParams(object model, List<mWhere> wheres, string baseParms)
+        #region GetWhereParams
+        internal StringBuilder GetWhereParams(object model, List<mWhere> wheres, string baseParms)
         {
             StringBuilder sb = new StringBuilder();
             string passNames = "orderby|desc|pagesize|take|item|skip";
@@ -69,7 +100,7 @@ namespace Tag.Vows
                     }
                     else
                     {
-                        query = Regex.IsMatch(w.VarName, this.path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
+                        query = Regex.IsMatch(w.VarName, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
                         vname = Regex.Replace(w.VarName, @"(?:request|call)\.", string.Empty, RegexOptions.IgnoreCase);
                         ifTag = string.Format("{0}{1}|", w.FiledName, vname);
                         if (w.FiledName == "null")
@@ -109,7 +140,7 @@ namespace Tag.Vows
                     }
                     continue;
                 }
-                dataType = DataHelper.getType(model, w.FiledName, out mNullAble, out filed);
+                dataType = DataHelper.GetType(model, w.FiledName, out mNullAble, out filed);
                 w.FiledName = filed;
                 if (w.VarName.ToLower() == "null")
                 {
@@ -133,19 +164,19 @@ namespace Tag.Vows
                     {
                         w.Compare = w.Compare == "%" ? "==" : "!=";
                         sb.AppendFormat("{0}/*{1}.{2} 不是字符串，不能使用( %-包含 或 !%-不包含 ) 操作符，已替换为 = 或 != */\r\n",
-                            Method.getSpaces(2), w.VarName.Contains("item") ? upDataModel : model, filed);
+                            Method.getSpaces(2), w.VarName.Contains("item") ? UpperDataModel : model, filed);
                     }
                 }
                 if (Regex.IsMatch(w.VarName, @"(?:read|item)\.\w+", RegexOptions.IgnoreCase))
                 {
-                    w.FiledName = DataHelper.getPropertyName(model, w.FiledName);
+                    w.FiledName = DataHelper.GetPropertyName(model, w.FiledName);
                     if (w.VarName.Contains("-") || w.VarName.Contains("+") || w.VarName.Contains("*") || w.VarName.Contains("/"))
                     {
                         string MathSymb = w.VarName.Contains("-") ? "-" : w.VarName.Contains("+") ? "+" : w.VarName.Contains("*") ? "*" : "/";
                         m = new Regex(@"\d+(\.\d+)?").Match(w.VarName);
                         string number = m.Value;
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
-                        dataType = DataHelper.getType(upDataModel, Regex.Replace(
+                        dataType = DataHelper.GetType(UpperDataModel, Regex.Replace(
                             w.VarName, @"item|read|[\.\+\-\*/\d]", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
                         if (mNullAble)
@@ -162,7 +193,7 @@ namespace Tag.Vows
                     }
                     else
                     {
-                        dataType = DataHelper.getType(upDataModel, Regex.Replace(
+                        dataType = DataHelper.GetType(UpperDataModel, Regex.Replace(
                              w.VarName, @"item|read|\.", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
@@ -182,14 +213,14 @@ namespace Tag.Vows
                 }
                 else if (Regex.IsMatch(w.VarName, @"(?:request|session|cookie|call)\.\w+", RegexOptions.IgnoreCase))
                 {
-                    dataType = DataHelper.getType(model, w.FiledName, out mNullAble, out filed);
+                    dataType = DataHelper.GetType(model, w.FiledName, out mNullAble, out filed);
                     w.FiledName = filed;
                     q = Regex.Replace(w.VarName, @"(?:request|session|cookie|call)\.", string.Empty, RegexOptions.IgnoreCase);
                     vname = string.Format("{0}_{1}", dataType, q);
-                    query = Regex.IsMatch(w.VarName, this.path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString"
-                        : Regex.IsMatch(w.VarName, this.path.tagregex.SessionValue, RegexOptions.IgnoreCase) ? "\"\" + Session"
-                        : Regex.IsMatch(w.VarName, this.path.tagregex.CookieValue, RegexOptions.IgnoreCase) ? "\"\" + Request.Cookies"
-                        : Regex.IsMatch(w.VarName, this.path.tagregex.CallValue, RegexOptions.IgnoreCase) ? "\"\" + this.CallString" :
+                    query = Regex.IsMatch(w.VarName, this.Path.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString"
+                        : Regex.IsMatch(w.VarName, this.Path.tagregex.SessionValue, RegexOptions.IgnoreCase) ? "\"\" + Session"
+                        : Regex.IsMatch(w.VarName, this.Path.tagregex.CookieValue, RegexOptions.IgnoreCase) ? "\"\" + Request.Cookies"
+                        : Regex.IsMatch(w.VarName, this.Path.tagregex.CallValue, RegexOptions.IgnoreCase) ? "\"\" + this.CallString" :
                         "";
                     if (requests.Contains(vname))
                     {
@@ -218,7 +249,7 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    dataType = DataHelper.getType(model, w.FiledName, out mNullAble, out filed);
+                    dataType = DataHelper.GetType(model, w.FiledName, out mNullAble, out filed);
                     w.FiledName = filed;
                     vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
                     if (dataType == "string")
@@ -299,8 +330,8 @@ namespace Tag.Vows
 
         #endregion
 
-        #region getWheres
-        private void getWheres(List<mWhere> wheres, string _params, string _symb)
+        #region GetWheres
+        private void GetWheres(List<mWhere> wheres, string _params, string _symb)
         {
             string[] arr = _params.Split('&');
             string[] p = null;//拆分键值对
@@ -350,23 +381,23 @@ namespace Tag.Vows
                 }
                 if (or)
                 {
-                    getWheres(wheres, orStr, " || ");
+                    GetWheres(wheres, orStr, " || ");
                 }
             }
         }
 
         #endregion
 
-        #region linq_queryParams
-        internal List<mWhere> linq_queryParams(object model, string baseParms)
+        #region Linq_queryParams
+        internal List<mWhere> Linq_queryParams(object model, string baseParms)
         {
             List<mWhere> baseWheres = new List<mWhere>();
-            getWheres(baseWheres, baseParms, " && ");
+            GetWheres(baseWheres, baseParms, " && ");
             return baseWheres;
         }
         #endregion
 
-        #region linq_getList
+        #region Linq_getList
         /// <summary>
         /// 拼接list查询语句
         /// </summary>
@@ -374,12 +405,12 @@ namespace Tag.Vows
         /// <param name="panmes">字段名称数组</param>
         /// <param name="where">查询条件</param>
         /// <returns></returns>
-        internal string linq_getList(string listname, string baseParms, HashSet<string> fields,
+        internal string Linq_getList(string listname, string baseParms, HashSet<string> fields,
             out string modType, string upDataName, out string UpdataType, PagerTag pager)
         {
             UpdataType = "";
             modType = "";
-            object model = getModObj(listname);
+            object model = GetModObj(listname);
             if (model != null)
             {
                 modType = model.GetType().Name;
@@ -390,16 +421,16 @@ namespace Tag.Vows
             }
             if (!string.IsNullOrEmpty(upDataName))
             {
-                upDataModel = getModObj(upDataName);
-                if (upDataModel != null)
+                UpperDataModel = GetModObj(upDataName);
+                if (UpperDataModel != null)
                 {
-                    UpdataType = upDataModel.GetType().Name;
+                    UpdataType = UpperDataModel.GetType().Name;
                 }
             }
 
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + baseParms + "*/\r\n");
             List<mWhere> baseWheres = new List<mWhere>();
-            getWheres(baseWheres, baseParms, " && ");
+            GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
             int pagesize = 0;//每页显示条数
@@ -408,7 +439,7 @@ namespace Tag.Vows
             #region where 筛选
             if (baseWheres.Count > 0)
             {
-                linq.Append(getWhereParams(model, baseWheres, baseParms));
+                linq.Append(GetWhereParams(model, baseWheres, baseParms));
                 linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), modType);//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
@@ -490,7 +521,7 @@ namespace Tag.Vows
                     foreach (var s in fields)
                     {
                         k += 1;
-                        linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.getPropertyName(model, s), k == fields.Count ? "" : ",");
+                        linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.GetPropertyName(model, s), k == fields.Count ? "" : ",");
                     }
                     linq.Append(Method.getSpaces(5) + "};\r\n");
                 }
@@ -511,12 +542,12 @@ namespace Tag.Vows
             {
                 if (orderbylist.Count() > 0)
                 {
-                    linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.getPropertyName(model, orderbylist[0]));
+                    linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                     if (orderbylist.Count() > 1)
                     {
                         for (int i = 1; i < orderbylist.Count(); i += 1)
                         {
-                            linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.getPropertyName(model, orderbylist[i]));
+                            linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                         }
                     }
                 }
@@ -532,12 +563,12 @@ namespace Tag.Vows
                 #region orderby 排序分页
                 if (orderbylist.Count() > 0)
                 {
-                    linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.getPropertyName(model, orderbylist[0]));
+                    linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                     if (orderbylist.Count() > 1)
                     {
                         for (int i = 1; i < orderbylist.Count(); i += 1)
                         {
-                            linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.getPropertyName(model, orderbylist[i]));
+                            linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                         }
                     }
                 }
@@ -581,7 +612,7 @@ namespace Tag.Vows
 
         #endregion
 
-        #region linq_getJson
+        #region Linq_getJson
         /// <summary>
         /// 拼接Json查询语句
         /// </summary>
@@ -589,10 +620,10 @@ namespace Tag.Vows
         /// <param name="panmes">字段名称数组</param>
         /// <param name="where">查询条件</param>
         /// <returns></returns>
-        internal string linq_getJson(string listname, string baseParms, out string modType, string tagNaem)
+        internal string Linq_getJson(string listname, string baseParms, out string modType, string tagNaem)
         {
             modType = "";
-            object model = getModObj(listname);
+            object model = GetModObj(listname);
             if (model != null)
             {
                 modType = model.GetType().Name;
@@ -608,16 +639,16 @@ namespace Tag.Vows
             linq.Append(Method.getSpaces(3) + "return null;\r\n");
             linq.Append(Method.getSpaces(2) + "}\r\n");
             List<mWhere> baseWheres = new List<mWhere>();
-            getWheres(baseWheres, baseParms, " && ");
+            GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
             int pagesize = 0;//每页显示条数
             int take = 0;
-            HashSet<string> fields = getFields(listname);
+            HashSet<string> fields = GetFields(listname);
             #region where 筛选
             if (baseWheres.Count > 0)
             {
-                linq.Append(getWhereParams(model, baseWheres, baseParms));
+                linq.Append(GetWhereParams(model, baseWheres, baseParms));
                 linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), modType);//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
@@ -706,7 +737,7 @@ namespace Tag.Vows
                     foreach (var s in fields)
                     {
                         k += 1;
-                        linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.getPropertyName(model, s), k == fields.Count ? "" : ",");
+                        linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.GetPropertyName(model, s), k == fields.Count ? "" : ",");
                     }
                     linq.Append(Method.getSpaces(5) + "};\r\n");
                 }
@@ -734,12 +765,12 @@ namespace Tag.Vows
             linq.AppendFormat("{0}list = list", Method.getSpaces(2));//
             if (orderbylist.Count() > 0)
             {
-                linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.getPropertyName(model, orderbylist[0]));
+                linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                 if (orderbylist.Count() > 1)
                 {
                     for (int i = 1; i < orderbylist.Count(); i += 1)
                     {
-                        linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.getPropertyName(model, orderbylist[i]));
+                        linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                     }
                 }
             }
@@ -762,15 +793,15 @@ namespace Tag.Vows
         }
         #endregion
 
-        #region linq_getRead
-        public string linq_getRead(string dataName, string query, out string modType, string readname)
+        #region Linq_getRead
+        internal string Linq_getRead(string dataName, string query, out string modType, string readname)
         {
             object model = null;
-            PropertyInfo basepi = DataHelper.getProperty(this.path.db, dataName);
+            PropertyInfo basepi = DataHelper.GetProperty(this.Path.db, dataName);
             if (basepi != null)//获取正确的表名 比如有表名为 Table1 ,那么listname为table1也能匹配到该表
             {
                 dataName = basepi.Name;// table1 => Table1
-                model = getModObj(dataName);
+                model = GetModObj(dataName);
                 modType = model.GetType().Name;
             }
             else
@@ -780,10 +811,10 @@ namespace Tag.Vows
             }
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + query + "*/\r\n");
             List<mWhere> baseWheres = new List<mWhere>();
-            getWheres(baseWheres, query, " && ");
+            GetWheres(baseWheres, query, " && ");
             if (baseWheres.Count > 0)
             {
-                linq.Append(getWhereParams(model, baseWheres, query));
+                linq.Append(GetWhereParams(model, baseWheres, query));
                 bool first = true;
                 List<string> orderbylist = new List<string>();
                 bool desc = true;
@@ -829,12 +860,12 @@ namespace Tag.Vows
                     linq.Append(");\r\n");
                     if (orderbylist.Count() > 0)
                     {
-                        linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.getPropertyName(model, orderbylist[0]));
+                        linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                         if (orderbylist.Count() > 1)
                         {
                             for (int i = 1; i < orderbylist.Count(); i += 1)
                             {
-                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.getPropertyName(model, orderbylist[i]));
+                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                             }
                         }
                     }
@@ -856,49 +887,49 @@ namespace Tag.Vows
         /// </summary>
         /// <param name="dataname">表名</param>
         /// <returns>实例</returns>
-        public object getModObj(string tableName)
+        internal object GetModObj(string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
             {
                 return null;
             }
-            Type ts = this.path.db.GetType();
+            Type ts = this.Path.db.GetType();
             PropertyInfo pi = ts.GetProperties().FirstOrDefault(a => a.Name.ToLower() == tableName.ToLower());
             if (pi == null)
             {
                 return null;
             }
-            var v = pi.GetValue(this.path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
+            var v = pi.GetValue(this.Path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
             //ObjectSet<>             DbSet<>
             object model = v.GetType().GetMethods().FirstOrDefault(a => a.Name == "CreateObject" || a.Name == "Create").Invoke(v, null);
             return model;
         }
 
-        public string getAddMethod(string tableName)
+        internal string GetAddMethod(string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
             {
                 return "";
             }
-            Type ts = this.path.db.GetType();
+            Type ts = this.Path.db.GetType();
             PropertyInfo pi = ts.GetProperties().FirstOrDefault(a => a.Name.ToLower() == tableName.ToLower());
             if (pi == null)
             {
                 return null; ;
             }
-            var v = pi.GetValue(this.path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
+            var v = pi.GetValue(this.Path.db, null);  //获取一个 ObjectSet<> 或 DbSet<>
             //ObjectSet<>             DbSet<>
             return v.GetType().GetMethods().FirstOrDefault(a => a.Name == "AddObject" || a.Name == "Add").Name;
         }
 
-        public string getModFieldName(string tableName, string fieldName)
+        internal string GetModFieldName(string tableName, string fieldName)
         {
-            object model = getModObj(tableName);
+            object model = GetModObj(tableName);
             if (model == null)
             {
                 return string.Format("/*{0} 不存在的表 {1} */", model, tableName);
             }
-            return DataHelper.getPropertyName(model, fieldName);
+            return DataHelper.GetPropertyName(model, fieldName);
         }
 
         /// <summary>
@@ -906,14 +937,14 @@ namespace Tag.Vows
         /// </summary>
         /// <param name="name">原表名（可能大小写不对）</param>
         /// <returns>正确的表名</returns>
-        public string getTableName(string name)
+        internal string GetTableName(string name)
         {
-            return DataHelper.getPropertyName(this.path.db, name);
+            return DataHelper.GetPropertyName(this.Path.db, name);
         }
 
-        internal HashSet<string> getFields(string tableName)
+        internal HashSet<string> GetFields(string tableName)
         {
-            object model = getModObj(tableName);
+            object model = GetModObj(tableName);
             HashSet<string> names = new HashSet<string>();
             if (model != null)
             {
@@ -931,25 +962,25 @@ namespace Tag.Vows
             return names;
         }
 
-        internal StringBuilder getDbcontex(IMakeAble page)
+        internal StringBuilder GetDbContext(IMakeAble page)
         {
             StringBuilder sb = new StringBuilder();
             if (page is SubListPage || page is LabelPage)
             {
-                sb.AppendFormat("{0}protected {1} db;\r\n", Method.space, this.path.entitiesName);
+                sb.AppendFormat("{0}protected {1} db;\r\n", Method.space, this.Path.entitiesName);
                 sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.space, "{");
-                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.path.entitiesName, Method.space, "}");
+                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Path.entitiesName, Method.space, "}");
             }
             else
             {
-                sb.AppendFormat("{0}private {1} _db;\r\n", Method.space, this.path.entitiesName);
-                sb.AppendFormat("{0}protected {1} db\r\n", Method.space, this.path.entitiesName);
+                sb.AppendFormat("{0}private {1} _db;\r\n", Method.space, this.Path.entitiesName);
+                sb.AppendFormat("{0}protected {1} db\r\n", Method.space, this.Path.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.space, "{");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "get");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "{");
                 sb.AppendFormat("{0}if (_db == null)\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "{");
-                sb.AppendFormat("{0}_db = new {1}();\r\n", Method.getSpaces(4), this.path.entitiesName);
+                sb.AppendFormat("{0}_db = new {1}();\r\n", Method.getSpaces(4), this.Path.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "}");
                 sb.AppendFormat("{0}return _db;\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "}");

@@ -1,8 +1,12 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Data;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class MethodTag : BaseTag, IMethodDataAble
     {
@@ -48,11 +52,11 @@ namespace Tag.Vows
                 var resdMatches = Regex.Matches(Obj, this.Path.tagregex.ReadValue, RegexOptions.IgnoreCase);
                 if (resdMatches.Count > 0)
                 {
-                    ReadDataname = TempleHelper.getTempleHelper(this.Path).getTableName(ReadDataname);
+                    ReadDataname = TempleHelper.getTempleHelper(this.Path).GetTableName(ReadDataname);
                     string itemField = "";
                     foreach (Match m in resdMatches)
                     {
-                        itemField = TempleHelper.getTempleHelper(this.Path).getModFieldName(ReadDataname, m.Value.Split('.')[1]);
+                        itemField = TempleHelper.getTempleHelper(this.Path).GetModFieldName(ReadDataname, m.Value.Split('.')[1]);
                         if (!string.IsNullOrEmpty(itemField))
                         {
                             this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField ));

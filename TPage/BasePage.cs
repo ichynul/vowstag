@@ -1,11 +1,41 @@
-﻿using System;
+﻿/*
+* The MIT License (MIT)
+
+*Copyright (c) 2015 ichynul
+
+*Permission is hereby granted, free of charge, to any person obtaining a copy
+*of this software and associated documentation files (the "Software"), to deal
+*in the Software without restriction, including without limitation the rights
+*to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*copies of the Software, and to permit persons to whom the Software is
+*furnished to do so, subject to the following conditions:
+
+*The above copyright notice and this permission notice shall be included in all
+*copies or substantial portions of the Software.
+
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*SOFTWARE.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Text;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Bean;
+using Tag.Vows.Data;
+using Tag.Vows.Tag;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.TPage
 {
     /// <summary>
     ///At 2015/07/15
@@ -50,7 +80,7 @@ namespace Tag.Vows
             path.Init();
             this.HtmlpPath = string.IsNullOrEmpty(mHtmlpPath) ? path.PagePath : mHtmlpPath;
             this.Path = path;
-            this.Entends = path.defaultBase;
+            this.Entends = path.DefaultBase;
             this.Deep = mDeep + 1;
 
             this.PageName = mPageName;
@@ -65,7 +95,7 @@ namespace Tag.Vows
         public BasePage(string style, int mDeep, mPaths path, string fakeName)
         {
             this.Path = path;
-            this.Entends = path.defaultBase;
+            this.Entends = path.DefaultBase;
             this.Deep = mDeep + 1;
             this.PageName = fakeName;
             this.Html = style;
@@ -542,7 +572,7 @@ namespace Tag.Vows
                     Match = Regex.Match(Html, "</form>", RegexOptions.IgnoreCase);
                     if (Match.Success)
                     {
-                        Html = Html.Replace("</form>", string.Concat(JsMaker.getCallBackJs().ToString(), "</form>"));
+                        Html = Html.Replace("</form>", string.Concat(JsMaker.GetCallBackJs().ToString(), "</form>"));
                     }
                     else
                     {
@@ -657,7 +687,7 @@ namespace Tag.Vows
             FindAllMenthodsOrFileds();
             StringBuilder AspxCsCode = new StringBuilder("using System;\r\n");
             AspxCsCode.Append("using System.Linq;\r\n");
-            AspxCsCode.Append("using Tag.Vows;\r\n");
+            AspxCsCode.Append("using Tag.Vows.Web;\r\n");
             if (!string.IsNullOrEmpty(Path.dbNameSpace))
             {
                 AspxCsCode.AppendFormat("using {0};\r\n", Path.dbNameSpace);
@@ -698,7 +728,7 @@ namespace Tag.Vows
                 AspxCsCode.Append(Method.space + "}\r\n");
             }
             AspxCsCode.Append("\r\n");
-            AspxCsCode.Append(TempleHelper.getTempleHelper(this.Path).getDbcontex(this));
+            AspxCsCode.Append(TempleHelper.getTempleHelper(this.Path).GetDbContext(this));
             AspxCsCode.Append("\r\n");
             AspxCsCode.Append(Method.space + "protected override object GetDbObject()\r\n");
             AspxCsCode.Append(Method.space + "{\r\n");
@@ -725,7 +755,7 @@ namespace Tag.Vows
                 if (this.SubpageEntends != "SubControl")
                 {
                     this.SubpageEntends = string.Concat(this.SubpageEntends, "\r\n       /*重新指定了UserControl页面处理类，请确保 ",
-                        this.SubpageEntends, " 直接或间接继承自'Tag.Vows.SubControl'*/");
+                        this.SubpageEntends, " 直接或间接继承自'Tag.Vows.Web.SubControl'*/");
                 }
             }
             else if (this is BasePage)
@@ -733,7 +763,7 @@ namespace Tag.Vows
                 if (this.Entends != "TagPage")
                 {
                     this.Entends = string.Concat(this.Entends, "\r\n       /*重新指定了页面处理类，请确保 ",
-                        this.Entends, " 直接或间接继承自'Tag.Vows.TagPage'*/");
+                        this.Entends, " 直接或间接继承自'Tag.Vows.Web.TagPage'*/");
                 }
             }
 

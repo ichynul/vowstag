@@ -1,5 +1,7 @@
 ﻿
-namespace Tag.Vows
+using Tag.Vows.Enum;
+using Tag.Vows.Tool;
+namespace Tag.Vows.Tag
 {
     class PagerTag : BaseTag
     {

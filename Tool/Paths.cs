@@ -5,7 +5,7 @@ using System.Web;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tool
 {
     public class mPaths
     {
@@ -43,7 +43,7 @@ namespace Tag.Vows
         /// <summary>
         /// 所有页面默认默认处理类,默认为 Tag.Vows.TagPage
         /// </summary>
-        public string defaultBase = "TagPage";
+        public string DefaultBase = "TagPage";
 
         internal string PagePath { get; private set; }
         internal string LabelPath { get; private set; }

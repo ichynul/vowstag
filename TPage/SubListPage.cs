@@ -1,6 +1,10 @@
 ﻿using System.Linq;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Tag;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.TPage
 {
     class SubListPage : ItemPage, IParentDataAble, IUC
     {

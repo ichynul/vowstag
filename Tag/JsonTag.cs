@@ -1,8 +1,12 @@
 ﻿
 using System.Collections.Generic;
 using System;
+using Tag.Vows.Interface;
+using Tag.Vows.Bean;
+using Tag.Vows.Data;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class JsonTag : BaseTag, ITableUseable, ICallBackAble
     {
@@ -66,7 +70,7 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Path).linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
+                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
                 }
             }
             return CallBack;

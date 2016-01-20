@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Bean;
+using Tag.Vows.Data;
+using Tag.Vows.TPage;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class ReadTag : StyleAbleTag, IGlobalField, IGlobalMethod, ITableUseable, ISubAble
     {
@@ -35,7 +41,7 @@ namespace Tag.Vows
             {
                 this.BaseParams = "desc = true";
             }
-            this.ModType = TempleHelper.getTempleHelper(this.Path).getTableName(DataName);
+            this.ModType = TempleHelper.getTempleHelper(this.Path).GetTableName(DataName);
         }
 
         public override string ToTagString()
@@ -56,7 +62,7 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    ReadData.body.Append(TempleHelper.getTempleHelper(this.Path).linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
+                    ReadData.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
                     if (this.HasStyle())
                     {
                         if (subLsitMethod != null)
@@ -76,7 +82,7 @@ namespace Tag.Vows
         {
             if (this.HasStyle())
             {
-                string field = TempleHelper.getTempleHelper(this.Path).getTableName(DataName);
+                string field = TempleHelper.getTempleHelper(this.Path).GetTableName(DataName);
                 foreach (Method x in subLsitMethod)
                 {
                     x.parsmstr = string.Concat(ModType, " read");

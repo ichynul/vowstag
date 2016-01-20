@@ -1,6 +1,7 @@
 ﻿
 using System.Text.RegularExpressions;
-namespace Tag.Vows
+using Tag.Vows.Tool;
+namespace Tag.Vows.Tag
 {
     class EmptyTag : StyleAbleTag
     {

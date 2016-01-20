@@ -1,10 +1,10 @@
 ﻿
 using System.Text;
-namespace Tag.Vows
+namespace Tag.Vows.Tool
 {
     class JsMaker
     {
-        public static StringBuilder getCallBackJs()
+        public static StringBuilder GetCallBackJs()
         {
             StringBuilder script = new StringBuilder(300);
             script.Append("\r\n    <script type=\"text/javascript\">\r\n");

@@ -1,6 +1,10 @@
 ﻿using System;
+using Tag.Vows.Interface;
+using Tag.Vows.Bean;
+using Tag.Vows.TPage;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class LabelTag : BaseTag, IGlobalMethod, DeepLoadAble, ISubAble
     {

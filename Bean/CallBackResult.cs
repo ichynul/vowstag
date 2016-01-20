@@ -1,9 +1,9 @@
 ﻿
-namespace Tag.Vows
+namespace Tag.Vows.Bean
 {
     public class CallBackResult
     {
-        private CallBackResult() { }
+        protected CallBackResult() { }
 
         /// <summary>
         ///  请求的结果

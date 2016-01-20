@@ -2,8 +2,12 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Tag.Vows.Interface;
+using Tag.Vows.Bean;
+using Tag.Vows.Data;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class FormTag : BaseTag, ITableUseable, ICallBackAble
     {
@@ -35,7 +39,7 @@ namespace Tag.Vows
                 return;
             }
             name = field.getParamAt(1);
-            type = DataHelper.getType(model, name, out isNullAble, out newName);
+            type = DataHelper.GetType(model, name, out isNullAble, out newName);
             Vars.Add(new FromVar(newName, name, type, isNullAble));
         }
 
@@ -56,10 +60,10 @@ namespace Tag.Vows
             {
                 this.BaseParams = "desc = true";
             }
-            model = TempleHelper.getTempleHelper(this.Path).getModObj(DataName);
+            model = TempleHelper.getTempleHelper(this.Path).GetModObj(DataName);
             if (!string.IsNullOrEmpty(BaseParams))
             {
-                baseWheres = TempleHelper.getTempleHelper(this.Path).linq_queryParams(model, BaseParams);
+                baseWheres = TempleHelper.getTempleHelper(this.Path).Linq_queryParams(model, BaseParams);
                 mWhere add = baseWheres.FirstOrDefault(x => x.FiledName == "action");
                 if (add != null)
                 {
@@ -130,7 +134,7 @@ namespace Tag.Vows
                     }
                     if (first)
                     {
-                        linq.Append(TempleHelper.getTempleHelper(this.Path).getWhereParams(model, baseWheres, BaseParams));
+                        linq.Append(TempleHelper.getTempleHelper(this.Path).GetWhereParams(model, baseWheres, BaseParams));
                         linq.AppendFormat("\r\n{0}{1} = db.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), dataName, modName, Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -158,12 +162,12 @@ namespace Tag.Vows
                     linq.Append(");\r\n");
                     if (orderbylist.Count() > 0)
                     {
-                        linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.getPropertyName(model, orderbylist[0]));
+                        linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                         if (orderbylist.Count() > 1)
                         {
                             for (int i = 1; i < orderbylist.Count(); i += 1)
                             {
-                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.getPropertyName(model, orderbylist[i]));
+                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                             }
                         }
                     }
@@ -184,7 +188,7 @@ namespace Tag.Vows
                 {
                     linq.AppendFormat("{0}/*添加&编辑模式（action = both），未找到记录则创建*/;\r\n", Method.getSpaces(3));
                     linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modName);
-                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Path).getAddMethod(modName), dataName);
+                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Path).GetAddMethod(modName), dataName);
                 }
                 linq.Append(Method.getSpaces(2) + "}\r\n");
 
@@ -193,7 +197,7 @@ namespace Tag.Vows
             {
                 linq.AppendFormat("{0}/*添加模式（action = both），新建记录*/;\r\n", Method.getSpaces(3));
                 linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modName, dataName);
-                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Path).getAddMethod(modName), dataName);
+                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Path).GetAddMethod(modName), dataName);
             }
             FromVar v = null;
             vname = "";

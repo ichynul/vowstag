@@ -2,8 +2,9 @@
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Specialized;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class CMDTag : BaseTag
     {

@@ -1,5 +1,7 @@
 ﻿
-namespace Tag.Vows
+using Tag.Vows.Interface;
+using Tag.Vows.Tool;
+namespace Tag.Vows.TPage
 {
     class LabelPage : BasePage, IUC
     {

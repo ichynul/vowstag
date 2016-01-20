@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tool
 {
     /// <summary>
     /// 2015/07/25
@@ -47,14 +47,14 @@ namespace Tag.Vows
             this.Ellipse_text = mEllipse_text;
             this.PrevOrNext_show = mPrevOrNext_show;
 
-            caculTotalPages();
+            GaculTotalPages();
         }
         public void SetPagesize(int psize)
         {
             this.PageSize = psize;
         }
 
-        protected void caculTotalPages()
+        protected void GaculTotalPages()
         {
             TotalPage = ListSize / PageSize;
             if (ListSize % PageSize != 0)

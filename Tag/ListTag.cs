@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Tag.Vows.Interface;
+using Tag.Vows.Enum;
+using Tag.Vows.Bean;
+using Tag.Vows.Data;
+using Tag.Vows.TPage;
+using Tag.Vows.Tool;
 
-namespace Tag.Vows
+namespace Tag.Vows.Tag
 {
     class ListTag : StyleAbleTag, IGlobalMethod, DeepLoadAble, ISubAble, IGlobalField, IParentDataAble, ITableUseable
     {
@@ -142,7 +148,7 @@ namespace Tag.Vows
             {
                 itempage = new ItemPage(this.Path.ItemPath, this.ItemName, Deep, this.Path);
             }
-            this.SubPage = itempage.getItemInstance();
+            this.SubPage = itempage.GetItemInstance();
         }
 
 
@@ -172,11 +178,11 @@ namespace Tag.Vows
                 }
                 else
                 {
-                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Path).linq_getList(this.DataName, this.BaseParams,
+                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Path).Linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
                     bindList_or_useAscx.body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     bindList_or_useAscx.body.Append(Method.getSpaces(2) + "{\r\n");
-                    string emptytext = (this.SubPage as ItemPage).getEmptyText();
+                    string emptytext = (this.SubPage as ItemPage).GetEmptyText();
                     if (!string.IsNullOrEmpty(emptytext))
                     {
                         bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
