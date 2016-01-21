@@ -26,12 +26,29 @@ namespace Tag.Vows.Tool
 
         protected StringBuilder htmlLinks;
 
+        public Pager(int mListSize, int mCunrrent, int mPageSize, string mLink)
+        {
+            this.ListSize = mListSize;
+            this.Current_page = mCunrrent;
+            this.PageSize = mPageSize;
+            this.Link_to = Regex.Replace(mLink, @"(?<=\?|&)page=[^&]*?(?=&|$)", string.Empty, RegexOptions.IgnoreCase); ;
+            if (Link_to.IndexOf("?") == -1)
+            {
+                this.Link_to += "?";
+            }
+            else if (!Link_to.EndsWith("?") && !Link_to.EndsWith("&"))
+            {
+                this.Link_to += "&";
+            }
+            this.GaculTotalPages();
+        }
+
         public Pager(int mListSize, int mCunrrent, int mPageSize, string mLink, int mNum_edge, string mPrev_text, string mNext_text, string mEllipse_text, bool mPrevOrNext_show)
         {
             this.ListSize = mListSize;
             this.Current_page = mCunrrent;
             this.PageSize = mPageSize;
-            this.Link_to = Regex.Replace(mLink, @"&?page=[^&]*(?=&|$)", string.Empty, RegexOptions.IgnoreCase); ;
+            this.Link_to = Regex.Replace(mLink, @"(?<=\?|&)page=[^&]*?(?=&|$)", string.Empty, RegexOptions.IgnoreCase); ;
             if (Link_to.IndexOf("?") == -1)
             {
                 this.Link_to += "?";
@@ -46,9 +63,9 @@ namespace Tag.Vows.Tool
             this.Next_text = mNext_text;
             this.Ellipse_text = mEllipse_text;
             this.PrevOrNext_show = mPrevOrNext_show;
-
-            GaculTotalPages();
+            this.GaculTotalPages();
         }
+
         public void SetPagesize(int psize)
         {
             this.PageSize = psize;

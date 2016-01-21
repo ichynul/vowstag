@@ -28,7 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Data;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
@@ -41,7 +41,7 @@ namespace Tag.Vows.Page
     ///At 2015/07/15
     ///By ichynul@outlook.com
     /// </summary>
-    public class BasePage : IHtmlAble
+    class BasePage : IHtmlAble
     {
         //
         protected TagConfig Config;
@@ -71,10 +71,17 @@ namespace Tag.Vows.Page
         protected BasePage() { }
 
         public BasePage(string mPageName, TagConfig config)
-            : this("", mPageName, 1, config)
+            : this(string.Empty, mPageName, 1, config)
         {
         }
 
+        /// <summary>
+        /// 页面入口方法,以文件路径
+        /// </summary>
+        /// <param name="mHtmlpPath">somepage.html文件路径</param>
+        /// <param name="mPageName">页面名称,如: somepage </param>
+        /// <param name="mDeep">嵌套深度</param>
+        /// <param name="config">配置信息</param>
         public BasePage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
         {
             config.Init();
@@ -92,6 +99,13 @@ namespace Tag.Vows.Page
             GetTegs(false);
         }
 
+        /// <summary>
+        /// 页面入口方法,以html文本
+        /// </summary>
+        /// <param name="style">html文本</param>
+        /// <param name="mDeep">嵌套深度</param>
+        /// <param name="config">配置信息</param>
+        /// <param name="fakeName">虚拟的页面名称</param>
         public BasePage(string style, int mDeep, TagConfig config, string fakeName)
         {
             this.Config = config;
@@ -112,9 +126,13 @@ namespace Tag.Vows.Page
             return this.Msg;
         }
 
+        /// <summary>
+        /// 解析所有标签
+        /// </summary>
+        /// <param name="style">是否是以文本初始化</param>
         protected void GetTegs(bool style)
         {
-            if (!style)
+            if (!style)//以路径初始化，读取指定文件内容
             {
                 if (!Directory.Exists(HtmlpPath))
                 {
@@ -182,6 +200,9 @@ namespace Tag.Vows.Page
             DoForRead();
         }
 
+        /// <summary>
+        /// 服务端代码安全检测 禁用 <% ...%>和<script runat="server">....</script>
+        /// </summary>
         private void DissAbleServerScript()
         {
             string value = "";
@@ -204,6 +225,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 将可能的标签格式化及去除空格，以作进一步匹配
+        /// </summary>
         private void ReplaceSpacesAndMatchAll()
         {
             Matches = Regex.Matches(Html, this.Config.tagregex.TagTest, RegexOptions.IgnoreCase);
@@ -239,6 +263,13 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 测试标签
+        /// </summary>
+        /// <param name="text">文本（经过格式化）</param>
+        /// <param name="origin">原始文本</param>
+        /// <param name="pa">正则表达式</param>
+        /// <param name="type">目标标签类型</param>
         private void MatchTag(string text, string origin, string pa, TagType type)
         {
             if (Regex.IsMatch(text, this.Config.tagregex.TagPairEndTest) || Regex.IsMatch(text, this.Config.tagregex.EmptyTest) || Regex.IsMatch(text, this.Config.tagregex.ifTagKeyTest))
@@ -314,6 +345,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 替换html中的图片、js、cs等资源的路径
+        /// </summary>
         protected void RePathJsCssImg()
         {
             Matches = Regex.Matches(Html, this.Config.tagregex.JsCssImageTest, RegexOptions.IgnoreCase);
@@ -348,6 +382,10 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 获取cmd标签的内容
+        /// </summary>
+        /// <param name="cmd"></param>
         private void GetCMD(CMDTag cmd)
         {
             string value = cmd.QueryString("base");
@@ -372,6 +410,9 @@ namespace Tag.Vows.Page
                 && value.ToLower() == "true";
         }
 
+        /// <summary>
+        /// for Pager
+        /// </summary>
         private void DoForPager()
         {
             var tehTag = TagList.FirstOrDefault(a => a is PagerTag);
@@ -384,6 +425,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// for Read
+        /// </summary>
         private void DoForRead()
         {
             var theTag = TagList.FirstOrDefault(a => a is ReadTag && !(a as ReadTag).HasStyle());
@@ -392,13 +436,13 @@ namespace Tag.Vows.Page
                 string dataName = (theTag as ReadTag).DataName;
                 foreach (var c in TagList)
                 {
-                    if (c is FieldTag)
+                    if (c is IFieldDataAble)
                     {
-                        (c as FieldTag).SetDataName(dataName, FieldType.read_value);
+                        (c as IFieldDataAble).SetDataName(dataName, FieldType.read_value);
                     }
-                    else if (c is MethodTag)
+                    else if (c is IMethodDataAble)
                     {
-                        (c as MethodTag).SetDataName(dataName, MethodType.read_value_method);
+                        (c as IMethodDataAble).SetDataName(dataName, MethodType.read_value_method);
                     }
                     else if (c is ListTag)
                     {
@@ -408,6 +452,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// for Form
+        /// </summary>
         private void DoForForm()
         {
             string dataName = "";
@@ -440,6 +487,10 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 清除标签的结尾符号
+        /// </summary>
+        /// <param name="includelistAndRead"></param>
         private void ReplaceEnd(bool includelistAndRead)
         {
             Matches = Regex.Matches(Html, this.Config.tagregex.TagPairEndTest);
@@ -461,6 +512,11 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 查找可能嵌套的list、read
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="deep"></param>
         private void FindListOrReadPairs(string text, int deep)
         {
             if (deep > 10)
@@ -498,6 +554,10 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 查找ifgroup
+        /// </summary>
+        /// <param name="text"></param>
         private void FindIfPairs(string text)
         {
             Matches = Regex.Matches(text, this.Config.tagregex.IfPairTest, RegexOptions.IgnoreCase);
@@ -542,6 +602,10 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 获取页面aspx 
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetAspxCode()
         {
             this.RecoverIfGroupTags();
@@ -588,7 +652,7 @@ namespace Tag.Vows.Page
             return Html;
         }
 
-        protected void FindAllMenthodsOrFileds()
+        protected void FindAllMethodsOrFileds()
         {
             Method method = null;
             MethodLines = new StringBuilder();
@@ -667,6 +731,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 生成页面
+        /// </summary>
         public void MakePage()
         {
             if (Config.convert)
@@ -684,7 +751,7 @@ namespace Tag.Vows.Page
             AspxCode.AppendFormat("\r\n", codeFile, className);
             WriteTagGit();
             AspxCode.Append(this.GetAspxCode());
-            FindAllMenthodsOrFileds();
+            FindAllMethodsOrFileds();
             StringBuilder AspxCsCode = new StringBuilder("using System;\r\n");
             AspxCsCode.Append("using System.Linq;\r\n");
             AspxCsCode.Append("using Tag.Vows.Web;\r\n");

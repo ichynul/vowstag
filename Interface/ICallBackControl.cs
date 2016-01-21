@@ -1,5 +1,5 @@
 ﻿
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 namespace Tag.Vows.Interface
 {
     interface ICallBackControl

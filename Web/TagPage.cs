@@ -24,7 +24,7 @@
 
 using System;
 using System.Collections.Specialized;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 using System.Web.UI;

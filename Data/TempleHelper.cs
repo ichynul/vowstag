@@ -31,7 +31,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using Tag.Vows.Interface;
 using Tag.Vows.Enum;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Page;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;

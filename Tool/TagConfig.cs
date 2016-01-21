@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Web;
+using Tag.Vows.Page;
 
 namespace Tag.Vows.Tool
 {
@@ -75,6 +76,34 @@ namespace Tag.Vows.Tool
             }
             return false;
         }
+
+        /// <summary>
+        /// 页面入口，需要页面结构信息
+        /// </summary>
+        /// <param name="pagename">页面名称</param>
+        /// <param name="PageString">结构信息</param>
+        /// <returns>页面错误信息</returns>
+        public string MakePage(string pagename, out string PageString)
+        {
+            PageString = "";
+            BasePage testpage = new BasePage(pagename, this);
+            testpage.MakePage();
+            PageString = testpage.ToPageString();
+            return testpage.GetMsg();
+        }
+
+        /// <summary>
+        /// 页面入口，不需要页面结构信息
+        /// </summary>
+        /// <param name="pagename">页面名称</param>
+        /// <returns>页面错误信息</returns>
+        public string MakePage(string pagename)
+        {
+            BasePage testpage = new BasePage(pagename, this);
+            testpage.MakePage();
+            return testpage.GetMsg();
+        }
+
         /// <summary>
         /// 生成页面时使用的标签对支持正则表达式
         /// 如new string[2]{"\{[@#$%]","\}"}，可匹配四种类型的标签对:

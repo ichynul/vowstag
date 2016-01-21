@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Tag.Vows.Interface;
 using Tag.Vows.Enum;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Data;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;

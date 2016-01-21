@@ -1,7 +1,7 @@
 ﻿
 namespace Tag.Vows.Interface
 {
-    interface DeepLoadAble
+    interface IDeepLoadAble
     {
         void LazyLoad();
     }

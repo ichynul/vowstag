@@ -2,7 +2,7 @@
 using Tag.Vows.Enum;
 namespace Tag.Vows.Interface
 {
-    interface IParentDataAble
+    interface IUpperDataAble
     {
         void SetUpperDataName(string DataName,FieldType type);
     }

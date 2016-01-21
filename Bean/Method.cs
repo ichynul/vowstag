@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Tag.Vows.Bean
+namespace Tag.Vows.Web
 {
     /// <summary>
     ///Method 的摘要说明

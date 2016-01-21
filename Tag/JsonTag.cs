@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 using Tag.Vows.Interface;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Data;
 using Tag.Vows.Tool;
 

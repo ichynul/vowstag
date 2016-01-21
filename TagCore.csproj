@@ -44,7 +44,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bean\CallBackResult.cs" />
+    <Compile Include="Web\CallBackResult.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />
     <Compile Include="Enum\IfType.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Tag\JsonTag.cs" />
     <Compile Include="Tag\StyleAbleTag.cs" />
     <Compile Include="Tool\JsMaker.cs" />
-    <Compile Include="Tool\Paths.cs" />
+    <Compile Include="Tool\TagConfig.cs" />
     <Compile Include="Bean\Where.cs" />
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\TempleHelper.cs" />

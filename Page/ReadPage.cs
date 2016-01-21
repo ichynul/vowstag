@@ -3,13 +3,13 @@ using System.Linq;
 using System.Text;
 using Tag.Vows.Interface;
 using Tag.Vows.Enum;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Page
 {
-    class ReadPage : BasePage, IParentDataAble
+    class ReadPage : BasePage, IUpperDataAble
     {
         public ReadPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
             : base(mHtmlpPath, mPageName, mDeep, config)
@@ -26,13 +26,13 @@ namespace Tag.Vows.Page
         {
             foreach (var c in TagList)
             {
-                if (c is FieldTag)
+                if (c is IFieldDataAble)
                 {
-                    (c as FieldTag).SetDataName(dataName, FieldType.read_value);
+                    (c as IFieldDataAble).SetDataName(dataName, FieldType.read_value);
                 }
-                else if (c is MethodTag)
+                else if (c is IMethodDataAble)
                 {
-                    (c as MethodTag).SetDataName(dataName, MethodType.read_value_method);
+                    (c as IMethodDataAble).SetDataName(dataName, MethodType.read_value_method);
                 }
             }
         }

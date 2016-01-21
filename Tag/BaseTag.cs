@@ -75,8 +75,6 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string ReplaceTagText(string PageHtml)
         {
-            System.Web.HttpContext.Current.Response.Write("rp" + PlaceholderName + "<br />");
-
             string newHtml = PageHtml.Replace(this.Text, this.PlaceholderName);
             return newHtml;
         }
@@ -88,7 +86,6 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
-            System.Web.HttpContext.Current.Response.Write("rc" + PlaceholderName + "<br />");
             string newHtml = PageHtml.Replace(this.PlaceholderName, this.GetCodeForAspx());
             return newHtml;
         }
@@ -107,16 +104,28 @@ namespace Tag.Vows.Tag
             return this.Origin;
         }
 
+        /// <summary>
+        /// 获取标签名称
+        /// </summary>
+        /// <returns></returns>
         public string GetTagName()
         {
             return this.TagName;
         }
 
+        /// <summary>
+        /// 获取占位名称
+        /// </summary>
+        /// <returns></returns>
         public string GetPlaceholderName()
         {
             return this.PlaceholderName;
         }
 
+        /// <summary>
+        /// 获取生成时的错误信息
+        /// </summary>
+        /// <returns></returns>
         public string GetMsg()
         {
             if (this.SubPage != null)

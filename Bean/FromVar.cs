@@ -1,5 +1,5 @@
 ﻿
-namespace Tag.Vows.Bean
+namespace Tag.Vows.Web
 {
     class FromVar
     {

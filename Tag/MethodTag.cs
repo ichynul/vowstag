@@ -59,7 +59,7 @@ namespace Tag.Vows.Tag
                         itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(ReadDataname, m.Value.Split('.')[1]);
                         if (!string.IsNullOrEmpty(itemField))
                         {
-                            this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField ));
+                            this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField));
                         }
                     }
                 }
@@ -69,7 +69,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"" , m.Value.Split('.')[1] , "\")"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
                 }
             }
             matches = Regex.Matches(Obj, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase);
@@ -77,7 +77,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Session[\"" , m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Session[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
             matches = Regex.Matches(Obj, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase);
@@ -85,7 +85,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.QueryString[\"" , m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.QueryString[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
             matches = Regex.Matches(Obj, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase);
@@ -94,7 +94,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"" , m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
             return string.Format("<% ={0} %>", this.Obj);
@@ -117,7 +117,7 @@ namespace Tag.Vows.Tag
         public HashSet<string> GetFieldName()
         {
             var Fields = new HashSet<string>();
-            var matches = Regex.Matches(Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            var matches = Regex.Matches(this.Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)

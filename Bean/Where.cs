@@ -25,7 +25,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Tag.Vows.Bean
+namespace Tag.Vows.Web
 {
     class mWhere
     {

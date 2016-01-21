@@ -4,14 +4,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Tag.Vows.Interface;
 using Tag.Vows.Enum;
-using Tag.Vows.Bean;
+using Tag.Vows.Web;
 using Tag.Vows.Data;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class ListTag : StyleAbleTag, IGlobalMethod, DeepLoadAble, ISubAble, IGlobalField, IParentDataAble, ITableUseable
+    class ListTag : StyleAbleTag, IGlobalMethod, IDeepLoadAble, ISubAble
+        , IGlobalField, IUpperDataAble, ITableUseable
     {
         protected new IHtmlAble SubPage;
         private string BaseParams;
@@ -32,12 +33,11 @@ namespace Tag.Vows.Tag
         public ListTag(string mtext, string origin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, origin, Deep, config, no_)
         {
-            ParPageName = mParPageName;
+            this.ParPageName = mParPageName;
         }
 
         public void SetUpperDataName(string upDataName, FieldType type)
         {
-            System.Web.HttpContext.Current.Response.Write(upDataName + "<br />");
             if (type == FieldType.item_value)
             {
                 this.isSublist = true;

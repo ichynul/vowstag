@@ -123,13 +123,7 @@ namespace Tag.Vows.Tag
             return "【全局名称" + this.GetTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
         }
 
-        public void SetDataName(string DataName, FieldType type)
-        {
-            if (this.Type == type)
-            {
-                this.Dataname = DataName;
-            }
-        }
+       
 
         internal string getParamAt(int index)
         {
@@ -145,6 +139,14 @@ namespace Tag.Vows.Tag
             if (mParams.Length > index)
             {
                 mParams[index] = newValue;
+            }
+        }
+
+        public void SetDataName(string DataName, FieldType type)
+        {
+            if (this.Type == type)
+            {
+                this.Dataname = DataName;
             }
         }
 

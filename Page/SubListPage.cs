@@ -6,7 +6,7 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Page
 {
-    class SubListPage : ItemPage, IParentDataAble, IUC
+    class SubListPage : ItemPage, IUpperDataAble, IUC
     {
         public SubListPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
             : base(mHtmlpPath, mPageName, mDeep, config)
