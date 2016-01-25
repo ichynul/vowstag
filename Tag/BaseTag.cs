@@ -52,10 +52,10 @@ namespace Tag.Vows.Tag
         /// 构造函数
         /// </summary>
         /// <param name="mText">经过处理的标签文本（去除空格 \s*、br/hr替换）</param>
-        /// <param name="mOrigin">未经过处理的标签原始文本</param>
-        /// <param name="mDeep"></param>
-        /// <param name="path"></param>
-        /// <param name="no_"></param>
+        /// <param name="mOrigin">原始标签文本</param>
+        /// <param name="mDeep">嵌套深度</param>
+        /// <param name="config">配置</param>
+        /// <param name="no_">标签的递增编码</param>
         protected BaseTag(string mText, string mOrigin, int mDeep, TagConfig config, int no_)
         {
             this.Config = config;

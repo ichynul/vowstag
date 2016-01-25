@@ -52,11 +52,11 @@ namespace Tag.Vows.Tag
             string[] arr = Obj.Split('(');
             this.Method = arr[0];
             this.Params = arr[1].Replace(")", string.Empty);
-            if (Regex.IsMatch(Obj, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase))
+            if (this.Config.tagregex.ReadValue.IsMatch(Obj))
             {
                 this.Type = MethodType.read_value_method;
             }
-            else if (Regex.IsMatch(Obj, this.Config.tagregex.FormValue, RegexOptions.IgnoreCase))
+            else if (this.Config.tagregex.FormValue.IsMatch(Obj))
             {
                 this.Type = MethodType.form_method;
             }
@@ -74,7 +74,7 @@ namespace Tag.Vows.Tag
             }
             if (!string.IsNullOrEmpty(this.ReadDataname) && this.Type == MethodType.read_value_method)
             {
-                var resdMatches = Regex.Matches(Obj, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase);
+                var resdMatches = this.Config.tagregex.ReadValue.Matches(Obj);
                 if (resdMatches.Count > 0)
                 {
                     ReadDataname = TempleHelper.getTempleHelper(this.Config).GetTableName(ReadDataname);
@@ -89,7 +89,7 @@ namespace Tag.Vows.Tag
                     }
                 }
             }
-            var matches = Regex.Matches(Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            var matches = this.Config.tagregex.ItemValue.Matches(Obj);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -97,7 +97,7 @@ namespace Tag.Vows.Tag
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
                 }
             }
-            matches = Regex.Matches(Obj, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.SessionValue.Matches(Obj);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -105,7 +105,7 @@ namespace Tag.Vows.Tag
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Session[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            matches = Regex.Matches(Obj, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.RequestValue.Matches(Obj);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -113,7 +113,7 @@ namespace Tag.Vows.Tag
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.QueryString[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            matches = Regex.Matches(Obj, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.CookieValue.Matches(Obj);
             //需放在 RequestValue之后，避免混淆  如Request.Cookies["xxx"]
             if (matches.Count > 0)
             {
@@ -142,7 +142,7 @@ namespace Tag.Vows.Tag
         public HashSet<string> GetFieldName()
         {
             var Fields = new HashSet<string>();
-            var matches = Regex.Matches(this.Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            var matches = this.Config.tagregex.ItemValue.Matches(this.Obj);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)

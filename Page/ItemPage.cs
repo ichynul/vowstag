@@ -54,7 +54,7 @@ namespace Tag.Vows.Page
 
         public void DoForItem()
         {
-            Match = Regex.Match(this.Html, this.Config.tagregex.EmptyPairTest, RegexOptions.IgnoreCase);
+            Match = this.Config.tagregex.EmptyPairTest.Match(this.Html);
             string style = "";
             IStyleAble st = null;
             if (Match.Success)

@@ -48,27 +48,27 @@ namespace Tag.Vows.Tag
             if (this.Obj.IndexOf(".") != -1)
             {
                 mParams = this.Obj.Split('.');
-                if (Regex.IsMatch(Obj, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase))
+                if (this.Config.tagregex.RequestValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.request_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase))
+                else if (this.Config.tagregex.SessionValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.session_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase))
+                else if (this.Config.tagregex.CookieValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.cookie_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase))
+                else if (this.Config.tagregex.ItemValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.item_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase))
+                else if (this.Config.tagregex.ReadValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.read_value;
                 }
-                else if (Regex.IsMatch(Obj, this.Config.tagregex.FormValue, RegexOptions.IgnoreCase))
+                else if (this.Config.tagregex.FormValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.form_value;
                 }
@@ -148,7 +148,7 @@ namespace Tag.Vows.Tag
             return "【全局名称" + this.GetTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
         }
 
-       
+
 
         internal string getParamAt(int index)
         {

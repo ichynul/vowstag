@@ -202,13 +202,13 @@ namespace Tag.Vows.Page
         }
 
         /// <summary>
-        /// 服务端代码安全检测 禁用 <% ...%>和<script runat="server">....</script>
+        /// 服务端代码安全检测 禁用 &lt;% ...%&gt;和%&lt;cript runat="server"&gt;....&lt;/script&gt;
         /// </summary>
         private void DissAbleServerScript()
         {
             string value = "";
             string g = "";
-            Matches = Regex.Matches(Html, this.Config.tagregex.ServerCodeTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.ServerCodeTest.Matches(Html);
             for (int i = 0; i < Matches.Count; i += 1)
             {
                 value = Matches[i].Value;
@@ -216,7 +216,7 @@ namespace Tag.Vows.Page
                 Html = Html.Replace(value, value.Replace(g, string.Concat("\r\n    /*当前设置不允许服务端代码\r\n",
                     g, "\r\n    当前设置不允许服务端代码*/\r\n    ")));
             }
-            Matches = Regex.Matches(Html, this.Config.tagregex.ServerScriptTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.ServerScriptTest.Matches(Html);
             for (int i = 0; i < Matches.Count; i += 1)
             {
                 value = Matches[i].Value;
@@ -231,7 +231,7 @@ namespace Tag.Vows.Page
         /// </summary>
         private void ReplaceSpacesAndMatchAll()
         {
-            Matches = Regex.Matches(Html, this.Config.tagregex.TagTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.TagTest.Matches(Html);
             string tag = "", origin = "";
             for (int i = 0; i < Matches.Count; i += 1)
             {
@@ -269,15 +269,16 @@ namespace Tag.Vows.Page
         /// </summary>
         /// <param name="text">文本（经过格式化）</param>
         /// <param name="origin">原始文本</param>
-        /// <param name="pa">正则表达式</param>
+        /// <param name="regex">正则表达式</param>
         /// <param name="type">目标标签类型</param>
-        private void MatchTag(string text, string origin, string pa, TagType type)
+        private void MatchTag(string text, string origin, Regex regex, TagType type)
         {
-            if (Regex.IsMatch(text, this.Config.tagregex.TagPairEndTest) || Regex.IsMatch(text, this.Config.tagregex.EmptyTest) || Regex.IsMatch(text, this.Config.tagregex.ifTagKeyTest))
+            if (this.Config.tagregex.TagPairEndTest.IsMatch(text) || this.Config.tagregex.EmptyTest.IsMatch(text)
+                                || this.Config.tagregex.ifTagKeyTest.IsMatch(text))
             {
                 return;
             }
-            Match = Regex.Match(text, pa, RegexOptions.IgnoreCase);
+            Match = regex.Match(text);
             if (Match.Success)
             {
                 this.Html = this.Html.Replace(origin, text);
@@ -351,9 +352,9 @@ namespace Tag.Vows.Page
         /// </summary>
         protected void RePathJsCssImg()
         {
-            Matches = Regex.Matches(Html, this.Config.tagregex.JsCssImageTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.JsCssImageTest.Matches(Html);
             ReplaceLinks();
-            Matches = Regex.Matches(Html, this.Config.tagregex.CssBgTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.CssBgTest.Matches(Html);
             ReplaceLinks();
         }
 
@@ -370,12 +371,12 @@ namespace Tag.Vows.Page
                 {
                     continue;
                 }
-                if (Regex.Match(src, this.Config.tagregex.ThisDirTest, RegexOptions.IgnoreCase).Success)
+                if (this.Config.tagregex.ThisDirTest.IsMatch(src))
                 {
                     Html = Html.Replace(src, string.Format("{0}{1}/{2}", Config.input.Replace("~", ""), this is LabelPage ? "label" :
                         this is StaticPage ? "static" : this is SubListPage ? "item" : "page", src));
                 }
-                else if (Regex.Match(src, this.Config.tagregex.OtherDirTest, RegexOptions.IgnoreCase).Success)
+                else if (this.Config.tagregex.OtherDirTest.IsMatch(src))
                 {
                     Html = Html.Replace(src, string.Format("{0}{1}", Config.input.Replace("~", ""), src.Replace("../", "")));
                 }
@@ -494,7 +495,7 @@ namespace Tag.Vows.Page
         /// <param name="includelistAndRead"></param>
         private void ReplaceEnd(bool includelistAndRead)
         {
-            Matches = Regex.Matches(Html, this.Config.tagregex.TagPairEndTest);
+            Matches = this.Config.tagregex.TagPairEndTest.Matches(Html);
             string name = "";
             foreach (Match m in Matches)
             {
@@ -524,7 +525,7 @@ namespace Tag.Vows.Page
             {
                 return;
             }
-            Matches = Regex.Matches(text, this.Config.tagregex.TagPairTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.TagPairTest.Matches(text);
             string style = "";
             string tag = "";
             IStyleAble st = null;
@@ -532,12 +533,12 @@ namespace Tag.Vows.Page
             {
                 style = m.Groups["style"].Value;
                 tag = m.Groups["tag"].Value;
-                if (tag.ToLower() == "list" && Regex.Match(style, this.Config.tagregex.ListTest).Success)
+                if (tag.ToLower() == "list" && this.Config.tagregex.ListTest.IsMatch(style))
                 {
                     FindListOrReadPairs(style, deep + 1);
                     continue;
                 }
-                if (tag.ToLower() == "read" && Regex.Match(style, this.Config.tagregex.ReadTest).Success)
+                if (tag.ToLower() == "read" && this.Config.tagregex.ReadTest.IsMatch(style))
                 {
                     FindListOrReadPairs(style, deep + 1);
                     continue;
@@ -561,7 +562,7 @@ namespace Tag.Vows.Page
         /// <param name="text"></param>
         private void FindIfPairs(string text)
         {
-            Matches = Regex.Matches(text, this.Config.tagregex.IfPairTest, RegexOptions.IgnoreCase);
+            Matches = this.Config.tagregex.IfPairTest.Matches(text);
             foreach (Match m in Matches)
             {
                 IfGroupTag ifGroup = new IfGroupTag(m.Value, this.Deep, this.Config, this.TagList.Count);

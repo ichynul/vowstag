@@ -44,7 +44,7 @@ using Tag.Vows.Tool;
 /// 
 namespace Tag.Vows.Data
 {
-    internal class TempleHelper
+    internal sealed class TempleHelper
     {
         private object UpperDataModel = null;
         private static TempleHelper Helper;
@@ -100,7 +100,7 @@ namespace Tag.Vows.Data
                     }
                     else
                     {
-                        query = Regex.IsMatch(w.VarName, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
+                        query = this.Config.tagregex.RequestValue.IsMatch(w.VarName) ? "\"\" + Request.QueryString" : "\"\" + this.CallString";
                         vname = Regex.Replace(w.VarName, @"(?:request|call)\.", string.Empty, RegexOptions.IgnoreCase);
                         ifTag = string.Format("{0}{1}|", w.FiledName, vname);
                         if (w.FiledName == "null")
@@ -217,10 +217,10 @@ namespace Tag.Vows.Data
                     w.FiledName = filed;
                     q = Regex.Replace(w.VarName, @"(?:request|session|cookie|call)\.", string.Empty, RegexOptions.IgnoreCase);
                     vname = string.Format("{0}_{1}", dataType, q);
-                    query = Regex.IsMatch(w.VarName, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase) ? "\"\" + Request.QueryString"
-                        : Regex.IsMatch(w.VarName, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase) ? "\"\" + Session"
-                        : Regex.IsMatch(w.VarName, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase) ? "\"\" + Request.Cookies"
-                        : Regex.IsMatch(w.VarName, this.Config.tagregex.CallValue, RegexOptions.IgnoreCase) ? "\"\" + this.CallString" :
+                    query = this.Config.tagregex.RequestValue.IsMatch(w.VarName) ? "\"\" + Request.QueryString"
+                        : this.Config.tagregex.SessionValue.IsMatch(w.VarName) ? "\"\" + Session"
+                        : this.Config.tagregex.CookieValue.IsMatch(w.VarName) ? "\"\" + Request.Cookies"
+                        : this.Config.tagregex.CallValue.IsMatch(w.VarName) ? "\"\" + this.CallString" :
                         "";
                     if (requests.Contains(vname))
                     {
@@ -354,6 +354,16 @@ namespace Tag.Vows.Data
                     p = field_Var.Replace("!=", "|").Split('|');
                     wheres.Add(new mWhere(p[0], "!=", _symb, p[1]));
                 }
+                else if (field_Var.IndexOf("<=") != -1)
+                {
+                    p = field_Var.Replace("<=", "|").Split('|');
+                    wheres.Add(new mWhere(p[0], "<=", _symb, p[1]));
+                }
+                else if (field_Var.IndexOf(">=") != -1)
+                {
+                    p = field_Var.Replace(">=", "|").Split('|');
+                    wheres.Add(new mWhere(p[0], ">=", _symb, p[1]));
+                }
                 else if (field_Var.IndexOf("=") != -1)
                 {
                     p = field_Var.Split('=');
@@ -398,13 +408,7 @@ namespace Tag.Vows.Data
         #endregion
 
         #region Linq_getList
-        /// <summary>
-        /// 拼接list查询语句
-        /// </summary>
-        /// <param name="listname">要获取数据的表名称</param>
-        /// <param name="panmes">字段名称数组</param>
-        /// <param name="where">查询条件</param>
-        /// <returns></returns>
+
         internal string Linq_getList(string listname, string baseParms, HashSet<string> fields,
             out string modType, string upDataName, out string UpdataType, PagerTag pager)
         {

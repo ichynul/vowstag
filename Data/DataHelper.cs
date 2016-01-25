@@ -36,10 +36,10 @@ using System.Reflection;
 /// 
 namespace Tag.Vows.Data
 {
-    internal class DataHelper
+    internal sealed class DataHelper
     {
         private static Dictionary<string, string> _dataTypes;
-        protected static Dictionary<string, string> dataTypes
+        private static Dictionary<string, string> dataTypes
         {
             get
             {
@@ -70,6 +70,8 @@ namespace Tag.Vows.Data
         /// </summary>
         /// <param name="obj">实例</param>
         /// <param name="name">字段名称</param>
+        /// <param name="isNullAble">是否为NullAble</param>
+        /// <param name="newName">新的名称（纠正大小写）</param>
         /// <returns>字段类型</returns>
         internal static string GetType(object obj, string name, out bool isNullAble, out string newName)
         {

@@ -92,7 +92,7 @@ namespace Tag.Vows.Tag
             {
                 this.BaseParams = "take = 99";
             }
-            this.HasReadParams = Regex.IsMatch(this.BaseParams, this.Config.tagregex.ReadValue);
+            this.HasReadParams = this.Config.tagregex.ReadValue.IsMatch(this.BaseParams);
             if (!this.In_Pairs)
             {
                 this.ItemName = this.Config.tagregex.getItemPath(this.BaseParams);

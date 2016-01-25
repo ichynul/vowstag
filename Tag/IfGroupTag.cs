@@ -48,15 +48,14 @@ namespace Tag.Vows.Tag
             {
                 this.Text = this.Text.Replace(iftag.Text, iftag.GetCode());
             }
-            this.Text = Regex.Replace(this.Text, this.Config.tagregex.ifTagKeyTest, string.Empty
-                        , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            this.Text = this.Config.tagregex.ifTagKeyTest.Replace(this.Text, string.Empty);
             return this.Text;
         }
 
         protected override void Discover()
         {
             this.IfTags = new List<IfTag>();
-            match = Regex.Match(this.Text, this.Config.tagregex.IfTest, RegexOptions.IgnoreCase);
+            match = this.Config.tagregex.IfTest.Match(this.Text);
             if (match.Success)
             {
                 IfTag iftag = new IfTag(match.Value, IfType._if, this.Deep, this.Config, IfTags.Count + 1);
@@ -64,7 +63,7 @@ namespace Tag.Vows.Tag
                 iftag.SetContent(match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
-            matches = Regex.Matches(this.Text, this.Config.tagregex.ElseIfTest, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.ElseIfTest.Matches(this.Text);
             foreach (Match m in matches)
             {
                 IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
@@ -72,7 +71,7 @@ namespace Tag.Vows.Tag
                 iftag.SetContent(match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
-            match = Regex.Match(this.Text, this.Config.tagregex.ElseTest, RegexOptions.IgnoreCase);
+            match = this.Config.tagregex.ElseTest.Match(this.Text);
             if (match.Success)
             {
                 IfTag iftag = new IfTag(match.Value, IfType._else, this.Deep, this.Config, IfTags.Count + 1);

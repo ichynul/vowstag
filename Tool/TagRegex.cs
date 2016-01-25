@@ -28,123 +28,134 @@ using System.Text.RegularExpressions;
 
 namespace Tag.Vows.Tool
 {
-    class TagRegex
+    sealed class TagRegex
     {
-        public TagRegex(string tagLeft, string tagRight)
-        {
-            #region 标签正则表达式
-            /********tag tests*******/
-            TagTest = string.Concat("(?s)", tagLeft, @"\s*[\w].*?/?", tagRight, "(?-s)");
-            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:=|!=|>|<|%|!%)(?:[\w\-/:]+|\-?\d+(?:\.\d+)?|""""|(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|"
-                        , @"\w+\.\w+(?:[\+\-\*/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
-            ListTest = string.Concat(tagLeft, "list=", QueryBase, tagRight);
-            ReadTest = string.Concat(tagLeft, "read=", QueryBase, tagRight);
-            FormTest = string.Concat(tagLeft, "form=", QueryBase, tagRight);
-            JsonTest = string.Concat(tagLeft, "json=", QueryBase, tagRight);
-            LabelTest = string.Concat(tagLeft, @"label=\w+/?", tagRight);
-            StaticTest = string.Concat(tagLeft, @"static=\w+/?", tagRight);
-            FiledTest = string.Concat(tagLeft, @"\w+(?:\.\w+)*(?:\[""\w+""\])?/?", tagRight);
-            MethodTest = string.Concat(tagLeft, @"\w+(?:\.\w+)*\([^\)]*\)/?", tagRight);
-            PagerTest = string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight);
-            CommandTest = string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.]+(?:&|<br/?>)?)+?/?", tagRight);
-
-            /********wrong tests*******/
-            RequestValue = @"request\.\w+";
-            SessionValue = @"session\.\w+";
-            CookieValue = @"cookie\.\w+";
-            CallValue = @"call\.\w+";
-            ItemValue = @"item\.\w+";
-            ReadValue = @"read\.\w+";
-            FormValue = @"form\.\w+";
-            /********other tests*******/
-            JsCssImageTest = @"(?s)<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:js|css|png|jpg|jpeg|gif|bmp))['""](?-s)";
-            CssBgTest = @"(?s)background(?:\-image)?\s*:.*?url\s*\(['""]?(?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:png|jpg|jpeg|gif|bmp))\s*['""]?\)(?-s)";
-            ThisDirTest = @"^[\w\-][\w\-\.]*/.*$";
-            OtherDirTest = @"^\.\./[\w\-][\w\-\.]*/.*$";
-            ServerCodeTest = @"(?s)<%(?<code>.*?)%>(?-s)";
-            ServerScriptTest = @"(?s)<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>(?-s)";
-            /********pairs tests*******/
-            TagPairEndTest = string.Concat("(?s)", tagLeft, @"\s*/?(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight);
-            ifTagKeyTest = string.Concat("(?s)", tagLeft, @"\s*(?:else|endif)\s*", tagRight);
-            TagPairTest = string.Concat("(?s)", tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
-                                                               "(?<style>.+?", tagLeft, @"\s*/?\1\s*", tagRight, ")(?-s)");
-            EmptyPairTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight,
-                                                               "(?<style>.+?)", tagLeft, @"\s*/?empty\s*", tagRight, "(?-s)");
-            /********if tests*******/
-            IfTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
-            ElseIfTest = string.Concat("(?s)", tagLeft, @"\s*el(?:se)?if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")", "(?-s)");
-            ElseTest = string.Concat("(?s)", tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?endif\s*", tagRight, ")", "(?-s)");
-            EndifTest = string.Concat("(?s)", tagLeft, @"\s*(?:else|endif)\s*", tagRight);
-            IfPairTest = string.Concat("(?s)", tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?endif\s*", tagRight, "(?-s)");
-            EmptyTest = string.Concat("(?s)", tagLeft, @"\s*empty\s*", tagRight);
-            #endregion
-
-            #region 标签内部字段提取正则表达式
-            DataNameRegex = string.Concat(@"(?<=(?:list|read|label||form|json)=)\w+?(?=(\?|/?", tagRight, "))");
-            ItemPathRegex = @"(?<=item=)\w+?(?=&|\||<[bh]r/?>|$)";
-            BaseParamsRegex = string.Concat(@"(?<=\?).*?(?=/?", tagRight, ")");
-            FiledObjRegex = string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")");
-            MethodObjRegex = string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*\([^\)]*\)(?=/?", tagRight, ")");
-            PagerRegex = string.Concat("(?<=", tagLeft, @")pager(\?(?:\w+=.+(&|<br/?>)?)*)?(?=/?", tagRight, ")");
-            #endregion
-        }
-
         #region 标签正则表达式
         /********tag tests*******/
-        public string TagTest { private set; get; }
+        public Regex TagTest { private set; get; }
         private string QueryBase;
-        public string ListTest { private set; get; }
-        public string ReadTest { private set; get; }
-        public string FormTest { private set; get; }
-        public string JsonTest { private set; get; }
-        public string LabelTest { private set; get; }
-        public string StaticTest { private set; get; }
-        public string FiledTest { private set; get; }
-        public string MethodTest { private set; get; }
-        public string PagerTest { private set; get; }
-        public string CommandTest { private set; get; }
-        public string IfTest { private set; get; }
-        public string ElseIfTest { private set; get; }
-        public string ElseTest { private set; get; }
-        public string TagPairEndTest { private set; get; }
-        public string ifTagKeyTest { private set; get; }
-        public string EmptyPairTest { private set; get; }
-        public string IfPairTest { private set; get; }
-        public string EmptyTest { private set; get; }
-        public string EndifTest { private set; get; }
+        public Regex ListTest { private set; get; }
+        public Regex ReadTest { private set; get; }
+        public Regex FormTest { private set; get; }
+        public Regex JsonTest { private set; get; }
+        public Regex LabelTest { private set; get; }
+        public Regex StaticTest { private set; get; }
+        public Regex FiledTest { private set; get; }
+        public Regex MethodTest { private set; get; }
+        public Regex PagerTest { private set; get; }
+        public Regex CommandTest { private set; get; }
+        public Regex IfTest { private set; get; }
+        public Regex ElseIfTest { private set; get; }
+        public Regex ElseTest { private set; get; }
+        public Regex TagPairEndTest { private set; get; }
+        public Regex ifTagKeyTest { private set; get; }
+        public Regex EmptyPairTest { private set; get; }
+        public Regex IfPairTest { private set; get; }
+        public Regex EmptyTest { private set; get; }
+        public Regex EndifTest { private set; get; }
         /********wrong tests*******/
-        public string RequestValue { private set; get; }
-        public string SessionValue { private set; get; }
-        public string CookieValue { private set; get; }
-        public string CallValue { private set; get; }
-        public string ItemValue { private set; get; }
-        public string ReadValue { private set; get; }
-        public string FormValue { private set; get; }
+        public Regex RequestValue { private set; get; }
+        public Regex SessionValue { private set; get; }
+        public Regex CookieValue { private set; get; }
+        public Regex CallValue { private set; get; }
+        public Regex ItemValue { private set; get; }
+        public Regex ReadValue { private set; get; }
+        public Regex FormValue { private set; get; }
         /********other tests*******/
-        public string JsCssImageTest { private set; get; }
-        public string CssBgTest { private set; get; }
-        public string ThisDirTest { private set; get; }
-        public string OtherDirTest { private set; get; }
-        public string ServerCodeTest { private set; get; }
-        public string ServerScriptTest { private set; get; }
+        public Regex JsCssImageTest { private set; get; }
+        public Regex CssBgTest { private set; get; }
+        public Regex ThisDirTest { private set; get; }
+        public Regex OtherDirTest { private set; get; }
+        public Regex ServerCodeTest { private set; get; }
+        public Regex ServerScriptTest { private set; get; }
         /********pairs tests*******/
-        public string TagPairTest { private set; get; }
+        public Regex TagPairTest { private set; get; }
         #endregion
 
         #region 标签内部字段提取正则表达式
-        protected string DataNameRegex { private set; get; }
-        protected string ItemPathRegex { private set; get; }
-        protected string BaseParamsRegex { private set; get; }
-        protected string FiledObjRegex { private set; get; }
-        protected string MethodObjRegex { private set; get; }
-        protected string PagerRegex { private set; get; }
-
+        private Regex DataNameRegex { set; get; }
+        private Regex ItemPathRegex { set; get; }
+        private Regex BaseParamsRegex { set; get; }
+        private Regex FiledObjRegex { set; get; }
+        private Regex MethodObjRegex { set; get; }
+        private Regex PagerRegex { set; get; }
         #endregion
+
+        public TagRegex(string tagLeft, string tagRight)
+        {
+
+            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:=|!=|>|<|>=|<=|%|!%)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|""""|"
+                            , @"(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|\w+\.\w+(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
+            #region 标签正则表达式
+            /********tag tests*******/
+            TagTest = new Regex(string.Concat(tagLeft, @"\s*\b.+?/?\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            ListTest = new Regex(string.Concat(tagLeft, "list=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ReadTest = new Regex(string.Concat(tagLeft, "read=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            FormTest = new Regex(string.Concat(tagLeft, "form=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            JsonTest = new Regex(string.Concat(tagLeft, "json=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            LabelTest = new Regex(string.Concat(tagLeft, @"label=\w+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            StaticTest = new Regex(string.Concat(tagLeft, @"static=\w+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            FiledTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*(?:\[""\w+""\])?/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            MethodTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*\([^\)]*\)/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            PagerTest = new Regex(string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight)
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            CommandTest = new Regex(string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.]+(?:&|<br/?>)?)+?/?", tagRight)
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            EmptyTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            /********value tests*******/
+            RequestValue = new Regex(@"request\.\w+", RegexOptions.IgnoreCase);
+            SessionValue = new Regex(@"session\.\w+", RegexOptions.IgnoreCase);
+            CookieValue = new Regex(@"cookie\.\w+", RegexOptions.IgnoreCase);
+            CallValue = new Regex(@"call\.\w+", RegexOptions.IgnoreCase);
+            ItemValue = new Regex(@"item\.\w+", RegexOptions.IgnoreCase);
+            ReadValue = new Regex(@"read\.\w+", RegexOptions.IgnoreCase);
+            FormValue = new Regex(@"form\.\w+", RegexOptions.IgnoreCase);
+            /********other tests*******/
+            JsCssImageTest = new Regex(@"<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:js|css|png|jpg|jpeg|gif|bmp))['""]"
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            CssBgTest = new Regex(@"background(?:\-image)?\s*:.*?url\s*\(['""]?(?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:png|jpg|jpeg|gif|bmp))\s*['""]?\)"
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ThisDirTest = new Regex(@"^[\w\-][\w\-\.]*/.*$", RegexOptions.IgnoreCase);
+            OtherDirTest = new Regex(@"^\.\./[\w\-][\w\-\.]*/.*$", RegexOptions.IgnoreCase);
+            ServerCodeTest = new Regex(@"<%(?<code>.*?)%>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ServerScriptTest = new Regex(@"<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>"
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            /********pairs tests*******/
+            TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*/?(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight)
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ifTagKeyTest = new Regex(string.Concat(tagLeft, @"\s*(?:else|endif)\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            TagPairTest = new Regex(string.Concat(tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
+                                                               "(?<style>.+?", tagLeft, @"\s*/?\1\s*", tagRight, ")(?-s)")
+                                                               , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            EmptyPairTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight, "(?<style>.+?)", tagLeft, @"\s*/?empty\s*", tagRight, "(?-s)")
+                                                               , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            /********if tests*******/
+            IfTest = new Regex(string.Concat(tagLeft, @"\s*if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft,
+                                @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")"), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ElseIfTest = new Regex(string.Concat(tagLeft, @"\s*el(?:se)?if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")")
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ElseTest = new Regex(string.Concat(tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?endif\s*", tagRight, ")")
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            EndifTest = new Regex(string.Concat(tagLeft, @"\s*(?:else|endif)\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            IfPairTest = new Regex(string.Concat(tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?endif\s*", tagRight)
+                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            #endregion
+
+            #region 标签内部字段提取正则表达式
+            DataNameRegex = new Regex(string.Concat(@"(?<=(?:list|read|label||form|json)=)\w+?(?=(\?|/?", tagRight, "))"), RegexOptions.IgnoreCase);
+            ItemPathRegex = new Regex(@"(?<=item=)\w+?(?=&|\||<[bh]r/?>|$)", RegexOptions.IgnoreCase);
+            BaseParamsRegex = new Regex(string.Concat(@"(?<=\?).*?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            FiledObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            MethodObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*\([^\)]*\)(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            PagerRegex = new Regex(string.Concat("(?<=", tagLeft, @")pager(\?(?:\w+=.+(&|<br/?>)?)*)?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            #endregion
+        }
 
         #region 标签内部字段提取方法
         public string getDataName(string Text)
         {
-            Match m = Regex.Match(Text, DataNameRegex, RegexOptions.IgnoreCase);
+            Match m = DataNameRegex.Match(Text);
             if (m.Success)
             {
                 return m.Value;
@@ -154,7 +165,7 @@ namespace Tag.Vows.Tool
 
         public string getItemPath(string baseParasm)
         {
-            Match m = Regex.Match(baseParasm, ItemPathRegex, RegexOptions.IgnoreCase);
+            Match m = ItemPathRegex.Match(baseParasm);
             if (m.Success)
             {
                 return m.Value;
@@ -164,7 +175,7 @@ namespace Tag.Vows.Tool
 
         public string getBaseParams(string Text)
         {
-            Match m = Regex.Match(Text, BaseParamsRegex, RegexOptions.IgnoreCase);
+            Match m = BaseParamsRegex.Match(Text);
             if (m.Success)
             {
                 return m.Value.EndsWith("&") ? m.Value.Remove(m.Value.Length - 1) : m.Value;
@@ -174,7 +185,7 @@ namespace Tag.Vows.Tool
 
         public string getFiledObj(string Text)
         {
-            Match m = Regex.Match(Text, FiledObjRegex, RegexOptions.IgnoreCase);
+            Match m = FiledObjRegex.Match(Text);
             if (m.Success)
             {
                 return m.Value;
@@ -184,7 +195,7 @@ namespace Tag.Vows.Tool
 
         public string getMethodObj(string Text)
         {
-            Match m = Regex.Match(Text, MethodObjRegex, RegexOptions.IgnoreCase);
+            Match m = MethodObjRegex.Match(Text);
             if (m.Success)
             {
                 return m.Value;
@@ -194,7 +205,7 @@ namespace Tag.Vows.Tool
 
         public string getPager(string Text)
         {
-            Match m = Regex.Match(Text, PagerRegex, RegexOptions.IgnoreCase);
+            Match m = PagerRegex.Match(Text);
             if (m.Success)
             {
                 return m.Value;

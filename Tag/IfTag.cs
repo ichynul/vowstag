@@ -96,7 +96,7 @@ namespace Tag.Vows.Tag
         public HashSet<string> GetFieldName()
         {
             var Fields = new HashSet<string>();
-            var matches = Regex.Matches(this.Test, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            var matches = this.Config.tagregex.ItemValue.Matches(this.Test);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -110,9 +110,9 @@ namespace Tag.Vows.Tag
         public void CheckTestContent()
         {
             if (!string.IsNullOrEmpty(this.ReadDataname) &&
-                Regex.IsMatch(this.Test, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase))
+                this.Config.tagregex.ReadValue.IsMatch(this.Test))
             {
-                var resdMatches = Regex.Matches(this.Test, this.Config.tagregex.ReadValue, RegexOptions.IgnoreCase);
+                var resdMatches = this.Config.tagregex.ReadValue.Matches(this.Test);
                 if (resdMatches.Count > 0)
                 {
                     ReadDataname = TempleHelper.getTempleHelper(this.Config).GetTableName(ReadDataname);
@@ -127,7 +127,7 @@ namespace Tag.Vows.Tag
                     }
                 }
             }
-            var matches = Regex.Matches(this.Test, this.Config.tagregex.ItemValue, RegexOptions.IgnoreCase);
+            var matches = this.Config.tagregex.ItemValue.Matches(this.Test);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -135,7 +135,7 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("<%# Eval(\"", m.Value.Split('.')[1], "\") %>"));
                 }
             }
-            matches = Regex.Matches(this.Test, this.Config.tagregex.SessionValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.SessionValue.Matches(this.Test);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -143,7 +143,7 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("Session[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            matches = Regex.Matches(this.Test, this.Config.tagregex.RequestValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.RequestValue.Matches(this.Test);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -151,7 +151,7 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("Request.QueryString[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            matches = Regex.Matches(this.Test, this.Config.tagregex.CookieValue, RegexOptions.IgnoreCase);
+            matches = this.Config.tagregex.CookieValue.Matches(this.Test);
             //需放在 RequestValue之后，避免混淆  如Request.Cookies["xxx"]
             if (matches.Count > 0)
             {
