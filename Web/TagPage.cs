@@ -29,6 +29,7 @@ using Tag.Vows.Web;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 using System.Web.UI;
+using System.Text.RegularExpressions;
 
 namespace Tag.Vows.Web
 {
@@ -109,14 +110,10 @@ namespace Tag.Vows.Web
                     _CallString = new NameValueCollection();
                     if (!string.IsNullOrEmpty(this._callBackstr))
                     {
-                        string[] arr = this._callBackstr.Split('&');
-                        foreach (var kv in arr)
+                        var matches = Regex.Matches(_callBackstr, @"(?<=^|&)\s*(?<key>\w+)\s*=(?<value>.*?)(?=&|$)", RegexOptions.Singleline);
+                        foreach (Match kv in matches)
                         {
-                            string[] v = kv.Split('=');
-                            if (v.Length == 2)
-                            {
-                                _CallString.Add(v[0], v[1]);
-                            }
+                            _CallString.Add(kv.Groups["key"].Value.Trim(), kv.Groups["value"].Value);
                         }
                     }
                 }
