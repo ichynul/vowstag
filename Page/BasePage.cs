@@ -404,8 +404,10 @@ namespace Tag.Vows.Page
             }
             //
             value = cmd.QueryString("callback");
-            this.CallBack = value != null
-                && value.ToLower() == "true";
+            if (!string.IsNullOrEmpty(value))
+            {
+                this.CallBack = value.ToLower() == "true";
+            }
             //
             value = cmd.QueryString("validaterequest");
             this.ValidateRequest = value != null

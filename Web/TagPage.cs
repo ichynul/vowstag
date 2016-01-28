@@ -113,7 +113,7 @@ namespace Tag.Vows.Web
                         var matches = Regex.Matches(_callBackstr, @"(?<=^|&)\s*(?<key>\w+)\s*=(?<value>.*?)(?=&|$)", RegexOptions.Singleline);
                         foreach (Match kv in matches)
                         {
-                            _CallString.Add(kv.Groups["key"].Value.Trim(), kv.Groups["value"].Value);
+                            _CallString.Add(kv.Groups["key"].Value, kv.Groups["value"].Value);
                         }
                     }
                 }

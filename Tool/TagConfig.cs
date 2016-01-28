@@ -56,7 +56,7 @@ namespace Tag.Vows.Tool
         public string entitiesName { private set; get; }
         /// <summary>
         /// 是否为所有页面生成callBack的js支持，默认为false。
-        /// 若设置为true，则无论页面中是否有callbase 指令都为每一个页面生成js支持
+        /// 若设置为true，则无论页面中是否有callbase 指令都为每一个页面生成js支持(除非页面中明确使用{cmd ?callback = false}指令)
         /// </summary>
         public bool creatScriptForAllPages = false;
         /// <summary>
