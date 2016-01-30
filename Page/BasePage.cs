@@ -50,6 +50,7 @@ namespace Tag.Vows.Page
         private string SubpageEntends = "SubControl";
         private bool? CallBack = null;
         private bool ValidateRequest = true;
+        private bool EnableViewState = false;
         //
         private string TagCallBack = "";
         public string Html { get; protected set; }
@@ -412,6 +413,9 @@ namespace Tag.Vows.Page
             value = cmd.QueryString("validaterequest");
             this.ValidateRequest = value != null
                 && value.ToLower() == "true";
+            value = cmd.QueryString("enableviewstate");
+            this.ValidateRequest = string.IsNullOrEmpty(value)
+                || value.ToLower() == "false";
         }
 
         /// <summary>
@@ -601,7 +605,7 @@ namespace Tag.Vows.Page
                         continue;
                     }
                 }
-                Html = c.RecoverTagText(Html);
+                Html = c.RecoverTagText(this.Html);
                 this.Msg += c.GetMsg();
             }
         }
@@ -750,8 +754,8 @@ namespace Tag.Vows.Page
             string aspxFile = this.PageName + type[1];
             string codeFile = this.PageName + type[2];
             StringBuilder AspxCode = new StringBuilder();
-            AspxCode.AppendFormat("<%@ {0} Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"{1}\" Inherits=\"{2}\"{3} %>\r\n"
-                , type[0], codeFile, className, this is IUC || !this.ValidateRequest ? "" : " ValidateRequest=\"true\"");
+            AspxCode.AppendFormat("<%@ {0} Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"{1}\" Inherits=\"{2}\"{3} {4} %>\r\n"
+                , type[0], codeFile, className, this is IUC || !this.ValidateRequest ? "" : " ValidateRequest=\"true\"", this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
             AspxCode.AppendFormat("\r\n", codeFile, className);
             WriteTagGit();
             AspxCode.Append(this.GetAspxCode());

@@ -4,113 +4,132 @@
         <name>TagCore</name>
     </assembly>
     <members>
-        <member name="T:Tag.Vows.Tag.BaseTag">
-             <summary>
-            2015/07/15
-            by lianghaiyun
-             </summary>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.#ctor(System.String,System.String,System.Int32,Tag.Vows.Tool.TagConfig,System.Int32)">
+        <member name="T:Tag.Vows.Web.CallBackResult">
             <summary>
-            构造函数
-            </summary>
-            <param name="mText">经过处理的标签文本（去除空格 \s*、br/hr替换）</param>
-            <param name="mOrigin">原始标签文本</param>
-            <param name="mDeep">嵌套深度</param>
-            <param name="config">配置</param>
-            <param name="no_">标签的递增编码</param>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.ReplaceTagText(System.String)">
-            <summary>
-            将标签文本替换成名称...{tagtext...} => tagname
-            </summary>
-            <param name="PageHtml"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.RecoverTagText(System.String)">
-            <summary>
-            将标签成名称替换为经过处理的文本... tagname => tagcode
-            </summary>
-            <param name="PageHtml"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.ConvertTagPair">
-            <summary>
-            当执行标签对转换时调用
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.GetTagName">
-            <summary>
-            获取标签名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.GetPlaceholderName">
-            <summary>
-            获取占位名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.GetMsg">
-            <summary>
-            获取生成时的错误信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.GetCodeForAspx">
-            <summary>
-            子类实现将标签转换为代码的具体逻辑
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.Discover">
-            <summary>
-            子类实现一些初始化工作
+            tagCall处理结果
             </summary>
         </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.ToTagString">
+        <member name="M:Tag.Vows.Web.CallBackResult.#ctor">
             <summary>
-            输出标签的内容，以供调试
+            CallBackResult构造
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Tag.Vows.Data.DataHelper.GetType(System.Object,System.String,System.Boolean@,System.String@)">
-            <summary>
-            根据给定的属性名称返回属性类型
-            </summary>
-            <param name="obj">实例</param>
-            <param name="name">字段名称</param>
-            <param name="isNullAble">是否为NullAble</param>
-            <param name="newName">新的名称（纠正大小写）</param>
-            <returns>字段类型</returns>
-        </member>
-        <member name="M:Tag.Vows.Data.DataHelper.GetPropertyName(System.Object,System.String)">
-            <summary>
-            获取字段的名称
-            </summary>
-            <param name="obj">实例</param>
-            <param name="name">字段名称（不区分大小写）</param>
-            <returns>字段的真实名称（区分大小写）</returns>
-        </member>
-        <member name="M:Tag.Vows.Data.DataHelper.GetProperty(System.Object,System.String)">
-            <summary>
-            根据字段名称获取字段
-            </summary>
-            <param name="obj">实例</param>
-            <param name="name">字段名称</param>
-            <returns>字段信息</returns>
         </member>
         <member name="M:Tag.Vows.Web.CallBackResult.#ctor(System.Object)">
             <summary>
              请求的结果
             </summary>
-            <param name="result">string 或 object</param>
+            <param name="result">请求的结果</param>
         </member>
-        <member name="T:Tag.Vows.Tag.StaticTag">
+        <member name="F:Tag.Vows.Web.CallBackResult.type">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Web.CallBackResult.result">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="T:Tag.Vows.Web.Method">
              <summary>
-            HeadTag 的摘要说明
+            Method 的摘要说明
              </summary>
+        </member>
+        <member name="T:Tag.Vows.Web.SubControl">
+             <summary>
+            供 label 或 sublist 使用的页面片段
+             </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.SubControl.config">
+            <summary>
+            用于保存站点及页面的通用信息
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.TimeFormat(System.Object)">
+            <summary>
+            格式化时间（默认） 
+            </summary>
+            <param name="time">时间</param>
+            <returns>经过格式化的时间</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.TimeFormat(System.Object,System.String)">
+            <summary>
+            格式化时间（按指定格式）
+            </summary>
+            <param name="time">时间</param>
+            <param name="format">格式</param>
+            <returns>经过格式化的时间</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.FloatFormat(System.Object,System.String)">
+            <summary>
+            格式化小数
+            </summary>
+            <param name="number">小数</param>
+            <param name="format">格式</param>
+            <returns>经过格式化的小数</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.SubString(System.Object,System.Int32)">
+            <summary>
+            截取指定长度的字符串
+            </summary>
+            <param name="str">字符串</param>
+            <param name="length">长度</param>
+            <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.ValueOf(System.Object)">
+            <summary>
+            将任意值转化为字符串
+            </summary>
+            <param name="obj">值</param>
+            <returns>转化为字符串</returns>
+        </member>
+        <member name="P:Tag.Vows.Web.SubControl.page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.JsonSerialize(System.Object)">
+            <summary>
+            输出json
+            </summary>
+            <param name="obj">obj</param>
+            <returns>jsonstr</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.RemovePageParams(System.String)">
+            <summary>
+            移除url中的 page = n 参数
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.SetConfig(System.Object)">
+            <summary>
+            SetConfig
+            </summary>
+            <param name="_config">_config</param>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.SetItem(System.Object)">
+            <summary>
+            为sublist指定上一级的实例
+            </summary>
+            <param name="mItem">mItem</param>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.SetDb(System.Object)">
+            <summary>
+            指定Eitities 实例
+            </summary>
+            <param name="db">Eitities db</param>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.GetDbObject">
+            <summary>
+            返回当前的 Eitities db 实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Tag.Vows.Web.TagPage">
+            <summary>
+            tag页面继承此类
+            </summary>
         </member>
         <member name="F:Tag.Vows.Web.TagPage.config">
             <summary>
@@ -121,6 +140,80 @@
             <summary>
             callBack 时请求参数
             </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.TimeFormat(System.Object)">
+            <summary>
+            格式化时间（默认） 
+            </summary>
+            <param name="time">时间</param>
+            <returns>经过格式化的时间</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.TimeFormat(System.Object,System.String)">
+            <summary>
+            格式化时间（按指定格式）
+            </summary>
+            <param name="time">时间</param>
+            <param name="format">格式</param>
+            <returns>经过格式化的时间</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.FloatFormat(System.Object,System.String)">
+            <summary>
+            格式化小数
+            </summary>
+            <param name="number">小数</param>
+            <param name="format">格式</param>
+            <returns>经过格式化的小数</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.SubString(System.Object,System.Int32)">
+            <summary>
+            截取指定长度的字符串
+            </summary>
+            <param name="str">字符串</param>
+            <param name="length">长度</param>
+            <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.ValueOf(System.Object)">
+            <summary>
+            将任意值转化为字符串
+            </summary>
+            <param name="obj">值</param>
+            <returns>转化为字符串</returns>
+        </member>
+        <member name="P:Tag.Vows.Web.TagPage.page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.JsonSerialize(System.Object)">
+            <summary>
+            输出json
+            </summary>
+            <param name="obj">obj</param>
+            <returns>jsonstr</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.RemovePageParams(System.String)">
+            <summary>
+            移除url中的 page = n 参数
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Tag.Vows.Web.TagPage.CallString">
+            <summary>
+            callBack请求的键值对
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.GetCallbackResult">
+            <summary>
+            用于获取一个tag或用法发起的callack请求结果
+            </summary>
+            <returns>CallBackResult</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.RaiseCallbackEvent(System.String)">
+            <summary>
+            处理 CallBack
+            </summary>
+            <param name="eventArgument">请求参数</param>
         </member>
         <member name="M:Tag.Vows.Web.TagPage.CallValue(System.String)">
             <summary>
@@ -140,6 +233,12 @@
             供 JsonTag和FormTag 重写，请勿手动重写本方法
             </summary>
             <returns>处理结果</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.GetDbObject">
+            <summary>
+            返回当前的 Eitities db 实例
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tag.Vows.Page.BasePage">
              <summary>
@@ -246,25 +345,85 @@
             生成页面
             </summary>
         </member>
-        <member name="T:Tag.Vows.Web.Method">
+        <member name="T:Tag.Vows.Tag.BaseTag">
              <summary>
-            Method 的摘要说明
+            2015/07/15
+            by lianghaiyun
              </summary>
         </member>
-        <member name="T:Tag.Vows.Tool.Pager">
+        <member name="M:Tag.Vows.Tag.BaseTag.#ctor(System.String,System.String,System.Int32,Tag.Vows.Tool.TagConfig,System.Int32)">
             <summary>
-            2015/07/25
-            by liagnhaiyun
+            构造函数
+            </summary>
+            <param name="mText">经过处理的标签文本（去除空格 \s*、br/hr替换）</param>
+            <param name="mOrigin">原始标签文本</param>
+            <param name="mDeep">嵌套深度</param>
+            <param name="config">配置</param>
+            <param name="no_">标签的递增编码</param>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.ReplaceTagText(System.String)">
+            <summary>
+            将标签文本替换成名称...{tagtext...} => tagname
+            </summary>
+            <param name="PageHtml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.RecoverTagText(System.String)">
+            <summary>
+            将标签成名称替换为经过处理的文本... tagname => tagcode
+            </summary>
+            <param name="PageHtml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.ConvertTagPair">
+            <summary>
+            当执行标签对转换时调用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.GetTagName">
+            <summary>
+            获取标签名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.GetPlaceholderName">
+            <summary>
+            获取占位名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.GetMsg">
+            <summary>
+            获取生成时的错误信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.GetCodeForAspx">
+            <summary>
+            子类实现将标签转换为代码的具体逻辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.BaseTag.Discover">
+            <summary>
+            子类实现一些初始化工作
             </summary>
         </member>
-        <member name="F:Tag.Vows.Web.SubControl.config">
+        <member name="M:Tag.Vows.Tag.BaseTag.ToTagString">
             <summary>
-            用于保存站点及页面的通用信息
+            输出标签的内容，以供调试
             </summary>
+            <returns></returns>
         </member>
-        <member name="F:Tag.Vows.Web.SubControl._page">
+        <member name="T:Tag.Vows.Tag.StaticTag">
+             <summary>
+            HeadTag 的摘要说明
+             </summary>
+        </member>
+        <member name="T:Tag.Vows.Tool.TagConfig">
             <summary>
-            callBack 时请求参数
+            标签解析入口工具类
             </summary>
         </member>
         <member name="F:Tag.Vows.Tool.TagConfig.MAXDEEP">
@@ -280,6 +439,16 @@
         <member name="F:Tag.Vows.Tool.TagConfig.protected_tables">
             <summary>
             受保护的表名，多个用|分割。
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.dbNameSpace">
+            <summary>
+            Entities 类的命名空间，自动获取
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.entitiesName">
+            <summary>
+            Entities 类的类名，自动获取
             </summary>
         </member>
         <member name="F:Tag.Vows.Tool.TagConfig.creatScriptForAllPages">
@@ -309,6 +478,16 @@
             是否执行标签转换
             </summary>
         </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.tagLeft">
+            <summary>
+            标签左标识
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.tagRight">
+            <summary>
+            标签右标识
+            </summary>
+        </member>
         <member name="M:Tag.Vows.Tool.TagConfig.MakePage(System.String,System.String@)">
             <summary>
             页面入口，需要页面结构信息
@@ -324,22 +503,6 @@
             <param name="pagename">页面名称</param>
             <returns>页面错误信息</returns>
         </member>
-        <member name="M:Tag.Vows.Tool.TagConfig.GetOutputAbsoPath">
-            <summary>
-            获取绝对输出路径
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Tag.Vows.Tool.TagConfig.dbNameSpace">
-            <summary>
-            Entities 类的命名空间，自动获取
-            </summary>
-        </member>
-        <member name="P:Tag.Vows.Tool.TagConfig.entitiesName">
-            <summary>
-            Entities 类的类名，自动获取
-            </summary>
-        </member>
         <member name="P:Tag.Vows.Tool.TagConfig.current_pairs">
             <summary>
             生成页面时使用的标签对支持正则表达式
@@ -354,25 +517,174 @@
             请设置输出目录的相对路径
             </summary>
         </member>
+        <member name="M:Tag.Vows.Tool.TagConfig.GetOutputAbsoPath">
+            <summary>
+            获取绝对输出路径
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Tag.Vows.Tool.TagConfig.db">
             <summary>
             请传入Entities类的实例，
             </summary>
+        </member>
+        <member name="T:Tag.Vows.Tool.Pager">
+            <summary>
+            2015/07/25
+            by liagnhaiyun
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.ListSize">
+            <summary>
+            list总记录数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Current_page">
+            <summary>
+            当前页码
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Num_display">
+            <summary>
+            显示页码数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.PageSize">
+            <summary>
+            每页显示记录数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Num_edge">
+            <summary>
+            左右两边显示的页码数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Link_to">
+            <summary>
+            跳转链接
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Prev_text">
+            <summary>
+            上一页的文本
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Next_text">
+            <summary>
+            下一页的文本
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.Ellipse_text">
+            <summary>
+            省略号...
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.PrevOrNext_show">
+            <summary>
+            始终显示 上一页、下一页
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.TotalPage">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Tool.Pager.htmlLinks">
+            <summary>
+            生成的html
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Tool.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            构造函数（基本参数）
+            </summary>
+            <param name="mListSize">list总记录数</param>
+            <param name="mCunrrent">当前页码</param>
+            <param name="mPageSize">每页显示记录数</param>
+            <param name="mLink">跳转链接</param>
+        </member>
+        <member name="M:Tag.Vows.Tool.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            构造函数（详细参数）
+            </summary>
+            <param name="mListSize">list总记录数</param>
+            <param name="mCunrrent">当前页码</param>
+            <param name="mPageSize">每页显示记录数</param>
+            <param name="mLink">跳转链接</param>
+            <param name="mNum_edge">左右两边显示的页码数</param>
+            <param name="mPrev_text">上一页的文本</param>
+            <param name="mNext_text">下一页的文本</param>
+            <param name="mEllipse_text">省略号...</param>
+            <param name="mPrevOrNext_show">始终显示 上一页、下一页</param>
+        </member>
+        <member name="M:Tag.Vows.Tool.Pager.GaculTotalPages">
+            <summary>
+            计算总共有几页
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Tool.Pager.MakeLinks">
+            <summary>
+            生成html
+            </summary>
+            <returns>html</returns>
+        </member>
+        <member name="T:Tag.Vows.Data.DataHelper">
+            <summary>
+            DataHelper 的摘要说明
+            2015/07/10
+            lianghaiyun
+            </summary>
+            
+        </member>
+        <member name="M:Tag.Vows.Data.DataHelper.GetType(System.Object,System.String,System.Boolean@,System.String@)">
+            <summary>
+            根据给定的属性名称返回属性类型
+            </summary>
+            <param name="obj">实例</param>
+            <param name="name">字段名称</param>
+            <param name="isNullAble">是否为NullAble</param>
+            <param name="newName">新的名称（纠正大小写）</param>
+            <returns>字段类型</returns>
+        </member>
+        <member name="M:Tag.Vows.Data.DataHelper.GetPropertyName(System.Object,System.String)">
+            <summary>
+            获取字段的名称
+            </summary>
+            <param name="obj">实例</param>
+            <param name="name">字段名称（不区分大小写）</param>
+            <returns>字段的真实名称（区分大小写）</returns>
+        </member>
+        <member name="M:Tag.Vows.Data.DataHelper.GetProperty(System.Object,System.String)">
+            <summary>
+            根据字段名称获取字段
+            </summary>
+            <param name="obj">实例</param>
+            <param name="name">字段名称</param>
+            <returns>字段信息</returns>
+        </member>
+        <member name="T:Tag.Vows.Data.TempleHelper">
+            <summary>
+            TempleHelper 的摘要说明
+            2015/07/10
+            lianghaiyun
+            </summary>
+            
         </member>
         <member name="M:Tag.Vows.Data.TempleHelper.Linq_getJson(System.String,System.String,System.String@,System.String)">
             <summary>
             拼接Json查询语句
             </summary>
             <param name="listname">要获取数据的表名称</param>
-            <param name="panmes">字段名称数组</param>
-            <param name="where">查询条件</param>
+            <param name="baseParms">标签参数</param>
+            <param name="modType">输出表对应实体的类型</param>
+            <param name="tagName">查询条件</param>
             <returns></returns>
         </member>
         <member name="M:Tag.Vows.Data.TempleHelper.GetModObj(System.String)">
             <summary>
             根据表名返回一个表的实例 
             </summary>
-            <param name="dataname">表名</param>
+            <param name="tableName">表名</param>
             <returns>实例</returns>
         </member>
         <member name="M:Tag.Vows.Data.TempleHelper.GetTableName(System.String)">

@@ -25,20 +25,32 @@ SOFTWARE.
 #endregion
 namespace Tag.Vows.Web
 {
+    /// <summary>
+    /// tagCall处理结果
+    /// </summary>
     public class CallBackResult
     {
+        /// <summary>
+        /// CallBackResult构造
+        /// </summary>
         protected CallBackResult() { }
 
         /// <summary>
         ///  请求的结果
         /// </summary>
-        /// <param name="result">string 或 object</param>
+        /// <param name="result">请求的结果</param>
         public CallBackResult(object result)
         {
             this.result = result;
         }
 
+        /// <summary>
+        /// 请求类型
+        /// </summary>
         public string type = "none";
+        /// <summary>
+        /// 请求类型
+        /// </summary>
         public object result { get; private set; }
     }
 }

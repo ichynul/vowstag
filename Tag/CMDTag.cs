@@ -52,14 +52,10 @@ namespace Tag.Vows.Tag
             _cmdParams = new NameValueCollection();
             if (!string.IsNullOrEmpty(this.BaseParams))
             {
-                string[] arr = BaseParams.Split('&');
-                foreach (var kv in arr)
+                var matches = Regex.Matches(BaseParams, @"(?<=^|&)\s*(?<key>\w+)\s*=\s*(?<value>.*?)\s*(?=&|$)", RegexOptions.Singleline);
+                foreach (Match kv in matches)
                 {
-                    string[] v = kv.Split('=');
-                    if (v.Length == 2)
-                    {
-                        _cmdParams.Add(v[0], v[1]);
-                    }
+                    _cmdParams.Add(kv.Groups["key"].Value, kv.Groups["value"].Value.Trim());
                 }
             }
         }

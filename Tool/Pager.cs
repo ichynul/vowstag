@@ -36,21 +36,63 @@ namespace Tag.Vows.Tool
     /// </summary>
     public class Pager
     {
+        /// <summary>
+        /// list总记录数
+        /// </summary>
         protected int ListSize;
+        /// <summary>
+        /// 当前页码
+        /// </summary>
         protected int Current_page;
+        /// <summary>
+        /// 显示页码数
+        /// </summary>
         protected int Num_display = 10;
+        /// <summary>
+        /// 每页显示记录数
+        /// </summary>
         protected int PageSize;
+        /// <summary>
+        /// 左右两边显示的页码数
+        /// </summary>
         protected int Num_edge = 3;
+        /// <summary>
+        /// 跳转链接
+        /// </summary>
         protected string Link_to = "";
+        /// <summary>
+        /// 上一页的文本
+        /// </summary>
         protected string Prev_text = "上一页";
+        /// <summary>
+        /// 下一页的文本
+        /// </summary>
         protected string Next_text = "下一页";
+        /// <summary>
+        /// 省略号...
+        /// </summary>
         protected string Ellipse_text = "...";
+        /// <summary>
+        /// 始终显示 上一页、下一页
+        /// </summary>
         protected bool PrevOrNext_show = true;
-
+        /// <summary>
+        /// 总页数
+        /// </summary>
         protected int TotalPage;
 
+        /// <summary>
+        /// 生成的html
+        /// </summary>
         protected StringBuilder htmlLinks;
 
+        /// <summary>
+        /// 构造函数（基本参数）
+        /// </summary>
+        /// <param name="mListSize">list总记录数</param>
+        /// <param name="mCunrrent">当前页码</param>
+        /// <param name="mPageSize">每页显示记录数</param>
+        /// <param name="mLink">跳转链接</param>
         public Pager(int mListSize, int mCunrrent, int mPageSize, string mLink)
         {
             this.ListSize = mListSize;
@@ -68,6 +110,18 @@ namespace Tag.Vows.Tool
             this.GaculTotalPages();
         }
 
+        /// <summary>
+        /// 构造函数（详细参数）
+        /// </summary>
+        /// <param name="mListSize">list总记录数</param>
+        /// <param name="mCunrrent">当前页码</param>
+        /// <param name="mPageSize">每页显示记录数</param>
+        /// <param name="mLink">跳转链接</param>
+        /// <param name="mNum_edge">左右两边显示的页码数</param>
+        /// <param name="mPrev_text">上一页的文本</param>
+        /// <param name="mNext_text">下一页的文本</param>
+        /// <param name="mEllipse_text">省略号...</param>
+        /// <param name="mPrevOrNext_show">始终显示 上一页、下一页</param>
         public Pager(int mListSize, int mCunrrent, int mPageSize, string mLink, int mNum_edge, string mPrev_text, string mNext_text, string mEllipse_text, bool mPrevOrNext_show)
         {
             this.ListSize = mListSize;
@@ -91,11 +145,9 @@ namespace Tag.Vows.Tool
             this.GaculTotalPages();
         }
 
-        public void SetPagesize(int psize)
-        {
-            this.PageSize = psize;
-        }
-
+        /// <summary>
+        /// 计算总共有几页
+        /// </summary>
         protected void GaculTotalPages()
         {
             TotalPage = ListSize / PageSize;
@@ -113,6 +165,10 @@ namespace Tag.Vows.Tool
             Num_edge = Num_edge < 1 ? 1 : Num_edge;
         }
 
+        /// <summary>
+        /// 生成html
+        /// </summary>
+        /// <returns>html</returns>
         public string MakeLinks()
         {
             htmlLinks = new StringBuilder();

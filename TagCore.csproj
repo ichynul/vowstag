@@ -45,6 +45,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\ITesToLoad.cs" />
     <Compile Include="Web\CallBackResult.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />

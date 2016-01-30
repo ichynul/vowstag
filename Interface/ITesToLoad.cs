@@ -1,4 +1,4 @@
-#region  The MIT License (MIT)
+﻿#region  The MIT License (MIT)
 /*
 The MIT License (MIT)
 
@@ -25,14 +25,9 @@ SOFTWARE.
 #endregion
 namespace Tag.Vows.Interface
 {
-    interface IComTools
+    interface ITesToLoad
     {
-        string TimeFormat(object time);
-        string TimeFormat(object time, string format);
-        string FloatFormat(object number, string format);
-        string SubString(object str, int length);
-        string ValueOf(object str);
-        string RemovePageParams(string url);
-        string JsonSerialize(object obj);
+        void SetTest(string test);
+        bool isTest();
     }
 }

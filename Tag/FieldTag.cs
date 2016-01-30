@@ -92,21 +92,22 @@ namespace Tag.Vows.Tag
 
         protected override string GetCodeForAspx()
         {
+
             if (this.Type == FieldType.page)
             {
                 return "<% = page %>";
             }
-            if (this.Type == FieldType.request_value)
+            else if (this.Type == FieldType.request_value)
             {
                 return string.Format("<% = Request.QueryString[\"{0}\"] %>", mParams[1]);
             }
             else if (this.Type == FieldType.session_value)
             {
-                return string.Format("<% = \"\" + Session[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% =  Session[\"{0}\"] %>", mParams[1]);
             }
             else if (this.Type == FieldType.cookie_value)
             {
-                return string.Format("<% = \"\" + Request.Cookies[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% = Request.Cookies[\"{0}\"] %>", mParams[1]);
             }
             else if (this.Type == FieldType.item_value)
             {
@@ -114,7 +115,7 @@ namespace Tag.Vows.Tag
                 {
                     string name = mParams[0];
                     string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
-                    return string.Format("<% ={0}.{1} %>", name, itemField);
+                    return string.Format("<% = {0}.{1} %>", name, itemField);
                 }
                 else
                 {
@@ -129,7 +130,7 @@ namespace Tag.Vows.Tag
                 {
                     string name = mParams[0];
                     string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
-                    return string.Format("<% ={0}.{1} %>", name, itemField);
+                    return string.Format("<% ={ 0}.{1} %>", name, itemField);
                 }
                 return this.Text;
             }
@@ -139,7 +140,7 @@ namespace Tag.Vows.Tag
             }
             else
             {
-                return string.Format("<% ={0} %>", this.Obj);
+                return string.Format("<% = {0} %>", this.Obj);
             }
         }
 

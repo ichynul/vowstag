@@ -36,14 +36,15 @@ using Tag.Vows.Page;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
-/// <summary>
-/// TempleHelper 的摘要说明
-/// 2015/07/10
-/// lianghaiyun
-/// </summary>
-/// 
+
 namespace Tag.Vows.Data
 {
+    /// <summary>
+    /// TempleHelper 的摘要说明
+    /// 2015/07/10
+    /// lianghaiyun
+    /// </summary>
+    /// 
     internal sealed class TempleHelper
     {
         private object UpperDataModel = null;
@@ -621,10 +622,11 @@ namespace Tag.Vows.Data
         /// 拼接Json查询语句
         /// </summary>
         /// <param name="listname">要获取数据的表名称</param>
-        /// <param name="panmes">字段名称数组</param>
-        /// <param name="where">查询条件</param>
+        /// <param name="baseParms">标签参数</param>
+        /// <param name="modType">输出表对应实体的类型</param>
+        /// <param name="tagName">查询条件</param>
         /// <returns></returns>
-        internal string Linq_getJson(string listname, string baseParms, out string modType, string tagNaem)
+        internal string Linq_getJson(string listname, string baseParms, out string modType, string tagName)
         {
             modType = "";
             object model = GetModObj(listname);
@@ -638,7 +640,7 @@ namespace Tag.Vows.Data
             }
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + baseParms + "*/\r\n");
             linq.AppendFormat("{0}string jsonname = this.CallValue(\"jsonname\");\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}if (jsonname != \"{1}\")\r\n", Method.getSpaces(2), tagNaem);
+            linq.AppendFormat("{0}if (jsonname != \"{1}\")\r\n", Method.getSpaces(2), tagName);
             linq.Append(Method.getSpaces(2) + "{\r\n");
             linq.Append(Method.getSpaces(3) + "return null;\r\n");
             linq.Append(Method.getSpaces(2) + "}\r\n");
@@ -780,7 +782,7 @@ namespace Tag.Vows.Data
             }
             linq.AppendFormat(".Skip((__page - 1) * {0}).Take({0});\r\n", pagesize);
             linq.AppendFormat("{0}dynamic json = new ExpandoObject();\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}json.jsonname = \"{1}\";\r\n", Method.getSpaces(2), tagNaem);
+            linq.AppendFormat("{0}json.jsonname = \"{1}\";\r\n", Method.getSpaces(2), tagName);
             linq.AppendFormat("{0}json.tagstr = \"{1}\";\r\n", Method.getSpaces(2), baseParms);
             linq.AppendFormat("{0}json.callstr = _callBackstr;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}json.skip = (__page - 1) * {1};\r\n", Method.getSpaces(2), pagesize);
@@ -889,7 +891,7 @@ namespace Tag.Vows.Data
         /// <summary>
         /// 根据表名返回一个表的实例 
         /// </summary>
-        /// <param name="dataname">表名</param>
+        /// <param name="tableName">表名</param>
         /// <returns>实例</returns>
         internal object GetModObj(string tableName)
         {

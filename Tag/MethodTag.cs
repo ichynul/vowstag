@@ -122,7 +122,7 @@ namespace Tag.Vows.Tag
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            return string.Format("<% ={0} %>", this.Obj);
+            return string.Format("<% = {0} %>", this.Obj);
         }
 
         public override string ToTagString()

@@ -23,21 +23,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tag.Vows.Interface;
-using Tag.Vows.Enum;
-using Tag.Vows.Web;
 using Tag.Vows.Data;
+using Tag.Vows.Enum;
+using Tag.Vows.Interface;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
+using Tag.Vows.Web;
 
 namespace Tag.Vows.Tag
 {
     class ListTag : StyleAbleTag, IGlobalMethod, IDeepLoadAble, ISubAble
-        , IGlobalField, IUpperDataAble, ITableUseable
+        , IGlobalField, IUpperDataAble, ITableUseable, ITesToLoad
     {
         protected new IHtmlAble SubPage;
         private string BaseParams;
@@ -54,6 +53,7 @@ namespace Tag.Vows.Tag
         public bool Inside_Read { get; private set; }
         public bool HasReadParams { get; private set; }
         protected bool isSublist;
+        private bool TestToLoad;
 
         public ListTag(string mtext, string origin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, origin, Deep, config, no_)
@@ -294,6 +294,16 @@ namespace Tag.Vows.Tag
         public string TabledisAbledMsg()
         {
             return string.Format("数据表{0}已被设置为不可用，您无权操作该表！", this.DataName);
+        }
+
+        public void SetTest(string test)
+        {
+            this.TestToLoad = true;
+        }
+
+        public bool isTest()
+        {
+            return this.TestToLoad;
         }
     }
 }

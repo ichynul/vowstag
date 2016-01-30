@@ -23,19 +23,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Tag.Vows.Interface;
-using Tag.Vows.Enum;
-using Tag.Vows.Web;
 using Tag.Vows.Data;
+using Tag.Vows.Enum;
+using Tag.Vows.Interface;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
+using Tag.Vows.Web;
 
 namespace Tag.Vows.Tag
 {
-    class ReadTag : StyleAbleTag, IGlobalField, IGlobalMethod, ITableUseable, ISubAble
+    class ReadTag : StyleAbleTag, IGlobalField, IGlobalMethod, ITableUseable
+        , ISubAble, ITesToLoad
     {
         protected new ReadPage SubPage;
         private string BaseParams;
@@ -44,6 +44,8 @@ namespace Tag.Vows.Tag
         private string ModType = "";
         private string modType;
         private List<Method> subLsitMethod;
+        private bool TestToLoad;
+
         public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
         {
@@ -145,6 +147,16 @@ namespace Tag.Vows.Tag
             this.SubPage = new ReadPage(this.Style, Deep, this.Config);
             this.SubPage.SetUpperDataName(this.DataName, FieldType.read_value);
             this.subLsitMethod = this.SubPage.getListMethods(this.DataName);
+        }
+
+        public void SetTest(string test)
+        {
+            this.TestToLoad = true;
+        }
+
+        public bool isTest()
+        {
+            return this.TestToLoad;
         }
     }
 }

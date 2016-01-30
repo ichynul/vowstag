@@ -39,7 +39,7 @@ namespace Tag.Vows.Tag
         protected int NO_ = 0;
         protected TagConfig Config;
         protected string TagName;
-        protected string PlaceholderName;
+        protected string PlaceHolderName;
         public bool In_Pairs { get; private set; }
         public string Text { get; protected set; }
         public string Origin { get; protected set; }
@@ -64,7 +64,7 @@ namespace Tag.Vows.Tag
             this.Origin = mOrigin;
             this.NO_ = no_;
             this.TagName = string.Concat(this.GetType().Name, "_", this.Text.Length, "_", (this.NO_ + 1));
-            this.PlaceholderName = string.Concat(this.GetType().Name, this.Text.Length, (this.NO_ + 1));
+            this.PlaceHolderName = string.Concat("#", this.TagName, "#");
             this.In_Pairs = this.Text.LastIndexOf('/') != this.Text.Length - 2;
             this.Discover();
         }
@@ -76,7 +76,7 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string ReplaceTagText(string PageHtml)
         {
-            string newHtml = PageHtml.Replace(this.Text, this.PlaceholderName);
+            string newHtml = PageHtml.Replace(this.Text, this.PlaceHolderName);
             return newHtml;
         }
 
@@ -87,7 +87,7 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
-            string newHtml = PageHtml.Replace(this.PlaceholderName, this.GetCodeForAspx());
+            string newHtml = PageHtml.Replace(this.PlaceHolderName, this.GetCodeForAspx());
             return newHtml;
         }
 
@@ -120,7 +120,7 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string GetPlaceholderName()
         {
-            return this.PlaceholderName;
+            return this.PlaceHolderName;
         }
 
         /// <summary>

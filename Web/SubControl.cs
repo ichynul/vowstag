@@ -29,44 +29,73 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Web
 {
-
+    /// <summary>
+    ///供 label 或 sublist 使用的页面片段
+    /// </summary>
     public abstract class SubControl : UserControl, IComTools
     {
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
         protected dynamic config;
-        /// <summary>
-        /// callBack 时请求参数
-        /// </summary>
         private int _page;
         private Tools _tools;
 
+        /// <summary>
+        /// 格式化时间（默认） 
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>经过格式化的时间</returns>
         public string TimeFormat(object time)
         {
             return tools.TimeFormat(time);
         }
-
+        /// <summary>
+        /// 格式化时间（按指定格式）
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="format">格式</param>
+        /// <returns>经过格式化的时间</returns>
         public string TimeFormat(object time, string format)
         {
             return tools.TimeFormat(time, format);
         }
 
+        /// <summary>
+        /// 格式化小数
+        /// </summary>
+        /// <param name="number">小数</param>
+        /// <param name="format">格式</param>
+        /// <returns>经过格式化的小数</returns>
         public string FloatFormat(object number, string format)
         {
             return tools.FloatFormat(number, format);
         }
 
+        /// <summary>
+        /// 截取指定长度的字符串
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="length">长度</param>
+        /// <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
         public string SubString(object str, int length)
         {
             return tools.SubString(str, length);
         }
 
+        /// <summary>
+        /// 将任意值转化为字符串
+        /// </summary>
+        /// <param name="obj">值</param>
+        /// <returns>转化为字符串</returns>
         public string ValueOf(object obj)
         {
             return tools.ValueOf(obj);
         }
 
+        /// <summary>
+        /// 页码
+        /// </summary>
         protected int page
         {
             get
@@ -80,6 +109,21 @@ namespace Tag.Vows.Web
             }
         }
 
+        /// <summary>
+        /// 输出json
+        /// </summary>
+        /// <param name="obj">obj</param>
+        /// <returns>jsonstr</returns>
+        public string JsonSerialize(object obj)
+        {
+            return this.tools.JsonSerialize(obj);
+        }
+
+        /// <summary>
+        /// 移除url中的 page = n 参数
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public string RemovePageParams(string url)
         {
             return tools.RemovePageParams(url);
@@ -97,15 +141,31 @@ namespace Tag.Vows.Web
             }
         }
 
+        /// <summary>
+        /// SetConfig
+        /// </summary>
+        /// <param name="_config">_config</param>
         public void SetConfig(dynamic _config)
         {
             this.config = _config;
         }
 
+        /// <summary>
+        /// 为sublist指定上一级的实例
+        /// </summary>
+        /// <param name="mItem">mItem</param>
         public virtual void SetItem(object mItem) { }
 
+        /// <summary>
+        /// 指定Eitities 实例
+        /// </summary>
+        /// <param name="db">Eitities db</param>
         public virtual void SetDb(object db) { }
 
+        /// <summary>
+        /// 返回当前的 Eitities db 实例
+        /// </summary>
+        /// <returns></returns>
         protected virtual object GetDbObject()
         {
             return null;

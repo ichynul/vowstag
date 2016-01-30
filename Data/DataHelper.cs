@@ -28,14 +28,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-/// <summary>
-/// DataHelper 的摘要说明
-/// 2015/07/10
-/// lianghaiyun
-/// </summary>
-/// 
 namespace Tag.Vows.Data
 {
+    /// <summary>
+    /// DataHelper 的摘要说明
+    /// 2015/07/10
+    /// lianghaiyun
+    /// </summary>
+    /// 
     internal sealed class DataHelper
     {
         private static Dictionary<string, string> _dataTypes;

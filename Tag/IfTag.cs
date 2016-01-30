@@ -132,7 +132,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Test = this.Test.Replace(m.Value, string.Concat("<%# Eval(\"", m.Value.Split('.')[1], "\") %>"));
+                    this.Test = this.Test.Replace(m.Value, string.Concat("<%# ValueOf(Eval(\"", m.Value.Split('.')[1], "\")) %>"));
                 }
             }
             matches = this.Config.tagregex.SessionValue.Matches(this.Test);

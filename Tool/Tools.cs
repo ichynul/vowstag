@@ -105,7 +105,7 @@ namespace Tag.Vows.Tool
         {
             if (obj == null)
             {
-                return "";
+                return "null";
             }
             return obj.ToString();
         }

@@ -31,6 +31,9 @@ using Tag.Vows.Page;
 
 namespace Tag.Vows.Tool
 {
+    /// <summary>
+    /// 标签解析入口工具类
+    /// </summary>
     public class TagConfig
     {
         internal TagRegex tagregex;
@@ -85,7 +88,13 @@ namespace Tag.Vows.Tool
         /// 是否执行标签转换
         /// </summary>
         public bool convert;
+        /// <summary>
+        /// 标签左标识
+        /// </summary>
         public string tagLeft { private set; get; }
+        /// <summary>
+        /// 标签右标识
+        /// </summary>
         public string tagRight { private set; get; }
 
         internal bool Init()

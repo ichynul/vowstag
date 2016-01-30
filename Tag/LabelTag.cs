@@ -32,11 +32,14 @@ using Tag.Vows.Tool;
 namespace Tag.Vows.Tag
 {
     class LabelTag : BaseTag, IGlobalMethod, IDeepLoadAble, ISubAble
+        , ITesToLoad
     {
         public string LabeName;
         private Method loadAscx;
         private string ParPageName;
         protected new IHtmlAble SubPage;
+        private bool TestToLoad;
+
         public LabelTag(string mtext, string mOrigin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
         {
@@ -115,6 +118,16 @@ namespace Tag.Vows.Tag
                 s += "============子页面完=========<br />";
             }
             return s;
+        }
+
+        public void SetTest(string test)
+        {
+            this.TestToLoad = true;
+        }
+
+        public bool isTest()
+        {
+            return this.TestToLoad;
         }
     }
 }
