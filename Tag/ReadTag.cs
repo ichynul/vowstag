@@ -25,17 +25,17 @@ SOFTWARE.
 #endregion
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
-using Tag.Vows.Web;
 
 namespace Tag.Vows.Tag
 {
-    class ReadTag : StyleAbleTag, IGlobalField, IGlobalMethod, ITableUseable
-        , ISubAble, ITesToLoad
+    class ReadTag : StyleAbleTag, IGlobalField, IPageLoadMethod, ITableUseable
+        , ISubAble, ITesBeforLoading
     {
         protected new ReadPage SubPage;
         private string BaseParams;
@@ -44,7 +44,8 @@ namespace Tag.Vows.Tag
         private string ModType = "";
         private string modType;
         private List<Method> subLsitMethod;
-        private bool TestToLoad;
+        private bool TestBeforLoad;
+        private string BeforLoadTestStr;
 
         public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
@@ -76,27 +77,30 @@ namespace Tag.Vows.Tag
             return "【全局名称" + this.GetTagName() + ",标签类型：read，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
         }
 
-        public Method GetGloabalMethod()
+        public Method GetPageLoadMethod()
         {
             if (ReadData == null)
             {
                 ReadData = new Method();
-                ReadData.name = "Bind_" + this.GetTagName();
-                ReadData.in_page_load = true;
+                ReadData.Name = "Bind_" + this.GetTagName();
+                ReadData.InPageLoad = true;
+                ReadData.WillTestBeforLoad = this.TestBeforLoad;
+                ReadData.TestLoadStr = this.BeforLoadTestStr;
+
                 if (!CheckDataUseable())
                 {
-                    ReadData.body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
+                    ReadData.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
                 }
                 else
                 {
-                    ReadData.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
+                    ReadData.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
                     if (this.HasStyle())
                     {
                         if (subLsitMethod != null)
                         {
                             foreach (var x in subLsitMethod)
                             {
-                                ReadData.body.AppendFormat("{0}{1}({2});\r\n", Method.getSpaces(2), x.name, this.TagName);
+                                ReadData.Body.AppendFormat("{0}{1}({2});\r\n", Method.getSpaces(2), x.Name, this.TagName);
                             }
                         }
                     }
@@ -111,8 +115,8 @@ namespace Tag.Vows.Tag
             {
                 foreach (Method x in subLsitMethod)
                 {
-                    x.parsmstr = string.Concat(ModType, " read");
-                    x.use_parsm = this.TagName;
+                    x.ParsmStr = string.Concat(ModType, " read");
+                    x.UseParams = this.TagName;
                 }
             }
             return subLsitMethod;
@@ -130,6 +134,15 @@ namespace Tag.Vows.Tag
         public string getNewReadName()
         {
             return string.Concat("read_", this.TagName);
+        }
+
+        /// <summary>
+        /// 获取占位名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetPlaceholderName()
+        {
+            return this.PlaceHolderName;
         }
 
         public bool CheckDataUseable()
@@ -151,12 +164,8 @@ namespace Tag.Vows.Tag
 
         public void SetTest(string test)
         {
-            this.TestToLoad = true;
-        }
-
-        public bool isTest()
-        {
-            return this.TestToLoad;
+            this.BeforLoadTestStr = test;
+            this.TestBeforLoad = true;
         }
     }
 }

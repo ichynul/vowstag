@@ -25,11 +25,10 @@ SOFTWARE.
 #endregion
 using System;
 using System.Collections.Specialized;
-using Tag.Vows.Web;
+using System.Text.RegularExpressions;
+using System.Web.UI;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
-using System.Web.UI;
-using System.Text.RegularExpressions;
 
 namespace Tag.Vows.Web
 {
@@ -48,6 +47,10 @@ namespace Tag.Vows.Web
         protected string _callBackstr;
         private int _page;
         private Tools _tools;
+        /// <summary>
+        /// 在Page_Load里加载各标签前判断，若返回false则标签都不会加载
+        /// </summary>
+        protected Func<bool> Befor_Load_Tags = () => { return true; };
 
         private NameValueCollection _CallString;
 

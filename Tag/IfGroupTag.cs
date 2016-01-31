@@ -23,15 +23,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Tag.Vows.Interface;
+using Tag.Vows.Bean;
 using Tag.Vows.Enum;
+using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class IfGroupTag : BaseTag, IMethodDataAble
+    class IfGroupTag : BaseTag, IMethodDataAble, ITestGroup, ITesBeforLoading
     {
         private List<IfTag> IfTags;
         protected MatchCollection matches;
@@ -46,7 +48,7 @@ namespace Tag.Vows.Tag
         {
             foreach (var iftag in this.IfTags)
             {
-                this.Text = this.Text.Replace(iftag.Text, iftag.GetCode());
+                this.Text = this.Text.Replace(iftag.Text, iftag.GetIfCode());
             }
             this.Text = this.Config.tagregex.ifTagKeyTest.Replace(this.Text, string.Empty);
             return this.Text;
@@ -59,24 +61,21 @@ namespace Tag.Vows.Tag
             if (match.Success)
             {
                 IfTag iftag = new IfTag(match.Value, IfType._if, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTest(match.Groups["test"].Value);
-                iftag.SetContent(match.Groups["content"].Value);
+                iftag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
             matches = this.Config.tagregex.ElseIfTest.Matches(this.Text);
             foreach (Match m in matches)
             {
                 IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTest(match.Groups["test"].Value);
-                iftag.SetContent(match.Groups["content"].Value);
+                iftag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
             match = this.Config.tagregex.ElseTest.Match(this.Text);
             if (match.Success)
             {
                 IfTag iftag = new IfTag(match.Value, IfType._else, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTest(match.Groups["test"].Value);
-                iftag.SetContent(match.Groups["content"].Value);
+                iftag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
         }
@@ -111,6 +110,39 @@ namespace Tag.Vows.Tag
                 }
             }
             return fields;
+        }
+
+        public void SetTest(string test)
+        {
+        }
+
+        public void SetTestToLoadIfTag(TesToLoadLink link)
+        {
+            foreach (var x in this.IfTags)
+            {
+                x.SetTagLink(link);
+            }
+        }
+
+        public void CheckTestToLoadTag(ITesBeforLoading tag)
+        {
+            if (tag.Equals(this))
+            {
+                return;
+            }
+            foreach (var x in this.IfTags)
+            {
+                x.FindTagInContent(tag);
+            }
+        }
+
+        /// <summary>
+        /// 获取占位名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetPlaceholderName()
+        {
+            return this.PlaceHolderName;
         }
     }
 }

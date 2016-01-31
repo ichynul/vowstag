@@ -26,16 +26,15 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Reflection;
-using Tag.Vows.Interface;
+using Tag.Vows.Bean;
 using Tag.Vows.Enum;
-using Tag.Vows.Web;
+using Tag.Vows.Interface;
 using Tag.Vows.Page;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
-
 
 namespace Tag.Vows.Data
 {
@@ -973,15 +972,15 @@ namespace Tag.Vows.Data
             StringBuilder sb = new StringBuilder();
             if (page is SubListPage || page is LabelPage)
             {
-                sb.AppendFormat("{0}protected {1} db;\r\n", Method.space, this.Config.entitiesName);
-                sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.space, "{");
-                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Config.entitiesName, Method.space, "}");
+                sb.AppendFormat("{0}protected {1} db;\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.Space, "{");
+                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Config.entitiesName, Method.Space, "}");
             }
             else
             {
-                sb.AppendFormat("{0}private {1} _db;\r\n", Method.space, this.Config.entitiesName);
-                sb.AppendFormat("{0}protected {1} db\r\n", Method.space, this.Config.entitiesName);
-                sb.AppendFormat("{0}{1}\r\n", Method.space, "{");
+                sb.AppendFormat("{0}private {1} _db;\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}protected {1} db\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}{1}\r\n", Method.Space, "{");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "get");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "{");
                 sb.AppendFormat("{0}if (_db == null)\r\n", Method.getSpaces(3));
@@ -990,7 +989,7 @@ namespace Tag.Vows.Data
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "}");
                 sb.AppendFormat("{0}return _db;\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "}");
-                sb.AppendFormat("{0}{1}\r\n", Method.space, "}");
+                sb.AppendFormat("{0}{1}\r\n", Method.Space, "}");
             }
             return sb;
         }

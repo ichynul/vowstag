@@ -130,7 +130,7 @@ namespace Tag.Vows.Tag
                 {
                     string name = mParams[0];
                     string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
-                    return string.Format("<% ={ 0}.{1} %>", name, itemField);
+                    return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 return this.Text;
             }

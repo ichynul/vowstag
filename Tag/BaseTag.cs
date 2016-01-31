@@ -115,15 +115,6 @@ namespace Tag.Vows.Tag
         }
 
         /// <summary>
-        /// 获取占位名称
-        /// </summary>
-        /// <returns></returns>
-        public string GetPlaceholderName()
-        {
-            return this.PlaceHolderName;
-        }
-
-        /// <summary>
         /// 获取生成时的错误信息
         /// </summary>
         /// <returns></returns>

@@ -26,23 +26,23 @@ SOFTWARE.
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
-using Tag.Vows.Web;
 
 namespace Tag.Vows.Tag
 {
-    class ListTag : StyleAbleTag, IGlobalMethod, IDeepLoadAble, ISubAble
-        , IGlobalField, IUpperDataAble, ITableUseable, ITesToLoad
+    class ListTag : StyleAbleTag, IPageLoadMethod, IDeepLoadAble, ISubAble
+        , IGlobalField, IUpperDataAble, ITableUseable, ITesBeforLoading
     {
         protected new IHtmlAble SubPage;
         private string BaseParams;
         public string ItemName { get; private set; }
         public string DataName { get; private set; }
-        private Method bindList_or_useAscx;
+        private Method BindList;
         private string ModType = "";
         private string UpModType = "";
         private string ParPageName;
@@ -53,7 +53,8 @@ namespace Tag.Vows.Tag
         public bool Inside_Read { get; private set; }
         public bool HasReadParams { get; private set; }
         protected bool isSublist;
-        private bool TestToLoad;
+        private bool TestBeforLoad;
+        private string BeforLoadTestStr;
 
         public ListTag(string mtext, string origin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, origin, Deep, config, no_)
@@ -101,6 +102,15 @@ namespace Tag.Vows.Tag
             {
                 this.ItemName = "x-item-fake-x";
             }
+        }
+
+        /// <summary>
+        /// 获取占位名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetPlaceholderName()
+        {
+            return this.PlaceHolderName;
         }
 
         public void LazyLoad()
@@ -177,7 +187,7 @@ namespace Tag.Vows.Tag
         }
 
 
-        public Method GetGloabalMethod()
+        public Method GetPageLoadMethod()
         {
             bool in_page_load = false;
             if (this.HasReadParams)
@@ -188,29 +198,31 @@ namespace Tag.Vows.Tag
             {
                 in_page_load = true;
             }
-            if (this.SubPage != null && bindList_or_useAscx == null)
+            if (this.SubPage != null && BindList == null)
             {
-                bindList_or_useAscx = new Method();
-                bindList_or_useAscx.name = string.Concat("Bind_", this.GetTagName());
-                bindList_or_useAscx.in_page_load = in_page_load;
+                BindList = new Method();
+                BindList.Name = string.Concat("Bind_", this.GetTagName());
+                BindList.InPageLoad = in_page_load;
+                BindList.WillTestBeforLoad = this.TestBeforLoad;
+                BindList.TestLoadStr = this.BeforLoadTestStr;
                 if (!CheckDataUseable())
                 {
-                    bindList_or_useAscx.body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
+                    BindList.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
                 }
                 else if (ParPageName == this.ItemName)
                 {
-                    bindList_or_useAscx.body.AppendFormat("{0}/*（未加载套用自己的标签）。{1}*/\r\n", Method.getSpaces(2), this.TagName);
+                    BindList.Body.AppendFormat("{0}/*（未加载套用自己的标签）。{1}*/\r\n", Method.getSpaces(2), this.TagName);
                 }
                 else
                 {
-                    bindList_or_useAscx.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getList(this.DataName, this.BaseParams,
+                    BindList.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
-                    bindList_or_useAscx.body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
-                    bindList_or_useAscx.body.Append(Method.getSpaces(2) + "{\r\n");
+                    BindList.Body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
+                    BindList.Body.Append(Method.getSpaces(2) + "{\r\n");
                     string emptytext = (this.SubPage as ItemPage).GetEmptyText();
                     if (!string.IsNullOrEmpty(emptytext))
                     {
-                        bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
+                        BindList.Body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
                                                             this.GetTagName(), Regex.Replace(emptytext, @"""", "\\\""));
                     }
                     else
@@ -223,16 +235,16 @@ namespace Tag.Vows.Tag
                         }
                         if (emptytext != "none")
                         {
-                            bindList_or_useAscx.body.AppendFormat("{0}empty_{1}.Text = \"<div class='emptydiv'><span class='emptytext'>{2}</span></div>\";\r\n",
+                            BindList.Body.AppendFormat("{0}empty_{1}.Text = \"<div class='emptydiv'><span class='emptytext'>{2}</span></div>\";\r\n",
                                 Method.getSpaces(3), this.GetTagName(), emptytext);
                         }
                     }
-                    bindList_or_useAscx.body.Append(Method.getSpaces(3) + "return;\r\n");
-                    bindList_or_useAscx.body.Append(Method.getSpaces(2) + "}\r\n");
-                    bindList_or_useAscx.body.Append(!this.HasSubList() ? BindRepeater() : BindPlaceHolder());
+                    BindList.Body.Append(Method.getSpaces(3) + "return;\r\n");
+                    BindList.Body.Append(Method.getSpaces(2) + "}\r\n");
+                    BindList.Body.Append(!this.HasSubList() ? BindRepeater() : BindPlaceHolder());
                 }
             }
-            return bindList_or_useAscx;
+            return BindList;
         }
 
         private string BindRepeater()
@@ -298,12 +310,8 @@ namespace Tag.Vows.Tag
 
         public void SetTest(string test)
         {
-            this.TestToLoad = true;
-        }
-
-        public bool isTest()
-        {
-            return this.TestToLoad;
+            this.BeforLoadTestStr = test;
+            this.TestBeforLoad = true;
         }
     }
 }

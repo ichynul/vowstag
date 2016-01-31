@@ -23,11 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using Tag.Vows.Web;
+using Tag.Vows.Bean;
+
 namespace Tag.Vows.Interface
 {
-    interface IGlobalMethod
+    interface ITesBeforLoading
     {
-        Method GetGloabalMethod();
+        void SetTest(string test);
+        string GetPlaceholderName();
     }
 }

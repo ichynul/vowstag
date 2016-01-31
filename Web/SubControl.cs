@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System;
 using System.Web.UI;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
@@ -40,7 +41,10 @@ namespace Tag.Vows.Web
         protected dynamic config;
         private int _page;
         private Tools _tools;
-
+        /// <summary>
+        /// 在Page_Load里加载各标签前判断，若返回false则标签都不会加载
+        /// </summary>
+        protected Func<bool> Befor_Load_Tags = () => { return true; };
         /// <summary>
         /// 格式化时间（默认） 
         /// </summary>

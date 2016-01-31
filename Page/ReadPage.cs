@@ -26,9 +26,9 @@ SOFTWARE.
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tag.Vows.Interface;
+using Tag.Vows.Bean;
 using Tag.Vows.Enum;
-using Tag.Vows.Web;
+using Tag.Vows.Interface;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
 
@@ -72,7 +72,7 @@ namespace Tag.Vows.Page
                 list = x as ListTag;
                 list.SetUpperDataName(DataName, FieldType.read_value);
                 list.set_Inside_Read();
-                Method m = list.GetGloabalMethod();
+                Method m = list.GetPageLoadMethod();
                 if (m != null)
                 {
                     listMethods.Add(m);

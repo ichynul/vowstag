@@ -23,38 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Tag.Vows.Bean
 {
-    class mWhere
+    class TesToLoadLink
     {
-        private mWhere() { }
-        public mWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
+        public TesToLoadLink()
         {
-            this.NotDataField = Regex.IsMatch(mFiledName, "^[#$%]");
-            this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
-            this.Compare = mCompare;
-            this.LogicSymb = mLogicSymb;
-            this.VarName = Regex.Replace(mVarName, @"[^\w\-:\.,]", "");
-            Match m = Regex.Match(mFiledName, @"(?<=^)[!\(]+(?=\w)");
-            if (m.Success)
-            {
-                this.FieldLeft = m.Value;
-            }
-            m = Regex.Match(mVarName, @"(?<=\w)\)+(?=$)");
-            if (m.Success)
-            {
-                this.VarRight = m.Value;
-            }
+            TesToLoads = new HashSet<string>();
+            IfTests = new HashSet<string>();
         }
-
-        public string FiledName { get; set; }
-        public string Compare { get; set; }
-        public string LogicSymb { get; set; }
-        public string VarName { get; set; }
-        public string FieldLeft { get; set; }
-        public string VarRight { get; set; }
-        public bool NotDataField { get; set; }
+        public HashSet<string> TesToLoads { get; set; }
+        public HashSet<string> IfTests { get; set; }
     }
 }

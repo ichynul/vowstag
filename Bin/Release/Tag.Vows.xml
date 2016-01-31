@@ -1,9 +1,14 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>TagCore</name>
+        <name>Tag.Vows</name>
     </assembly>
     <members>
+        <member name="T:Tag.Vows.Bean.Method">
+             <summary>
+            Method 的摘要说明
+             </summary>
+        </member>
         <member name="T:Tag.Vows.Web.CallBackResult">
             <summary>
             tagCall处理结果
@@ -30,11 +35,6 @@
             请求类型
             </summary>
         </member>
-        <member name="T:Tag.Vows.Web.Method">
-             <summary>
-            Method 的摘要说明
-             </summary>
-        </member>
         <member name="T:Tag.Vows.Web.SubControl">
              <summary>
             供 label 或 sublist 使用的页面片段
@@ -43,6 +43,11 @@
         <member name="F:Tag.Vows.Web.SubControl.config">
             <summary>
             用于保存站点及页面的通用信息
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.SubControl.Befor_Load_Tags">
+            <summary>
+            在Page_Load里加载各标签前判断，若返回false则标签都不会加载
             </summary>
         </member>
         <member name="M:Tag.Vows.Web.SubControl.TimeFormat(System.Object)">
@@ -139,6 +144,11 @@
         <member name="F:Tag.Vows.Web.TagPage._callBackstr">
             <summary>
             callBack 时请求参数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.TagPage.Befor_Load_Tags">
+            <summary>
+            在Page_Load里加载各标签前判断，若返回false则标签都不会加载
             </summary>
         </member>
         <member name="M:Tag.Vows.Web.TagPage.TimeFormat(System.Object)">
@@ -332,7 +342,27 @@
             <summary>
             查找ifgroup
             </summary>
-            <param name="text"></param>
+            <param name="text">文本</param>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.InitTestToLoadTag">
+            <summary>
+            初始化TestToLoadTag
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.ReplaceTagAndLoadList">
+            <summary>
+            转换所有标签Text 并延迟加载ListTag
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.RecoverIfGroupTags">
+            <summary>
+            恢复ifgroup
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.RecoverOtherTags">
+            <summary>
+            /// 恢复其他
+            </summary>
         </member>
         <member name="M:Tag.Vows.Page.BasePage.GetAspxCode">
             <summary>
@@ -344,6 +374,12 @@
             <summary>
             生成页面
             </summary>
+        </member>
+        <member name="M:Tag.Vows.Tag.IfGroupTag.GetPlaceholderName">
+            <summary>
+            获取占位名称
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Tag.Vows.Tag.BaseTag">
              <summary>
@@ -387,12 +423,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Tag.Vows.Tag.BaseTag.GetPlaceholderName">
-            <summary>
-            获取占位名称
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Tag.Vows.Tag.BaseTag.GetMsg">
             <summary>
             获取生成时的错误信息
@@ -413,6 +443,24 @@
         <member name="M:Tag.Vows.Tag.BaseTag.ToTagString">
             <summary>
             输出标签的内容，以供调试
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.LabelTag.GetPlaceholderName">
+            <summary>
+            获取占位名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.ListTag.GetPlaceholderName">
+            <summary>
+            获取占位名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Tag.ReadTag.GetPlaceholderName">
+            <summary>
+            获取占位名称
             </summary>
             <returns></returns>
         </member>

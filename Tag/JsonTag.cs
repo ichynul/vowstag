@@ -24,10 +24,9 @@ SOFTWARE.
 */
 #endregion
 using System.Collections.Generic;
-using System;
-using Tag.Vows.Interface;
-using Tag.Vows.Web;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
+using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -85,16 +84,16 @@ namespace Tag.Vows.Tag
             if (CallBack == null)
             {
                 CallBack = new Method();
-                CallBack.name = "CallBack_" + this.GetTagName();
-                CallBack.returnType = "CallBackResult";
-                CallBack.in_page_load = false;
+                CallBack.Name = "CallBack_" + this.GetTagName();
+                CallBack.ReturnType = "CallBackResult";
+                CallBack.InPageLoad = false;
                 if (!CheckDataUseable())
                 {
-                    CallBack.body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
+                    CallBack.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
                 }
                 else
                 {
-                    CallBack.body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
+                    CallBack.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
                 }
             }
             return CallBack;

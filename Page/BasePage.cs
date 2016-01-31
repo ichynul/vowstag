@@ -29,7 +29,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tag.Vows.Web;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
@@ -186,15 +186,9 @@ namespace Tag.Vows.Page
             }
             ReplaceEnd(false);
             FindListOrReadPairs(Html, 1);
-            foreach (var x in this.TagList)
-            {
-                if (x is ListTag)
-                {
-                    (x as ListTag).LazyLoad();
-                }
-                this.Html = x.ReplaceTagText(this.Html);
-            }
+            ReplaceTagAndLoadList();
             FindIfPairs(Html);
+            InitTestToLoadTag();
             ReplaceEnd(true);
             //
             DoForForm();
@@ -565,8 +559,8 @@ namespace Tag.Vows.Page
         /// <summary>
         /// 查找ifgroup
         /// </summary>
-        /// <param name="text"></param>
-        private void FindIfPairs(string text)
+        /// <param name="text">文本</param>
+        protected void FindIfPairs(string text)
         {
             Matches = this.Config.tagregex.IfPairTest.Matches(text);
             foreach (Match m in Matches)
@@ -581,6 +575,40 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// 初始化TestToLoadTag
+        /// </summary>
+        protected void InitTestToLoadTag()
+        {
+            var tesToLoad = this.TagList.Where(x => x is ITesBeforLoading);
+            var ifGroup = this.TagList.Where(x => x is ITestGroup);
+            foreach (var x in tesToLoad)
+            {
+                foreach (var y in ifGroup)
+                {
+                    (y as ITestGroup).CheckTestToLoadTag(x as ITesBeforLoading);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 转换所有标签Text 并延迟加载ListTag
+        /// </summary>
+        protected void ReplaceTagAndLoadList()
+        {
+            foreach (var x in this.TagList)
+            {
+                if (x is ListTag)
+                {
+                    (x as ListTag).LazyLoad();
+                }
+                this.Html = x.ReplaceTagText(this.Html);
+            }
+        }
+
+        /// <summary>
+        /// 恢复ifgroup
+        /// </summary>
         protected void RecoverIfGroupTags()
         {
             foreach (var c in this.TagList.Where(x => x is IfGroupTag))
@@ -590,6 +618,9 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
+        /// /// 恢复其他
+        /// </summary>
         protected void RecoverOtherTags()
         {
             ITableUseable ck = null;
@@ -666,7 +697,7 @@ namespace Tag.Vows.Page
             MethodLines = new StringBuilder();
             MethodRects = new StringBuilder();
             CallMethods = new StringBuilder();
-            IGlobalMethod loadmethod = null;
+            IPageLoadMethod loadMethod = null;
             ICallBackAble call = null;
             string field = "";
             foreach (var c in this.TagList.OrderByDescending(x => x.Sort))
@@ -676,17 +707,17 @@ namespace Tag.Vows.Page
                     call = c as ICallBackAble;
                     method = call.GetCallMethod();
                     GetMethodsLines(method);
-                    CallMethods.AppendFormat("{0}callBack = {1}();\r\n", Method.getSpaces(2), method.name);
+                    CallMethods.AppendFormat("{0}callBack = {1}();\r\n", Method.getSpaces(2), method.Name);
                     CallMethods.AppendFormat("{0}if (callBack != null)\r\n", Method.getSpaces(2));
                     CallMethods.Append(Method.getSpaces(2) + "{\r\n");
                     CallMethods.AppendFormat("{0}return callBack;\r\n", Method.getSpaces(3));
                     CallMethods.Append(Method.getSpaces(2) + "}\r\n");
                     continue;
                 }
-                if (c is IGlobalMethod)
+                if (c is IPageLoadMethod)
                 {
-                    loadmethod = c as IGlobalMethod;
-                    method = loadmethod.GetGloabalMethod();
+                    loadMethod = c as IPageLoadMethod;
+                    method = loadMethod.GetPageLoadMethod();
                     GetMethodsLines(method);
                     if (c is ReadTag)
                     {
@@ -696,7 +727,7 @@ namespace Tag.Vows.Page
                         {
                             foreach (var x in inl)
                             {
-                                x.in_page_load = false;
+                                x.InPageLoad = false;
                                 GetMethodsLines(x);
                             }
                         }
@@ -718,11 +749,21 @@ namespace Tag.Vows.Page
         {
             if (method != null)
             {
-                if (method.in_page_load)
+                if (method.InPageLoad)
                 {
-                    MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(3), method.name);
+                    if (method.WillTestBeforLoad)
+                    {
+                        MethodLines.AppendFormat("{0}if ({1})\r\n", Method.getSpaces(3), method.TestLoadStr);
+                        MethodLines.Append(Method.getSpaces(3) + "{\r\n");
+                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(4), method.Name);
+                        MethodLines.Append(Method.getSpaces(3) + "}\r\n");
+                    }
+                    else
+                    {
+                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(3), method.Name);
+                    }
+                    MethodRects.Append(method.ToFullMethodRect());
                 }
-                MethodRects.Append(method.ToFullMethodRect());
             }
         }
 
@@ -785,30 +826,33 @@ namespace Tag.Vows.Page
             AspxCsCode.AppendFormat("public partial class {0} : {1}\r\n", className, type[3]);
             AspxCsCode.Append("{\r\n");
             AspxCsCode.Append(GloabalFileds);
-            AspxCsCode.Append(Method.space + "protected void Page_Load(object sender, EventArgs e)\r\n");
-            AspxCsCode.Append(Method.space + "{\r\n");
+            AspxCsCode.Append(Method.Space + "protected void Page_Load(object sender, EventArgs e)\r\n");
+            AspxCsCode.Append(Method.Space + "{\r\n");
             AspxCsCode.AppendFormat("{0}if (!this.IsPostBack)\r\n", Method.getSpaces(2));
             AspxCsCode.Append(Method.getSpaces(2) + "{\r\n");
-            AspxCsCode.Append(MethodLines);
+            AspxCsCode.AppendFormat("{0}if (this.Befor_Load_Tags())\r\n", Method.getSpaces(3));
+            AspxCsCode.Append(Method.getSpaces(3) + "{\r\n");
+            AspxCsCode.AppendFormat("{0}{1}", Method.getSpaces(1), MethodLines);
+            AspxCsCode.Append(Method.getSpaces(3) + "}\r\n");
             AspxCsCode.Append(Method.getSpaces(2) + "}\r\n");
-            AspxCsCode.Append(Method.space + "}\r\n\r\n");
+            AspxCsCode.Append(Method.Space + "}\r\n\r\n");
             AspxCsCode.Append(MethodRects);
             if (this.TagCallBack == "json" || this.TagCallBack == "form")
             {
-                AspxCsCode.Append(Method.space + "public override CallBackResult TagCallBack()\r\n");
-                AspxCsCode.Append(Method.space + "{\r\n");
+                AspxCsCode.Append(Method.Space + "public override CallBackResult TagCallBack()\r\n");
+                AspxCsCode.Append(Method.Space + "{\r\n");
                 AspxCsCode.AppendFormat("{0}CallBackResult callBack = null;\r\n", Method.getSpaces(2));
                 AspxCsCode.Append(CallMethods);
                 AspxCsCode.AppendFormat("{0}return callBack;\r\n", Method.getSpaces(2));
-                AspxCsCode.Append(Method.space + "}\r\n");
+                AspxCsCode.Append(Method.Space + "}\r\n");
             }
             AspxCsCode.Append("\r\n");
             AspxCsCode.Append(TempleHelper.getTempleHelper(this.Config).GetDbContext(this));
             AspxCsCode.Append("\r\n");
-            AspxCsCode.Append(Method.space + "protected override object GetDbObject()\r\n");
-            AspxCsCode.Append(Method.space + "{\r\n");
+            AspxCsCode.Append(Method.Space + "protected override object GetDbObject()\r\n");
+            AspxCsCode.Append(Method.Space + "{\r\n");
             AspxCsCode.AppendFormat("{0}return this.db;\r\n", Method.getSpaces(2));
-            AspxCsCode.Append(Method.space + "}\r\n");
+            AspxCsCode.Append(Method.Space + "}\r\n");
             AspxCsCode.Append("}");
             string msg = "";
             string text = Regex.Replace(AspxCode.ToString(), @"(?:[\r\n]\s*[\r\n]){3,}", "\r\n");

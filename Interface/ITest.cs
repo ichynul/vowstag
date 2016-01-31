@@ -23,11 +23,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+
 using Tag.Vows.Bean;
+
 namespace Tag.Vows.Interface
 {
-    interface ICallBackAble
+    interface ITest
     {
-        Method GetCallMethod();
+        void SetTestAndContent(string test, string content);
+        void CheckTestContent();
+        string GetIfCode();
+        TesToLoadLink GetTesToLoadLink();
+        void FindTagInContent(ITesBeforLoading tag);
+        void SetTagLink(TesToLoadLink link);
     }
 }

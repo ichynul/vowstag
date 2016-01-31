@@ -24,12 +24,11 @@ SOFTWARE.
 */
 #endregion
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
-using Tag.Vows.Interface;
-using Tag.Vows.Web;
+using System.Text;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
+using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
@@ -317,16 +316,16 @@ namespace Tag.Vows.Tag
             if (CallBack == null)
             {
                 CallBack = new Method();
-                CallBack.name = "CallBack_" + this.GetTagName();
-                CallBack.returnType = "CallBackResult";
-                CallBack.in_page_load = false;
+                CallBack.Name = "CallBack_" + this.GetTagName();
+                CallBack.ReturnType = "CallBackResult";
+                CallBack.InPageLoad = false;
                 if (!CheckDataUseable())
                 {
-                    CallBack.body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
+                    CallBack.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
                 }
                 else
                 {
-                    CallBack.body.Append(this.GetCode());
+                    CallBack.Body.Append(this.GetCode());
                 }
             }
 

@@ -23,21 +23,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System;
 using System.Collections.Generic;
-using Tag.Vows.Interface;
-using Tag.Vows.Enum;
-using Tag.Vows.Tool;
 using System.Text.RegularExpressions;
+using Tag.Vows.Bean;
 using Tag.Vows.Data;
+using Tag.Vows.Enum;
+using Tag.Vows.Interface;
+using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class IfTag : BaseTag, ITestAble, IMethodDataAble
+    class IfTag : BaseTag, ITest, IMethodDataAble
     {
         private string Test;
         private string Conttent;
         private IfType Type;
         private string ReadDataname;
+        private TesToLoadLink TestLink;
 
         public IfTag(string mtext, IfType type, int Deep, TagConfig config, int no_)
             : base(mtext, mtext, Deep, config, no_)
@@ -60,7 +63,7 @@ namespace Tag.Vows.Tag
             return s;
         }
 
-        public string GetCode()
+        public string GetIfCode()
         {
             this.CheckTestContent();
 
@@ -76,16 +79,6 @@ namespace Tag.Vows.Tag
             {
                 return string.Concat("<% else %>\r\n<% { %>", this.Conttent, "<% } %>\r\n");
             }
-        }
-
-        public void SetTest(string test)
-        {
-            this.Test = test;
-        }
-
-        public void SetContent(string content)
-        {
-            this.Conttent = content;
         }
 
         public void SetDataName(string dataName, MethodType type)
@@ -160,9 +153,56 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            this.Test = Regex.Replace(this.Test, @"={1}", "==");
+            this.Test = Regex.Replace(this.Test, @"(?=<[^!])={1}", "==");
             this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
             this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
+        }
+
+        public TesToLoadLink GetTesToLoadLink()
+        {
+            return this.TestLink;
+        }
+
+        public void SetTestAndContent(string test, string content)
+        {
+            this.Test = test;
+            this.Conttent = content;
+        }
+
+        public void SetTagLink(TesToLoadLink link)
+        {
+            if (this.TestLink != null)
+            {
+                foreach (var x in link.IfTests)
+                {
+                    this.TestLink.IfTests.Add(x);
+                }
+                foreach (var x in link.TesToLoads)
+                {
+                    this.TestLink.TesToLoads.Add(x);
+                }
+            }
+        }
+
+        public void FindTagInContent(ITesBeforLoading tag)
+        {
+            if (this.Conttent.Contains(tag.GetPlaceholderName()))
+            {
+                if (this.TestLink == null)
+                {
+                    this.TestLink = new TesToLoadLink();
+                }
+                this.TestLink.IfTests.Add(this.Test);
+                this.TestLink.TesToLoads.Add(tag.GetPlaceholderName());
+                if (tag is ITestGroup)
+                {
+                    (tag as ITestGroup).SetTestToLoadIfTag(this.TestLink);
+                }
+                else
+                {
+                    tag.SetTest(string.Join("&&", this.TestLink.IfTests));
+                }
+            }
         }
     }
 }

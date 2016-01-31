@@ -7,8 +7,8 @@
     <ProjectGuid>{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TagCore</RootNamespace>
-    <AssemblyName>TagCore</AssemblyName>
+    <RootNamespace>Vows.Tag</RootNamespace>
+    <AssemblyName>Tag.Vows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,13 +29,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>bin\Release\TagCore.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Tag.Vows.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>tag.vows.ichynul.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -45,7 +48,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\ITesToLoad.cs" />
+    <Compile Include="Bean\TesToLoadLink.cs" />
+    <Compile Include="Interface\ITesBeforLoading.cs" />
+    <Compile Include="Interface\ITestGroup.cs" />
     <Compile Include="Web\CallBackResult.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />
@@ -63,7 +68,7 @@
     <Compile Include="Interface\ITableUseable.cs" />
     <Compile Include="Interface\IUC.cs" />
     <Compile Include="Interface\IUpDataAble.cs" />
-    <Compile Include="Interface\ITestAble.cs" />
+    <Compile Include="Interface\ITest.cs" />
     <Compile Include="Page\ReadPage.cs" />
     <Compile Include="Tag\CMDTag.cs" />
     <Compile Include="Tag\EmptyTag.cs" />
@@ -81,7 +86,7 @@
     <Compile Include="Enum\TagType.cs" />
     <Compile Include="Interface\IComTools.cs" />
     <Compile Include="Interface\IDeepAble.cs" />
-    <Compile Include="Interface\IGlobalMethod.cs" />
+    <Compile Include="Interface\IPageLoadMethod.cs" />
     <Compile Include="Interface\IMakeAble.cs" />
     <Compile Include="Interface\ISubAble.cs" />
     <Compile Include="Page\BasePage.cs" />
@@ -108,6 +113,9 @@
     <Compile Include="Web\TagPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tag.vows.ichynul.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

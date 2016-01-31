@@ -23,22 +23,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using System;
+using Tag.Vows.Bean;
 using Tag.Vows.Interface;
-using Tag.Vows.Web;
 using Tag.Vows.Page;
 using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class LabelTag : BaseTag, IGlobalMethod, IDeepLoadAble, ISubAble
-        , ITesToLoad
+    class LabelTag : BaseTag, IPageLoadMethod, IDeepLoadAble, ISubAble
+        , ITesBeforLoading
     {
         public string LabeName;
-        private Method loadAscx;
+        private Method LoadAscx;
         private string ParPageName;
         protected new IHtmlAble SubPage;
-        private bool TestToLoad;
+        private bool TestBeforLoad;
+        private string BeforLoadTestStr;
 
         public LabelTag(string mtext, string mOrigin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
@@ -60,27 +60,39 @@ namespace Tag.Vows.Tag
             return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>", this.GetTagName());
         }
 
-        public Method GetGloabalMethod()
+        /// <summary>
+        /// 获取占位名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetPlaceholderName()
+        {
+            return this.PlaceHolderName;
+        }
+
+        public Method GetPageLoadMethod()
         {
 
-            if (this.SubPage != null && loadAscx == null)
+            if (this.SubPage != null && LoadAscx == null)
             {
-                loadAscx = new Method();
-                loadAscx.name = "Load_" + this.TagName;
-                loadAscx.in_page_load = true;
+                LoadAscx = new Method();
+                LoadAscx.Name = "Load_" + this.TagName;
+                LoadAscx.InPageLoad = true;
+                LoadAscx.WillTestBeforLoad = this.TestBeforLoad;
+                LoadAscx.TestLoadStr = this.BeforLoadTestStr;
+
                 if (ParPageName == this.LabeName)
                 {
-                    loadAscx.body.AppendFormat("{0}/*（--未加载套用自己的标签--{1}）*/\r\n", Method.getSpaces(2), this.LabeName);
+                    LoadAscx.Body.AppendFormat("{0}/*（--未加载套用自己的标签--{1}）*/\r\n", Method.getSpaces(2), this.LabeName);
                 }
                 else
                 {
-                    loadAscx.body.AppendFormat("{0}SubControl uc_label=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(2), this.LabeName);
-                    loadAscx.body.AppendFormat("{0}uc_label.SetDb(db);\r\n", Method.getSpaces(2));
-                    loadAscx.body.AppendFormat("{0}uc_label.SetConfig(this.config);\r\n", Method.getSpaces(2));
-                    loadAscx.body.AppendFormat("{0}{1}.Controls.Add(uc_label);\r\n", Method.getSpaces(2), this.GetTagName());
+                    LoadAscx.Body.AppendFormat("{0}SubControl uc_label=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(2), this.LabeName);
+                    LoadAscx.Body.AppendFormat("{0}uc_label.SetDb(db);\r\n", Method.getSpaces(2));
+                    LoadAscx.Body.AppendFormat("{0}uc_label.SetConfig(this.config);\r\n", Method.getSpaces(2));
+                    LoadAscx.Body.AppendFormat("{0}{1}.Controls.Add(uc_label);\r\n", Method.getSpaces(2), this.GetTagName());
                 }
             }
-            return loadAscx;
+            return LoadAscx;
         }
 
         public void LazyLoad()
@@ -122,12 +134,8 @@ namespace Tag.Vows.Tag
 
         public void SetTest(string test)
         {
-            this.TestToLoad = true;
-        }
-
-        public bool isTest()
-        {
-            return this.TestToLoad;
+            this.BeforLoadTestStr = test;
+            this.TestBeforLoad = true;
         }
     }
 }
