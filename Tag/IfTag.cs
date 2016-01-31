@@ -40,7 +40,8 @@ namespace Tag.Vows.Tag
         private string Conttent;
         private IfType Type;
         private string ReadDataname;
-        private TesToLoadLink TestLink;
+        private HashSet<string> TestLink;
+        private HashSet<ITesBeforLoading> Lodas;
 
         public IfTag(string mtext, IfType type, int Deep, TagConfig config, int no_)
             : base(mtext, mtext, Deep, config, no_)
@@ -65,8 +66,7 @@ namespace Tag.Vows.Tag
 
         public string GetIfCode()
         {
-            this.CheckTestContent();
-
+            this.CheckTestReadOrItem();
             if (this.Type == IfType._if)
             {
                 return string.Concat("<% if (", this.Test, ") %>\r\n<% { %>", this.Conttent, "<% } %>\r\n");
@@ -100,7 +100,7 @@ namespace Tag.Vows.Tag
             return Fields;
         }
 
-        public void CheckTestContent()
+        public void CheckTestReadOrItem()
         {
             if (!string.IsNullOrEmpty(this.ReadDataname) &&
                 this.Config.tagregex.ReadValue.IsMatch(this.Test))
@@ -128,7 +128,11 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("<%# ValueOf(Eval(\"", m.Value.Split('.')[1], "\")) %>"));
                 }
             }
-            matches = this.Config.tagregex.SessionValue.Matches(this.Test);
+        }
+
+        private void CheckTestText()
+        {
+            var matches = this.Config.tagregex.SessionValue.Matches(this.Test);
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -153,12 +157,8 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            this.Test = Regex.Replace(this.Test, @"(?=<[^!])={1}", "==");
-            this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
-            this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
         }
-
-        public TesToLoadLink GetTesToLoadLink()
+        public HashSet<string> GetTesToLoadLink()
         {
             return this.TestLink;
         }
@@ -167,19 +167,23 @@ namespace Tag.Vows.Tag
         {
             this.Test = test;
             this.Conttent = content;
+            this.Test = Regex.Replace(this.Test, @"(?<=[^!])={1}", "==");
+            this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
+            this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
+            CheckTestText();
         }
 
-        public void SetTagLink(TesToLoadLink link)
+        public void SetTagLink(HashSet<string> link)
         {
             if (this.TestLink != null)
             {
-                foreach (var x in link.IfTests)
+                foreach (var x in link)
                 {
-                    this.TestLink.IfTests.Add(x);
+                    this.TestLink.Add(x);
                 }
-                foreach (var x in link.TesToLoads)
+                foreach (var x in this.Lodas)
                 {
-                    this.TestLink.TesToLoads.Add(x);
+                    x.SetTest(this.TestLink);
                 }
             }
         }
@@ -190,18 +194,15 @@ namespace Tag.Vows.Tag
             {
                 if (this.TestLink == null)
                 {
-                    this.TestLink = new TesToLoadLink();
+                    this.TestLink = new HashSet<string>();
                 }
-                this.TestLink.IfTests.Add(this.Test);
-                this.TestLink.TesToLoads.Add(tag.GetPlaceholderName());
-                if (tag is ITestGroup)
+                if (this.Lodas == null)
                 {
-                    (tag as ITestGroup).SetTestToLoadIfTag(this.TestLink);
+                    Lodas = new HashSet<ITesBeforLoading>();
                 }
-                else
-                {
-                    tag.SetTest(string.Join("&&", this.TestLink.IfTests));
-                }
+                this.TestLink.Add(this.Test);
+                tag.SetTest(this.TestLink);
+                this.Lodas.Add(tag);
             }
         }
     }

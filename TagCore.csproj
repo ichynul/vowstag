@@ -48,7 +48,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bean\TesToLoadLink.cs" />
     <Compile Include="Interface\ITesBeforLoading.cs" />
     <Compile Include="Interface\ITestGroup.cs" />
     <Compile Include="Web\CallBackResult.cs" />

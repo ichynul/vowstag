@@ -34,7 +34,7 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class ReadTag : StyleAbleTag, IGlobalField, IPageLoadMethod, ITableUseable
+    class ReadTag : StyleAbleTag, IGlobalField, IIGlobalMethod, ITableUseable
         , ISubAble, ITesBeforLoading
     {
         protected new ReadPage SubPage;
@@ -45,7 +45,7 @@ namespace Tag.Vows.Tag
         private string modType;
         private List<Method> subLsitMethod;
         private bool TestBeforLoad;
-        private string BeforLoadTestStr;
+        private HashSet<string> BeforLoadTests;
 
         public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
@@ -77,7 +77,7 @@ namespace Tag.Vows.Tag
             return "【全局名称" + this.GetTagName() + ",标签类型：read，数据源名称：" + this.DataName + "，数据参数：" + this.BaseParams + "】<br />";
         }
 
-        public Method GetPageLoadMethod()
+        public Method GetIGlobalMethod()
         {
             if (ReadData == null)
             {
@@ -85,8 +85,7 @@ namespace Tag.Vows.Tag
                 ReadData.Name = "Bind_" + this.GetTagName();
                 ReadData.InPageLoad = true;
                 ReadData.WillTestBeforLoad = this.TestBeforLoad;
-                ReadData.TestLoadStr = this.BeforLoadTestStr;
-
+                ReadData.SetTestBeforLoad(this.BeforLoadTests);
                 if (!CheckDataUseable())
                 {
                     ReadData.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
@@ -162,9 +161,9 @@ namespace Tag.Vows.Tag
             this.subLsitMethod = this.SubPage.getListMethods(this.DataName);
         }
 
-        public void SetTest(string test)
+        public void SetTest(HashSet<string> link)
         {
-            this.BeforLoadTestStr = test;
+            this.BeforLoadTests = link;
             this.TestBeforLoad = true;
         }
     }

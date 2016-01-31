@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System.Collections.Generic;
 using Tag.Vows.Bean;
 
 namespace Tag.Vows.Interface
@@ -30,6 +31,5 @@ namespace Tag.Vows.Interface
     interface ITestGroup
     {
         void CheckTestToLoadTag(ITesBeforLoading tag);
-        void SetTestToLoadIfTag(TesToLoadLink link);
     }
 }

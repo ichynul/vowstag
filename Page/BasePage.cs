@@ -55,7 +55,7 @@ namespace Tag.Vows.Page
         private string TagCallBack = "";
         public string Html { get; protected set; }
         protected string HtmlpPath;
-        public string PageName { get; private set; }
+        public string PageName { get; protected set; }
         protected string Msg = "";
         protected string AspxCode { get; private set; }
         protected string AspxCsCode { get; private set; }
@@ -343,7 +343,7 @@ namespace Tag.Vows.Page
         }
 
         /// <summary>
-        /// 替换html中的图片、js、cs等资源的路径
+        /// 替换html中的image、js、css background-img等资源的路径
         /// </summary>
         protected void RePathJsCssImg()
         {
@@ -611,11 +611,13 @@ namespace Tag.Vows.Page
         /// </summary>
         protected void RecoverIfGroupTags()
         {
+            System.Web.HttpContext.Current.Response.Write("RecoverIfGroupTags in " + this.GetPageName() + "<br />");
             foreach (var c in this.TagList.Where(x => x is IfGroupTag))
             {
                 this.Html = c.RecoverTagText(this.Html);
                 this.Msg += c.GetMsg();
             }
+            System.Web.HttpContext.Current.Response.Write("RecoverIfGroupTags end in " + this.GetPageName() + "<br />");
         }
 
         /// <summary>
@@ -697,7 +699,7 @@ namespace Tag.Vows.Page
             MethodLines = new StringBuilder();
             MethodRects = new StringBuilder();
             CallMethods = new StringBuilder();
-            IPageLoadMethod loadMethod = null;
+            IIGlobalMethod loadMethod = null;
             ICallBackAble call = null;
             string field = "";
             foreach (var c in this.TagList.OrderByDescending(x => x.Sort))
@@ -714,10 +716,10 @@ namespace Tag.Vows.Page
                     CallMethods.Append(Method.getSpaces(2) + "}\r\n");
                     continue;
                 }
-                if (c is IPageLoadMethod)
+                if (c is IIGlobalMethod)
                 {
-                    loadMethod = c as IPageLoadMethod;
-                    method = loadMethod.GetPageLoadMethod();
+                    loadMethod = c as IIGlobalMethod;
+                    method = loadMethod.GetIGlobalMethod();
                     GetMethodsLines(method);
                     if (c is ReadTag)
                     {
@@ -753,18 +755,18 @@ namespace Tag.Vows.Page
                 {
                     if (method.WillTestBeforLoad)
                     {
-                        MethodLines.AppendFormat("{0}if ({1})\r\n", Method.getSpaces(3), method.TestLoadStr);
-                        MethodLines.Append(Method.getSpaces(3) + "{\r\n");
-                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(4), method.Name);
-                        MethodLines.Append(Method.getSpaces(3) + "}\r\n");
+                        MethodLines.AppendFormat("{0}if ( {1} )\r\n", Method.getSpaces(3), method.GetTestBeforLoadStr());
+                        MethodLines.Append(Method.getSpaces(4) + "{\r\n");
+                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(5), method.Name);
+                        MethodLines.Append(Method.getSpaces(4) + "}\r\n");
                     }
                     else
                     {
                         MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(3), method.Name);
                     }
-                    MethodRects.Append(method.ToFullMethodRect());
                 }
             }
+            MethodRects.Append(method.ToFullMethodRect());
         }
 
         private void WriteTagGit()

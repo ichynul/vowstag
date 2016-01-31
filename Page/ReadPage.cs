@@ -72,7 +72,7 @@ namespace Tag.Vows.Page
                 list = x as ListTag;
                 list.SetUpperDataName(DataName, FieldType.read_value);
                 list.set_Inside_Read();
-                Method m = list.GetPageLoadMethod();
+                Method m = list.GetIGlobalMethod();
                 if (m != null)
                 {
                     listMethods.Add(m);

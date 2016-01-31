@@ -76,6 +76,7 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string ReplaceTagText(string PageHtml)
         {
+            System.Web.HttpContext.Current.Response.Write(this.Text + "================>" + this.PlaceHolderName + "<br />");
             string newHtml = PageHtml.Replace(this.Text, this.PlaceHolderName);
             return newHtml;
         }
@@ -87,6 +88,7 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
+            System.Web.HttpContext.Current.Response.Write(this.PlaceHolderName + "================>" + this.GetCodeForAspx() + "<br />");
             string newHtml = PageHtml.Replace(this.PlaceHolderName, this.GetCodeForAspx());
             return newHtml;
         }

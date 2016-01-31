@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System.Collections.Generic;
 using Tag.Vows.Bean;
 using Tag.Vows.Interface;
 using Tag.Vows.Page;
@@ -30,7 +31,7 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class LabelTag : BaseTag, IPageLoadMethod, IDeepLoadAble, ISubAble
+    class LabelTag : BaseTag, IIGlobalMethod, IDeepLoadAble, ISubAble
         , ITesBeforLoading
     {
         public string LabeName;
@@ -38,7 +39,7 @@ namespace Tag.Vows.Tag
         private string ParPageName;
         protected new IHtmlAble SubPage;
         private bool TestBeforLoad;
-        private string BeforLoadTestStr;
+        private HashSet<string> BeforLoadTests;
 
         public LabelTag(string mtext, string mOrigin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
@@ -69,7 +70,7 @@ namespace Tag.Vows.Tag
             return this.PlaceHolderName;
         }
 
-        public Method GetPageLoadMethod()
+        public Method GetIGlobalMethod()
         {
 
             if (this.SubPage != null && LoadAscx == null)
@@ -78,7 +79,7 @@ namespace Tag.Vows.Tag
                 LoadAscx.Name = "Load_" + this.TagName;
                 LoadAscx.InPageLoad = true;
                 LoadAscx.WillTestBeforLoad = this.TestBeforLoad;
-                LoadAscx.TestLoadStr = this.BeforLoadTestStr;
+                LoadAscx.SetTestBeforLoad(this.BeforLoadTests);
 
                 if (ParPageName == this.LabeName)
                 {
@@ -132,9 +133,9 @@ namespace Tag.Vows.Tag
             return s;
         }
 
-        public void SetTest(string test)
+        public void SetTest(HashSet<string> link)
         {
-            this.BeforLoadTestStr = test;
+            this.BeforLoadTests = link;
             this.TestBeforLoad = true;
         }
     }

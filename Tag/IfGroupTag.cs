@@ -112,11 +112,7 @@ namespace Tag.Vows.Tag
             return fields;
         }
 
-        public void SetTest(string test)
-        {
-        }
-
-        public void SetTestToLoadIfTag(TesToLoadLink link)
+        public void SetTest(HashSet<string> link)
         {
             foreach (var x in this.IfTags)
             {

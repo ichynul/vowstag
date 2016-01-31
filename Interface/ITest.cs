@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 
+using System.Collections.Generic;
 using Tag.Vows.Bean;
 
 namespace Tag.Vows.Interface
@@ -31,10 +32,10 @@ namespace Tag.Vows.Interface
     interface ITest
     {
         void SetTestAndContent(string test, string content);
-        void CheckTestContent();
+        void CheckTestReadOrItem();
         string GetIfCode();
-        TesToLoadLink GetTesToLoadLink();
+        HashSet<string> GetTesToLoadLink();
         void FindTagInContent(ITesBeforLoading tag);
-        void SetTagLink(TesToLoadLink link);
+        void SetTagLink(HashSet<string> link);
     }
 }

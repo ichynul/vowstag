@@ -35,7 +35,7 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Tag
 {
-    class ListTag : StyleAbleTag, IPageLoadMethod, IDeepLoadAble, ISubAble
+    class ListTag : StyleAbleTag, IIGlobalMethod, IDeepLoadAble, ISubAble
         , IGlobalField, IUpperDataAble, ITableUseable, ITesBeforLoading
     {
         protected new IHtmlAble SubPage;
@@ -54,7 +54,7 @@ namespace Tag.Vows.Tag
         public bool HasReadParams { get; private set; }
         protected bool isSublist;
         private bool TestBeforLoad;
-        private string BeforLoadTestStr;
+        private HashSet<string> BeforLoadTests;
 
         public ListTag(string mtext, string origin, int Deep, string mParPageName, TagConfig config, int no_)
             : base(mtext, origin, Deep, config, no_)
@@ -177,7 +177,7 @@ namespace Tag.Vows.Tag
             ItemPage itempage = null;
             if (HasStyle())
             {
-                itempage = new ItemPage(this.Style, Deep, this.Config);
+                itempage = new ItemPage(this.Style, Deep, this.Config, this.TagName);
             }
             else
             {
@@ -187,7 +187,7 @@ namespace Tag.Vows.Tag
         }
 
 
-        public Method GetPageLoadMethod()
+        public Method GetIGlobalMethod()
         {
             bool in_page_load = false;
             if (this.HasReadParams)
@@ -204,7 +204,7 @@ namespace Tag.Vows.Tag
                 BindList.Name = string.Concat("Bind_", this.GetTagName());
                 BindList.InPageLoad = in_page_load;
                 BindList.WillTestBeforLoad = this.TestBeforLoad;
-                BindList.TestLoadStr = this.BeforLoadTestStr;
+                BindList.SetTestBeforLoad(this.BeforLoadTests);
                 if (!CheckDataUseable())
                 {
                     BindList.Body.AppendFormat("{0}/*{1}*/\r\n", Method.getSpaces(2), this.TabledisAbledMsg());
@@ -308,10 +308,15 @@ namespace Tag.Vows.Tag
             return string.Format("数据表{0}已被设置为不可用，您无权操作该表！", this.DataName);
         }
 
-        public void SetTest(string test)
+        public void SetTest(HashSet<string> link)
         {
-            this.BeforLoadTestStr = test;
+            this.BeforLoadTests = link;
             this.TestBeforLoad = true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -46,9 +46,10 @@ namespace Tag.Vows.Page
             DoForItem();
         }
 
-        public ItemPage(string style, int mDeep, TagConfig config)
+        public ItemPage(string style, int mDeep, TagConfig config, string listTagName)
             : base(style, mDeep, config, "x-item-fake-x")
         {
+            this.PageName = string.Concat(listTagName, "#", this.PageName);
             DoForItem();
         }
 

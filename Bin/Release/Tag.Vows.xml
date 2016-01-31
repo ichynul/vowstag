@@ -4,11 +4,6 @@
         <name>Tag.Vows</name>
     </assembly>
     <members>
-        <member name="T:Tag.Vows.Bean.Method">
-             <summary>
-            Method 的摘要说明
-             </summary>
-        </member>
         <member name="T:Tag.Vows.Web.CallBackResult">
             <summary>
             tagCall处理结果
@@ -250,6 +245,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Tag.Vows.Bean.Method">
+             <summary>
+            Method 的摘要说明
+             </summary>
+        </member>
         <member name="T:Tag.Vows.Page.BasePage">
              <summary>
             At 2015/07/15
@@ -301,7 +301,7 @@
         </member>
         <member name="M:Tag.Vows.Page.BasePage.RePathJsCssImg">
             <summary>
-            替换html中的图片、js、cs等资源的路径
+            替换html中的image、js、css background-img等资源的路径
             </summary>
         </member>
         <member name="M:Tag.Vows.Page.BasePage.GetCMD(Tag.Vows.Tag.CMDTag)">

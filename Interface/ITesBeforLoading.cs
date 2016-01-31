@@ -23,13 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System.Collections.Generic;
 using Tag.Vows.Bean;
 
 namespace Tag.Vows.Interface
 {
     interface ITesBeforLoading
     {
-        void SetTest(string test);
+        void SetTest(HashSet<string> link);
         string GetPlaceholderName();
     }
 }

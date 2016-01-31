@@ -23,7 +23,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Tag.Vows.Bean
 {
@@ -45,8 +47,33 @@ namespace Tag.Vows.Bean
         public string UseParams { get; set; }
         public static string Space = "    ";
         public bool WillTestBeforLoad { get; set; }
-        public string TestLoadStr { get; set; }
+        protected List<string> TestsBeforLoad { get; set; }
+        public void SetTestBeforLoad(HashSet<string> tests)
+        {
+            this.TestsBeforLoad = new List<string>();
+            var list = tests.AsEnumerable();
+            for (int i = tests.Count - 1; i > -1; i -= 1)
+            {
+                this.TestsBeforLoad.Add(list.ElementAt(i));
+            }
+        }
 
+        public string GetTestBeforLoadStr()
+        {
+
+            if (this.TestsBeforLoad != null)
+            {
+                if (this.TestsBeforLoad.Count > 1)
+                {
+                    return string.Concat("(", string.Join(") && (", this.TestsBeforLoad), ")");
+                }
+                else if (this.TestsBeforLoad.Count == 1)
+                {
+                    return this.TestsBeforLoad.First();
+                }
+            }
+            return string.Empty;
+        }
         public string ToFullMethodRect()
         {
             return string.Concat(Space, "public ", ReturnType == null ? "void" : ReturnType, " ", Name, "(", ParsmStr, ")\r\n"
