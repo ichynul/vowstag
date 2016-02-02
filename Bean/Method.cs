@@ -65,7 +65,8 @@ namespace Tag.Vows.Bean
             {
                 if (this.TestsBeforLoad.Count > 1)
                 {
-                    return string.Concat("(", string.Join(") && (", this.TestsBeforLoad), ")");
+                    string sp = string.Concat(")\r\n", Method.getSpaces(5), "&& (");
+                    return string.Concat("(", string.Join(sp, this.TestsBeforLoad), ")");
                 }
                 else if (this.TestsBeforLoad.Count == 1)
                 {

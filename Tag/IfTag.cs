@@ -196,13 +196,17 @@ namespace Tag.Vows.Tag
                 {
                     this.TestLink = new HashSet<string>();
                 }
+                this.TestLink.Add(this.Test);
+                tag.SetTest(this.TestLink);
                 if (this.Lodas == null)
                 {
                     Lodas = new HashSet<ITesBeforLoading>();
                 }
-                this.TestLink.Add(this.Test);
-                tag.SetTest(this.TestLink);
                 this.Lodas.Add(tag);
+                if (tag is IfGroupTag)
+                {
+                    this.Conttent = (tag as IfGroupTag).RecoverTagText(this.Conttent);
+                }
             }
         }
     }

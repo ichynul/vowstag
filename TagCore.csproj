@@ -66,7 +66,7 @@
     <Compile Include="Interface\IStyleAble.cs" />
     <Compile Include="Interface\ITableUseable.cs" />
     <Compile Include="Interface\IUC.cs" />
-    <Compile Include="Interface\IUpDataAble.cs" />
+    <Compile Include="Interface\IUpperDataAble.cs" />
     <Compile Include="Interface\ITest.cs" />
     <Compile Include="Page\ReadPage.cs" />
     <Compile Include="Tag\CMDTag.cs" />

@@ -611,13 +611,11 @@ namespace Tag.Vows.Page
         /// </summary>
         protected void RecoverIfGroupTags()
         {
-            System.Web.HttpContext.Current.Response.Write("RecoverIfGroupTags in " + this.GetPageName() + "<br />");
             foreach (var c in this.TagList.Where(x => x is IfGroupTag))
             {
                 this.Html = c.RecoverTagText(this.Html);
                 this.Msg += c.GetMsg();
             }
-            System.Web.HttpContext.Current.Response.Write("RecoverIfGroupTags end in " + this.GetPageName() + "<br />");
         }
 
         /// <summary>
