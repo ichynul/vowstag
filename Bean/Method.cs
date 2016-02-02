@@ -49,8 +49,8 @@ namespace Tag.Vows.Bean
 
         public bool WillTestBeforLoad { get; set; }
         protected List<string> TestsBeforLoad { get; set; }
+        public static readonly string Space = "    ";
 
-        private static readonly string ASpace = "    ";
         private static Dictionary<int, string> Spaces = new Dictionary<int, string>();
 
         public void SetTestBeforLoad(HashSet<string> tests)
@@ -85,8 +85,8 @@ namespace Tag.Vows.Bean
         }
         public string ToFullMethodRect()
         {
-            return string.Concat(ASpace, "public ", ReturnType == null ? "void" : ReturnType, " ", Name, "(", ParsmStr, ")\r\n"
-                , ASpace, "{\r\n", Body, ASpace,
+            return string.Concat(Space, "public ", ReturnType == null ? "void" : ReturnType, " ", Name, "(", ParsmStr, ")\r\n"
+                , Space, "{\r\n", Body, Space,
                 "}\r\n\r\n");
         }
 
@@ -101,7 +101,7 @@ namespace Tag.Vows.Bean
             {
                 for (int i = 0; i < times; i += 1)
                 {
-                    str += ASpace;
+                    str += Space;
                 }
             }
             Spaces.Add(times, str);
