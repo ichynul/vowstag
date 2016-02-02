@@ -48,13 +48,17 @@ namespace Tag.Vows.Bean
         public static string Space = "    ";
         public bool WillTestBeforLoad { get; set; }
         protected List<string> TestsBeforLoad { get; set; }
+
         public void SetTestBeforLoad(HashSet<string> tests)
         {
-            this.TestsBeforLoad = new List<string>();
-            var list = tests.AsEnumerable();
-            for (int i = tests.Count - 1; i > -1; i -= 1)
+            if (tests != null && tests.Count > 0)
             {
-                this.TestsBeforLoad.Add(list.ElementAt(i));
+                this.TestsBeforLoad = new List<string>();
+                var list = tests.AsEnumerable();
+                for (int i = tests.Count - 1; i > -1; i -= 1)
+                {
+                    this.TestsBeforLoad.Add(list.ElementAt(i));
+                }
             }
         }
 
