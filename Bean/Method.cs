@@ -26,6 +26,7 @@ SOFTWARE.
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Tag.Vows.Bean
 {
@@ -45,9 +46,12 @@ namespace Tag.Vows.Bean
         public bool InPageLoad { get; set; }
         public string ParsmStr { get; set; }
         public string UseParams { get; set; }
-        public static string Space = "    ";
+
         public bool WillTestBeforLoad { get; set; }
         protected List<string> TestsBeforLoad { get; set; }
+
+        private static readonly string ASpace = "    ";
+        private static Dictionary<int, string> Spaces = new Dictionary<int, string>();
 
         public void SetTestBeforLoad(HashSet<string> tests)
         {
@@ -81,25 +85,27 @@ namespace Tag.Vows.Bean
         }
         public string ToFullMethodRect()
         {
-            return string.Concat(Space, "public ", ReturnType == null ? "void" : ReturnType, " ", Name, "(", ParsmStr, ")\r\n"
-                , Space, "{\r\n", Body, Space,
+            return string.Concat(ASpace, "public ", ReturnType == null ? "void" : ReturnType, " ", Name, "(", ParsmStr, ")\r\n"
+                , ASpace, "{\r\n", Body, ASpace,
                 "}\r\n\r\n");
         }
 
         public static string getSpaces(int times)
         {
-            if (times < 2)
+            if (Spaces.Keys.Contains(times))
             {
-                return times == 1 ? Space : "";
+                return Spaces[times];
             }
-            string str = Space;
-            for (int i = 1; i < times; i += 1)
+            string str = string.Empty;
+            if (times > 0)
             {
-                str += Space;
+                for (int i = 0; i < times; i += 1)
+                {
+                    str += ASpace;
+                }
             }
-
+            Spaces.Add(times, str);
             return str;
         }
-
     }
 }
