@@ -33,10 +33,19 @@ using Tag.Vows.Tool;
 namespace Tag.Vows.Web
 {
     /// <summary>
+    /// 异常处理
+    /// </summary>
+    /// <param name="ex"></param>
+    public delegate void CatchException(Exception ex);
+    /// <summary>
     /// tag页面继承此类
     /// </summary>
     public class TagPage : System.Web.UI.Page, IComTools, ICallBackControl, ICallbackEventHandler
     {
+        /// <summary>
+        /// 当CallbackResultException时处理异常
+        /// </summary>
+        public CatchException OnCallbackException = ex => { };
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
@@ -206,8 +215,9 @@ namespace Tag.Vows.Web
                 }
                 catch (Exception ex)
                 {
-                    call = new CallBackResult(new { code = "1", msg = "出错了！\n" + ex.ToString() });
+                    call = new CallBackResult(new { code = "1", msg = "出错了！-" + ex.Message });
                     call.type = "error";
+                    OnCallbackException(ex);
                 }
             }
             return tools.JsonSerialize(call);

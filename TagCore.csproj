@@ -11,6 +11,7 @@
     <AssemblyName>Tag.Vows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -109,7 +110,7 @@
     <Compile Include="Tag\PagerTag.cs" />
     <Compile Include="Tag\ReadTag.cs" />
     <Compile Include="Tag\StaticTag.cs" />
-    <Compile Include="Tool\Pager.cs" />
+    <Compile Include="Web\Pager.cs" />
     <Compile Include="Tool\TagRegex.cs" />
     <Compile Include="Tool\Tools.cs" />
     <Compile Include="Web\SubControl.cs">

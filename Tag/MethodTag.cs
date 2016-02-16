@@ -90,8 +90,10 @@ namespace Tag.Vows.Tag
                 }
             }
             var matches = this.Config.tagregex.ItemValue.Matches(Obj);
+            bool hasItem = false;
             if (matches.Count > 0)
             {
+                hasItem = true;
                 foreach (Match m in matches)
                 {
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
@@ -122,7 +124,14 @@ namespace Tag.Vows.Tag
                     this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
-            return string.Format("<% = {0} %>", this.Obj);
+            if (hasItem)
+            {
+                return string.Format("<%# {0} %>", this.Obj);
+            }
+            else
+            {
+                return string.Format("<% = {0} %>", this.Obj);
+            }
         }
 
         public override string ToTagString()

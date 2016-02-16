@@ -30,6 +30,106 @@
             请求类型
             </summary>
         </member>
+        <member name="T:Tag.Vows.Web.Pager">
+            <summary>
+            2015/07/25
+            by liagnhaiyun
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.ListSize">
+            <summary>
+            list总记录数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Current_page">
+            <summary>
+            当前页码
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Num_display">
+            <summary>
+            显示页码数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.PageSize">
+            <summary>
+            每页显示记录数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Num_edge">
+            <summary>
+            左右两边显示的页码数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Link_to">
+            <summary>
+            跳转链接
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Prev_text">
+            <summary>
+            上一页的文本
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Next_text">
+            <summary>
+            下一页的文本
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.Ellipse_text">
+            <summary>
+            省略号...
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.PrevOrNext_show">
+            <summary>
+            始终显示 上一页、下一页
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.TotalPage">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.Pager.htmlLinks">
+            <summary>
+            生成的html
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            构造函数（基本参数）
+            </summary>
+            <param name="mListSize">list总记录数</param>
+            <param name="mCunrrent">当前页码</param>
+            <param name="mPageSize">每页显示记录数</param>
+            <param name="mLink">跳转链接</param>
+        </member>
+        <member name="M:Tag.Vows.Web.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            构造函数（详细参数）
+            </summary>
+            <param name="mListSize">list总记录数</param>
+            <param name="mCunrrent">当前页码</param>
+            <param name="mPageSize">每页显示记录数</param>
+            <param name="mLink">跳转链接</param>
+            <param name="mNum_edge">左右两边显示的页码数</param>
+            <param name="mPrev_text">上一页的文本</param>
+            <param name="mNext_text">下一页的文本</param>
+            <param name="mEllipse_text">省略号...</param>
+            <param name="mPrevOrNext_show">始终显示 上一页、下一页</param>
+        </member>
+        <member name="M:Tag.Vows.Web.Pager.GaculTotalPages">
+            <summary>
+            计算总共有几页
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Web.Pager.MakeLinks">
+            <summary>
+            生成html
+            </summary>
+            <returns>html</returns>
+        </member>
         <member name="T:Tag.Vows.Web.SubControl">
              <summary>
             供 label 或 sublist 使用的页面片段
@@ -126,9 +226,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Tag.Vows.Web.CatchException">
+            <summary>
+            异常处理
+            </summary>
+            <param name="ex"></param>
+        </member>
         <member name="T:Tag.Vows.Web.TagPage">
             <summary>
             tag页面继承此类
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Web.TagPage.OnCallbackException">
+            <summary>
+            当CallbackResultException时处理异常
             </summary>
         </member>
         <member name="F:Tag.Vows.Web.TagPage.config">
@@ -609,106 +720,6 @@
             <summary>
             请传入Entities类的实例，
             </summary>
-        </member>
-        <member name="T:Tag.Vows.Tool.Pager">
-            <summary>
-            2015/07/25
-            by liagnhaiyun
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.ListSize">
-            <summary>
-            list总记录数
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Current_page">
-            <summary>
-            当前页码
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Num_display">
-            <summary>
-            显示页码数
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.PageSize">
-            <summary>
-            每页显示记录数
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Num_edge">
-            <summary>
-            左右两边显示的页码数
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Link_to">
-            <summary>
-            跳转链接
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Prev_text">
-            <summary>
-            上一页的文本
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Next_text">
-            <summary>
-            下一页的文本
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.Ellipse_text">
-            <summary>
-            省略号...
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.PrevOrNext_show">
-            <summary>
-            始终显示 上一页、下一页
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.TotalPage">
-            <summary>
-            总页数
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.Pager.htmlLinks">
-            <summary>
-            生成的html
-            </summary>
-        </member>
-        <member name="M:Tag.Vows.Tool.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            构造函数（基本参数）
-            </summary>
-            <param name="mListSize">list总记录数</param>
-            <param name="mCunrrent">当前页码</param>
-            <param name="mPageSize">每页显示记录数</param>
-            <param name="mLink">跳转链接</param>
-        </member>
-        <member name="M:Tag.Vows.Tool.Pager.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.Boolean)">
-            <summary>
-            构造函数（详细参数）
-            </summary>
-            <param name="mListSize">list总记录数</param>
-            <param name="mCunrrent">当前页码</param>
-            <param name="mPageSize">每页显示记录数</param>
-            <param name="mLink">跳转链接</param>
-            <param name="mNum_edge">左右两边显示的页码数</param>
-            <param name="mPrev_text">上一页的文本</param>
-            <param name="mNext_text">下一页的文本</param>
-            <param name="mEllipse_text">省略号...</param>
-            <param name="mPrevOrNext_show">始终显示 上一页、下一页</param>
-        </member>
-        <member name="M:Tag.Vows.Tool.Pager.GaculTotalPages">
-            <summary>
-            计算总共有几页
-            </summary>
-        </member>
-        <member name="M:Tag.Vows.Tool.Pager.MakeLinks">
-            <summary>
-            生成html
-            </summary>
-            <returns>html</returns>
         </member>
         <member name="T:Tag.Vows.Data.DataHelper">
             <summary>

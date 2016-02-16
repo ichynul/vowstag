@@ -23,10 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Tag.Vows.Bean;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;

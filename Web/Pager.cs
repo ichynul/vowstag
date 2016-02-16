@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Tag.Vows.Tool
+namespace Tag.Vows.Web
 {
     /// <summary>
     /// 2015/07/25
