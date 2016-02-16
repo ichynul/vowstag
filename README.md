@@ -2,7 +2,7 @@
  ```
 //1.添加引用Tag.Vows.dll
     //2.配置
-     TagConfig __config= new mPaths();
+     TagConfig __config= new TagConfig();
     __config.input = "~/temple/"; /*模板文件夹为根目录的/temple/文件夹*/
     __config.output = "~/www/"; /*生成文件夹为根目录的/www/文件夹*/
     __config.db = new Entities(); /*设置一个 ObjectContext 或 DbSet 的子实例*/
