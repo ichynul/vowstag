@@ -444,7 +444,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), modType);//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), Config.GetingTableStr("list", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -480,7 +480,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat(".Where( b=>\r\n {0}", Method.getSpaces(4));
+                        linq.AppendFormat("\r\n{0}.Where( b=>\r\n {0}", Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
@@ -654,7 +654,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), modType);//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), Config.GetingTableStr("json", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -694,7 +694,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat(".Where( b=>\r\n {0}", Method.getSpaces(4));
+                        linq.AppendFormat("\r\n{0}.Where( b=>\r\n {0}", Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
@@ -838,7 +838,8 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat("\r\n{0}{1} = db.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), readname, modType, Method.getSpaces(4));
+                        linq.AppendFormat("\r\n{0}{1} = db\r\n.{3}{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), readname,
+                            Config.GetingTableStr("read", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
@@ -848,16 +849,19 @@ namespace Tag.Vows.Data
                     }
                     else if (w.Compare == "%")
                     {
-                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
+                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
+                            w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
 
                     }
                     else if (w.Compare == "!%")
                     {
-                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
+                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
+                            w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
                     }
                     else
                     {
-                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName, w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
+                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName,
+                            w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
                     }
                 }
                 if (!first)

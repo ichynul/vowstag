@@ -32,10 +32,42 @@ using Tag.Vows.Page;
 namespace Tag.Vows.Tool
 {
     /// <summary>
+    /// 预处理html
+    /// </summary>
+    /// <param name="html">原始</param>
+    /// <returns>处理过的html</returns>
+    public delegate string GetHtml(string html);
+    /// <summary>
+    /// 获取表定义
+    /// </summary>
+    /// <param name="tagName">标签名称(list/read/json/form)</param>
+    /// <param name="tabName">表名称</param>
+    /// <returns>表定义 linq-str</returns>
+    public delegate string GetTableStr(string tagName, string tabName);
+
+    /// <summary>
     /// 标签解析入口工具类
     /// </summary>
     public class TagConfig
     {
+        /// <summary>
+        /// 预处理html，用于中间转换；
+        /// 比如把一些其它类型的标签转换为本标签系统能识别的样式。
+        /// </summary>
+        public GetHtml GetingHtml = html => html;
+        /// <summary>
+        /// 获取表定义，用于定义某些表的默认返回；
+        /// 有些条件是任何时候都需要的，这时可以把他写进表定义里面。
+        /// 如 文章表'article'中有字段status表示该文章的状态(1为正常、0为锁定、-1为删除)，
+        /// 前台显示时只显示status=1的数据，这时就可以把该条件写入表定义中，
+        /// 到处要写个status=1的条件很繁琐，而且如果某处忘记了写该条件，会使数据返回错乱。
+        /// if(tabName=="article")
+        /// {
+        ///     return "article.Where(a=>a.status==1)";
+        /// }
+        /// </summary>
+        public GetTableStr GetingTableStr = (tagName, tabName) => tabName;
+
         internal TagRegex tagregex;
         /// <summary>
         /// 最大镶套层次，超过这个深度的自页面略过，防止循环镶套

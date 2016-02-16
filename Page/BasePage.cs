@@ -162,6 +162,7 @@ namespace Tag.Vows.Page
                 try
                 {
                     Html = File.ReadAllText(templatePath);
+                    Html = Config.GetingHtml(Html);
                 }
                 catch (Exception e)
                 {

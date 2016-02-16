@@ -115,8 +115,8 @@ namespace Tag.Vows.Tag
             {
                 return string.Format("{0}//{1}", Method.getSpaces(2), this.TabledisAbledMsg());
             }
-            string modName = model.GetType().Name;
-            string dataName = "_" + modName.ToLower();
+            string modType = model.GetType().Name;
+            string dataName = "_" + modType.ToLower();
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + BaseParams + "*/\r\n");
             linq.AppendFormat("{0}string formname = this.CallValue(\"formname\");\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}if (formname != \"{1}\")\r\n", Method.getSpaces(2), this.GetTagName());
@@ -131,7 +131,7 @@ namespace Tag.Vows.Tag
             linq.AppendFormat("{0}call.type = \"formcall\";\r\n", Method.getSpaces(2));
             if (action != "add")
             {
-                linq.AppendFormat("{0}{1} {2} = null ;\r\n", Method.getSpaces(2), modName, dataName);
+                linq.AppendFormat("{0}{1} {2} = null ;\r\n", Method.getSpaces(2), modType, dataName);
                 bool first = true;
                 List<string> orderbylist = new List<string>();
                 bool desc = true;
@@ -159,7 +159,8 @@ namespace Tag.Vows.Tag
                     if (first)
                     {
                         linq.Append(TempleHelper.getTempleHelper(this.Config).GetWhereParams(model, baseWheres, BaseParams));
-                        linq.AppendFormat("\r\n{0}{1} = db.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), dataName, modName, Method.getSpaces(4));
+                        linq.AppendFormat("\r\n{0}{1} = db\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), 
+                            dataName, Config.GetingTableStr("list", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
@@ -191,7 +192,8 @@ namespace Tag.Vows.Tag
                         {
                             for (int i = 1; i < orderbylist.Count(); i += 1)
                             {
-                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
+                                linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy",
+                                    DataHelper.GetPropertyName(model, orderbylist[i]));
                             }
                         }
                     }
@@ -211,8 +213,8 @@ namespace Tag.Vows.Tag
                 else
                 {
                     linq.AppendFormat("{0}/*添加&编辑模式（action = both），未找到记录则创建*/;\r\n", Method.getSpaces(3));
-                    linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modName);
-                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modName, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modName), dataName);
+                    linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modType);
+                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
                 }
                 linq.Append(Method.getSpaces(2) + "}\r\n");
 
@@ -220,8 +222,8 @@ namespace Tag.Vows.Tag
             else
             {
                 linq.AppendFormat("{0}/*添加模式（action = both），新建记录*/;\r\n", Method.getSpaces(3));
-                linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modName, dataName);
-                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modName, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modName), dataName);
+                linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modType, dataName);
+                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
             }
             FromVar v = null;
             vname = "";
