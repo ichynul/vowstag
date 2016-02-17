@@ -105,7 +105,7 @@ namespace Tag.Vows.Tool
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             EmptyTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             /********value tests*******/
-            RequestValue = new Regex(@"request\.\w+(?!\[)", RegexOptions.IgnoreCase);
+            RequestValue = new Regex(@"request\.\w+(?=[^\[])", RegexOptions.IgnoreCase);
             SessionValue = new Regex(@"^session\.\w+", RegexOptions.IgnoreCase);
             CookieValue = new Regex(@"cookie\.\w+", RegexOptions.IgnoreCase);
             CallValue = new Regex(@"call\.\w+", RegexOptions.IgnoreCase);

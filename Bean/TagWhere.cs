@@ -27,26 +27,32 @@ using System.Text.RegularExpressions;
 
 namespace Tag.Vows.Bean
 {
-    class mWhere
+    class TagWhere
     {
-        private mWhere() { }
-        public mWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
+        private TagWhere() { }
+        public TagWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
         {
             this.IsTagKeyWord = Regex.IsMatch(mFiledName, "^[#$%]");
             this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;
-            this.VarName = mVarName;
-            Match m = Regex.Match(mFiledName, @"(?<=^)[!\(]+(?=\w)");
+
+            Match m = Regex.Match(mVarName, @"(?<varname>.+?)(?<varright>\)+?)(?=$)");
+            if (m.Success)
+            {
+                this.VarRight = m.Groups["varright"].Value;
+                this.VarName = m.Groups["varname"].Value;
+            }
+            else
+            {
+                this.VarName = mVarName;
+            }
+            m = Regex.Match(mFiledName, @"(?<=^)[!\(]+(?=\w)");
             if (m.Success)
             {
                 this.FieldLeft = m.Value;
             }
-            m = Regex.Match(mVarName, @"(?<=\w)\)+(?=$)");
-            if (m.Success)
-            {
-                this.VarRight = m.Value;
-            }
+
         }
         /// <summary>
         /// 属性名称

@@ -36,7 +36,7 @@ namespace Tag.Vows.Tag
     class FormTag : BaseTag, ITableUseable, ICallBackAble
     {
         private string BaseParams;
-        private List<mWhere> baseWheres;
+        private List<TagWhere> baseWheres;
         private Method CallBack;
         public string DataName;
         private string
@@ -88,7 +88,7 @@ namespace Tag.Vows.Tag
             if (!string.IsNullOrEmpty(BaseParams))
             {
                 baseWheres = TempleHelper.getTempleHelper(this.Config).Linq_queryParams(model, BaseParams);
-                mWhere add = baseWheres.FirstOrDefault(x => x.FiledName == "action");
+                TagWhere add = baseWheres.FirstOrDefault(x => x.FiledName == "action");
                 if (add != null)
                 {
                     this.action = add.VarName;

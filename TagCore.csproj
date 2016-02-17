@@ -84,7 +84,7 @@
     <Compile Include="Tag\StyleAbleTag.cs" />
     <Compile Include="Tool\JsMaker.cs" />
     <Compile Include="Tool\TagConfig.cs" />
-    <Compile Include="Bean\Where.cs" />
+    <Compile Include="Bean\TagWhere.cs" />
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\TempleHelper.cs" />
     <Compile Include="Enum\FieldType.cs" />

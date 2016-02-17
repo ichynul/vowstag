@@ -361,37 +361,37 @@
             Method 的摘要说明
              </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.FiledName">
+        <member name="P:Tag.Vows.Bean.TagWhere.FiledName">
             <summary>
             属性名称
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.Compare">
+        <member name="P:Tag.Vows.Bean.TagWhere.Compare">
             <summary>
             比较符
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.LogicSymb">
+        <member name="P:Tag.Vows.Bean.TagWhere.LogicSymb">
             <summary>
             逻辑连接符
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.VarName">
+        <member name="P:Tag.Vows.Bean.TagWhere.VarName">
             <summary>
             属性值
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.FieldLeft">
+        <member name="P:Tag.Vows.Bean.TagWhere.FieldLeft">
             <summary>
             属性左边
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.VarRight">
+        <member name="P:Tag.Vows.Bean.TagWhere.VarRight">
             <summary>
             属性值右边
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.mWhere.IsTagKeyWord">
+        <member name="P:Tag.Vows.Bean.TagWhere.IsTagKeyWord">
             <summary>
             表属性（非以#或$或%开头的），当表中有与标签关键字重复的属性时，关键字应以#或$或%开头
             </summary>

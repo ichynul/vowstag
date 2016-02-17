@@ -61,7 +61,7 @@ namespace Tag.Vows.Data
         }
 
         #region GetWhereParams
-        internal StringBuilder GetWhereParams(object model, List<mWhere> wheres, string baseParms)
+        internal StringBuilder GetWhereParams(object model, List<TagWhere> wheres, string baseParms)
         {
             StringBuilder sb = new StringBuilder();
             string passNames = "orderby|desc|pagesize|take|item|skip";
@@ -78,7 +78,7 @@ namespace Tag.Vows.Data
             bool mNullAble = false;
             List<string> requestTests = new List<string>();
             List<string> requests = new List<string>();
-            foreach (mWhere w in wheres)
+            foreach (TagWhere w in wheres)
             {
                 i += 1;
                 if (passNames.Contains(w.FiledName))
@@ -334,7 +334,7 @@ namespace Tag.Vows.Data
         #endregion
 
         #region GetWheres
-        private void GetWheres(List<mWhere> wheres, string _params, string _symb)
+        private void GetWheres(List<TagWhere> wheres, string _params, string _symb)
         {
             string[] arr = _params.Split('&');
             string[] p = null;//拆分键值对
@@ -355,42 +355,42 @@ namespace Tag.Vows.Data
                 if (field_Var.IndexOf("!=") != -1)
                 {
                     p = field_Var.Replace("!=", "|").Split('|');
-                    wheres.Add(new mWhere(p[0], "!=", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "!=", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf("<=") != -1)
                 {
                     p = field_Var.Replace("<=", "|").Split('|');
-                    wheres.Add(new mWhere(p[0], "<=", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "<=", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf(">=") != -1)
                 {
                     p = field_Var.Replace(">=", "|").Split('|');
-                    wheres.Add(new mWhere(p[0], ">=", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], ">=", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf("=") != -1)
                 {
                     p = field_Var.Split('=');
-                    wheres.Add(new mWhere(p[0], "==", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "==", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf("<") != -1)
                 {
                     p = field_Var.Split('<');
-                    wheres.Add(new mWhere(p[0], "<", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "<", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf(">") != -1)
                 {
                     p = field_Var.Split('>');
-                    wheres.Add(new mWhere(p[0], ">", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], ">", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf("!%") != -1)
                 {
                     p = field_Var.Replace("!%", "|").Split('|');
-                    wheres.Add(new mWhere(p[0], "!%", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "!%", _symb, p[1]));
                 }
                 else if (field_Var.IndexOf("%") != -1)
                 {
                     p = field_Var.Split('%');
-                    wheres.Add(new mWhere(p[0], "%", _symb, p[1]));
+                    wheres.Add(new TagWhere(p[0], "%", _symb, p[1]));
                 }
                 if (or)
                 {
@@ -402,9 +402,9 @@ namespace Tag.Vows.Data
         #endregion
 
         #region Linq_queryParams
-        internal List<mWhere> Linq_queryParams(object model, string baseParms)
+        internal List<TagWhere> Linq_queryParams(object model, string baseParms)
         {
-            List<mWhere> baseWheres = new List<mWhere>();
+            List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, baseParms, " && ");
             return baseWheres;
         }
@@ -436,7 +436,7 @@ namespace Tag.Vows.Data
             }
 
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + baseParms + "*/\r\n");
-            List<mWhere> baseWheres = new List<mWhere>();
+            List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
@@ -646,7 +646,7 @@ namespace Tag.Vows.Data
             linq.Append(Method.getSpaces(2) + "{\r\n");
             linq.Append(Method.getSpaces(3) + "return null;\r\n");
             linq.Append(Method.getSpaces(2) + "}\r\n");
-            List<mWhere> baseWheres = new List<mWhere>();
+            List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
@@ -818,7 +818,7 @@ namespace Tag.Vows.Data
                 return Method.getSpaces(2) + "//不存在该表_" + dataName + "\r\n";
             }
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + query + "*/\r\n");
-            List<mWhere> baseWheres = new List<mWhere>();
+            List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, query, " && ");
             if (baseWheres.Count > 0)
             {
