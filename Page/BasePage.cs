@@ -60,7 +60,7 @@ namespace Tag.Vows.Page
         protected string AspxCode { get; private set; }
         protected string AspxCsCode { get; private set; }
         protected string ext = ".html";
-        protected MatchCollection Matches;
+        protected MatchCollection Matches, _Matches;
         protected Match Match;
         protected StringBuilder MethodLines;
         protected StringBuilder MethodRects;
@@ -179,7 +179,6 @@ namespace Tag.Vows.Page
             {
                 DissAbleServerScript();
             }
-
             ReplaceSpacesAndMatchAll();
             if (!this.Config.convert)
             {
@@ -222,6 +221,25 @@ namespace Tag.Vows.Page
             }
         }
 
+        private string FindStringAndReplace(string tagText)
+        {
+            _Matches = this.Config.tagregex.NotEmptyStringTest.Matches(tagText);
+            string str;
+            for (int i = 0; i < _Matches.Count; i += 1)
+            {
+                str = _Matches[i].Value;
+                System.Web.HttpContext.Current.Response.Write("----" + _Matches[i].Value + "<br />");
+                tagText = tagText.Replace(str, Regex.Replace(str, @"\s", "x_spcce_x", RegexOptions.Singleline));
+            }
+            return tagText;
+        }
+
+        private string RecoverStringAndReplace(string tagText)
+        {
+            tagText = Regex.Replace(tagText, @"x_spcce_x", " ", RegexOptions.Singleline);
+            return tagText;
+        }
+
         /// <summary>
         /// 将可能的标签格式化及去除空格，以作进一步匹配
         /// </summary>
@@ -232,7 +250,9 @@ namespace Tag.Vows.Page
             for (int i = 0; i < Matches.Count; i += 1)
             {
                 origin = Matches[i].Value;
-                tag = Regex.Replace(origin, @"\s", string.Empty, RegexOptions.IgnoreCase);
+                tag = FindStringAndReplace(origin);
+                tag = Regex.Replace(tag, @"\s", string.Empty, RegexOptions.IgnoreCase);
+                tag = RecoverStringAndReplace(tag);
                 tag = Regex.Replace(tag, @"<br/>", "&", RegexOptions.IgnoreCase);
                 tag = Regex.Replace(tag, @"<hr/>", "|", RegexOptions.IgnoreCase);
                 //
@@ -761,7 +781,7 @@ namespace Tag.Vows.Page
                     }
                     else
                     {
-                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(3), method.Name);
+                        MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(4), method.Name);
                     }
                 }
             }
@@ -833,7 +853,7 @@ namespace Tag.Vows.Page
             AspxCsCode.Append(Method.getSpaces(2) + "{\r\n");
             AspxCsCode.AppendFormat("{0}if (this.Befor_Load_Tags())\r\n", Method.getSpaces(3));
             AspxCsCode.Append(Method.getSpaces(3) + "{\r\n");
-            AspxCsCode.AppendFormat("{0}{1}", Method.getSpaces(1), MethodLines);
+            AspxCsCode.AppendFormat("{0}", MethodLines);
             AspxCsCode.Append(Method.getSpaces(3) + "}\r\n");
             AspxCsCode.Append(Method.getSpaces(2) + "}\r\n");
             AspxCsCode.Append(Method.Space + "}\r\n\r\n");
@@ -961,7 +981,7 @@ namespace Tag.Vows.Page
             }
             else if (this is ItemPage)
             {
-                if (this.PageName == "x-item-fake-x")
+                if (this.PageName == ListTag.FakeItemStr)
                 {
                     success = true;
                 }

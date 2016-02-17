@@ -68,6 +68,7 @@ namespace Tag.Vows.Tool
         public Regex OtherDirTest { private set; get; }
         public Regex ServerCodeTest { private set; get; }
         public Regex ServerScriptTest { private set; get; }
+        public Regex NotEmptyStringTest { private set; get; }
         /********pairs tests*******/
         public Regex TagPairTest { private set; get; }
         #endregion
@@ -84,7 +85,7 @@ namespace Tag.Vows.Tool
         public TagRegex(string tagLeft, string tagRight)
         {
 
-            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:=|!=|>|<|>=|<=|%|!%)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|""""|"
+            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?[#$%]?\w+(?:>|<|!=|>=|<=|!%|=|%)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|"".*?""|"
                             , @"(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|\w+\.\w+(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
             #region 标签正则表达式
             /********tag tests*******/
@@ -104,8 +105,8 @@ namespace Tag.Vows.Tool
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             EmptyTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             /********value tests*******/
-            RequestValue = new Regex(@"request\.\w+", RegexOptions.IgnoreCase);
-            SessionValue = new Regex(@"session\.\w+", RegexOptions.IgnoreCase);
+            RequestValue = new Regex(@"request\.\w+(?!\[)", RegexOptions.IgnoreCase);
+            SessionValue = new Regex(@"^session\.\w+", RegexOptions.IgnoreCase);
             CookieValue = new Regex(@"cookie\.\w+", RegexOptions.IgnoreCase);
             CallValue = new Regex(@"call\.\w+", RegexOptions.IgnoreCase);
             ItemValue = new Regex(@"item\.\w+", RegexOptions.IgnoreCase);
@@ -121,6 +122,7 @@ namespace Tag.Vows.Tool
             ServerCodeTest = new Regex(@"<%(?<code>.*?)%>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ServerScriptTest = new Regex(@"<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>"
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            NotEmptyStringTest = new Regex(string.Concat(@"(?<=(?:!=|!%|=|%)\s*)"".+?""(?=\s*(?:&|\||\)|", tagRight, "))"));
             /********pairs tests*******/
             TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*/?(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);

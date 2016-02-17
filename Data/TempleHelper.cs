@@ -150,11 +150,11 @@ namespace Tag.Vows.Data
                     }
                     continue;
                 }
-                if (w.VarName == "\"\"")
+                if (Regex.IsMatch(w.VarName, @""".*?"""))
                 {
                     if (dataType != "string")
                     {
-                        w.VarName = "\"\"/*错误！该字段不是string类型*/";
+                        w.VarName = string.Concat(w.VarName, "/*错误！该字段不是string类型*/");
                     }
                     continue;
                 }
@@ -254,7 +254,10 @@ namespace Tag.Vows.Data
                     vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
                     if (dataType == "string")
                     {
-                        w.VarName = string.Format("\"{0}\"", w.VarName);
+                        if (!Regex.IsMatch(w.VarName, @""".*?"""))
+                        {
+                            w.VarName = string.Concat("\"", w.VarName, "\"");
+                        }
                     }
                     else if ("int|long".Contains(dataType))
                     {

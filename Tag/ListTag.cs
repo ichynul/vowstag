@@ -38,6 +38,8 @@ namespace Tag.Vows.Tag
     class ListTag : StyleAbleTag, IIGlobalMethod, IDeepLoadAble, ISubAble
         , IGlobalField, IUpperDataAble, ITableUseable, ITesBeforLoading
     {
+        public const string FakeItemStr = "/x-item-fake-x/";
+
         protected new IHtmlAble SubPage;
         private string BaseParams;
         public string ItemName { get; private set; }
@@ -100,7 +102,7 @@ namespace Tag.Vows.Tag
             }
             else
             {
-                this.ItemName = "x-item-fake-x";
+                this.ItemName = ListTag.FakeItemStr;
             }
         }
 

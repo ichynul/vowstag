@@ -228,9 +228,9 @@
         </member>
         <member name="T:Tag.Vows.Web.CatchException">
             <summary>
-            异常处理
+            CallbackResult异常处理
             </summary>
-            <param name="ex"></param>
+            <param name="ex">异常</param>
         </member>
         <member name="T:Tag.Vows.Web.TagPage">
             <summary>
@@ -360,6 +360,41 @@
              <summary>
             Method 的摘要说明
              </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.FiledName">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.Compare">
+            <summary>
+            比较符
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.LogicSymb">
+            <summary>
+            逻辑连接符
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.VarName">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.FieldLeft">
+            <summary>
+            属性左边
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.VarRight">
+            <summary>
+            属性值右边
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Bean.mWhere.IsTagKeyWord">
+            <summary>
+            表属性（非以#或$或%开头的），当表中有与标签关键字重复的属性时，关键字应以#或$或%开头
+            </summary>
         </member>
         <member name="T:Tag.Vows.Page.BasePage">
              <summary>

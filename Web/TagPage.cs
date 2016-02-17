@@ -33,9 +33,9 @@ using Tag.Vows.Tool;
 namespace Tag.Vows.Web
 {
     /// <summary>
-    /// 异常处理
+    /// CallbackResult异常处理
     /// </summary>
-    /// <param name="ex"></param>
+    /// <param name="ex">异常</param>
     public delegate void CatchException(Exception ex);
     /// <summary>
     /// tag页面继承此类
@@ -45,7 +45,7 @@ namespace Tag.Vows.Web
         /// <summary>
         /// 当CallbackResultException时处理异常
         /// </summary>
-        public CatchException OnCallbackException = ex => { };
+        protected CatchException OnCallbackException = ex => { };
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
@@ -59,7 +59,7 @@ namespace Tag.Vows.Web
         /// <summary>
         /// 在Page_Load里加载各标签前判断，若返回false则标签都不会加载
         /// </summary>
-        protected Func<bool> Befor_Load_Tags = () => { return true; };
+        protected Func<bool> Befor_Load_Tags = () => true;
 
         private NameValueCollection _CallString;
 

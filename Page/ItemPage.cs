@@ -47,7 +47,7 @@ namespace Tag.Vows.Page
         }
 
         public ItemPage(string style, int mDeep, TagConfig config, string listTagName)
-            : base(style, mDeep, config, "x-item-fake-x")
+            : base(style, mDeep, config, ListTag.FakeItemStr)
         {
             this.PageName = string.Concat(listTagName, "#", this.PageName);
             DoForItem();

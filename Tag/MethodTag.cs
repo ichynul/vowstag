@@ -116,7 +116,6 @@ namespace Tag.Vows.Tag
                 }
             }
             matches = this.Config.tagregex.CookieValue.Matches(Obj);
-            //需放在 RequestValue之后，避免混淆  如Request.Cookies["xxx"]
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)

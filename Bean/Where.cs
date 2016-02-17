@@ -32,11 +32,11 @@ namespace Tag.Vows.Bean
         private mWhere() { }
         public mWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
         {
-            this.NotDataField = Regex.IsMatch(mFiledName, "^[#$%]");
+            this.IsTagKeyWord = Regex.IsMatch(mFiledName, "^[#$%]");
             this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;
-            this.VarName = Regex.Replace(mVarName, @"[^\w\-:\.,]", "");
+            this.VarName = mVarName;
             Match m = Regex.Match(mFiledName, @"(?<=^)[!\(]+(?=\w)");
             if (m.Success)
             {
@@ -48,13 +48,33 @@ namespace Tag.Vows.Bean
                 this.VarRight = m.Value;
             }
         }
-
+        /// <summary>
+        /// 属性名称
+        /// </summary>
         public string FiledName { get; set; }
+        /// <summary>
+        /// 比较符
+        /// </summary>
         public string Compare { get; set; }
+        /// <summary>
+        /// 逻辑连接符
+        /// </summary>
         public string LogicSymb { get; set; }
+        /// <summary>
+        /// 属性值
+        /// </summary>
         public string VarName { get; set; }
+        /// <summary>
+        /// 属性左边
+        /// </summary>
         public string FieldLeft { get; set; }
+        /// <summary>
+        /// 属性值右边
+        /// </summary>
         public string VarRight { get; set; }
-        public bool NotDataField { get; set; }
+        /// <summary>
+        /// 表属性（非以#或$或%开头的），当表中有与标签关键字重复的属性时，关键字应以#或$或%开头
+        /// </summary>
+        public bool IsTagKeyWord { get; set; }
     }
 }
