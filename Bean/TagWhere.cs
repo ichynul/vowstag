@@ -32,7 +32,6 @@ namespace Tag.Vows.Bean
         private TagWhere() { }
         public TagWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
         {
-            this.IsTagKeyWord = Regex.IsMatch(mFiledName, "^[#$%]");
             this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;
@@ -78,9 +77,5 @@ namespace Tag.Vows.Bean
         /// 属性值右边
         /// </summary>
         public string VarRight { get; set; }
-        /// <summary>
-        /// 表属性（非以#或$或%开头的），当表中有与标签关键字重复的属性时，关键字应以#或$或%开头
-        /// </summary>
-        public bool IsTagKeyWord { get; set; }
     }
 }

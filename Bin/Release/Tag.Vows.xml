@@ -391,11 +391,6 @@
             属性值右边
             </summary>
         </member>
-        <member name="P:Tag.Vows.Bean.TagWhere.IsTagKeyWord">
-            <summary>
-            表属性（非以#或$或%开头的），当表中有与标签关键字重复的属性时，关键字应以#或$或%开头
-            </summary>
-        </member>
         <member name="T:Tag.Vows.Page.BasePage">
              <summary>
             At 2015/07/15
