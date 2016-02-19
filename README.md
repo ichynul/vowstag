@@ -97,7 +97,7 @@
      var pages, listsize=9999999;
      var type = 0;
      var over = false;
-    var jsonname="{#list=article?classid=3&orderby=tiem&desc=true}"; //读取栏目编号为3的文章,按时间倒序排列
+    var jsonname="{#json=article?classid=3&orderby=tiem&desc=true}"; //读取栏目编号为3的文章,按时间倒序排列
  
     function loadMore() {
         _tagcall.$json(jsonname, "page=" + page);
