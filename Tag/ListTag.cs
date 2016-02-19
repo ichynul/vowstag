@@ -315,10 +315,5 @@ namespace Tag.Vows.Tag
             this.BeforLoadTests = link;
             this.TestBeforLoad = true;
         }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

@@ -27,7 +27,7 @@
     </table>
 ```
 ** 使用：**
-    //1.添加引用TagCore.dll
+    //1.添加引用Tag.Vows.dll
     //2.配置
      TagConfig __config= new mPaths();
     __config.input = "~/temple/"; /*模板文件夹为根目录的/temple/文件夹*/
