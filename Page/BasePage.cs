@@ -66,8 +66,8 @@ namespace Tag.Vows.Page
         protected StringBuilder MethodRects;
         protected StringBuilder CallMethods;
         protected string GloabalFileds = "";
-        internal List<BaseTag> TagList = new List<BaseTag>();
-        internal List<Method> MethodsInPage = new List<Method>();
+        public List<BaseTag> TagList = new List<BaseTag>();
+        public List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
 
         protected BasePage() { }
