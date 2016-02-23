@@ -110,9 +110,9 @@ public partial class Admin_Temple_Maker : Page
         __config.input = mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/";
         __config.output = mod_type.SelectedIndex == 0 ? "~/www/" : "~/m/";
         __config.db = new Entities();
-        __config.protected_tables = "Manages|WxConfig|L_Log";
+        __config.protected_tables = "User";//受保护的表
         __config.creatScriptForAllPages = true;
-        //__path.defaultBase = "web.x2015x.UserBase";
+        __config.DefaultBase = "xx.yy.pageBase";//页面默认继承类
         __config.convert = isconvert.Checked;
         if (__config.convert)
         {
