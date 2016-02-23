@@ -88,8 +88,9 @@ public partial class Admin_Temple_Maker : Page
             return "";
         }
         if (table.ToLower() == "article")
-        {
-            return "Article.Where(x => x.IsLock != true)";
+        {//给Article表设置一个限定，无论查询中是否有 islok!=true 条件，我们都加上这个条件（锁定的文章我们永远不希望在前台展示）
+         //
+            return "Article.Where(x => x.IsLock != true)";//此处应写标准的linq语句，表名及字段区分大小写
         }
         return table;
     }
@@ -110,7 +111,7 @@ public partial class Admin_Temple_Maker : Page
         __config.input = mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/";
         __config.output = mod_type.SelectedIndex == 0 ? "~/www/" : "~/m/";
         __config.db = new Entities();
-        __config.protected_tables = "User";//受保护的表
+        __config.protected_tables = "Admin";//受保护的表，不允许通过标签在前台展示
         __config.creatScriptForAllPages = true;
         __config.DefaultBase = "xx.yy.pageBase";//页面默认继承类
         __config.convert = isconvert.Checked;
@@ -194,6 +195,12 @@ public partial class Admin_Temple_Maker : Page
     {
         doConvert.Visible = isconvert.Checked;
         make.Text = isconvert.Checked ? "转换选中" : "生成选中";
+    }
+
+    protected void rebind(object sender, EventArgs e)
+    {
+        findPages();
+        chall.Checked = false;
     }
 
     private string[] getCurrentTagPair(ListControl list)

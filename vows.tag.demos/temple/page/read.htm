@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#config.webname}-文章阅读{#read.title}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+</head>
+<body>
+    <!---->
+    {# cmd?base=xx.yy.Read & callback= true /}
+    <!--指定页面处理类 -->
+    <!---->
+    {#read=article?id=request.id /}<!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+    <div class="head">
+        {#label=notice /}<!--引入label--></div>
+    <div class="main">
+        <div class="read">
+            <div class="infos">
+                <h3>
+                    {#read.title /}<!-- 也可写成{#read.author }-->
+                </h3>
+                <span>作者：{# read.author /}</span><span>日期：{# TimeFormat(read.time) /}</span><span>点击：{#read.view
+                    /}</span>
+            </div>
+            <div class="content">
+                {#read.content /}
+            </div>
+            <div class="links">
+                <span>上一篇： </span>
+                <!--用list标签读取上一篇-->
+                {#list=article ? orderby=id & desc=true & id < request.id & emptytext=没有了 & take
+                =1}<!--此处用字段id与url参数比较 -->
+                <!-- -->
+                <a href="read.aspx?id={#item.id}">{#item.title}</a>
+                <!-- -->
+                {#list}
+                <!-- -->
+                <span>下一篇：</span>
+                <!--用list标签读取下一篇-->
+                {#list=article ? orderby=id & desc=false & id > read.id & take =1}
+                <!--此处用字段id与read.id(read标签的一个字段)比较,这里跟request.id差不多-->
+                <!-- -->
+                <a href="read.aspx?id={#item.id}">{#item.title}</a>
+                <!-- -->
+                {#empty}<!--empty标签对，作用与emptytext差不多，但emptytext仅支持简单的文字，而empty可包含复杂的文本（如html） -->
+                <!-- -->
+                <span style="color: Red;">没有了~</span>
+                <!-- -->
+                {#empty}
+                <!-- -->
+                {#list}
+                <!-- -->
+            </div>
+            <div class="ding">
+                <a id="dingyixia" style="color: Red; font-size: 15px;" href="javascript:;" onclick='ding()'>
+                    顶一个({#read.ding})</a>
+            </div>
+        </div>
+    </div>
+    {#static=foot /}<!--引入static-->
+    <script type="text/javascript">
+        function ding() {
+            $('#dingyixia').text('操作中...');
+            _tagcall.$('action=ding&id={#request.id}');
+        }
+
+        function CallbackSuccess(resultstr, context) {
+            var obj = eval('(' + resultstr + ')');
+            if (obj.type) {
+                if (obj.type == "mycall") {//自定义请求的返回
+                    $('#dingyixia').text('顶一个(' + obj.result.ding + ')');
+                    alert(obj.result.msg);
+                }
+                else if (obj.type == "formcall") {//form标签请求的返回
+
+                }
+                else if (obj.type == "jsoncall") {//json标签请求的返回
+
+                }
+                else {
+                    alert(resultstr);
+                }
+            }
+            else {
+                alert(resultstr);
+            }
+        }
+    </script>
+</body>
+</html>

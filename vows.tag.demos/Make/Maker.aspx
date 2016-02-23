@@ -64,6 +64,7 @@
                         <asp:ListItem>PC</asp:ListItem>
                         <asp:ListItem>Mobile</asp:ListItem>
                     </asp:DropDownList>
+                    <asp:LinkButton ID="refind" runat="server" Text="重新查找" OnClick="rebind"></asp:LinkButton>
                 </td>
             </tr>
             <tr>
@@ -138,6 +139,9 @@
                             </th>
                             <th style="text-align: left;">
                                 路径
+                            </th>
+                             <th style="width: 175px;">
+                                查看
                             </th>
                             <th style="width: 75px;">
                                 扩展名

@@ -29,6 +29,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
+using System.Dynamic;
 
 namespace Tag.Vows.Web
 {
@@ -49,7 +50,7 @@ namespace Tag.Vows.Web
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
-        protected dynamic config;
+        protected dynamic config = new ExpandoObject();
         /// <summary>
         /// callBack 时请求参数
         /// </summary>

@@ -68,22 +68,6 @@ namespace model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<Article> Article
-        {
-            get
-            {
-                if ((_Article == null))
-                {
-                    _Article = base.CreateObjectSet<Article>("Article");
-                }
-                return _Article;
-            }
-        }
-        private ObjectSet<Article> _Article;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<Category> Category
         {
             get
@@ -96,18 +80,58 @@ namespace model
             }
         }
         private ObjectSet<Category> _Category;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<User> User
+        {
+            get
+            {
+                if ((_User == null))
+                {
+                    _User = base.CreateObjectSet<User>("User");
+                }
+                return _User;
+            }
+        }
+        private ObjectSet<User> _User;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<Admin> Admin
+        {
+            get
+            {
+                if ((_Admin == null))
+                {
+                    _Admin = base.CreateObjectSet<Admin>("Admin");
+                }
+                return _Admin;
+            }
+        }
+        private ObjectSet<Admin> _Admin;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<Article> Article
+        {
+            get
+            {
+                if ((_Article == null))
+                {
+                    _Article = base.CreateObjectSet<Article>("Article");
+                }
+                return _Article;
+            }
+        }
+        private ObjectSet<Article> _Article;
 
         #endregion
 
         #region AddTo 方法
-    
-        /// <summary>
-        /// 用于向 Article EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToArticle(Article article)
-        {
-            base.AddObject("Article", article);
-        }
     
         /// <summary>
         /// 用于向 Category EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
@@ -115,6 +139,30 @@ namespace model
         public void AddToCategory(Category category)
         {
             base.AddObject("Category", category);
+        }
+    
+        /// <summary>
+        /// 用于向 User EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToUser(User user)
+        {
+            base.AddObject("User", user);
+        }
+    
+        /// <summary>
+        /// 用于向 Admin EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToAdmin(Admin admin)
+        {
+            base.AddObject("Admin", admin);
+        }
+    
+        /// <summary>
+        /// 用于向 Article EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToArticle(Article article)
+        {
+            base.AddObject("Article", article);
         }
 
         #endregion
@@ -124,6 +172,135 @@ namespace model
     #endregion
 
     #region 实体
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model", Name="Admin")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Admin : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 Admin 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        public static Admin CreateAdmin(global::System.Int64 id)
+        {
+            Admin admin = new Admin();
+            admin.ID = id;
+            return admin;
+        }
+
+        #endregion
+
+        #region 基元属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int64 _ID;
+        partial void OnIDChanging(global::System.Int64 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Username
+        {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                OnUsernameChanging(value);
+                ReportPropertyChanging("Username");
+                _Username = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Username");
+                OnUsernameChanged();
+            }
+        }
+        private global::System.String _Username;
+        partial void OnUsernameChanging(global::System.String value);
+        partial void OnUsernameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Pows
+        {
+            get
+            {
+                return _Pows;
+            }
+            set
+            {
+                OnPowsChanging(value);
+                ReportPropertyChanging("Pows");
+                _Pows = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Pows");
+                OnPowsChanged();
+            }
+        }
+        private global::System.String _Pows;
+        partial void OnPowsChanging(global::System.String value);
+        partial void OnPowsChanged();
+
+        #endregion
+
+    
+    }
     
     /// <summary>
     /// 没有元数据文档可用。
@@ -200,6 +377,30 @@ namespace model
         private Nullable<global::System.Int32> _Categ;
         partial void OnCategChanging(Nullable<global::System.Int32> value);
         partial void OnCategChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> UID
+        {
+            get
+            {
+                return _UID;
+            }
+            set
+            {
+                OnUIDChanging(value);
+                ReportPropertyChanging("UID");
+                _UID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UID");
+                OnUIDChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _UID;
+        partial void OnUIDChanging(Nullable<global::System.Int64> value);
+        partial void OnUIDChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -302,24 +503,24 @@ namespace model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Contemt
+        public global::System.String Content
         {
             get
             {
-                return _Contemt;
+                return _Content;
             }
             set
             {
-                OnContemtChanging(value);
-                ReportPropertyChanging("Contemt");
-                _Contemt = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Contemt");
-                OnContemtChanged();
+                OnContentChanging(value);
+                ReportPropertyChanging("Content");
+                _Content = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Content");
+                OnContentChanged();
             }
         }
-        private global::System.String _Contemt;
-        partial void OnContemtChanging(global::System.String value);
-        partial void OnContemtChanged();
+        private global::System.String _Content;
+        partial void OnContentChanging(global::System.String value);
+        partial void OnContentChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -416,6 +617,30 @@ namespace model
         private Nullable<global::System.DateTime> _Time;
         partial void OnTimeChanging(Nullable<global::System.DateTime> value);
         partial void OnTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ding
+        {
+            get
+            {
+                return _ding;
+            }
+            set
+            {
+                OndingChanging(value);
+                ReportPropertyChanging("ding");
+                _ding = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ding");
+                OndingChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ding;
+        partial void OndingChanging(Nullable<global::System.Int32> value);
+        partial void OndingChanged();
 
         #endregion
 
@@ -545,6 +770,111 @@ namespace model
         private global::System.String _Logo;
         partial void OnLogoChanging(global::System.String value);
         partial void OnLogoChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model", Name="User")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class User : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 User 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        public static User CreateUser(global::System.Int64 id)
+        {
+            User user = new User();
+            user.ID = id;
+            return user;
+        }
+
+        #endregion
+
+        #region 基元属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int64 _ID;
+        partial void OnIDChanging(global::System.Int64 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Gender
+        {
+            get
+            {
+                return _Gender;
+            }
+            set
+            {
+                OnGenderChanging(value);
+                ReportPropertyChanging("Gender");
+                _Gender = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Gender");
+                OnGenderChanged();
+            }
+        }
+        private global::System.String _Gender;
+        partial void OnGenderChanging(global::System.String value);
+        partial void OnGenderChanged();
 
         #endregion
 
