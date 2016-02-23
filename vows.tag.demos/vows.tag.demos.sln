@@ -7,30 +7,39 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vows.tag.demos", ".", "{A59
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_65057"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\vsPrj\Vows.Tag\vows.tag.demos\"
+		Debug.AspNetCompiler.PhysicalPath = "..\vows.tag.demos\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65057\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_65057"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\vsPrj\Vows.Tag\vows.tag.demos\"
+		Release.AspNetCompiler.PhysicalPath = "..\vows.tag.demos\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65057\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65057"
-		SlnRelativePath = "..\..\..\..\vsPrj\Vows.Tag\vows.tag.demos\"
+		SlnRelativePath = "..\vows.tag.demos\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCore", "..\vows.tag.core\TagCore.csproj", "{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
