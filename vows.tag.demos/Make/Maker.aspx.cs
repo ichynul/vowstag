@@ -1,0 +1,233 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using model;
+using Tag.Vows.Tool;
+
+public partial class Admin_Temple_Maker : Page
+{
+    private DirectoryInfo di;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
+        {
+            findPages();
+            tagTypeCHange(null, null);
+        }
+    }
+
+    private void findPages()
+    {
+        string path = Server.MapPath(mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        checkDirs(path);
+        pageinfo.Text = "";
+        makeresult.Text = "";
+        path += "page\\";
+        di = new DirectoryInfo(path);
+        pages.DataSource = di.GetFiles().ToList()
+            .Where(a => a.Extension == ".htm" || a.Extension == ".html")
+            .Select(f => new
+            {
+                f.Name,
+                f.FullName,
+                f.Extension,
+                Length = f.Length / 1024.00,
+                f.LastWriteTime,
+                _path = this.input_path.Text + "page/",
+                www = (mod_type.SelectedIndex == 0 ? "/www/" : "/m/") + Regex.Replace(f.Name, @"\.(?:html|htm)", "") +  ".aspx",
+            });
+        pages.DataBind();
+    }
+
+    private void checkDirs(string path)
+    {
+        string[] dirs = new string[] { "item", "label", "page", "static" };
+        string newpath = "";
+        foreach (string s in dirs)
+        {
+            newpath = string.Format("{0}{1}\\", path, s);
+            if (!Directory.Exists(newpath))
+            {
+                Directory.CreateDirectory(newpath);
+            }
+        }
+    }
+
+    protected string toPageNaem(object name)
+    {
+        if (name == null)
+        {
+            return "";
+        }
+        string str = name.ToString();
+        if (str.IndexOf('.') != -1)
+        {
+            return str.Split('.')[0];
+        }
+        return "";
+    }
+
+    private string getHtml(string html)
+    {
+        return html;
+    }
+
+    private string getTable(string tag, string table)
+    {
+        if (string.IsNullOrEmpty(tag) || string.IsNullOrEmpty(table))
+        {
+            return "";
+        }
+        if (table.ToLower() == "article")
+        {
+            return "Article.Where(x => x.IsLock != true)";
+        }
+        return table;
+    }
+
+    protected void doMake(object sender, EventArgs e)
+    {
+        makeresult.Text = "";
+        string path = HttpContext.Current.Server.MapPath("~" + this.input_path.Text);
+        di = new DirectoryInfo(path);
+        if (!di.Exists)
+        {
+            makeresult.Text = "<span style='color:red;'>模板文件夹路径错误!" + path + "</span>";
+        }
+        TagConfig __config = new TagConfig();
+        __config.GetingHtml += new GetHtml(getHtml);
+        __config.GetingTableStr += new GetTableStr(getTable);
+        __config.current_pairs = getCurrentTagPair(currenttagpair);
+        __config.input = mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/";
+        __config.output = mod_type.SelectedIndex == 0 ? "~/www/" : "~/m/";
+        __config.db = new Entities();
+        __config.protected_tables = "Manages|WxConfig|L_Log";
+        __config.creatScriptForAllPages = true;
+        //__path.defaultBase = "web.x2015x.UserBase";
+        __config.convert = isconvert.Checked;
+        if (__config.convert)
+        {
+            __config.convert_pairs = getCurrentTagPair(toTagpairs);
+        }
+        else if (clearBefor.Checked)
+        {
+            clearOutpu(__config.input, __config.output);
+            clearBefor.Checked = false;
+        }
+        var its = pages.Items;
+        CheckBox cb = null;
+        foreach (RepeaterItem it in its)
+        {
+            cb = it.FindControl("cb_id") as CheckBox;
+            if (cb.Checked)
+            {
+                if (showTagInfos.Checked)
+                {
+                    string text = "";
+                    makeresult.Text += __config.MakePage(cb.Text.Trim(), out text);
+                    makeresult.Text += text;
+                }
+                else
+                {
+                    makeresult.Text += __config.MakePage(cb.Text.Trim());
+                }
+            }
+        }
+        makeresult.Text += "<span style='color:green;'>" + (isconvert.Checked ? @"转换标签完成！转换后的文件保存在各目录的下的'\convert\'里." : "生成页面完成！") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + DateTime.Now.ToString() + "!</span>";
+    }
+
+    private void clearOutpu(string tempPath, string output)
+    {
+        di = new DirectoryInfo(output);
+        if (!di.Exists)
+        {
+            return;
+        }
+
+        var pages = di.GetFiles().Where(a => a.Extension == ".aspx" || a.Extension == ".ascx" || a.Extension == ".cs" || a.Extension == ".ashx");
+        foreach (var p in pages)
+        {
+            try
+            {
+                p.Delete();
+            }
+            catch (Exception e)
+            {
+                makeresult.Text += e.ToString() + "<br />";
+            }
+        }
+    }
+
+
+    protected void typechanged(object sender, EventArgs e)
+    {
+        output_path.Text = mod_type.SelectedIndex == 0 ? "/www/" : "/m/";
+        input_path.Text = mod_type.SelectedIndex == 0 ? "/temple/" : "/temple_m/";
+        toview.NavigateUrl = mod_type.SelectedIndex == 0 ? "/www/" : "/m/";
+        findPages();
+    }
+
+    protected void tagTypeCHange(object sender, EventArgs e)
+    {
+        tagInfo.Text = "";
+        string[] tagpair = getCurrentTagPair(currenttagpair);
+        tagInfo.Text = string.Format("单标签演示:<br />&nbsp;&nbsp;&nbsp;&nbsp;{0} user.naem {1} ;<br />双标签演示:"
+                + "<br />&nbsp;&nbsp;&nbsp;&nbsp;{0} list = newss ? id > 8 & orderby = time {1} "
+                + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文章标题：{0} itemt.itle {1} "
+                + "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发布时间：{0} itemt.time {1} " +
+                "<br />&nbsp;&nbsp;&nbsp;&nbsp;{0}list{1}", tagpair[0], tagpair[1]);
+        if (tagpair[0] == "{")
+        {
+            tagInfo.Text += "<br />不推荐，某些情况下会把js代码误判为标签，且易与一些js模板库的标签混淆";
+        }
+    }
+    protected void isConvert(object sender, EventArgs e)
+    {
+        doConvert.Visible = isconvert.Checked;
+        make.Text = isconvert.Checked ? "转换选中" : "生成选中";
+    }
+
+    private string[] getCurrentTagPair(ListControl list)
+    {
+        string tagLeft = "";
+        string tagRight = "";
+        switch (list.SelectedIndex)
+        {
+
+            case 0:
+                tagLeft = "{@";
+                tagRight = "}";
+                break;
+            case 1:
+                tagLeft = "{#";
+                tagRight = "}";
+                break;
+            case 2:
+                tagLeft = "{$";
+                tagRight = "}";
+                break;
+            case 3:
+                tagLeft = "{%";
+                tagRight = "}";
+                break;
+            case 4:
+                tagLeft = "{&";
+                tagRight = "}";
+                break;
+            case 5:
+                tagLeft = "{";
+                tagRight = "}";
+                break;
+        }
+        return new string[] { tagLeft, tagRight };
+    }
+}
