@@ -113,7 +113,7 @@ public partial class Admin_Temple_Maker : Page
         __config.db = new Entities();
         __config.protected_tables = "Admin";//受保护的表，不允许通过标签在前台展示
         __config.creatScriptForAllPages = true;
-        __config.DefaultBase = "xx.yy.pageBase";//页面默认继承类
+        __config.DefaultBase = "xx.yy.PageBase";//页面默认继承类
         __config.convert = isconvert.Checked;
         if (__config.convert)
         {

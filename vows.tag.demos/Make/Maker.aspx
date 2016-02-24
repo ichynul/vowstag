@@ -80,7 +80,7 @@
                     输出目录：
                     <asp:Label ID="output_path" runat="server" Text="/www/"></asp:Label>
                     &nbsp;&nbsp;&nbsp;&nbsp;<asp:HyperLink runat="server" ID="toview" Target="_blank"
-                        NavigateUrl="/">预览网站</asp:HyperLink>
+                        NavigateUrl="/www/">预览网站</asp:HyperLink>
                 </td>
             </tr>
             <tr>

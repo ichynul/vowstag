@@ -1,6 +1,7 @@
 ﻿<!--读取3条属性istop为true的文章，放在每个页面顶部 -->
 <!--因为本文本片段包含list标签，所以必须用 label标签 而不能用static标签-->
 <ul class="notice">
+    <li>管理猿推荐：</li>
     {#list = article?istop=true & take=3 & orderby = time}
     <li><a href="read.aspx?id={#item.id}">{#item.title}</a></li>
     {#list}

@@ -10,10 +10,9 @@
         {#label=notice /}<!--引入label--></div>
     <div class="main">
         <div class="articles">
-            <h4>
-            </h4>
-            <ul>
-            </ul>
+            {#list=category?orderby=id&take=99&item=artiel_by_categ/}
+            <!--读取栏目分类，然后每个栏目读取若干篇文章/item/artiel_by_categ.html -->
+            <!--list中再包含list时,必须指定item为一个文件 -->
         </div>
     </div>
     {#static=foot /}<!--引入static-->

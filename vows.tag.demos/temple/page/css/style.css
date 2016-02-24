@@ -66,6 +66,7 @@ img
 }
 .foot
 {
+    padding:20px 10px;
     height: 30px;
 }
 .copyleft
@@ -80,7 +81,56 @@ img
     color: #555;
     font-size: 14px;
 }
+/***index**/
+.articles
+{
+    width: 750px;
+    margin: 10px 25px;
+}
+.articles .catename
+{
+    font-size:17px;
+    padding:5px;
+    color:#000;
+    font-weight:800;
+    margin-left:10px;
+    line-height:30px;
+}
+.articlelist
+{
+    margin-top:10px;
+    padding:5px;
+    width:100%;
+    float:left;
+}
 
+.articlelist li
+{
+    border-bottom:1px dashed #a1a1a1;
+    margin:5px;
+    float:left;
+    width:100%;
+}
+.articlelist li a.title
+{
+    float:left;
+    font-size:14px;
+    word-spacing:5px;
+    font-weight:600;
+    padding:3px;
+}
+
+.articlelist li span.time
+{
+    float:right;
+}
+
+.articlelist li .desc
+{
+    float:left;
+    width:80%;
+    padding:3px;
+}
 /*read*/
 
 .read

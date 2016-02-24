@@ -13,51 +13,51 @@ using model;
 //------------------------------------------------------------------------------
 /*  Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home  */
 
-public partial class Control_notice : SubControl
+public partial class Control_artiel_by_categ : SubControl
 {
+    protected Category item;
+    public override void SetItem(object mItem)
+    {
+        this.item = mItem as Category;
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!this.IsPostBack)
         {
             if (this.Befor_Load_Tags())
             {
-                Bind_ListTag_46_1();
-                Load_LabelTag_16_4();
+                Bind_ListTag_65_3();
             }
         }
     }
 
-    public void Bind_ListTag_46_1()
+    public void Bind_ListTag_65_3()
     {
-        /*istop=true&take=3&orderby=time*/
+        /*categ=item.id&orderby=time,istop&desc=true&take=5*/
+        long long_ID_1 = item == null ? long.MinValue: item.ID;
         var list = from a in db.Article.Where(x => x.IsLock != true)
                 .Where( b=>
-                     b.IsTop == true
+                     b.Categ == long_ID_1
                     )
                     select new
                     {
                         a.ID,
                         a.Title,
-                        a.Time
+                        a.Time,
+                        a.Desc,
+                        a.IsTop
                     };
         int totalsize = list.Count();
-        list = list.OrderByDescending(c=>c.Time).Take(3);
-        /*不分页，显示前 3条数据;*/
+        list = list.OrderByDescending(c=>c.Time)
+                    .ThenByDescending(c=>c.IsTop).Take(5);
+        /*不分页，显示前 5条数据;*/
         if (list.Count() == 0)
         {
-            empty_ListTag_46_1.Text = "<div class='emptydiv'><span class='emptytext'>暂无内容</span></div>";
+            empty_ListTag_65_3.Text = "<div class='emptydiv'><span class='emptytext'>暂无内容</span></div>";
             return;
         }
-        ListTag_46_1.DataSource = list;
-        ListTag_46_1.DataBind();
-    }
-
-    public void Load_LabelTag_16_4()
-    {
-        SubControl uc_label=(SubControl) LoadControl( "another.ascx");
-        uc_label.SetDb(db);
-        uc_label.SetConfig(this.config);
-        LabelTag_16_4.Controls.Add(uc_label);
+        ListTag_65_3.DataSource = list;
+        ListTag_65_3.DataBind();
     }
 
 

@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="read.aspx.cs" Inherits="Page_read" ValidateRequest="true" EnableViewState="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="list.aspx.cs" Inherits="Page_list" ValidateRequest="true" EnableViewState="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><% = config.webname %>-文章阅读<% =read.Title %></title>
+    <title><% = config.webname %></title>
     <!--引入公共样式、脚本-->
     <link href="/temple/page/css/style.css" rel="stylesheet" type="text/css" />
 <script src="/temple/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
@@ -13,48 +13,32 @@
 
 </head>
 <body>
-        <!-- CMDTag_37_4 -->
-    <!--指定页面处理类 -->
-        <!-- ReadTag_30_5 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16_6" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="main">
-        <div class="read">
-            <div class="infos">
-                <h3>
-                    <% =read.Title %><!-- 也可写成<% =read.Author %>-->
-                </h3>
-                <span>作者：<% =read.Author %></span><span>日期：<% = TimeFormat(read.Time) %></span><span>点击：<% =read.View %></span>
+        <div class="articles">
+            <!--局部的read-->
+            <div>
+                <a class="catename"><% =ReadTag_31_4.Name %><!--栏目名称-->
+                </a>
             </div>
-            <div class="content">
-                <% =read.Content %>
-            </div>
-            <div class="links">
-                <span>上一篇： </span>
-                <!--用list标签读取上一篇-->
+            
+            <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_71_13" runat="server">
-    <ItemTemplate><!--此处用字段id与url参数比较 -->
-                                <a href="read.aspx?id=<%# Eval("id") %>"><%# Eval("title") %></a>
-                                </ItemTemplate>
+<asp:Repeater ID="ListTag_73_6" runat="server">
+    <ItemTemplate><!--每页显示4条->
+                <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
+                <li><a class="title" href="read.aspx?id=<%# Eval("id") %>"><%# Eval("title") %></a> <span class="time">
+                    <%# Eval("time") %></span>
+                    <div class="desc">
+                        <span><%# SubString(Eval("content"),200) %></span></div>
+                       <img src="<%# Eval("img") %>" style=" width:100px; height:100px; float:right" alt='' />
+                </li>
+                </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_71_13" runat="server"></asp:Literal>
-                                <span>下一篇：</span>
-                <!--用list标签读取下一篇-->
-                
-<asp:Repeater ID="ListTag_55_16" runat="server">
-    <ItemTemplate>
-                <!--此处用字段id与read.id(read标签的一个字段)比较,这里跟request.id差不多-->
-                                <a href="read.aspx?id=<%# Eval("id") %>"><%# Eval("title") %></a>
-                                
-                                </ItemTemplate>
-</asp:Repeater>
-<asp:Literal ID="empty_ListTag_55_16" runat="server"></asp:Literal>
-                            </div>
-            <div class="ding">
-                <a id="dingyixia" style="color: Red; font-size: 15px;" href="javascript:;" onclick='ding()'>
-                    顶一个(<% =read.ding %>)</a>
-            </div>
+<asp:Literal ID="empty_ListTag_73_6" runat="server"></asp:Literal>
+            </ul>
+            <asp:Literal ID="PagerTag_17_12" runat="server"></asp:Literal><!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
         </div>
     </div>
     <div class="foot">
@@ -66,34 +50,6 @@
     </ul>
 </div>
 <!--引入static-->
-    <script type="text/javascript">
-        function ding() {
-            $('#dingyixia').text('操作中...');
-            _tagcall.$('action=ding&id=<% = Request.QueryString["id"] %>');
-        }
-
-        function CallbackSuccess(resultstr, context) {
-            var obj = eval('(' + resultstr + ')');
-            if (obj.type) {
-                if (obj.type == "mycall") {//自定义请求的返回
-                    $('#dingyixia').text('顶一个(' + obj.result.ding + ')');
-                    alert(obj.result.msg);
-                }
-                else if (obj.type == "formcall") {//form标签请求的返回
-
-                }
-                else if (obj.type == "jsoncall") {//json标签请求的返回
-
-                }
-                else {
-                    alert(resultstr);
-                }
-            }
-            else {
-                alert(resultstr);
-            }
-        }
-    </script>
 
 <form id="form1" runat="server">
     <script type="text/javascript">

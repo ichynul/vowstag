@@ -17,15 +17,16 @@
         <asp:PlaceHolder ID="LabelTag_16_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="main">
         <div class="articles">
-            <h4>
-            </h4>
-            <ul>
-            </ul>
+            <asp:PlaceHolder ID="ListTag_57_4" runat="server"></asp:PlaceHolder>
+<asp:Literal ID="empty_ListTag_57_4" runat="server"></asp:Literal>
+
+            <!--读取栏目分类，然后每个栏目读取若干篇文章/item/artiel_by_categ.html -->
+            <!--list中再包含list时,必须指定item为一个文件 -->
         </div>
     </div>
     <div class="foot">
     <ul class="copyleft">
-        <li><% = config.webname %></li>
+        <li><a href="index.aspx"><% = config.webname %></a></li>
         <li><% = config.beianhao %></li>
         <li><% = config.copyleft %></li>
         <li><% = config.keyword %></li>
