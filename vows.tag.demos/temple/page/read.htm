@@ -58,6 +58,18 @@
             </div>
         </div>
     </div>
+    <div>
+    {#if?request.kwd=="11"}
+        xxxx
+    {#elif?request.kwd=="22"}
+        xxxxxxxx
+        {#list=article?id>0&take=4}
+        {#item.title}
+        {#list}
+    {#else}
+        xxx
+    {#endif}
+    </div>
     {#static=foot /}<!--引入static-->
     <script type="text/javascript">
         function ding() {

@@ -66,7 +66,7 @@ namespace Tag.Vows.Tag
             foreach (Match m in matches)
             {
                 IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
+                iftag.SetTestAndContent(m.Groups["test"].Value, m.Groups["content"].Value);
                 this.IfTags.Add(iftag);
             }
             match = this.Config.tagregex.ElseTest.Match(this.Text);
@@ -137,6 +137,20 @@ namespace Tag.Vows.Tag
         public string GetPlaceholderName()
         {
             return this.PlaceHolderName;
+        }
+
+        public void ConvertIfTags()
+        {
+            System.Web.HttpContext.Current.Response.Write("ConvertIfTags" + this.Origin + "<br />");
+            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*if\s*\?.+?)", Config.convert_pairs[0]);
+            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*el(?:se)?if\s*\?.+?)", Config.convert_pairs[0]);
+            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*else\s*)", Config.convert_pairs[0]);
+            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*/?\s*endif\s*)", Config.convert_pairs[0]);
+            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*el(?:se)?if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*else\s*)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*/?\s*endif\s*)" + Config.tagRight, Config.convert_pairs[1]);
+            System.Web.HttpContext.Current.Response.Write("after ConvertIfTags" + this.Origin + "<br />");
         }
     }
 }

@@ -228,7 +228,6 @@ namespace Tag.Vows.Page
             for (int i = 0; i < _Matches.Count; i += 1)
             {
                 str = _Matches[i].Value;
-                System.Web.HttpContext.Current.Response.Write("----" + _Matches[i].Value + "<br />");
                 tagText = tagText.Replace(str, Regex.Replace(str, @"\s", "x_spcce_x", RegexOptions.Singleline));
             }
             return tagText;
@@ -521,13 +520,12 @@ namespace Tag.Vows.Page
             foreach (Match m in Matches)
             {
                 name = m.Groups["name"].Value.ToLower();
-
                 if (Config.convert)
                 {
-                    Html = Html.Replace(m.Value, Config.convert_pairs[0] + name + Config.convert_pairs[1]);
+                    Html = Html.Replace(m.Value, Config.convert_pairs[0] + m.Groups["endstr"].Value + name + Config.convert_pairs[1]);
                     continue;
                 }
-                if (!includelistAndRead && (name == "list" || name == "read" || name == "empty"))
+                if (!includelistAndRead && (name == "list" || name == "read"))
                 {
                     continue;
                 }
@@ -952,21 +950,12 @@ namespace Tag.Vows.Page
 
         public void ConverterTags()
         {
+            this.RecoverIfGroupTags();
+            this.RecoverOtherTags();
             foreach (var c in this.TagList)
             {
                 Html = Html.Replace(c.Text, c.ConvertTagPair());
                 this.Msg += c.GetMsg();
-            }
-            Match = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
-            if (Match.Success)
-            {
-                Html = Html.Replace(Match.Value, string.Concat(Match.Value, "\r\n<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:"
-                                , DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n"));
-            }
-            else
-            {
-                Html = string.Concat("<!-- 此页面是标签转换后的临时页面，请将其转移到对应文件夹。时间:",
-                            DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), " -->\r\n", Html);
             }
             string msg = "";
             bool success = false;

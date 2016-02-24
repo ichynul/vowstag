@@ -162,8 +162,8 @@
                                     <td style="text-align: left;">
                                         <%# Eval("_path")+""+ Eval("Name")%>
                                     </td>
-                                    <td>
-                                        <a href='<%#Eval("www")%>' title=".html和htm需要ISS配置支持" target="_blank">
+                                    <td style="text-align: center;">
+                                        <a href='<%#Eval("www")%>' target="_blank">
                                             <%#Eval("www")%></a>
                                     </td>
                                     <td style="text-align: center;">

@@ -52,7 +52,6 @@ namespace Tag.Vows.Tool
         public Regex EmptyPairTest { private set; get; }
         public Regex IfPairTest { private set; get; }
         public Regex EmptyTest { private set; get; }
-        public Regex EndifTest { private set; get; }
         /********wrong tests*******/
         public Regex RequestValue { private set; get; }
         public Regex SessionValue { private set; get; }
@@ -124,7 +123,7 @@ namespace Tag.Vows.Tool
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             NotEmptyStringTest = new Regex(string.Concat(@"(?<=(?:!=|!%|=|%)\s*)"".+?""(?=\s*(?:&|\||\)|", tagRight, "))"));
             /********pairs tests*******/
-            TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*/?(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight)
+            TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*(?<endstr>/?)\s*(?<name>list|read|label|static|form|json|cmd|pager|empty)\s*", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ifTagKeyTest = new Regex(string.Concat(tagLeft, @"\s*(?:else|endif)\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             TagPairTest = new Regex(string.Concat(tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
@@ -137,10 +136,9 @@ namespace Tag.Vows.Tool
                                 @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")"), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ElseIfTest = new Regex(string.Concat(tagLeft, @"\s*el(?:se)?if\s*\?(?<test>.+?)", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?(?:el(?:se)?if|else|endif).*?", tagRight, ")")
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            ElseTest = new Regex(string.Concat(tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?endif\s*", tagRight, ")")
+            ElseTest = new Regex(string.Concat(tagLeft, @"\s*else\s*\", tagRight, "(?<content>.+?)(?=", tagLeft, @"\s*/?\s*endif\s*", tagRight, ")")
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            EndifTest = new Regex(string.Concat(tagLeft, @"\s*(?:else|endif)\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            IfPairTest = new Regex(string.Concat(tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?endif\s*", tagRight)
+            IfPairTest = new Regex(string.Concat(tagLeft, @"\s*if\s*\?(.(?!", tagLeft, "))+?", tagRight, "(.(?!", tagLeft, @"\s*if", "))+?", tagLeft, @"\s*/?\s*endif\s*", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             #endregion
 

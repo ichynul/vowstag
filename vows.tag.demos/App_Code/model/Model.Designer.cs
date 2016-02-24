@@ -100,22 +100,6 @@ namespace model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<Admin> Admin
-        {
-            get
-            {
-                if ((_Admin == null))
-                {
-                    _Admin = base.CreateObjectSet<Admin>("Admin");
-                }
-                return _Admin;
-            }
-        }
-        private ObjectSet<Admin> _Admin;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
         public ObjectSet<Article> Article
         {
             get
@@ -128,6 +112,22 @@ namespace model
             }
         }
         private ObjectSet<Article> _Article;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<Admin> Admin
+        {
+            get
+            {
+                if ((_Admin == null))
+                {
+                    _Admin = base.CreateObjectSet<Admin>("Admin");
+                }
+                return _Admin;
+            }
+        }
+        private ObjectSet<Admin> _Admin;
 
         #endregion
 
@@ -150,19 +150,19 @@ namespace model
         }
     
         /// <summary>
-        /// 用于向 Admin EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddToAdmin(Admin admin)
-        {
-            base.AddObject("Admin", admin);
-        }
-    
-        /// <summary>
         /// 用于向 Article EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddToArticle(Article article)
         {
             base.AddObject("Article", article);
+        }
+    
+        /// <summary>
+        /// 用于向 Admin EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddToAdmin(Admin admin)
+        {
+            base.AddObject("Admin", admin);
         }
 
         #endregion
@@ -278,24 +278,24 @@ namespace model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Pows
+        public global::System.String Powers
         {
             get
             {
-                return _Pows;
+                return _Powers;
             }
             set
             {
-                OnPowsChanging(value);
-                ReportPropertyChanging("Pows");
-                _Pows = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Pows");
-                OnPowsChanged();
+                OnPowersChanging(value);
+                ReportPropertyChanging("Powers");
+                _Powers = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Powers");
+                OnPowersChanged();
             }
         }
-        private global::System.String _Pows;
-        partial void OnPowsChanging(global::System.String value);
-        partial void OnPowsChanged();
+        private global::System.String _Powers;
+        partial void OnPowersChanging(global::System.String value);
+        partial void OnPowersChanged();
 
         #endregion
 

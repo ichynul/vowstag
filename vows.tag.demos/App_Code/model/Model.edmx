@@ -18,7 +18,7 @@
           <Property Name="ID" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
-          <Property Name="Pows" Type="nvarchar" MaxLength="250" />
+          <Property Name="Powers" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Article">
           <Key>
@@ -65,8 +65,8 @@
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Category" EntityType="Model.Category" />
           <EntitySet Name="User" EntityType="Model.User" />
-          <EntitySet Name="Admin" EntityType="Model.Admin" />
           <EntitySet Name="Article" EntityType="Model.Article" />
+          <EntitySet Name="Admin" EntityType="Model.Admin" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -85,15 +85,6 @@
           <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Gender" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Admin">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Username" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Pows" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Article">
           <Key>
             <PropertyRef Name="ID" />
@@ -111,6 +102,15 @@
           <Property Type="Boolean" Name="IsTop" />
           <Property Type="DateTime" Name="Time" />
           <Property Type="Int32" Name="ding" />
+        </EntityType>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Username" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Powers" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -137,16 +137,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Admin">
-            <EntityTypeMapping TypeName="Model.Admin">
-              <MappingFragment StoreEntitySet="Admin">
-                <ScalarProperty Name="Pows" ColumnName="Pows" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Article">
             <EntityTypeMapping TypeName="Model.Article">
               <MappingFragment StoreEntitySet="Article">
@@ -162,6 +152,16 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="UID" ColumnName="UID" />
                 <ScalarProperty Name="Categ" ColumnName="Categ" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="Model.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Powers" ColumnName="Powers" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -189,8 +189,8 @@
       <Diagram Name="Model">
         <EntityTypeShape EntityType="Model.Category" Width="1.5" PointX="2.75" PointY="0.75" Height="1.7354337565104174" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="3.375" PointY="3.75" Height="1.5506396484374996" />
-        <EntityTypeShape EntityType="Model.Admin" Width="1.5" PointX="0.75" PointY="3.75" Height="1.7354337565104157" />
         <EntityTypeShape EntityType="Model.Article" Width="1.5" PointX="5.375" PointY="0.75" Height="3.3985807291666656" />
+        <EntityTypeShape EntityType="Model.Admin" Width="1.5" PointX="0.75" PointY="3.75" Height="1.7354337565104174" />
       </Diagram>
     </Diagrams>
   </Designer>

@@ -147,7 +147,6 @@ namespace Tag.Vows.Tag
                 }
             }
             matches = this.Config.tagregex.CookieValue.Matches(this.Test);
-            //需放在 RequestValue之后，避免混淆  如Request.Cookies["xxx"]
             if (matches.Count > 0)
             {
                 foreach (Match m in matches)
@@ -165,7 +164,7 @@ namespace Tag.Vows.Tag
         {
             this.Test = test;
             this.Conttent = content;
-            this.Test = Regex.Replace(this.Test, @"(?<=[^!])={1}", "==");
+            this.Test = Regex.Replace(this.Test, @"(?<=[^!=><])={1}(?=[^=])", "==");
             this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
             this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
             CheckTestText();

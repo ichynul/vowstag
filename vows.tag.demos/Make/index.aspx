@@ -45,7 +45,7 @@
         </div>
         <div id="right" style="height: 98%; position: absolute; right: 0px; border-left: 1px solid #888;
             float: left;">
-            <iframe id="rightwindow" name="rightwindow" scrolling="no" src="Maker.aspx" style="height: 100%;
+            <iframe id="rightwindow" name="rightwindow" scrolling="yes" src="Maker.aspx" style="height: 100%;
                 width: 100%; z-index: 1;" frameborder="0" marginheight="0"></iframe>
         </div>
     </div>

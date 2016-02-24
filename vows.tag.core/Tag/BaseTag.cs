@@ -99,7 +99,10 @@ namespace Tag.Vows.Tag
         {
             if (Config.convert_pairs != null || Config.convert_pairs.Length == 2)
             {
-                //this.Origin = RecoverTagText(this.Origin);
+                if (this is ITestGroup)
+                {
+                    (this as ITestGroup).ConvertIfTags();
+                }
                 this.Origin = Regex.Replace(this.Origin, "^" + Config.tagLeft, Config.convert_pairs[0]);
                 this.Origin = Regex.Replace(this.Origin, Config.tagRight + "$", Config.convert_pairs[1]);
             }
