@@ -121,7 +121,7 @@ namespace Tag.Vows.Tool
         public string RemovePageParams(string url)
         {
             string pageName = Regex.Match(url, "[^/]+$").Value;
-            return Regex.Replace(pageName, @"&?page=[^&]*(?=&|$)", string.Empty, RegexOptions.IgnoreCase);
+            return Regex.Replace(pageName, @"(?<=\?|&)page=[^&]*?(?=&|$)", string.Empty, RegexOptions.IgnoreCase);
         }
     }
 }
