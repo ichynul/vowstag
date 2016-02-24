@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>{#config.webname}-文章阅读{#read.title}</title>
+    <title>{#read.title}--{#config.webname}</title>
     <!--引入公共样式、脚本-->
     {#static=head /}
 </head>
@@ -22,6 +22,7 @@
                 <span>作者：{# read.author /}</span><span>日期：{# TimeFormat(read.time) /}</span><span>点击：{#read.view
                     /}</span>
             </div>
+            <img src="{#read.img /}" style=" width:250px" />
             <div class="content">
                 {#read.content /}
             </div>

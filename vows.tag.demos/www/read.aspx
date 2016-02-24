@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><% = config.webname %>-文章阅读<% =read.Title %></title>
+    <title><% =read.Title %>--<% = config.webname %></title>
     <!--引入公共样式、脚本-->
     <link href="/temple/page/css/style.css" rel="stylesheet" type="text/css" />
 <script src="/temple/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
@@ -26,6 +26,7 @@
                 </h3>
                 <span>作者：<% =read.Author %></span><span>日期：<% = TimeFormat(read.Time) %></span><span>点击：<% =read.View %></span>
             </div>
+            <img src="<% =read.Img %>" style=" width:250px" />
             <div class="content">
                 <% =read.Content %>
             </div>
@@ -33,23 +34,23 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_71_13" runat="server">
+<asp:Repeater ID="ListTag_71_14" runat="server">
     <ItemTemplate><!--此处用字段id与url参数比较 -->
                                 <a href="read.aspx?id=<%# Eval("id") %>"><%# Eval("title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_71_13" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_71_14" runat="server"></asp:Literal>
                                 <span>下一篇：</span>
                 <!--用list标签读取下一篇-->
                 
-<asp:Repeater ID="ListTag_55_16" runat="server">
+<asp:Repeater ID="ListTag_55_17" runat="server">
     <ItemTemplate>
                 <!--此处用字段id与read.id(read标签的一个字段)比较,这里跟request.id差不多-->
                                 <a href="read.aspx?id=<%# Eval("id") %>"><%# Eval("title") %></a>
                                 
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_55_16" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_55_17" runat="server"></asp:Literal>
                             </div>
             <div class="ding">
                 <a id="dingyixia" style="color: Red; font-size: 15px;" href="javascript:;" onclick='ding()'>
