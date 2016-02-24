@@ -623,7 +623,10 @@ namespace Tag.Vows.Page
                 {
                     (x as ListTag).LazyLoad();
                 }
-                this.Html = x.ReplaceTagText(this.Html);
+                if (!this.Config.convert)
+                {
+                    this.Html = x.ReplaceTagText(this.Html);
+                }
             }
         }
 
