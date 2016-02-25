@@ -35,23 +35,25 @@ using Tag.Vows.Tool;
 namespace Tag.Vows.Tag
 {
     class ReadTag : StyleAbleTag, IGlobalField, IIGlobalMethod, ITableUseable
-        , ISubAble, ITesBeforLoading
+        , ISubAble, ITesBeforLoading, IUpperDataAble
     {
         protected new ReadPage SubPage;
         private string BaseParams;
         private Method ReadData;
         public string DataName;
+        protected string UpDataname;
         private string ModType = "";
-        private string modType;
         private List<Method> subLsitMethod;
         private bool TestBeforLoad;
         private HashSet<string> BeforLoadTests;
+        protected bool isSubRead;
 
         public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
         {
 
         }
+
         protected override string GetCodeForAspx()
         {
             if (this.HasStyle())
@@ -92,7 +94,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    ReadData.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out modType, this.HasStyle() ? this.TagName : "read"));
+                    ReadData.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out ModType, UpDataname, this.HasStyle() ? this.TagName : "read"));
                     if (this.HasStyle())
                     {
                         if (subLsitMethod != null)
@@ -158,13 +160,22 @@ namespace Tag.Vows.Tag
         {
             this.SubPage = new ReadPage(this.Style, Deep, this.Config);
             this.SubPage.SetUpperDataName(this.DataName, FieldType.read_value);
-            this.subLsitMethod = this.SubPage.getListMethods(this.DataName);
+            this.subLsitMethod = this.SubPage.GetListMethods(this.DataName);
         }
 
         public void SetTest(HashSet<string> link)
         {
             this.BeforLoadTests = link;
             this.TestBeforLoad = true;
+        }
+
+        public void SetUpperDataName(string upDataName, FieldType type)
+        {
+            if (type == FieldType.read_value)
+            {
+                this.isSubRead = true;
+            }
+            this.UpDataname = upDataName;
         }
     }
 }

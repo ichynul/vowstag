@@ -8,14 +8,17 @@
 <body>
     <div class="head">
         {#label=notice /}<!--引入label--></div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
     <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;{# read = category ? id = request.cid}<a>{#read.name }</a>{#read}
+            <!-- -->
+        </div>
         <div class="articles">
-            {# read=category ? id=request.cid}<!--局部的read-->
-            <div>
-                <a class="catename">{#read.name }<!--栏目名称-->
-                </a>
-            </div>
-            {#read}
             <ul class="articlelist">
                 {#list=article?categ= request.cid & orderby=time,istop&desc=true & pagesize =4}<!--每页显示4条->
                 <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
@@ -23,7 +26,7 @@
                     {#item.time}</span>
                     <div class="desc">
                         <span>{#SubString(item.content,200)}</span></div>
-                       <img src="{#item.img}" style=" width:100px; height:100px; float:right" alt='' />
+                    <img src="{#item.img}" style="width: 100px; height: 100px; float: right" alt='' />
                 </li>
                 {#list}
             </ul>

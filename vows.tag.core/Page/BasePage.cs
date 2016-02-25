@@ -470,6 +470,10 @@ namespace Tag.Vows.Page
                     {
                         (c as ListTag).SetUpperDataName(dataName, FieldType.read_value);
                     }
+                    else if (c is ReadTag)
+                    {
+                        (c as ReadTag).SetUpperDataName(dataName, FieldType.read_value);
+                    }
                 }
             }
         }

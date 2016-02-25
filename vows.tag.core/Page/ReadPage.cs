@@ -62,7 +62,7 @@ namespace Tag.Vows.Page
             }
         }
 
-        public List<Method> getListMethods(string DataName)
+        public List<Method> GetListMethods(string DataName)
         {
             List<Method> listMethods = new List<Method>();
             StringBuilder sb = new StringBuilder();

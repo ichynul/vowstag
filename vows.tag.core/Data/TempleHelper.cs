@@ -176,6 +176,7 @@ namespace Tag.Vows.Data
                         m = new Regex(@"\d+(\.\d+)?").Match(w.VarName);
                         string number = m.Value;
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
+                        
                         dataType = DataHelper.GetType(UpperDataModel, Regex.Replace(
                             w.VarName, @"item|read|[\.\+\-\*/\d]", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
@@ -802,20 +803,21 @@ namespace Tag.Vows.Data
         #endregion
 
         #region Linq_getRead
-        internal string Linq_getRead(string dataName, string query, out string modType, string readname)
+        internal string Linq_getRead(string dataName, string query, out string modType, string upDataName,  string readname)
         {
-            object model = null;
-            PropertyInfo basepi = DataHelper.GetProperty(this.Config.db, dataName);
-            if (basepi != null)//获取正确的表名 比如有表名为 Table1 ,那么listname为table1也能匹配到该表
+            object model = GetModObj(dataName);
+            if (model != null)
             {
-                dataName = basepi.Name;// table1 => Table1
-                model = GetModObj(dataName);
                 modType = model.GetType().Name;
             }
             else
             {
                 modType = "";
                 return Method.getSpaces(2) + "//不存在该表_" + dataName + "\r\n";
+            }
+            if (!string.IsNullOrEmpty(upDataName))
+            {
+                UpperDataModel = GetModObj(upDataName);
             }
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + query + "*/\r\n");
             List<TagWhere> baseWheres = new List<TagWhere>();

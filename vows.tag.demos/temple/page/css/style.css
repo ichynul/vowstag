@@ -42,7 +42,7 @@ img
     vertical-align: middle;
 }
 
-.head, .main, .foot
+.head, .main, .foot ,.navi
 {
     width: 800px;
     margin: 0 auto;
@@ -52,14 +52,24 @@ img
 .main
 {
     padding: 10px 0px;
-    min-height: 600px;
+    min-height: 700px;
 }
-.head .notice
+.head ,.navi
+{
+    height:30px;
+}
+
+.navi
+{
+    background-color:#f1f1f1;
+}
+
+.head .notice,.navi .navilist
 {
     width: 100%;
     text-align: center;
 }
-.head .notice li
+.head .notice li,.navi .navilist li
 {
     float: left;
     margin: 5px;
@@ -74,6 +84,19 @@ img
     width: 100%;
 }
 
+.location 
+{
+    width:95%;
+    border-bottom:2px solid #e1e1e1;
+    border-top:2px solid #e1e1e1;
+    padding:5px;
+    margin:5px;
+}
+.location a
+{
+    padding:3px;
+    margin-left:5px;
+}
 .copyleft li
 {
     float: left;

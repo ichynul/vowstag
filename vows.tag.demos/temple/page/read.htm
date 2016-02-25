@@ -13,7 +13,18 @@
     {#read=article?id=request.id /}<!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
         {#label=notice /}<!--引入label--></div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
     <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;{# read = category ? id = read.categ}<a href="list.aspx?cid={#read.id}">{#read.name
+                }</a>{#read}<!--局部的read-->
+            <!-- -->
+            &gt;<a>{#read.title /}</a>
+        </div>
         <div class="read">
             <div class="infos">
                 <h3>
@@ -22,7 +33,7 @@
                 <span>作者：{# read.author /}</span><span>日期：{# TimeFormat(read.time) /}</span><span>点击：{#read.view
                     /}</span>
             </div>
-            <img src="{#read.img /}" style="width: 300px; margin-left:300px;" />
+            <img src="{#read.img /}" style="width: 300px; margin-left: 300px;" />
             <div class="content">
                 {#read.content /}
             </div>
