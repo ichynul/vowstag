@@ -123,7 +123,7 @@ namespace Tag.Vows.Tool
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             NotEmptyStringTest = new Regex(string.Concat(@"(?<=(?:!=|!%|=|%)\s*)"".+?""(?=\s*(?:&|\||\)|", tagRight, "))"));
             /********pairs tests*******/
-            TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*(?<endstr>/?)\s*(?<name>list|read|label|static|form|json|cmd|pager|empty)\s*", tagRight)
+            TagPairEndTest = new Regex(string.Concat(tagLeft, @"\s*(?<endstr>/?)\s*(?<name>list|read|label|static|form|json|cmd|pager)\s*", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ifTagKeyTest = new Regex(string.Concat(tagLeft, @"\s*(?:else|endif)\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             TagPairTest = new Regex(string.Concat(tagLeft, @"\s*(?<tag>list|read)\s*=\s*\w+(?:\?.*?[^/]\s*)?", tagRight,
