@@ -22,7 +22,7 @@
                 <span>作者：{# read.author /}</span><span>日期：{# TimeFormat(read.time) /}</span><span>点击：{#read.view
                     /}</span>
             </div>
-            <img src="{#read.img /}" style="width: 250px; margin-left:250px;" />
+            <img src="{#read.img /}" style="width: 300px; margin-left:300px;" />
             <div class="content">
                 {#read.content /}
             </div>
@@ -57,18 +57,6 @@
                     顶一个({#read.ding})</a>
             </div>
         </div>
-    </div>
-    <div>
-    {#if?request.kwd=="11"}
-        xxxx
-    {#elif?request.kwd=="22"}
-        xxxxxxxx
-        {#list=article?id>0&take=4}
-        {#item.title}
-        {#list}
-    {#else}
-        xxx
-    {#endif}
     </div>
     {#static=foot /}<!--引入static-->
     <script type="text/javascript">
