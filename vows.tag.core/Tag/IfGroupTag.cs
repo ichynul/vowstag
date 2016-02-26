@@ -120,7 +120,7 @@ namespace Tag.Vows.Tag
 
         public void CheckTestToLoadTag(ITesBeforLoading tag)
         {
-            if (tag.Equals(this))
+            if (tag.Equals(this) || !this.Config.convert)
             {
                 return;
             }
@@ -137,20 +137,6 @@ namespace Tag.Vows.Tag
         public string GetPlaceholderName()
         {
             return this.PlaceHolderName;
-        }
-
-        public void ConvertIfTags()
-        {
-            System.Web.HttpContext.Current.Response.Write("ConvertIfTags" + this.Origin + "<br />");
-            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*if\s*\?.+?)", Config.convert_pairs[0]);
-            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*el(?:se)?if\s*\?.+?)", Config.convert_pairs[0]);
-            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*else\s*)", Config.convert_pairs[0]);
-            this.Origin = Regex.Replace(this.Origin, Config.tagLeft + @"(?=\s*/?\s*endif\s*)", Config.convert_pairs[0]);
-            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
-            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*el(?:se)?if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
-            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*else\s*)" + Config.tagRight, Config.convert_pairs[1]);
-            this.Origin = Regex.Replace(this.Origin, @"(?=<\s*/?\s*endif\s*)" + Config.tagRight, Config.convert_pairs[1]);
-            System.Web.HttpContext.Current.Response.Write("after ConvertIfTags" + this.Origin + "<br />");
         }
     }
 }

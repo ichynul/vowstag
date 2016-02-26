@@ -29,12 +29,13 @@ using System.Text.RegularExpressions;
 using Tag.Vows.Interface;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
+using Tag.Vows.Bean;
 
 namespace Tag.Vows.Page
 {
     class ItemPage : BasePage, IFieldsList
     {
-        private EmptyTag Empty;
+        public EmptyTag Empty { get; set; }
         public ItemPage GetItemInstance()
         {
             return ThisIsSimple() ? this : new SubListPage(this.HtmlpPath, this.PageName, this.Deep, this.Config);
@@ -43,35 +44,14 @@ namespace Tag.Vows.Page
         public ItemPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
             : base(mHtmlpPath, mPageName, mDeep, config)
         {
-            DoForItem();
+            FindEmpty();
         }
 
         public ItemPage(string style, int mDeep, TagConfig config, string listTagName)
             : base(style, mDeep, config, ListTag.FakeItemStr)
         {
             this.PageName = string.Concat(listTagName, "#", this.PageName);
-            DoForItem();
-        }
-
-        public void DoForItem()
-        {
-            Match = this.Config.tagregex.EmptyPairTest.Match(this.Html);
-            string style = "";
-            IStyleAble st = null;
-            if (Match.Success)
-            {
-                style = Match.Groups["style"].Value;
-                st = this.TagList.FirstOrDefault(x => x is IStyleAble && x.In_Pairs && Match.Value.Contains(x.Text)) as IStyleAble;
-                Empty = new EmptyTag(Match.Value, Match.Value, Deep, this.Config, this.TagList.Count);
-                this.TagList.Add(Empty);
-                Empty.SetStyle(style);
-                Html = Html.Replace(Match.Value, string.Empty);
-            }
-        }
-
-        public string GetEmptyText()
-        {
-            return this.Empty == null ? "" : Regex.Replace(this.Empty.GetStyle(), "[\r\n]", "");
+            FindEmpty();
         }
 
         private bool ThisIsSimple()
@@ -109,6 +89,18 @@ namespace Tag.Vows.Page
             }
 
             return fields;
+        }
+
+        public void FindEmpty()
+        {
+            Match m = this.Config.tagregex.EmptyPairTest.Match(this.Html);
+            string style = "";
+            if (m.Success)
+            {
+                style = m.Groups["style"].Value;
+                Empty = new EmptyTag(style, m.Value, Deep, this.Config, this.Deep + this.TagList.Count);
+                this.Html = this.Html.Replace(m.Value, Empty.GetContentPlaceholder(style));
+            }
         }
     }
 }

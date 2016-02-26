@@ -202,7 +202,7 @@ namespace Tag.Vows.Tag
                 this.Lodas.Add(tag);
                 if (tag is IfGroupTag)
                 {
-                    this.Conttent = (tag as IfGroupTag).RecoverTagText(this.Conttent);
+                    //this.Conttent = (tag as IfGroupTag).RecoverTagText(this.Conttent);
                 }
             }
         }

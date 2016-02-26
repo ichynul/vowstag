@@ -61,7 +61,7 @@ namespace Tag.Vows.Page
         protected string AspxCsCode { get; private set; }
         protected string ext = ".html";
         protected MatchCollection Matches, _Matches;
-        protected Match Match;
+        protected Match TheMatch;
         protected StringBuilder MethodLines;
         protected StringBuilder MethodRects;
         protected StringBuilder CallMethods;
@@ -70,7 +70,7 @@ namespace Tag.Vows.Page
         public List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
 
-        protected BasePage() { }
+        protected BasePage(){}
 
         public BasePage(string mPageName, TagConfig config)
             : this(string.Empty, mPageName, 1, config)
@@ -187,7 +187,10 @@ namespace Tag.Vows.Page
             ReplaceEnd(false);
             FindListOrReadPairs(Html, 1);
             ReplaceTagAndLoadList();
-            FindIfPairs(Html);
+            if (!this.Config.convert)
+            {
+                FindIfPairs(Html);
+            }
             InitTestToLoadTag();
             ReplaceEnd(true);
             //
@@ -293,13 +296,13 @@ namespace Tag.Vows.Page
             {
                 return;
             }
-            Match = regex.Match(text);
-            if (Match.Success)
+            TheMatch = regex.Match(text);
+            if (TheMatch.Success)
             {
                 this.Html = this.Html.Replace(origin, text);
                 if (type == TagType._tag_command)
                 {
-                    CMDTag tag = new CMDTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    CMDTag tag = new CMDTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     GetCMD(tag);
                     this.TagList.Add(tag);
                 }
@@ -307,55 +310,55 @@ namespace Tag.Vows.Page
                 {
                     if (this is SubListPage)
                     {
-                        ListTag tag = new ListTag(Match.Value, origin, Deep, (this as SubListPage).PageName, this.Config, this.TagList.Count);
+                        ListTag tag = new ListTag(TheMatch.Value, origin, Deep, (this as SubListPage).PageName, this.Config, this.TagList.Count);
                         this.TagList.Add(tag);
                     }
                     else
                     {
-                        ListTag tag = new ListTag(Match.Value, origin, Deep, this is ItemPage ? (this as ItemPage).PageName : "", this.Config, this.TagList.Count);
+                        ListTag tag = new ListTag(TheMatch.Value, origin, Deep, this is ItemPage ? (this as ItemPage).PageName : "", this.Config, this.TagList.Count);
                         this.TagList.Add(tag);
                     }
                 }
                 else if (type == TagType._tag_read)
                 {
-                    ReadTag tag = new ReadTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    ReadTag tag = new ReadTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_label)
                 {
-                    LabelTag tag = new LabelTag(Match.Value, origin, Deep, this is LabelPage ? (this as LabelPage).PageName : "", this.Config, this.TagList.Count);
+                    LabelTag tag = new LabelTag(TheMatch.Value, origin, Deep, this is LabelPage ? (this as LabelPage).PageName : "", this.Config, this.TagList.Count);
                     tag.LazyLoad();
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_static)
                 {
-                    StaticTag tag = new StaticTag(Match.Value, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.Config, this.TagList.Count);
+                    StaticTag tag = new StaticTag(TheMatch.Value, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_filed)
                 {
-                    FieldTag tag = new FieldTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    FieldTag tag = new FieldTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_method)
                 {
-                    MethodTag tag = new MethodTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    MethodTag tag = new MethodTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_pager)
                 {
-                    PagerTag tag = new PagerTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    PagerTag tag = new PagerTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_form)
                 {
-                    FormTag tag = new FormTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    FormTag tag = new FormTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                     this.TagCallBack = "form";
                 }
                 else if (type == TagType._tag_json)
                 {
-                    JsonTag tag = new JsonTag(Match.Value, origin, Deep, this.Config, this.TagList.Count);
+                    JsonTag tag = new JsonTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                     this.TagCallBack = "json";
                 }
@@ -678,28 +681,28 @@ namespace Tag.Vows.Page
             if (!(this is IUC) && (this.TagCallBack == "json" || this.TagCallBack == "form" ||
                 (this.CallBack == null && Config.creatScriptForAllPages) || this.CallBack == true))
             {
-                Match = Regex.Match(Html, "</body>", RegexOptions.IgnoreCase);
-                if (Match.Success)
+                TheMatch = Regex.Match(Html, "</body>", RegexOptions.IgnoreCase);
+                if (TheMatch.Success)
                 {
-                    Match = Regex.Match(Html, "<form[^>]*>", RegexOptions.IgnoreCase);
-                    if (Match.Success)
+                    TheMatch = Regex.Match(Html, "<form[^>]*>", RegexOptions.IgnoreCase);
+                    if (TheMatch.Success)
                     {
-                        if (!Regex.IsMatch(Match.Value, @"runat=['""]server['""]", RegexOptions.IgnoreCase))
+                        if (!Regex.IsMatch(TheMatch.Value, @"runat=['""]server['""]", RegexOptions.IgnoreCase))
                         {
-                            Html = Html.Replace(Match.Value, Regex.Replace(Match.Value, ">$",
+                            Html = Html.Replace(TheMatch.Value, Regex.Replace(TheMatch.Value, ">$",
                                 " runat=\"server\">", RegexOptions.IgnoreCase));
                         }
                     }
                     else
                     {
-                        Match = Regex.Match(Html, "</body>", RegexOptions.IgnoreCase);
-                        if (Match.Success)
+                        TheMatch = Regex.Match(Html, "</body>", RegexOptions.IgnoreCase);
+                        if (TheMatch.Success)
                         {
-                            Html = Html.Replace(Match.Value, string.Concat("\r\n<form id=\"form1\" runat=\"server\"></form>\r\n", Match.Value));
+                            Html = Html.Replace(TheMatch.Value, string.Concat("\r\n<form id=\"form1\" runat=\"server\"></form>\r\n", TheMatch.Value));
                         }
                     }
-                    Match = Regex.Match(Html, "</form>", RegexOptions.IgnoreCase);
-                    if (Match.Success)
+                    TheMatch = Regex.Match(Html, "</form>", RegexOptions.IgnoreCase);
+                    if (TheMatch.Success)
                     {
                         Html = Html.Replace("</form>", string.Concat(JsMaker.GetCallBackJs().ToString(), "</form>"));
                     }
@@ -795,10 +798,10 @@ namespace Tag.Vows.Page
 
         private void WriteTagGit()
         {
-            Match = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
-            if (Match.Success)
+            TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
+            if (TheMatch.Success)
             {
-                Html = Html.Replace(Match.Value, string.Concat(Match.Value, "\r\n<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n"));
+                Html = Html.Replace(TheMatch.Value, string.Concat(TheMatch.Value, "\r\n<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n"));
             }
             else
             {
@@ -954,13 +957,12 @@ namespace Tag.Vows.Page
 
         public void ConverterTags()
         {
-            this.RecoverIfGroupTags();
-            this.RecoverOtherTags();
             foreach (var c in this.TagList)
             {
                 Html = Html.Replace(c.Text, c.ConvertTagPair());
                 this.Msg += c.GetMsg();
             }
+            ConvertIfAndEmptyTags();
             string msg = "";
             bool success = false;
             if (this is StaticPage)
@@ -994,6 +996,20 @@ namespace Tag.Vows.Page
             {
                 this.Msg += msg;
             }
+        }
+
+        public void ConvertIfAndEmptyTags()
+        {
+            this.Html = Regex.Replace(this.Html, Config.tagLeft + @"(?=\s*if\s*\?.+?)", Config.convert_pairs[0]);
+            this.Html = Regex.Replace(this.Html, Config.tagLeft + @"(?=\s*el(?:se)?if\s*\?.+?)", Config.convert_pairs[0]);
+            this.Html = Regex.Replace(this.Html, Config.tagLeft + @"(?=\s*else\s*)", Config.convert_pairs[0]);
+            this.Html = Regex.Replace(this.Html, Config.tagLeft + @"(?=\s*/?\s*endif\s*)", Config.convert_pairs[0]);
+            this.Html = Regex.Replace(this.Html, @"(?=<\s*if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Html = Regex.Replace(this.Html, @"(?=<\s*el(?:se)?if\s*\?.+?)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Html = Regex.Replace(this.Html, @"(?=<\s*else\s*)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Html = Regex.Replace(this.Html, @"(?=<\s*/?\s*endif\s*)" + Config.tagRight, Config.convert_pairs[1]);
+            this.Html = Regex.Replace(this.Html, Config.tagLeft + @"(?=\s*/?\s*empty\s*)", Config.convert_pairs[0]);
+            this.Html = Regex.Replace(this.Html, @"(?=<\s*/?\s*empty\s*)" + Config.tagRight, Config.convert_pairs[1]);
         }
     }
 }

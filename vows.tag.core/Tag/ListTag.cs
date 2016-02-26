@@ -41,6 +41,7 @@ namespace Tag.Vows.Tag
         public const string FakeItemStr = "/x-item-fake-x/";
 
         protected new IHtmlAble SubPage;
+
         private string BaseParams;
         public string ItemName { get; private set; }
         public string DataName { get; private set; }
@@ -158,20 +159,36 @@ namespace Tag.Vows.Tag
             {
                 return string.Format("<!--（未加载套用自己的list标签）。{0}-->", string.Concat(this.Text, "--", ParPageName, "---", ItemName));
             }
+            var sub = this.SubPage as ItemPage;
+            StringBuilder sb = new StringBuilder();
+            string AspxCode = this.SubPage.GetAspxCode();
+            string emptytext = "";
+            if (sub.Empty != null)
+            {
+                AspxCode = sub.Empty.FindEmptyContent(AspxCode, out emptytext);
+            }
             if (!HasSubList())
             {
-                return string.Format(
+                sb.AppendFormat(
                     "\r\n<asp:Repeater ID=\"{0}\" runat=\"server\">" +
                     "\r\n    <ItemTemplate>{1}</ItemTemplate>" +
-                    "\r\n</asp:Repeater>" +
-                    "\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>",
-                    this.GetTagName(), this.SubPage.GetAspxCode());
+                    "\r\n</asp:Repeater>", this.GetTagName(), AspxCode);
             }
             else
             {
-                return string.Format("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>" +
-                    "\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>\r\n", this.GetTagName());
+                sb.AppendFormat("<asp:PlaceHolder ID=\"{0}\" runat=\"server\"></asp:PlaceHolder>", this.GetTagName());
             }
+            if (sub.Empty != null)
+            {
+                sb.AppendFormat(
+                    "{0}<asp:Panel ID=\"{1}\" runat=\"server\" Visible=\"false\">\r\n{0}{2}\r\n</asp:Panel>",
+                    Method.getSpaces(3), sub.Empty.GetTagName(), emptytext);
+            }
+            else
+            {
+                sb.AppendFormat("\r\n<asp:Literal ID=\"empty_{0}\" runat=\"server\"></asp:Literal>\r\n", this.GetTagName());
+            }
+            return sb.ToString();
         }
 
         public void LoadSubPage()
@@ -221,15 +238,14 @@ namespace Tag.Vows.Tag
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
                     BindList.Body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     BindList.Body.Append(Method.getSpaces(2) + "{\r\n");
-                    string emptytext = (this.SubPage as ItemPage).GetEmptyText();
-                    if (!string.IsNullOrEmpty(emptytext))
+                    EmptyTag empty = (this.SubPage as ItemPage).Empty;
+                    if (empty != null)
                     {
-                        BindList.Body.AppendFormat("{0}empty_{1}.Text = \"{2}\";\r\n", Method.getSpaces(3),
-                                                            this.GetTagName(), Regex.Replace(emptytext, @"""", "\\\""));
+                        BindList.Body.AppendFormat("{0}{1}.Visible = true;\r\n", Method.getSpaces(3), empty.GetTagName());
                     }
                     else
                     {
-                        emptytext = "暂无内容";
+                        string emptytext = "暂无内容";
                         Match m = Regex.Match(BaseParams, @"(?<=emptytext=)[^&]+?(?=&|$)");
                         if (m.Success)
                         {

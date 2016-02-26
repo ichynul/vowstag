@@ -31,6 +31,5 @@ namespace Tag.Vows.Interface
     interface ITestGroup
     {
         void CheckTestToLoadTag(ITesBeforLoading tag);
-        void ConvertIfTags();
     }
 }

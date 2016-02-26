@@ -25,10 +25,15 @@ SOFTWARE.
 #endregion
 using System.Text.RegularExpressions;
 using Tag.Vows.Tool;
+using Tag.Vows.Interface;
+using Tag.Vows.Page;
+
 namespace Tag.Vows.Tag
 {
-    class EmptyTag : StyleAbleTag
+    class EmptyTag : BaseTag
     {
+        public const string FakeNameStr = "/x-empty-fake-x/";
+
         public EmptyTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
         {
@@ -36,18 +41,38 @@ namespace Tag.Vows.Tag
 
         protected override string GetCodeForAspx()
         {
-            return "";
+            return string.Empty;
         }
 
         protected override void Discover()
         {
+
         }
 
         public override string ToTagString()
         {
-            string s = "【全局名称" + this.GetTagName() + ",标签类型：EmptyTag，内容：" + 
-                Regex.Replace(("" + this.Style).Replace("<", "&lt;").Replace(">", "&gt;"), @"[\r\n\s]", "") + "】<br />";
+            string s = "【全局名称" + this.GetTagName() + ",标签类型：EmptyTag，内容：" +
+                Regex.Replace(("" + this.Text).Replace("<", "&lt;").Replace(">", "&gt;"), @"[\r\n\s]", "") + "】<br />";
             return s;
+        }
+
+        public string FindEmptyContent(string style, out string emptyText)
+        {
+            emptyText = "";
+            Match m = Regex.Match(style, string.Concat(this.PlaceHolderName,
+                    @"(?<content>.*?)", this.PlaceHolderName),
+                    RegexOptions.Singleline);
+            if (m.Success)
+            {
+                style = style.Replace(this.PlaceHolderName, string.Empty);
+                emptyText = m.Groups["content"].Value;
+            }
+            return style;
+        }
+
+        public string GetContentPlaceholder(string style)
+        {
+            return string.Concat(this.PlaceHolderName, style, this.PlaceHolderName);
         }
     }
 }
