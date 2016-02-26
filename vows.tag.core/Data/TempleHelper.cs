@@ -44,7 +44,7 @@ namespace Tag.Vows.Data
     /// lianghaiyun
     /// </summary>
     /// 
-    internal sealed class TempleHelper
+    sealed class TempleHelper
     {
         private object UpperDataModel = null;
         private static TempleHelper Helper;
@@ -61,7 +61,7 @@ namespace Tag.Vows.Data
         }
 
         #region GetWhereParams
-        internal StringBuilder GetWhereParams(object model, List<TagWhere> wheres, string baseParms)
+        public StringBuilder GetWhereParams(object model, List<TagWhere> wheres, string baseParms)
         {
             StringBuilder sb = new StringBuilder();
             string passNames = "orderby|desc|pagesize|take|item|skip";
@@ -176,7 +176,7 @@ namespace Tag.Vows.Data
                         m = new Regex(@"\d+(\.\d+)?").Match(w.VarName);
                         string number = m.Value;
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
-                        
+
                         dataType = DataHelper.GetType(UpperDataModel, Regex.Replace(
                             w.VarName, @"item|read|[\.\+\-\*/\d]", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
@@ -403,7 +403,7 @@ namespace Tag.Vows.Data
         #endregion
 
         #region Linq_queryParams
-        internal List<TagWhere> Linq_queryParams(object model, string baseParms)
+        public List<TagWhere> Linq_queryParams(object model, string baseParms)
         {
             List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, baseParms, " && ");
@@ -413,7 +413,7 @@ namespace Tag.Vows.Data
 
         #region Linq_getList
 
-        internal string Linq_getList(string listname, string baseParms, HashSet<string> fields,
+        public string Linq_getList(string listname, string baseParms, HashSet<string> fields,
             out string modType, string upDataName, out string UpdataType, PagerTag pager)
         {
             UpdataType = "";
@@ -629,7 +629,7 @@ namespace Tag.Vows.Data
         /// <param name="modType">输出表对应实体的类型</param>
         /// <param name="tagName">查询条件</param>
         /// <returns></returns>
-        internal string Linq_getJson(string listname, string baseParms, out string modType, string tagName)
+        public string Linq_getJson(string listname, string baseParms, out string modType, string tagName)
         {
             modType = "";
             object model = GetModObj(listname);
@@ -653,7 +653,7 @@ namespace Tag.Vows.Data
             bool desc = true;
             int pagesize = 0;//每页显示条数
             int take = 0;
-            HashSet<string> fields = GetFields(listname);
+            HashSet<string> fields = new HashSet<string>();
             #region where 筛选
             if (baseWheres.Count > 0)
             {
@@ -738,22 +738,19 @@ namespace Tag.Vows.Data
                         }
                     }
                 }
-                if (fields != null && fields.Count > 0)
+                if (fields.Count < 1)
                 {
-                    linq.AppendFormat("\r\n{0}select new\r\n", Method.getSpaces(5));
-                    linq.AppendFormat("{0}{1}", Method.getSpaces(5), "{\r\n");
-                    int k = 0;
-                    foreach (var s in fields)
-                    {
-                        k += 1;
-                        linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.GetPropertyName(model, s), k == fields.Count ? "" : ",");
-                    }
-                    linq.Append(Method.getSpaces(5) + "};\r\n");
+                    fields = GetFields(listname);
                 }
-                else
+                linq.AppendFormat("\r\n{0}select new\r\n", Method.getSpaces(5));
+                linq.AppendFormat("{0}{1}", Method.getSpaces(5), "{\r\n");
+                int k = 0;
+                foreach (var s in fields)
                 {
-                    linq.AppendFormat("\r\n{0}select a;\r\n", Method.getSpaces(5));
+                    k += 1;
+                    linq.AppendFormat("{0}a.{1}{2}\r\n", Method.getSpaces(6), DataHelper.GetPropertyName(model, s), k == fields.Count ? "" : ",");
                 }
+                linq.Append(Method.getSpaces(5) + "};\r\n");
             }
             #endregion
             #region orderby 排序分页
@@ -803,7 +800,7 @@ namespace Tag.Vows.Data
         #endregion
 
         #region Linq_getRead
-        internal string Linq_getRead(string dataName, string query, out string modType, string upDataName,  string readname)
+        public string Linq_getRead(string dataName, string query, out string modType, string upDataName, string readname)
         {
             object model = GetModObj(dataName);
             if (model != null)
@@ -843,7 +840,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat("\r\n{0}{1} = db\r\n.{3}{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), readname,
+                        linq.AppendFormat("\r\n{0}{1} = db.{3}{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), readname,
                             Config.GetingTableStr("read", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -901,7 +898,7 @@ namespace Tag.Vows.Data
         /// </summary>
         /// <param name="tableName">表名</param>
         /// <returns>实例</returns>
-        internal object GetModObj(string tableName)
+        public object GetModObj(string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
             {

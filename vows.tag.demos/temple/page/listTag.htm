@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#config.webname}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+</head>
+<body>
+    <div class="head">
+        {#label=notice /}<!--引入label-->
+    </div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
+    <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;ListTag
+            <!-- -->
+        </div>
+        <div class="articles">
+            <p class="about">
+                最简形式 默认会以第一个字段、降序排列，不分页取99条</p>
+            <ul class="articlelist">
+                {#list=article}<!--最简形式 默认会以第一个字段、降序排列，不分页取99条-->
+                <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+                    {#item.time}</span> </li>
+                {#list}
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
+            <ul class="articlelist">
+                {#list=article?take=1&item=listTag_item /}
+                <!--读一条看看。因为不需要包含样式，所以以单标签的形式-->
+                <!--item=listTag_item 样式文件位于 /item/listTag_item.html(文件扩展名可以是.html/.htm/.txt)-->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                逻辑且'&',查询条件之间用&分割表示逻辑且(短路的，实际效果为&&,书写的时候不要写成&&),逻辑关系与标签指令（orderby、desc、take、skip、item等）无书写位置的限定</p>
+            <ul class="articlelist">
+                {#list=article?id>=3&id<999
+                <br />
+                take=1&item=listTag_item /}
+                <!--id>=3    id大于等于3-->
+                <!--id<999   且id小于99-->
+                <!--<br />   替代一个&，以使标签分行(当用编辑器格式化时)-->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                逻辑或'|'(短路的，实际效果为||),</p>
+            <ul class="articlelist">
+                {#list=article?desc=false&id=3
+                <hr />
+                id=6&take=5|(id<=15&id>12)
+                <br />
+                item=listTag_item /}
+                <!--id=3    id等于3-->
+                <!--id=6    或id等于6-->
+                <!--<hr />   替代一个|，以使标签分行-->
+                <!--id<=15&id>12    或id小于等于15且id大于10,该条件没有接着前两个条件写（被take指令分割），不影响结果，但应避免这样，最好先写逻辑，再写指令-->
+                <!--take=5 不出意外的话会有5条数据，若其中有锁定的（IsLock为true），则会少于5-->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                文本包含'%'、不包含'!%'</p>
+            <ul class="articlelist">
+                {#list=article? title % 人 &content !% "二 B"& title!%你 好&item=listTag_item /}
+                <!--titel%人          标题不包含'人'字-->
+                <!--content!%"二B"    正文不包含"二 B"，此处文字外有引号（文字中有空格的，要用引号，否则可以省去）-->
+                <!--title!%你 好      这个不对，文字中间的空格会不在了，实际效果为 title!%你好 -->
+                <!--%和!%只对文字(string)有效，其他类型的字段不可以。另外要注意字段不能为空，若表中该字段存在NULL值，则会出错。应判断空值，如(title!=null&title%人) -->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                时间，支持DateTime.Now的形式</p>
+            <ul class="articlelist">
+                {#list=article? time>2015/12/25 12:25:54&time > DateTime.Now&item=listTag_item
+                /}
+                <!--time>2015/12/25 12:25:54          录入日期 在2015/12/25 12:15:54之后的。时间用'-'或'/'分割-->
+                <!--time < DateTime.Now               今天之后后的-->
+            </ul>
+        </div>
+    </div>
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
+</body>
+</html>

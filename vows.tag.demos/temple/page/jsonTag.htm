@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#config.webname}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+    <link href="css/kkpager_orange.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="head">
+        {#label=notice /}<!--引入label--></div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
+    <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;jsonTag
+            <!-- -->
+        </div>
+        <div class="categs">
+            <ul class="categslist" id="switch">
+                <li><a href="javascript:;" onclick="change(this,0);" class="on">全部</a></li>
+                {#list=category?orderby=id&desc=true&take=99}
+                <li><a href="javascript:;" onclick="change(this,{#item.id});">{#item.name}</a></li>
+                {#list}
+            </ul>
+        </div>
+        <div class="articles">
+            <ul class="articlelist" id="thelist">
+            </ul>
+            <div id="kkpager" class="tcdPageCode">
+            </div>
+        </div>
+    </div>
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
+    <script src="js/kkpager.min.js" type="text/javascript"></script>
+    <script src="js/doT.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            loadMore(); //页面加载完事自动获取第一页的数据
+        });
+
+        var page = 1, pagesize;
+        var pages, listsize
+        var type = 0;
+        var over = false;
+
+        function loadMore() {
+            var jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id /}";
+            if (type != 0) { //按具体分类
+                jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id & categ = call.cid /}";
+            }
+            _tagcall.$json(jsonname, "page=" + page + '&cid=' + type);
+        }
+
+        function CallbackSuccess(resultstr) {
+            var obj = eval('(' + resultstr + ')');
+            if (obj.type) {
+                if (obj.type == "jsoncall") {//json标签请求的返回
+                    if (obj.result && obj.result.data) {
+                        over = obj.result.over;
+                        page = obj.result.page;
+                        listsize = obj.result.listsize;
+                        pagesize = obj.result.pagesize;
+                        paging();
+                        if (obj.result.data.length > 0) {
+                            var tpl = $('#list-template').text();
+                            var tempFn = doT.template(tpl);
+                            $("#thelist").html(tempFn(obj.result.data));
+                        }
+                        else {
+                            if (obj.result.page == 1) {
+                                $("#thelist").html('<li><a style="text-align:center; width:100%;padding-bottom:20px;">暂无文章</a></li>');
+                            }
+                            else {
+                                alert('没有更多了~');
+                            }
+                        }
+                    }
+                }
+                else if (obj.type == "mycall") {
+
+                }
+                else {
+                    alert(resultstr);
+                }
+            }
+            else {
+                alert(resultstr);
+            }
+        }
+
+        function paging() {
+            pages = Math.floor(listsize / pagesize); //获取当前的总页数
+            if (listsize % pagesize != 0) {
+                pages += 1;
+            }
+            pages = pages < 1 ? 1 : pages;
+            page = page < 1 ? 1 : page > pages ? pages : page;
+
+            kkpager.generPageHtml({
+                pno: page,
+                //总页码
+                total: pages,
+                //总数据条数
+                totalRecords: listsize,
+                mode: 'click', //默认值是link，可选link或者click
+                click: function (n) {
+                    page = n;
+                    loadMore();
+                    this.selectPage(n);
+                }, getHref: function (n) {
+                    return 'javascript:';
+                }
+                , isGoPage: false
+                , isShowTotalPage: false
+                , isShowCurrPage: false
+                /*
+                ,lang				: {
+                firstPageText			: '首页',
+                firstPageTipText		: '首页',
+                lastPageText			: '尾页',
+                lastPageTipText			: '尾页',
+                prePageText				: '上一页',
+                prePageTipText			: '上一页',
+                nextPageText			: '下一页',
+                nextPageTipText			: '下一页',
+                totalPageBeforeText		: '共',
+                totalPageAfterText		: '页',
+                currPageBeforeText		: '当前第',
+                currPageAfterText		: '页',
+                totalInfoSplitStr		: '/',
+                totalRecordsBeforeText	: '共',
+                totalRecordsAfterText	: '条数据',
+                gopageBeforeText		: ' 转到',
+                gopageButtonOkText		: '确定',
+                gopageAfterText			: '页',
+                buttonTipBeforeText		: '第',
+                buttonTipAfterText		: '页'
+                }*/
+            }, true);
+        }
+
+        function change(obj, t) {
+            $("#thelist").html('');
+            $("#switch li a").removeClass("on");
+            $(obj).addClass("on");
+            type = t;
+            over = false;
+            page = 1;
+            loadMore();
+        }
+
+    </script>
+    <script id="list-template" type="text/x-dot-template">
+        {{ for(var i=0, len=it.length; i < len; i++) {}}
+            <li>
+                <a class="title" href="read.aspx?id={{=it[i].ID}}">{{=it[i].Title}}</a>
+                <span class="time">{{=it[i].Time}}</span>
+                <div class="desc">
+                    <span>{{=it[i].Desc}}</span></div>
+            </li>
+        {{ } }}
+    </script>
+</body>
+</html>

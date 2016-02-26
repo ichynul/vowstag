@@ -12,7 +12,8 @@
     <!---->
     {#read=article?id=request.id /}<!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        {#label=notice /}<!--引入label--></div>
+        {#label=notice /}<!--引入label-->
+    </div>
     <div class="navi">
         {# static=navi /}
     </div>
@@ -56,8 +57,7 @@
                 <!-- -->
                 {#empty}<!--empty标签对，作用与emptytext差不多，但emptytext仅支持简单的文字，而empty可包含复杂的文本（如html） -->
                 <!-- -->
-                <span style="color: Red;">没有了~</span>
-                
+                <span style="color: Red;">没有了~</span> {#request.id}
                 <!-- -->
                 {#empty}
                 <!-- -->
@@ -70,7 +70,9 @@
             </div>
         </div>
     </div>
-    {#static=foot /}<!--引入static-->
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
     <script type="text/javascript">
         function ding() {
             $('#dingyixia').text('操作中...');

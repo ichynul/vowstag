@@ -7,7 +7,8 @@
 </head>
 <body>
     <div class="head">
-        {#label=notice /}<!--引入label--></div>
+        {#label=notice /}<!--引入label-->
+    </div>
     <div class="navi">
         {# static=navi /}
     </div>
@@ -33,6 +34,8 @@
             {#pager?type=cs /}<!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
         </div>
     </div>
-    {#static=foot /}<!--引入static-->
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
 </body>
 </html>

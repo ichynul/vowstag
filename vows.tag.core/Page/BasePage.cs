@@ -70,7 +70,7 @@ namespace Tag.Vows.Page
         public List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
 
-        protected BasePage(){}
+        protected BasePage() { }
 
         public BasePage(string mPageName, TagConfig config)
             : this(string.Empty, mPageName, 1, config)

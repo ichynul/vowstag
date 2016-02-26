@@ -42,7 +42,7 @@ img
     vertical-align: middle;
 }
 
-.head, .main, .foot ,.navi
+.head, .main, .foot, .navi
 {
     width: 800px;
     margin: 0 auto;
@@ -54,29 +54,29 @@ img
     padding: 10px 0px;
     min-height: 700px;
 }
-.head ,.navi
+.head, .navi
 {
-    height:30px;
+    height: 30px;
 }
 
 .navi
 {
-    background-color:#f1f1f1;
+    background-color: #f1f1f1;
 }
 
-.head .notice,.navi .navilist
+.head .notice, .navi .navilist
 {
     width: 100%;
     text-align: center;
 }
-.head .notice li,.navi .navilist li
+.head .notice li, .navi .navilist li
 {
     float: left;
     margin: 5px;
 }
 .foot
 {
-    padding:20px 10px;
+    padding: 20px 10px;
     height: 30px;
 }
 .copyleft
@@ -84,18 +84,17 @@ img
     width: 100%;
 }
 
-.location 
+.location
 {
-    width:95%;
-    border-bottom:2px solid #e1e1e1;
-    border-top:2px solid #e1e1e1;
-    padding:5px;
-    margin:5px;
+    width: 95%;
+    border-bottom: 2px solid #e1e1e1;
+    border-top: 2px solid #e1e1e1;
+    padding: 5px;
 }
 .location a
 {
-    padding:3px;
-    margin-left:5px;
+    padding: 3px;
+    margin-left: 5px;
 }
 .copyleft li
 {
@@ -104,57 +103,87 @@ img
     color: #555;
     font-size: 14px;
 }
-/***index**/
+
+.categs
+{
+    border:1px dashed #f1f1f1;
+    width: 800px;
+    float: left;
+}
+.categs li
+{
+    float: left;
+    margin-left: 3px;
+    padding: 5px;
+}
+.categs li a
+{
+    color: #666;
+    font-size: 15px;
+}
+
+.categs li a.on
+{
+    color: green;
+    font-size: 15px;
+}
+
 .articles
 {
     width: 750px;
-    margin: 10px 25px;
+    margin: 0px 25px;
+    float: left;
+}
+.articles p.about
+{
+    color:red;
+    font-size:15px;
+    word-spacing:3px;
 }
 .articles .catename
 {
-    font-size:17px;
-    padding:5px;
-    color:#000;
-    font-weight:800;
-    margin-left:10px;
-    line-height:30px;
+    font-size: 17px;
+    padding: 5px;
+    color: #000;
+    font-weight: 800;
+    margin-left: 10px;
+    line-height: 30px;
 }
 .articlelist
 {
-    margin-top:10px;
-    padding:5px;
-    width:100%;
-    float:left;
+    padding: 5px;
+    width: 100%;
+    float: left;
 }
 
 .articlelist li
 {
-    border-bottom:1px dashed #a1a1a1;
-    margin:5px;
-    float:left;
-    width:100%;
+    border-bottom: 1px dashed #a1a1a1;
+    margin: 5px;
+    float: left;
+    width: 100%;
 }
 .articlelist li a.title
 {
-    float:left;
-    font-size:14px;
-    word-spacing:5px;
-    font-weight:600;
-    padding:3px;
+    float: left;
+    font-size: 14px;
+    word-spacing: 5px;
+    font-weight: 600;
+    padding: 3px;
 }
 
 .articlelist li span.time
 {
-    float:right;
+    float: right;
 }
 
 .articlelist li .desc
 {
-    float:left;
-    width:80%;
-    padding:3px;
+    float: left;
+    width: 80%;
+    padding: 3px;
 }
-/*read*/
+
 
 .read
 {
@@ -186,13 +215,13 @@ img
 }
 .read .links
 {
-    width:100%;
-    float:left;
+    width: 100%;
+    float: left;
 }
-.read .links span,.read .links a
+.read .links span, .read .links a
 {
-    float:left;
-    margin:5px;
+    float: left;
+    margin: 5px;
 }
 .read .links .emptydiv
 {
@@ -200,7 +229,7 @@ img
 }
 .read .ding
 {
-    width:100%;
-    text-align:center;
-    padding:10px 0px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0px;
 }
