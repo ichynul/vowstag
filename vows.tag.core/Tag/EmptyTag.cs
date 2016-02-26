@@ -64,7 +64,7 @@ namespace Tag.Vows.Tag
                     RegexOptions.Singleline);
             if (m.Success)
             {
-                style = style.Replace(this.PlaceHolderName, string.Empty);
+                style = style.Replace(m.Value, string.Empty);
                 emptyText = m.Groups["content"].Value;
             }
             return style;
