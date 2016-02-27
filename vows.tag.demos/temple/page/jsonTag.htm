@@ -21,9 +21,9 @@
         </div>
         <div class="categs">
             <ul class="categslist" id="switch">
-                <li><a href="javascript:;" onclick="change(this,0);" class="on">全部</a></li>
+                <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 {#list=category?orderby=id&desc=true&take=99}
-                <li><a href="javascript:;" onclick="change(this,{#item.id});">{#item.name}</a></li>
+                <li><a href="javascript:;" onclick="change(this,'{#item.id}');">{#item.name}</a></li>
                 {#list}
             </ul>
         </div>
@@ -46,15 +46,15 @@
 
         var page = 1, pagesize;
         var pages, listsize
-        var type = 0;
+        var type = '';
         var over = false;
 
         function loadMore() {
             var jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id /}";
-            if (type != 0) { //按具体分类
+            if (type != '') { //按具体分类
                 jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id & categ = call.cid /}";
             }
-            _tagcall.$json(jsonname, "page=" + page + '&cid=' + type);
+            _tagcall.json(jsonname, "page=" + page + '&cid=' + type);
         }
 
         function CallbackSuccess(resultstr) {
