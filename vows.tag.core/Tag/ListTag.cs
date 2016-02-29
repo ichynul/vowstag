@@ -155,6 +155,10 @@ namespace Tag.Vows.Tag
 
         protected override string GetCodeForAspx()
         {
+            if (string.IsNullOrEmpty(this.ItemName))
+            {
+                return string.Format("<!--（无样式且未指定样式文件的list标签）。{0}-->", string.Concat(this.Text));
+            }
             if (this.ParPageName == this.ItemName)
             {
                 return string.Format("<!--（未加载套用自己的list标签）。{0}-->", string.Concat(this.Text, "--", ParPageName, "---", ItemName));

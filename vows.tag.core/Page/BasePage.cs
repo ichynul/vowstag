@@ -195,7 +195,10 @@ namespace Tag.Vows.Page
             ReplaceEnd(true);
             //
             DoForForm();
-            DoForPager();
+            if (!(this is SubListPage))
+            {
+                DoForPager();
+            }
             DoForRead();
         }
 
@@ -431,7 +434,7 @@ namespace Tag.Vows.Page
             this.ValidateRequest = value != null
                 && value.ToLower() == "true";
             value = cmd.QueryString("enableviewstate");
-            this.ValidateRequest = string.IsNullOrEmpty(value)
+            this.EnableViewState = string.IsNullOrEmpty(value)
                 || value.ToLower() == "false";
         }
 
@@ -662,7 +665,6 @@ namespace Tag.Vows.Page
                     {
                         Html = Html.Replace(c.Text, string.Format("<!--{0}-->", ck.TabledisAbledMsg())) + "\r\n";
                         this.Msg += string.Concat(ck.TabledisAbledMsg(), "，在页面：", this.PageName, this.ext, "<br />");
-                        continue;
                     }
                 }
                 Html = c.RecoverTagText(this.Html);
@@ -792,8 +794,8 @@ namespace Tag.Vows.Page
                         MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(4), method.Name);
                     }
                 }
+                MethodRects.Append(method.ToFullMethodRect());
             }
-            MethodRects.Append(method.ToFullMethodRect());
         }
 
         private void WriteTagGit()
@@ -825,7 +827,7 @@ namespace Tag.Vows.Page
             string codeFile = this.PageName + type[2];
             StringBuilder AspxCode = new StringBuilder();
             AspxCode.AppendFormat("<%@ {0} Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"{1}\" Inherits=\"{2}\"{3} {4} %>\r\n"
-                , type[0], codeFile, className, this is IUC || !this.ValidateRequest ? "" : " ValidateRequest=\"true\"", this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
+                , type[0], codeFile, className, this is IUC || this.ValidateRequest ? "" : " ValidateRequest=\"false\"", this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
             AspxCode.AppendFormat("\r\n", codeFile, className);
             WriteTagGit();
             AspxCode.Append(this.GetAspxCode());

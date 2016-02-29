@@ -21,7 +21,7 @@
         <div class="location">
             当前位置：<a href="index.aspx">{#config.webname}</a>
             <!-- -->
-            &gt;{# read = category ? id = read.categ}<a href="list.aspx?cid={#read.id}">{#read.name
+            &gt;{# read = category ? id = read.categ}<a href="list.aspx?cid={#read.id}&page={#page}">{#read.name
                 }</a>{#read}<!--局部的read-->
             <!-- -->
             &gt;<a>{#read.title /}</a>
@@ -34,7 +34,7 @@
                 <span>作者：{# read.author /}</span><span>日期：{# TimeFormat(read.time) /}</span><span>点击：{#read.view
                     /}</span>
             </div>
-            <img src="{#read.img /}" style="width: 300px; margin-left: 300px;" />
+            <img src="{#read.img /}" style="width: 250px; margin-left: 250px;" />
             <div class="content">
                 {#read.content /}
             </div>

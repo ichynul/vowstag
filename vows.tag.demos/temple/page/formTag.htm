@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#read.title}--{#config.webname}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+</head>
+<body>
+    {# cmd?callback=true & validaterequest =false /}
+    <!--callback=true指令可以不要，因为页面含有form（或json）标签，将会自动启用clllback支持 -->
+    <div class="head">
+        {#label=notice /}<!--引入label-->
+    </div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
+    <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;formTag
+        </div>
+        <div class="form">
+            {#read=article?id=request.id/}<!--用read来绑定数据-->
+            {#form=article?id=request.id & allowempty=author,view & action =edit /}<!--用form来提交数据，一个页面只能有一个from标签-->
+            <!--allowempty=author,view 指定 author、view 两个字段可以为空值(不填)，不指定的字段默认不允许为空 -->
+            <!--action =edit 执行 '修改'有则修改,无则返回错误。该参数可选值 both[默认]（添加/修改）|add（只添加）|edit（只修改） -->
+            <form id="form1">
+            <!-- 必须有 < form > html标记，且待操作form字段被包含在里面-->
+            <div>
+                <label>
+                    标题：
+                </label>
+                <input type="text" id="title" class="text" maxlength="50" name="{#form.title}" value="{#read.title /}" />
+                <!-- name 属性是必须的，{#form.title}为占位符 ，id属性方便后面dom操作-->
+            </div>
+            <div>
+                <label>
+                    作者：
+                </label>
+                <input type="text" id="author" class="text" maxlength="20" name="{#form.author}"
+                    value="{#read.author /}" />
+            </div>
+            <div>
+                <label>
+                    日期：
+                </label>
+                <input type="text" id="time" class="text" maxlength="50" name="{#form.time}" value="{#read.time /}" />
+            </div>
+            <div>
+                <label>
+                    点击：
+                </label>
+                <input type="text" id="view" class="text" maxlength="10" name="{#form.view}" value="{#read.view /}" />
+            </div>
+            <div style="position: relative; height: 240px;">
+                <label style="position: absolute; top: 120px;">
+                    内容：
+                </label>
+                <textarea style="position: absolute; left: 43px;" id="content" name="{#form.content}"
+                    cols="40" rows="10">{#read.content /}</textarea>
+            </div>
+            <div style="clear: both; margin-left: 50px;">
+                <input type="button" class="button" value="保存" onclick="{#form.submit(true)}" /><!-- 最好不要用 type="submit"-->
+                <!--{#form.submit()}为占位符，将生成 '_tagcall.form('form1',true); return false;'这里可以直接写后者-->
+                <input type="reset" class="button" value="重置" /> <input type="button" class="button" value="返回" onclick="location.href='jsonTag.aspx?backpage={#request.page/}'" />
+            </div>
+            <div style="margin-left: 70px;">
+                <span id="result"></span>
+            </div>
+            </form>
+            <!-- 总结，form标签还是比较适用于只提交数据的场合（如留言板）-->
+            <!--因为修改时，read读取数据时只适用于绑定<input type='text' /><taxtarea></taxtarea>-->
+            <!--其他表单元素就不好绑定，难免需要用js操作-->
+        </div>
+    </div>
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
+    <script type="text/javascript">
+        if ('{#request.id}' == '') {
+            alert('此页面需要有url参数 id !');
+            location.href = 'jsonTag.aspx';
+        }
+
+        function CallbackSuccess(resultstr) {
+            var obj = eval('(' + resultstr + ')');
+            if (obj.type) {
+                if (obj.type == "formcall") {//json标签请求的返回
+                    if (obj.result.code == 0) {
+                        $('#result').html('保存成功！');
+                        setTimeout(function () {
+                            $('#result').html('');
+                        }, 3000);
+                    }
+                    else if (obj.result.code == 1) {
+                        $('#result').html('不能为空！');
+                        $('#' + obj.result.dom).focus();
+                        setTimeout(function () {
+                            $('#result').html('');
+                        }, 3000);
+                    }
+                    else if (obj.result.code == 2) {
+                        $('#result').html(obj.result.msg);
+                        $('#' + obj.result.dom).focus();
+                    }
+                    else if (obj.result.code == 3) {
+                        $('#result').html(obj.result.msg);
+                    }
+                    else {
+                        $('#result').html(obj.result.msg);
+                    }
+                }
+                else {
+                    alert(resultstr);
+                }
+            }
+            else {
+                alert(resultstr);
+            }
+        }
+    </script>
+</body>
+</html>

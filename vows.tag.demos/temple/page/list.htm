@@ -23,7 +23,7 @@
             <ul class="articlelist">
                 {#list=article?categ= request.cid & orderby=time,istop&desc=true & pagesize =4}<!--每页显示4条->
                 <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
-                <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+                <li><a class="title" href="read.aspx?id={#item.id}&page={#page}">{#item.title}</a> <span class="time">
                     {#item.time}</span>
                     <div class="desc">
                         <span>{#SubString(item.content,200)}</span></div>

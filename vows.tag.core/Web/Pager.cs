@@ -98,7 +98,7 @@ namespace Tag.Vows.Web
             this.ListSize = mListSize;
             this.Current_page = mCunrrent;
             this.PageSize = mPageSize;
-            this.Link_to = Regex.Replace(mLink, @"(?<=\?|&)page=[^&]*?(?=&|$)", string.Empty, RegexOptions.IgnoreCase); ;
+            this.Link_to = Regex.Replace(mLink, @"(?<=\?|&)page=[^&]*?(?=&|$)", string.Empty, RegexOptions.IgnoreCase);
             if (Link_to.IndexOf("?") == -1)
             {
                 this.Link_to += "?";
@@ -107,6 +107,7 @@ namespace Tag.Vows.Web
             {
                 this.Link_to += "&";
             }
+            this.Link_to = Regex.Replace(mLink, @"&{2,}", "&", RegexOptions.IgnoreCase);
             this.GaculTotalPages();
         }
 

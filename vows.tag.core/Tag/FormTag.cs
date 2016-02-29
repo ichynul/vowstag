@@ -42,6 +42,7 @@ namespace Tag.Vows.Tag
         private string
             allowempty,
             action = "both";
+        List<string> fields = new List<string>();
 
         public List<FromVar> Vars = new List<FromVar>();
         private object model;
@@ -64,7 +65,11 @@ namespace Tag.Vows.Tag
             }
             name = field.getParamAt(1);
             type = DataHelper.GetType(model, name, out isNullAble, out newName);
-            Vars.Add(new FromVar(newName, name, type, isNullAble));
+            if (!fields.Contains(newName))
+            {
+                Vars.Add(new FromVar(newName, name, type, isNullAble));
+                fields.Add(newName);
+            }
         }
 
         public void SetMethod(MethodTag method)
@@ -159,7 +164,7 @@ namespace Tag.Vows.Tag
                     if (first)
                     {
                         linq.Append(TempleHelper.getTempleHelper(this.Config).GetWhereParams(model, baseWheres, BaseParams));
-                        linq.AppendFormat("\r\n{0}{1} = db\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), 
+                        linq.AppendFormat("\r\n{0}{1} = db\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2),
                             dataName, Config.GetingTableStr("list", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;

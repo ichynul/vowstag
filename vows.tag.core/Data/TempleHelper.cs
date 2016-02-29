@@ -590,7 +590,7 @@ namespace Tag.Vows.Data
                 {
                     if (pager.type == PagerType.cs)
                     {
-                        linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1}, RemovePageParams(Request.RawUrl), {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
+                        linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
                             Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "fase");
                         linq.AppendFormat("{0}{1}.Text = \"<div id='pager'>\" + pager.MakeLinks() +\"</div>\"; \r\n", Method.getSpaces(2), pager.GetTagName());
                     }
@@ -603,7 +603,7 @@ namespace Tag.Vows.Data
                            "\\r\\n<input type='hidden' id='list_size' value='\" + totalsize + \"' data-info='总纪录条数' />",
                             "\\r\\n<input type='hidden' id='num_per_page' value='\" + " + pagesize + " + \"' data-info='每页显示' />",
                             "\\r\\n<input type='hidden' id='current_page' value='\" + page + \"' data-info='当前页' />",
-                            "\\r\\n<input type='hidden' id='current_url_params' value='?\" + urlparams + \"' data-info='当前url参数（不带page参数）' />"
+                            "\\r\\n<input type='hidden' id='current_url_params' value='\" + urlparams + \"' data-info='当前url参数（不带page参数）' />"
                             );
                     }
                     pager.setUsed(true);
@@ -840,7 +840,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat("\r\n{0}{1} = db.{3}{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2), readname,
+                        linq.AppendFormat("{0}{1} = db.{2}\r\n{3}.Where( b=>\r\n {3}", Method.getSpaces(2), readname,
                             Config.GetingTableStr("read", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -868,10 +868,9 @@ namespace Tag.Vows.Data
                 }
                 if (!first)
                 {
-                    linq.Append(");\r\n");
                     if (orderbylist.Count() > 0)
                     {
-                        linq.AppendFormat(".{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
+                        linq.AppendFormat(").{0}(c=>c.{1})", desc ? "OrderByDescending" : "OrderBy", DataHelper.GetPropertyName(model, orderbylist[0]));
                         if (orderbylist.Count() > 1)
                         {
                             for (int i = 1; i < orderbylist.Count(); i += 1)
@@ -879,8 +878,14 @@ namespace Tag.Vows.Data
                                 linq.AppendFormat("\r\n{0}.{1}(c=>c.{2})", Method.getSpaces(5), desc ? "ThenByDescending" : "ThenBy", DataHelper.GetPropertyName(model, orderbylist[i]));
                             }
                         }
+                        linq.AppendFormat("\r\n{0}.FirstOrDefault();\r\n", Method.getSpaces(4));//
+                    }
+                    else
+                    {
+                        linq.AppendFormat(")\r\n{0}.FirstOrDefault();\r\n", Method.getSpaces(4));//
                     }
                 }
+
                 linq.AppendFormat("{0}if ({1} == null)\r\n", Method.getSpaces(2), readname);
                 linq.Append(Method.getSpaces(2) + "{\r\n");
                 linq.AppendFormat(Method.getSpaces(3) + "{0} = new {1}();\r\n", readname, modType);

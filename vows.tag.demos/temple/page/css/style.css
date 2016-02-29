@@ -106,7 +106,7 @@ img
 
 .categs
 {
-    border:1px dashed #f1f1f1;
+    border: 1px dashed #f1f1f1;
     width: 800px;
     float: left;
 }
@@ -136,9 +136,9 @@ img
 }
 .articles p.about
 {
-    color:red;
-    font-size:15px;
-    word-spacing:3px;
+    color: red;
+    font-size: 15px;
+    word-spacing: 3px;
 }
 .articles .catename
 {
@@ -232,4 +232,77 @@ img
     width: 100%;
     text-align: center;
     padding: 10px 0px;
+}
+
+#pager
+{
+    clear: both;
+    color: #999;
+    padding: 5px 0px 5px 0px;
+    font-size: 13px;
+}
+#pager a
+{
+    float: left;
+    border: 1px solid #ccc;
+    display: inline;
+    padding: 3px 10px 3px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    cursor: pointer;
+    background: #fff;
+    text-decoration: none;
+    color: #999;
+}
+
+#pager a.disabled
+{
+    float: left;
+    display: inline;
+    padding: 3px 10px 3px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border: 1px solid #DFDFDF;
+    background-color: #FFF;
+    color: #DFDFDF;
+}
+
+#pager span.current
+{
+    float: left;
+    border: 1px solid #FF6600;
+    display: inline;
+    padding: 3px 10px 3px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: #FFEEE5;
+    color: #FF6600;
+}
+
+.form
+{
+    width: 750px;
+    margin: 0px 25px;
+    float: left;
+}
+
+.form div
+{
+    margin: 3px 0px;
+    padding: 3px;
+}
+.form div input.text
+{
+    width:200px;
+}
+
+.form div input.button
+{
+    margin-left:22px;
 }

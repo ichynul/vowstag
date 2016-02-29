@@ -70,7 +70,7 @@ namespace Tag.Vows.Tag
         {
             if (this.Type == MethodType.form_method)
             {
-                return string.Format("_tagcall.form('{0}'{1}); return false;", this.forname, this.Params.ToLower() == "false" ? " ,false" : " ,true");
+                return string.Format("_tagcall.form('{0}',{1}); return false;", this.forname, this.Params.ToLower() == "false" ? "false" : "true");
             }
             if (!string.IsNullOrEmpty(this.ReadDataname) && this.Type == MethodType.read_value_method)
             {
