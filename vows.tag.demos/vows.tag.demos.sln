@@ -1,11 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vows.tag.demos", ".", "{A59AB122-C74F-4109-8F15-DA1C3941CBB6}"
 	ProjectSection(WebsiteProperties) = preProject
-		Frontpage = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}|Tag.Vows.dll;"
+		ProjectReferences = ""
 		Debug.AspNetCompiler.VirtualPath = "/localhost_65057"
 		Debug.AspNetCompiler.PhysicalPath = "..\vows.tag.demos\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65057\"
@@ -22,9 +23,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vows.tag.demos", ".", "{A59
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65057"
 		VWDVirtualPath = "/"
+		SlnRelativePath = "..\vows.tag.demos\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vows.tag.core", "..\vows.tag.core\vows.tag.core.csproj", "{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vows.tag.core", "..\vows.tag.core\vows.tag.core.csproj", "{E61D2BAD-3C08-412D-A831-CB7E302007C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +38,10 @@ Global
 		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{A59AB122-C74F-4109-8F15-DA1C3941CBB6}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E7EAA9D-37F0-4CCD-9F3C-B69CAF6B865A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E61D2BAD-3C08-412D-A831-CB7E302007C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E61D2BAD-3C08-412D-A831-CB7E302007C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E61D2BAD-3C08-412D-A831-CB7E302007C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E61D2BAD-3C08-412D-A831-CB7E302007C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

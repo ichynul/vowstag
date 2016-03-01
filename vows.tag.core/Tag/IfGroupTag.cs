@@ -65,16 +65,16 @@ namespace Tag.Vows.Tag
             matches = this.Config.tagregex.ElseIfTest.Matches(this.Text);
             foreach (Match m in matches)
             {
-                IfTag iftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTestAndContent(m.Groups["test"].Value, m.Groups["content"].Value);
-                this.IfTags.Add(iftag);
+                IfTag elseiftag = new IfTag(m.Value, IfType._else_if, this.Deep, this.Config, IfTags.Count + 1);
+                elseiftag.SetTestAndContent(m.Groups["test"].Value, m.Groups["content"].Value);
+                this.IfTags.Add(elseiftag);
             }
             match = this.Config.tagregex.ElseTest.Match(this.Text);
             if (match.Success)
             {
-                IfTag iftag = new IfTag(match.Value, IfType._else, this.Deep, this.Config, IfTags.Count + 1);
-                iftag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
-                this.IfTags.Add(iftag);
+                IfTag elsetag = new IfTag(match.Value, IfType._else, this.Deep, this.Config, IfTags.Count + 1);
+                elsetag.SetTestAndContent(match.Groups["test"].Value, match.Groups["content"].Value);
+                this.IfTags.Add(elsetag);
             }
         }
 
