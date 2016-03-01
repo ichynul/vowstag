@@ -4,10 +4,11 @@
     <title></title>
 </head>
 <body>
+{#request.a}
+{# Request.QueryString["a"]}
     {#if?request.kwd !="22"} 
         {# static=navi /} 
         {#if?request.kwd =="2"} 
-            {# label=notice /}
         {#endif}
     {#endif}
 </body>

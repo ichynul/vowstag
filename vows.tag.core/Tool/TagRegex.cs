@@ -60,6 +60,7 @@ namespace Tag.Vows.Tool
         public Regex ItemValue { private set; get; }
         public Regex ReadValue { private set; get; }
         public Regex FormValue { private set; get; }
+        public Regex NormalIndex { private set; get; }
         /********other tests*******/
         public Regex JsCssImageTest { private set; get; }
         public Regex CssBgTest { private set; get; }
@@ -104,13 +105,14 @@ namespace Tag.Vows.Tool
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             EmptyTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             /********value tests*******/
-            RequestValue = new Regex(@"request\.\w+(?=[^\[])", RegexOptions.IgnoreCase);
-            SessionValue = new Regex(@"^session\.\w+", RegexOptions.IgnoreCase);
-            CookieValue = new Regex(@"cookie\.\w+", RegexOptions.IgnoreCase);
-            CallValue = new Regex(@"call\.\w+", RegexOptions.IgnoreCase);
-            ItemValue = new Regex(@"item\.\w+", RegexOptions.IgnoreCase);
-            ReadValue = new Regex(@"read\.\w+", RegexOptions.IgnoreCase);
-            FormValue = new Regex(@"form\.\w+", RegexOptions.IgnoreCase);
+            RequestValue = new Regex(@"request\.\w+\b", RegexOptions.IgnoreCase);
+            SessionValue = new Regex(@"session\.\w+\b", RegexOptions.IgnoreCase);
+            CookieValue = new Regex(@"cookie\.\w+\b", RegexOptions.IgnoreCase);
+            CallValue = new Regex(@"call\.\w+\b", RegexOptions.IgnoreCase);
+            ItemValue = new Regex(@"item\.\w+\b", RegexOptions.IgnoreCase);
+            ReadValue = new Regex(@"read\.\w+\b", RegexOptions.IgnoreCase);
+            FormValue = new Regex(@"form\.\w+\b", RegexOptions.IgnoreCase);
+            NormalIndex = new Regex(@"^.*?(\[[\w""]+\]).*?$", RegexOptions.IgnoreCase);
             /********other tests*******/
             JsCssImageTest = new Regex(@"<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:js|css|png|jpg|jpeg|gif|bmp))['""]"
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);

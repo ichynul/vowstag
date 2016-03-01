@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2010
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vows.tag.demos", ".", "{A59AB122-C74F-4109-8F15-DA1C3941CBB6}"
 	ProjectSection(WebsiteProperties) = preProject
+		Frontpage = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = ""
+		ProjectReferences = "{E61D2BAD-3C08-412D-A831-CB7E302007C0}|vows.tag.core.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_65057"
 		Debug.AspNetCompiler.PhysicalPath = "..\vows.tag.demos\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65057\"
@@ -23,7 +22,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "vows.tag.demos", ".", "{A59
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "65057"
 		VWDVirtualPath = "/"
-		SlnRelativePath = "..\vows.tag.demos\"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vows.tag.core", "..\vows.tag.core\vows.tag.core.csproj", "{E61D2BAD-3C08-412D-A831-CB7E302007C0}"

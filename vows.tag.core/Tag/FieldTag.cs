@@ -48,7 +48,11 @@ namespace Tag.Vows.Tag
             if (this.Obj.IndexOf(".") != -1)
             {
                 mParams = this.Obj.Split('.');
-                if (this.Config.tagregex.RequestValue.IsMatch(Obj))
+                if (this.Config.tagregex.NormalIndex.IsMatch(Obj))
+                {
+                    this.Type = FieldType.normal_index;
+                }
+                else if (this.Config.tagregex.RequestValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.request_value;
                 }
@@ -92,7 +96,6 @@ namespace Tag.Vows.Tag
 
         protected override string GetCodeForAspx()
         {
-
             if (this.Type == FieldType.page)
             {
                 return "<% = page %>";
@@ -146,7 +149,7 @@ namespace Tag.Vows.Tag
 
         public override string ToTagString()
         {
-            return "【全局名称" + this.GetTagName() + ",标签类型：filed，全名：" + this.Obj + "】<br />";
+            return "【全局名称" + this.GetTagName() + ",标签类型：filed " + this.Type.ToString() + "，全名：" + this.Obj + "】<br />";
         }
 
 
