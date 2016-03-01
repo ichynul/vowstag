@@ -4,11 +4,16 @@
     <title></title>
 </head>
 <body>
-{#request.a}
-{# Request.QueryString["a"]}
+ <input type="hidden" id="parentid" value="{#request.p}" />
     {#if?request.kwd !="22"} 
         {# static=navi /} 
         {#if?request.kwd =="2"} 
+            {#label=notice}
+            {#if?request.xx="oo"}
+                {#list=article?id>1}
+                    {#item.title}
+                {#list}
+            {#endif}
         {#endif}
     {#endif}
 </body>

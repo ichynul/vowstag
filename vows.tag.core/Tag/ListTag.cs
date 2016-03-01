@@ -74,7 +74,7 @@ namespace Tag.Vows.Tag
             this.UpDataname = upDataName;
         }
 
-        public void setPagerName(PagerTag mPger)
+        public void setPager(PagerTag mPger)
         {
             this.Pger = mPger;
         }

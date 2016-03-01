@@ -35,8 +35,8 @@ namespace Tag.Vows.Tag
     /// </summary>
     abstract class BaseTag : IConvertAble
     {
-        public int Sort = 0;
-        protected int NO_ = 0;
+        public int Lev = 0;
+        public int NO_ { protected set; get; }
         protected TagConfig Config;
         protected string TagName;
         protected string PlaceHolderName;

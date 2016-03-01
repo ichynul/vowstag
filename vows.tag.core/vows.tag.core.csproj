@@ -8,8 +8,8 @@
     <ProjectGuid>{E61D2BAD-3C08-412D-A831-CB7E302007C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>vows.tag.core</RootNamespace>
-    <AssemblyName>vows.tag.core</AssemblyName>
+    <RootNamespace>Tag.Vows</RootNamespace>
+    <AssemblyName>Tag.Vows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\vows.tag.core.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Tag.Vows.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

@@ -69,7 +69,7 @@ namespace Tag.Vows.Page
         public List<BaseTag> TagList = new List<BaseTag>();
         public List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
-
+        protected string[] colors = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
         protected BasePage() { }
 
         public BasePage(string mPageName, TagConfig config)
@@ -443,12 +443,12 @@ namespace Tag.Vows.Page
         /// </summary>
         private void DoForPager()
         {
-            var tehTag = TagList.FirstOrDefault(a => a is PagerTag);
-            if (tehTag != null)
+            var theTag = TagList.FirstOrDefault(a => a is PagerTag);
+            if (theTag != null)
             {
                 foreach (var c in TagList.Where(x => x is ListTag))
                 {
-                    (c as ListTag).setPagerName((tehTag as PagerTag));
+                    (c as ListTag).setPager((theTag as PagerTag));
                 }
             }
         }
@@ -643,7 +643,7 @@ namespace Tag.Vows.Page
         /// </summary>
         protected void RecoverIfGroupTags()
         {
-            foreach (var c in this.TagList.Where(x => x is IfGroupTag))
+            foreach (var c in this.TagList.Where(x => x is IfGroupTag).OrderByDescending(x => x.NO_))
             {
                 this.Html = c.RecoverTagText(this.Html);
                 this.Msg += c.GetMsg();
@@ -656,7 +656,7 @@ namespace Tag.Vows.Page
         protected void RecoverOtherTags()
         {
             ITableUseable ck = null;
-            foreach (var c in this.TagList)
+            foreach (var c in this.TagList.OrderByDescending(x => x.NO_))
             {
                 if (c is ITableUseable)
                 {
@@ -731,7 +731,7 @@ namespace Tag.Vows.Page
             IIGlobalMethod loadMethod = null;
             ICallBackAble call = null;
             string field = "";
-            foreach (var c in this.TagList.OrderByDescending(x => x.Sort))
+            foreach (var c in this.TagList.OrderByDescending(x => x.Lev))
             {
                 if (c is ICallBackAble)
                 {
@@ -930,26 +930,28 @@ namespace Tag.Vows.Page
 
         public string ToPageString()
         {
-            string spaces = MakeSpaces();
-            string s = "";
             if (TagList.Count() > 0)
             {
-
+                StringBuilder sb = new StringBuilder();
+                Random ran = new Random(DateTime.Now.Second);
+                sb.AppendFormat("<ul style='border:1px solid #{0}'>", GetRandomColor(ran));
                 foreach (var c in TagList)
                 {
-                    s += c.ToTagString();
+                    sb.AppendFormat("<li style='border:1px solid #{0};margin-left:{1}px;'>{2}</li>", GetRandomColor(ran), Deep * 15, c.ToTagString());
                 }
-                return Regex.Replace(s, @"(?s)<br/>|<br />|<br>(?-s)", "<br />" + spaces);
+                sb.Append("</ul>");
+                return sb.ToString();
             }
             else
             {
-                return spaces + "此页面无标签<br />";
+                return "<div>此页面无标签</div>";
             }
         }
 
-        private string MakeSpaces()
+
+        private string GetRandomColor(Random ran)
         {
-            return string.Format("<span style='margin-left:{0}px;'></span>", Deep * 15);
+            return "" + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)];
         }
 
         public string GetPageName()
