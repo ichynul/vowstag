@@ -185,8 +185,10 @@ namespace Tag.Vows.Tag
             if (sub.Empty != null)
             {
                 sb.AppendFormat(
-                    "{0}<asp:Panel ID=\"{1}\" runat=\"server\" Visible=\"false\">\r\n{0}{2}\r\n</asp:Panel>",
-                    Method.getSpaces(3), sub.Empty.GetTagName(), emptytext);
+                    "\r\n{0}<% if ({1}Empty) %>\r\n<% ", Method.getSpaces(3), this.GetTagName());
+                sb.Append("{ %>\r\n");
+                sb.AppendFormat("{0}\r\n<% ", emptytext);
+                sb.Append("} %>\r\n");
             }
             else
             {
@@ -245,7 +247,7 @@ namespace Tag.Vows.Tag
                     EmptyTag empty = (this.SubPage as ItemPage).Empty;
                     if (empty != null)
                     {
-                        BindList.Body.AppendFormat("{0}{1}.Visible = true;\r\n", Method.getSpaces(3), empty.GetTagName());
+                        BindList.Body.AppendFormat("{0}{1}Empty = true;\r\n", Method.getSpaces(3), this.GetTagName());
                     }
                     else
                     {
@@ -306,17 +308,20 @@ namespace Tag.Vows.Tag
 
         public string GetGloabalField()
         {
-            if (!this.isSublist || UpDataname == null)
-            {
-                return "";
-            }
-
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("{0}protected {1} item;\r\n", Method.getSpaces(1), UpModType);
-            sb.AppendFormat("{0}public override void SetItem(object mItem)\r\n", Method.getSpaces(1));
-            sb.Append(Method.getSpaces(1) + "{\r\n");
-            sb.AppendFormat("{0}this.item = mItem as {1};\r\n", Method.getSpaces(2), UpModType);
-            sb.Append(Method.getSpaces(1) + "}\r\n");
+            EmptyTag empty = (this.SubPage as ItemPage).Empty;
+            if (empty != null)
+            {
+                sb.AppendFormat("{0}protected bool {1}Empty = false;\r\n", Method.getSpaces(1), this.GetTagName());
+            }
+            if (this.isSublist && UpDataname != null)
+            {
+                sb.AppendFormat("{0}protected {1} item;\r\n", Method.getSpaces(1), UpModType);
+                sb.AppendFormat("{0}public override void SetItem(object mItem)\r\n", Method.getSpaces(1));
+                sb.Append(Method.getSpaces(1) + "{\r\n");
+                sb.AppendFormat("{0}this.item = mItem as {1};\r\n", Method.getSpaces(2), UpModType);
+                sb.Append(Method.getSpaces(1) + "}\r\n");
+            }
             return sb.ToString();
         }
 

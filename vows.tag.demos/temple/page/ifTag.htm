@@ -7,7 +7,7 @@
  <input type="hidden" id="parentid" value="{#request.p}" />
     {#if?request.kwd !="22"} 
         {# static=navi /} 
-        {#if?request.kwd =="2"} 
+        {#if?request.kwd =="2"}
             {#label=notice}
             {#if?request.xx="oo"}
                 {#list=article?id>1}
@@ -16,5 +16,22 @@
             {#endif}
         {#endif}
     {#endif}
+
+     {#list=article?pagesize=3}<!--分页3条-->
+        <li><a class="title" href="formTag.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+            {#item.time}</span> </li>
+            {#empty}
+                xxoo
+            {#empty}
+     {#list}
+
+     {#list=article?pagesize=3&desc=false}<!--分页3条-->
+        <li><a class="title" href="formTag.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+            {#item.time}</span> </li>
+            {#empty}
+                xxoo
+            {#empty}
+     {#list}
+
 </body>
 </html>
