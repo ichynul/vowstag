@@ -106,11 +106,11 @@ namespace Tag.Vows.Tag
             }
             else if (this.Type == FieldType.session_value)
             {
-                return string.Format("<% =  Session[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% =  \"\" + Session[\"{0}\"] %>", mParams[1]);
             }
             else if (this.Type == FieldType.cookie_value)
             {
-                return string.Format("<% = Request.Cookies[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% = \"\" + Request.Cookies[\"{0}\"] %>", mParams[1]);
             }
             else if (this.Type == FieldType.item_value)
             {

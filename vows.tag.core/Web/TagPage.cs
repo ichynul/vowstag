@@ -25,11 +25,11 @@ SOFTWARE.
 #endregion
 using System;
 using System.Collections.Specialized;
+using System.Dynamic;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
-using System.Dynamic;
 
 namespace Tag.Vows.Web
 {
@@ -210,7 +210,8 @@ namespace Tag.Vows.Web
                         {
                             code = "1",
                             msg = string.Concat("服务端已收到：", this._callBackstr,
-                            "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallBackResult DoCallBack")
+                            "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallBackResult DoCallBack"),
+                            type = "none"
                         });
                     }
                 }
@@ -220,6 +221,10 @@ namespace Tag.Vows.Web
                     call.type = "error";
                     OnCallbackException(ex);
                 }
+            }
+            if (call != null)
+            {
+                call.callstr = this._callBackstr;
             }
             return tools.JsonSerialize(call);
         }

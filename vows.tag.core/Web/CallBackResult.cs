@@ -45,6 +45,10 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
+        /// 请求参数
+        /// </summary>
+        public string callstr = "";
+        /// <summary>
         /// 请求类型
         /// </summary>
         public string type = "none";
