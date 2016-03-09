@@ -107,7 +107,7 @@ namespace Tag.Vows.Web
             {
                 this.Link_to += "&";
             }
-            this.Link_to = Regex.Replace(mLink, @"&{2,}", "&", RegexOptions.IgnoreCase);
+            this.Link_to = Regex.Replace(this.Link_to , @"&{2,}", "&", RegexOptions.IgnoreCase);
             this.GaculTotalPages();
         }
 
