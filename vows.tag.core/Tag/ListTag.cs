@@ -83,6 +83,7 @@ namespace Tag.Vows.Tag
         {
             this.Inside_Read = true;
         }
+
         public bool HasSubList()
         {
             return this.SubPage == null ? false : this.SubPage is SubListPage;
@@ -286,7 +287,7 @@ namespace Tag.Vows.Tag
             code.Append(Method.getSpaces(2) + "{\r\n");
             code.AppendFormat("{0}SubControl uc_item=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(3), this.SubPage.GetPageName());
             code.AppendFormat("{0}uc_item.SetItem(item);\r\n", Method.getSpaces(3));
-            code.AppendFormat("{0}uc_item.SetDb(db);\r\n", Method.getSpaces(3));
+            code.AppendFormat("{0}uc_item.SetDb(this.Db_Context);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}uc_item.SetConfig(this.config);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}{1}.Controls.Add(uc_item);\r\n", Method.getSpaces(3), this.GetTagName());
             code.Append(Method.getSpaces(2) + "}\r\n");

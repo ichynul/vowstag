@@ -448,7 +448,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), Config.GetingTableStr("list", modType));//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in Db_Context.{1}", Method.getSpaces(2), Config.GetingTableStr("list", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -658,7 +658,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in db.{1}", Method.getSpaces(2), Config.GetingTableStr("json", modType));//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in Db_Context.{1}", Method.getSpaces(2), Config.GetingTableStr("json", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -784,7 +784,6 @@ namespace Tag.Vows.Data
             linq.AppendFormat("{0}dynamic json = new ExpandoObject();\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}json.jsonname = \"{1}\";\r\n", Method.getSpaces(2), tagName);
             linq.AppendFormat("{0}json.tagstr = \"{1}\";\r\n", Method.getSpaces(2), baseParms);
-            linq.AppendFormat("{0}json.callstr = _callBackstr;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}json.skip = (__page - 1) * {1};\r\n", Method.getSpaces(2), pagesize);
             linq.AppendFormat("{0}json.pagesize = {1};\r\n", Method.getSpaces(2), pagesize);
             linq.AppendFormat("{0}json.listsize = totalsize;\r\n", Method.getSpaces(2));
@@ -840,7 +839,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat("{0}{1} = db.{2}\r\n{3}.Where( b=>\r\n {3}", Method.getSpaces(2), readname,
+                        linq.AppendFormat("{0}{1} = Db_Context.{2}\r\n{3}.Where( b=>\r\n {3}", Method.getSpaces(2), readname,
                             Config.GetingTableStr("read", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -983,22 +982,22 @@ namespace Tag.Vows.Data
             StringBuilder sb = new StringBuilder();
             if (page is SubListPage || page is LabelPage)
             {
-                sb.AppendFormat("{0}protected {1} db;\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}protected {1} Db_Context;\r\n", Method.Space, this.Config.entitiesName);
                 sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.Space, "{");
-                sb.AppendFormat("{0}this.db = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Config.entitiesName, Method.Space, "}");
+                sb.AppendFormat("{0}this.Db_Context = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.Config.entitiesName, Method.Space, "}");
             }
             else
             {
-                sb.AppendFormat("{0}private {1} _db;\r\n", Method.Space, this.Config.entitiesName);
-                sb.AppendFormat("{0}protected {1} db\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}private {1} _Db_Context;\r\n", Method.Space, this.Config.entitiesName);
+                sb.AppendFormat("{0}protected {1} Db_Context\r\n", Method.Space, this.Config.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.Space, "{");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "get");
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "{");
-                sb.AppendFormat("{0}if (_db == null)\r\n", Method.getSpaces(3));
+                sb.AppendFormat("{0}if (_Db_Context == null)\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "{");
-                sb.AppendFormat("{0}_db = new {1}();\r\n", Method.getSpaces(4), this.Config.entitiesName);
+                sb.AppendFormat("{0}_Db_Context = new {1}();\r\n", Method.getSpaces(4), this.Config.entitiesName);
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "}");
-                sb.AppendFormat("{0}return _db;\r\n", Method.getSpaces(3));
+                sb.AppendFormat("{0}return _Db_Context;\r\n", Method.getSpaces(3));
                 sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "}");
                 sb.AppendFormat("{0}{1}\r\n", Method.Space, "}");
             }

@@ -88,7 +88,7 @@ namespace Tag.Vows.Tag
                 else
                 {
                     LoadAscx.Body.AppendFormat("{0}SubControl uc_label=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(2), this.LabeName);
-                    LoadAscx.Body.AppendFormat("{0}uc_label.SetDb(db);\r\n", Method.getSpaces(2));
+                    LoadAscx.Body.AppendFormat("{0}uc_label.SetDb(this.Db_Context);\r\n", Method.getSpaces(2));
                     LoadAscx.Body.AppendFormat("{0}uc_label.SetConfig(this.config);\r\n", Method.getSpaces(2));
                     LoadAscx.Body.AppendFormat("{0}{1}.Controls.Add(uc_label);\r\n", Method.getSpaces(2), this.GetTagName());
                 }

@@ -164,7 +164,7 @@ namespace Tag.Vows.Tag
                     if (first)
                     {
                         linq.Append(TempleHelper.getTempleHelper(this.Config).GetWhereParams(model, baseWheres, BaseParams));
-                        linq.AppendFormat("\r\n{0}{1} = db\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2),
+                        linq.AppendFormat("\r\n{0}{1} = Db_Context\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2),
                             dataName, Config.GetingTableStr("list", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
@@ -219,7 +219,7 @@ namespace Tag.Vows.Tag
                 {
                     linq.AppendFormat("{0}/*添加&编辑模式（action = both），未找到记录则创建*/;\r\n", Method.getSpaces(3));
                     linq.AppendFormat("{0}{1} = new {2}();\r\n", Method.getSpaces(3), dataName, modType);
-                    linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(3), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
+                    linq.AppendFormat("{0}Db_Context.{1}.{2}({3});\r\n", Method.getSpaces(3), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
                 }
                 linq.Append(Method.getSpaces(2) + "}\r\n");
 
@@ -228,7 +228,7 @@ namespace Tag.Vows.Tag
             {
                 linq.AppendFormat("{0}/*添加模式（action = both），新建记录*/;\r\n", Method.getSpaces(3));
                 linq.AppendFormat("{0}{1} {2} = new {1}();\r\n", Method.getSpaces(2), modType, dataName);
-                linq.AppendFormat("{0}db.{1}.{2}({3});\r\n", Method.getSpaces(2), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
+                linq.AppendFormat("{0}Db_Context.{1}.{2}({3});\r\n", Method.getSpaces(2), modType, TempleHelper.getTempleHelper(this.Config).GetAddMethod(modType), dataName);
             }
             FromVar v = null;
             vname = "";
@@ -300,7 +300,7 @@ namespace Tag.Vows.Tag
             }
             //
             linq.AppendFormat("{0}//\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}db.SaveChanges();\r\n", Method.getSpaces(2));
+            linq.AppendFormat("{0}Db_Context.SaveChanges();\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}error.code = 0;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}error.msg = \"操作成功！\";\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}error.dom = \"\";\r\n", Method.getSpaces(2));

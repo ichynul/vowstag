@@ -748,18 +748,21 @@ namespace Tag.Vows.Page
                 if (c is IIGlobalMethod)
                 {
                     loadMethod = c as IIGlobalMethod;
-                    method = loadMethod.GetIGlobalMethod();
-                    GetMethodsLines(method);
-                    if (c is ReadTag)
+                    if (loadMethod.InPage(Html))
                     {
-                        ReadTag rd = c as ReadTag;
-                        var inl = rd.getListMethods();
-                        if (inl != null && inl.Count > 0)
+                        method = loadMethod.GetIGlobalMethod();
+                        GetMethodsLines(method);
+                        if (c is ReadTag)
                         {
-                            foreach (var x in inl)
+                            ReadTag rd = c as ReadTag;
+                            var inl = rd.getListMethods();
+                            if (inl != null && inl.Count > 0)
                             {
-                                x.InPageLoad = false;
-                                GetMethodsLines(x);
+                                foreach (var x in inl)
+                                {
+                                    x.InPageLoad = false;
+                                    GetMethodsLines(x);
+                                }
                             }
                         }
                     }
@@ -882,7 +885,7 @@ namespace Tag.Vows.Page
             AspxCsCode.Append("\r\n");
             AspxCsCode.Append(Method.Space + "protected override object GetDbObject()\r\n");
             AspxCsCode.Append(Method.Space + "{\r\n");
-            AspxCsCode.AppendFormat("{0}return this.db;\r\n", Method.getSpaces(2));
+            AspxCsCode.AppendFormat("{0}return this.Db_Context;\r\n", Method.getSpaces(2));
             AspxCsCode.Append(Method.Space + "}\r\n");
             AspxCsCode.Append("}");
             string msg = "";

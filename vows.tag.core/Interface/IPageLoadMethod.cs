@@ -29,5 +29,6 @@ namespace Tag.Vows.Interface
     interface IIGlobalMethod
     {
         Method GetIGlobalMethod();
+        bool InPage(string PageHtml);
     }
 }

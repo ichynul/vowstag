@@ -44,7 +44,8 @@ namespace Tag.Vows.Tag
         public string Text { get; protected set; }
         public string Origin { get; protected set; }
         protected string Msg = "";
-        internal IMakeAble SubPage = null;
+        protected bool? TagInPage = null;
+        protected IMakeAble SubPage = null;
         protected int Deep;
         protected BaseTag() { }
 
@@ -87,6 +88,10 @@ namespace Tag.Vows.Tag
         /// <returns></returns>
         public string RecoverTagText(string PageHtml)
         {
+            if (TagInPage == null)
+            {
+                TagInPage = PageHtml.IndexOf(this.PlaceHolderName) != -1;
+            }
             string newHtml = PageHtml.Replace(this.PlaceHolderName, this.GetCodeForAspx());
             return newHtml;
         }
@@ -103,6 +108,20 @@ namespace Tag.Vows.Tag
                 this.Origin = Regex.Replace(this.Origin, Config.tagRight + "$", Config.convert_pairs[1]);
             }
             return this.Origin;
+        }
+
+        /// <summary>
+        /// 判断标签在当前页面是否有效，某些情况下
+        /// </summary>
+        /// <param name="PageHtml"></param>
+        /// <returns></returns>
+        public bool InPage(string PageHtml)
+        {
+            if (TagInPage == null)
+            {
+                TagInPage = PageHtml.IndexOf(this.PlaceHolderName) != -1;
+            }
+            return TagInPage.Value;
         }
 
         /// <summary>
