@@ -790,7 +790,7 @@ namespace Tag.Vows.Data
             linq.AppendFormat("{0}json.page = __page;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}json.over = list.Count() < {1};\r\n", Method.getSpaces(2), pagesize);
             linq.AppendFormat("{0}json.data = list;\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}CallBackResult call = new CallBackResult(json) ;\r\n", Method.getSpaces(2));
+            linq.AppendFormat("{0}CallbackResult call = new CallbackResult(json) ;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}call.type = \"jsoncall\";\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}return call;\r\n", Method.getSpaces(2), pagesize);
             #endregion

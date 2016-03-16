@@ -200,6 +200,10 @@ namespace Tag.Vows.Web
             if (call == null)
             {
                 call = BeforDoCallback();
+                if (call != null)
+                {
+                    call.type = "mycall";
+                }
             }
             if (call == null)
             {
