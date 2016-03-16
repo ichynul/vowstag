@@ -738,10 +738,10 @@ namespace Tag.Vows.Page
                     call = c as ICallBackAble;
                     method = call.GetCallMethod();
                     GetMethodsLines(method);
-                    CallMethods.AppendFormat("{0}callBack = {1}();\r\n", Method.getSpaces(2), method.Name);
-                    CallMethods.AppendFormat("{0}if (callBack != null)\r\n", Method.getSpaces(2));
+                    CallMethods.AppendFormat("{0}callback = {1}();\r\n", Method.getSpaces(2), method.Name);
+                    CallMethods.AppendFormat("{0}if (callback != null)\r\n", Method.getSpaces(2));
                     CallMethods.Append(Method.getSpaces(2) + "{\r\n");
-                    CallMethods.AppendFormat("{0}return callBack;\r\n", Method.getSpaces(3));
+                    CallMethods.AppendFormat("{0}return callback;\r\n", Method.getSpaces(3));
                     CallMethods.Append(Method.getSpaces(2) + "}\r\n");
                     continue;
                 }
