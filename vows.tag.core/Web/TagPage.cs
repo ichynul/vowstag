@@ -38,6 +38,7 @@ namespace Tag.Vows.Web
     /// </summary>
     /// <param name="ex">异常</param>
     public delegate void CatchException(Exception ex);
+
     /// <summary>
     /// tag页面继承此类
     /// </summary>
@@ -47,6 +48,7 @@ namespace Tag.Vows.Web
         /// 当CallbackResultException时处理异常
         /// </summary>
         protected CatchException OnCallbackException = ex => { };
+
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
@@ -194,19 +196,23 @@ namespace Tag.Vows.Web
         /// <returns>CallBackResult</returns>
         public string GetCallbackResult()
         {
-            CallBackResult call = TagCallBack();
+            CallbackResult call = TagCallback();
+            if (call == null)
+            {
+                call = BeforDoCallback();
+            }
             if (call == null)
             {
                 try
                 {
-                    call = DoCallBack();
+                    call = DoCallback();
                     if (call != null)
                     {
                         call.type = "mycall";
                     }
                     else
                     {
-                        call = new CallBackResult(new
+                        call = new CallbackResult(new
                         {
                             code = "1",
                             msg = string.Concat("服务端已收到：", this._callBackstr,
@@ -217,7 +223,7 @@ namespace Tag.Vows.Web
                 }
                 catch (Exception ex)
                 {
-                    call = new CallBackResult(new { code = "1", msg = "出错了！-" + ex.Message });
+                    call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message });
                     call.type = "error";
                     OnCallbackException(ex);
                 }
@@ -225,6 +231,7 @@ namespace Tag.Vows.Web
             if (call != null)
             {
                 call.callstr = this._callBackstr;
+                call.pageName = this.GetType().BaseType.Name;
             }
             return tools.JsonSerialize(call);
         }
@@ -252,16 +259,25 @@ namespace Tag.Vows.Web
         /// 重写本方法以处理自定义的callback
         /// </summary>
         /// <returns>处理结果</returns>
-        public virtual CallBackResult DoCallBack()
+        public virtual CallbackResult DoCallback()
         {
-            return new CallBackResult(new { code = "1", msg = "什么也不做！", });
+            return new CallbackResult(new { code = "1", msg = "什么也不做！", });
+        }
+
+        /// <summary>
+        /// 重写本方法以实现DoCallback前的操作，若本方法返回非null值，则DoCallback将不会执行
+        /// </summary>
+        /// <returns>处理结果</returns>
+        public virtual CallbackResult BeforDoCallback()
+        {
+            return null;
         }
 
         /// <summary>
         /// 供 JsonTag和FormTag 重写，请勿手动重写本方法
         /// </summary>
         /// <returns>处理结果</returns>
-        public virtual CallBackResult TagCallBack()
+        public virtual CallbackResult TagCallback()
         {
             return null;
         }

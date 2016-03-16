@@ -266,7 +266,7 @@ namespace Tag.Vows.Web
 
             if (PrevOrNext_show && Current_page < TotalPage)
             {
-                htmlLinks.AppendFormat("<a class='prev' href='{0}page={1}'>{2}</a>", Link_to, Current_page + 1, Next_text);
+                htmlLinks.AppendFormat("<a class='next' href='{0}page={1}'>{2}</a>", Link_to, Current_page + 1, Next_text);
             }
             else
             {

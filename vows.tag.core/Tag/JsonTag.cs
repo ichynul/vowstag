@@ -85,7 +85,7 @@ namespace Tag.Vows.Tag
             {
                 CallBack = new Method();
                 CallBack.Name = "CallBack_" + this.GetTagName();
-                CallBack.ReturnType = "CallBackResult";
+                CallBack.ReturnType = "CallbackResult";
                 CallBack.InPageLoad = false;
                 if (!CheckDataUseable())
                 {

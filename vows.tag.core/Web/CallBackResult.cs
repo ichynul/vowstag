@@ -28,22 +28,26 @@ namespace Tag.Vows.Web
     /// <summary>
     /// tagCall处理结果
     /// </summary>
-    public class CallBackResult
+    public class CallbackResult
     {
         /// <summary>
         /// CallBackResult构造
         /// </summary>
-        protected CallBackResult() { }
+        protected CallbackResult() { }
 
         /// <summary>
         ///  请求的结果
         /// </summary>
         /// <param name="result">请求的结果</param>
-        public CallBackResult(object result)
+        public CallbackResult(object result)
         {
             this.result = result;
         }
 
+        /// <summary>
+        /// 当前处理请求的页面名称
+        /// </summary>
+        public string pageName = "";
         /// <summary>
         /// 请求参数
         /// </summary>

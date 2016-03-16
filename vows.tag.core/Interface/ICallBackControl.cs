@@ -28,8 +28,8 @@ namespace Tag.Vows.Interface
 {
     interface ICallBackControl
     {
-        CallBackResult DoCallBack();
-        CallBackResult TagCallBack();
+        CallbackResult DoCallback();
+        CallbackResult TagCallback();
         string CallValue(string key);
     }
 }

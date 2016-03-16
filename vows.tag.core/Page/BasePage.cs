@@ -832,7 +832,10 @@ namespace Tag.Vows.Page
             AspxCode.AppendFormat("<%@ {0} Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"{1}\" Inherits=\"{2}\"{3} {4} %>\r\n"
                 , type[0], codeFile, className, this is IUC || this.ValidateRequest ? "" : " ValidateRequest=\"false\"", this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
             AspxCode.AppendFormat("\r\n", codeFile, className);
-            WriteTagGit();
+            if (!(this is IUC))
+            {
+                WriteTagGit();
+            }
             AspxCode.Append(this.GetAspxCode());
             FindAllMethodsOrFileds();
             StringBuilder AspxCsCode = new StringBuilder("using System;\r\n");
@@ -873,11 +876,11 @@ namespace Tag.Vows.Page
             AspxCsCode.Append(MethodRects);
             if (this.TagCallBack == "json" || this.TagCallBack == "form")
             {
-                AspxCsCode.Append(Method.Space + "public override CallBackResult TagCallBack()\r\n");
+                AspxCsCode.Append(Method.Space + "public override CallbackResult TagCallback()\r\n");
                 AspxCsCode.Append(Method.Space + "{\r\n");
-                AspxCsCode.AppendFormat("{0}CallBackResult callBack = null;\r\n", Method.getSpaces(2));
+                AspxCsCode.AppendFormat("{0}CallbackResult callback = null;\r\n", Method.getSpaces(2));
                 AspxCsCode.Append(CallMethods);
-                AspxCsCode.AppendFormat("{0}return callBack;\r\n", Method.getSpaces(2));
+                AspxCsCode.AppendFormat("{0}return callback;\r\n", Method.getSpaces(2));
                 AspxCsCode.Append(Method.Space + "}\r\n");
             }
             AspxCsCode.Append("\r\n");

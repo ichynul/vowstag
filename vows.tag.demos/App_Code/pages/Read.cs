@@ -30,7 +30,7 @@ namespace xx.yy
             };
         }
 
-        public override CallBackResult DoCallBack()
+        public override CallbackResult DoCallback()
         {
             string action = this.CallValue("action");
             if (action == "ding")
@@ -44,14 +44,14 @@ namespace xx.yy
                 {
                     article.ding += 1;
                     db.SaveChanges();
-                    return new CallBackResult(new { msg = "成功的顶了一下~", ding = article.ding });
+                    return new CallbackResult(new { msg = "成功的顶了一下~", ding = article.ding });
                 }
                 else
                 {
-                    return new CallBackResult(new { msg = "操作失败~", ding = 0 });
+                    return new CallbackResult(new { msg = "操作失败~", ding = 0 });
                 }
             }
-            return base.DoCallBack();
+            return base.DoCallback();
         }
     }
 }
