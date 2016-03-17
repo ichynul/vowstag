@@ -120,7 +120,7 @@ namespace Tag.Vows.Tag
 
         public void CheckTestToLoadTag(ITesBeforLoading tag)
         {
-            if (tag.Equals(this) || !this.Config.convert)
+            if (tag.Equals(this) || this.Config.convert)
             {
                 return;
             }
