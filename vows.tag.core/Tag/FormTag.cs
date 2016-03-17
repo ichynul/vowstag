@@ -132,7 +132,7 @@ namespace Tag.Vows.Tag
             //
             linq.AppendFormat("{0}dynamic error = new ExpandoObject();\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}error.formname = formname;\r\n", Method.getSpaces(2));
-            linq.AppendFormat("{0}CallBackResult call = new CallBackResult(error) ;\r\n", Method.getSpaces(2));
+            linq.AppendFormat("{0}CallbackResult call = new CallbackResult(error) ;\r\n", Method.getSpaces(2));
             linq.AppendFormat("{0}call.type = \"formcall\";\r\n", Method.getSpaces(2));
             if (action != "add")
             {

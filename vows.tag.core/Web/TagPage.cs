@@ -193,7 +193,7 @@ namespace Tag.Vows.Web
         /// <summary>
         /// 用于获取一个tag或用法发起的callack请求结果
         /// </summary>
-        /// <returns>CallBackResult</returns>
+        /// <returns>CallbackResult</returns>
         public string GetCallbackResult()
         {
             CallbackResult call = TagCallback();
@@ -220,7 +220,7 @@ namespace Tag.Vows.Web
                         {
                             code = "1",
                             msg = string.Concat("服务端已收到：", this._callBackstr,
-                            "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallBackResult DoCallBack"),
+                            "。若要处理本请求，服务端处理类需覆盖(override)方法 public CallbackResult DoCallback"),
                             type = "none"
                         });
                     }

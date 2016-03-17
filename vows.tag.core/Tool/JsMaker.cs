@@ -34,7 +34,7 @@ namespace Tag.Vows.Tool
             script.Append("\r\n    <script type=\"text/javascript\">\r\n");
             script.Append("        /* ajax 脚本支持 Created by VowsTag */\r\n");
             script.Append("        var _tagcall = {\r\n");
-            script.Append("            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallBackResult DoCallBack()以处理请求。\r\n");
+            script.Append("            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallbackResult DoCallback()以处理请求。\r\n");
             script.Append("            //用方法:this.CallValue(\"key1\")可获取value1',context参数可省略.(详细请了解asp.net的'callback'机制)\r\n");
             script.Append("            $: function (arg ,async ,context)\r\n");
             script.Append("            {\r\n");

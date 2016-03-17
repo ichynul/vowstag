@@ -31,7 +31,7 @@ namespace Tag.Vows.Web
     public class CallbackResult
     {
         /// <summary>
-        /// CallBackResult构造
+        /// CallbackResult构造
         /// </summary>
         protected CallbackResult() { }
 
