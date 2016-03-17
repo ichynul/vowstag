@@ -66,7 +66,7 @@ namespace Tag.Vows.Tool
         ///     return "article.Where(a=>a.status==1)";
         /// }
         /// </summary>
-        public GetTableStr GetingTableStr = (tagName, tabName) => tabName;
+        public GetTableStr GetingTableStr = (tagName, tabName) => string.Concat("Db_Context.", tabName);
 
         internal TagRegex tagregex;
         /// <summary>

@@ -43,7 +43,7 @@ public partial class Admin_Temple_Maker : Page
                 Length = f.Length / 1024.00,
                 f.LastWriteTime,
                 _path = this.input_path.Text + "page/",
-                www = (mod_type.SelectedIndex == 0 ? "/www/" : "/m/") + Regex.Replace(f.Name, @"\.(?:html|htm)", "") +  ".aspx",
+                www = (mod_type.SelectedIndex == 0 ? "/www/" : "/m/") + Regex.Replace(f.Name, @"\.(?:html|htm)", "") + ".aspx",
             });
         pages.DataBind();
     }
@@ -89,10 +89,10 @@ public partial class Admin_Temple_Maker : Page
         }
         if (table.ToLower() == "article")
         {//给Article表设置一个限定，无论查询中是否有 islok!=true 条件，我们都加上这个条件（锁定的文章我们永远不希望在前台展示）
-         //
-            return "Article.Where(x => x.IsLock != true)";//此处应写标准的linq语句，表名及字段区分大小写
+            //
+            return "Db_Context.Article.Where(x => x.IsLock != true)";//此处应写标准的linq语句，表名及字段区分大小写
         }
-        return table;
+        return "Db_Context." + table;
     }
 
     protected void doMake(object sender, EventArgs e)

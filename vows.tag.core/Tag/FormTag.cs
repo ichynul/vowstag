@@ -164,7 +164,7 @@ namespace Tag.Vows.Tag
                     if (first)
                     {
                         linq.Append(TempleHelper.getTempleHelper(this.Config).GetWhereParams(model, baseWheres, BaseParams));
-                        linq.AppendFormat("\r\n{0}{1} = Db_Context\r\n{3}.{2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2),
+                        linq.AppendFormat("\r\n{0}{1} = {2}.FirstOrDefault( b=>\r\n {3}", Method.getSpaces(2),
                             dataName, Config.GetingTableStr("list", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;

@@ -34,7 +34,6 @@ namespace Tag.Vows.Interface
         void SetTestAndContent(string test, string content);
         void CheckTestReadOrItem();
         string GetIfCode();
-        HashSet<string> GetTesToLoadLink();
         void FindTagInContent(ITesBeforLoading tag);
         void SetTagLink(HashSet<string> link);
     }

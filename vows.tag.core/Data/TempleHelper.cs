@@ -448,7 +448,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in Db_Context.{1}", Method.getSpaces(2), Config.GetingTableStr("list", modType));//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in {1}", Method.getSpaces(2), Config.GetingTableStr("list", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -658,7 +658,7 @@ namespace Tag.Vows.Data
             if (baseWheres.Count > 0)
             {
                 linq.Append(GetWhereParams(model, baseWheres, baseParms));
-                linq.AppendFormat("{0}var list = from a in Db_Context.{1}", Method.getSpaces(2), Config.GetingTableStr("json", modType));//拼接查询的linq语句
+                linq.AppendFormat("{0}var list = from a in {1}", Method.getSpaces(2), Config.GetingTableStr("json", modType));//拼接查询的linq语句
                 bool first = true;
                 foreach (var w in baseWheres)
                 {
@@ -839,7 +839,7 @@ namespace Tag.Vows.Data
                     }
                     if (first)
                     {
-                        linq.AppendFormat("{0}{1} = Db_Context.{2}\r\n{3}.Where( b=>\r\n {3}", Method.getSpaces(2), readname,
+                        linq.AppendFormat("{0}{1} = {2}\r\n{3}.Where( b=>\r\n {3}", Method.getSpaces(2), readname,
                             Config.GetingTableStr("read", modType), Method.getSpaces(4));
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;

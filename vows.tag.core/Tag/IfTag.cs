@@ -155,10 +155,6 @@ namespace Tag.Vows.Tag
                 }
             }
         }
-        public HashSet<string> GetTesToLoadLink()
-        {
-            return this.TestLink;
-        }
 
         public void SetTestAndContent(string test, string content)
         {

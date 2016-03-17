@@ -67,7 +67,6 @@ namespace Tag.Vows.Bean
 
         public string GetTestBeforLoadStr()
         {
-
             if (this.TestsBeforLoad != null)
             {
                 if (this.TestsBeforLoad.Count > 1)
