@@ -51,7 +51,7 @@ namespace Tag.Vows.Tag
         private string ParPageName;
         protected List<string> dataLists = new List<string>();
         protected string UpDataname;
-        protected PagerTag Pger;
+        protected PagerTag Pager;
         private HashSet<string> ItemFields;
         public bool Inside_Read { get; private set; }
         public bool HasReadParams { get; private set; }
@@ -76,7 +76,7 @@ namespace Tag.Vows.Tag
 
         public void setPager(PagerTag mPger)
         {
-            this.Pger = mPger;
+            this.Pager = mPger;
         }
 
         public void set_Inside_Read()
@@ -242,7 +242,7 @@ namespace Tag.Vows.Tag
                 else
                 {
                     BindList.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getList(this.DataName, this.BaseParams,
-                                                        this.ItemFields, out ModType, this.UpDataname, out UpModType, Pger));
+                                                        this.ItemFields, out ModType, this.UpDataname, out UpModType, Pager));
                     BindList.Body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     BindList.Body.Append(Method.getSpaces(2) + "{\r\n");
                     EmptyTag empty = (this.SubPage as ItemPage).Empty;

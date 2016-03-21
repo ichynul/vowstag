@@ -37,8 +37,6 @@ namespace Tag.Vows.Tag
 
         protected string PageParams;
 
-        protected bool Used;
-
         internal PagerType type = PagerType.cs;
         public int Num_edge = 3;
         public int Num_display = 10;
@@ -47,15 +45,6 @@ namespace Tag.Vows.Tag
         public string Ellipse_text = "...";
         public bool PrevOrNext_show = true;
 
-        public void setUsed(bool mUsed)
-        {
-            this.Used = mUsed;
-        }
-
-        public bool IsUsed()
-        {
-            return Used;
-        }
         protected override string GetCodeForAspx()
         {
             return string.Format("<asp:Literal ID=\"{0}\" runat=\"server\"></asp:Literal>", this.GetTagName());

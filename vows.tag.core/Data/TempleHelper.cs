@@ -586,7 +586,7 @@ namespace Tag.Vows.Data
                     linq.AppendFormat("{0}/*无效的skip参数，分页时该参数无效！\r\n", Method.getSpaces(2));//
                 }
                 linq.AppendFormat("{0}/*分页，每页显示{1};*/\r\n", Method.getSpaces(2), pagesize);
-                if (pager != null && !pager.IsUsed())
+                if (pager != null)
                 {
                     if (pager.type == PagerType.cs)
                     {
@@ -606,7 +606,6 @@ namespace Tag.Vows.Data
                             "\\r\\n<input type='hidden' id='current_url_params' value='\" + urlparams + \"' data-info='当前url参数（不带page参数）' />"
                             );
                     }
-                    pager.setUsed(true);
                 }
                 else
                 {
