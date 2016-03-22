@@ -235,7 +235,7 @@ namespace Tag.Vows.Web
             if (call != null)
             {
                 call.callstr = this._callBackstr;
-                call.pageName = this.GetType().BaseType.Name;
+                call.pageName = this.GetType().BaseType.BaseType.Name;
             }
             return tools.JsonSerialize(call);
         }
