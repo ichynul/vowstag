@@ -143,7 +143,9 @@ public partial class Admin_Temple_Maker : Page
                 }
             }
         }
-        makeresult.Text += "<span style='color:green;'>" + (isconvert.Checked ? @"转换标签完成！转换后的文件保存在各目录的下的'\convert\'里." : "生成页面完成！") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + DateTime.Now.ToString() + "!</span>";
+        makeresult.Text += "<span style='color:green;'>" +
+            (isconvert.Checked ? @"转换标签完成！转换后的文件保存在各目录的下的'\convert\'里." : "生成页面完成！")
+            + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + DateTime.Now.ToString() + "!</span>";
     }
 
     private void clearOutpu(string tempPath, string output)

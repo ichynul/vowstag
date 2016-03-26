@@ -275,7 +275,7 @@ namespace Tag.Vows.Tag
         private string BindRepeater()
         {
             StringBuilder code = new StringBuilder();
-            code.AppendFormat("{0}{1}.DataSource = list;\r\n", Method.getSpaces(2), this.GetTagName());
+            code.AppendFormat("{0}{1}.DataSource = list.ToList();\r\n", Method.getSpaces(2), this.GetTagName());
             code.AppendFormat("{0}{1}.DataBind();\r\n", Method.getSpaces(2), this.GetTagName());
             return code.ToString();
         }
