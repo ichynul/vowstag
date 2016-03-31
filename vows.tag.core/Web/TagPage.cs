@@ -33,22 +33,12 @@ using Tag.Vows.Tool;
 
 namespace Tag.Vows.Web
 {
-    /// <summary>
-    /// CallbackResult异常处理
-    /// </summary>
-    /// <param name="ex">异常</param>
-    public delegate void CatchException(Exception ex);
 
     /// <summary>
     /// tag页面继承此类
     /// </summary>
     public class TagPage : System.Web.UI.Page, IComTools, ICallBackControl, ICallbackEventHandler
     {
-        /// <summary>
-        /// 当CallbackResultException时处理异常
-        /// </summary>
-        protected CatchException OnCallbackException = ex => { };
-
         /// <summary>
         /// 用于保存站点及页面的通用信息
         /// </summary>
@@ -229,7 +219,7 @@ namespace Tag.Vows.Web
                 {
                     call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message });
                     call.type = "error";
-                    OnCallbackException(ex);
+                    CallbackException(ex);
                 }
             }
             if (call != null)
@@ -293,6 +283,15 @@ namespace Tag.Vows.Web
         protected virtual object GetDbObject()
         {
             return null;
+        }
+
+        /// <summary>
+        /// 当CallbackResult 发生异常 Exception
+        /// </summary>
+        /// <param name="ex"></param>
+        protected virtual void CallbackException(Exception ex)
+        {
+
         }
     }
 }

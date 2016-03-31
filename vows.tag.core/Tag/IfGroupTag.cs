@@ -92,13 +92,13 @@ namespace Tag.Vows.Tag
             }
         }
 
-        public HashSet<string> GetFieldName()
+        public HashSet<string> GetItemFieldNames(string tableName)
         {
             HashSet<string> fields = new HashSet<string>();
             HashSet<string> f = null;
             foreach (var ift in this.IfTags)
             {
-                f = ift.GetFieldName();
+                f = ift.GetItemFieldNames(tableName);
                 if (f != null)
                 {
                     foreach (var x in f)

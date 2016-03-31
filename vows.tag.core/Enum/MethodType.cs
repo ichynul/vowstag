@@ -29,6 +29,7 @@ namespace Tag.Vows.Enum
     {
         normal,
         read_value_method,
+        item_value_method,
         form_method,
     }
 }

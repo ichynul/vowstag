@@ -71,7 +71,7 @@ namespace Tag.Vows.Tag
             {
                 this.BaseParams = "desc = true";
             }
-            this.ModType = TempleHelper.getTempleHelper(this.Config).GetTableName(DataName);
+            this.ModType = Helper.GetTableName(DataName);
         }
 
         public override string ToTagString()
@@ -94,7 +94,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    ReadData.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getRead(this.DataName, this.BaseParams, out ModType, UpDataname, this.HasStyle() ? this.TagName : "read"));
+                    ReadData.Body.Append(Helper.Linq_getRead(this.DataName, this.BaseParams, out ModType, UpDataname, this.HasStyle() ? this.TagName : "read"));
                     if (this.HasStyle())
                     {
                         if (subLsitMethod != null)

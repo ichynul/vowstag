@@ -26,6 +26,7 @@ SOFTWARE.
 using System.Text.RegularExpressions;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
+using Tag.Vows.Data;
 
 namespace Tag.Vows.Tag
 {
@@ -48,6 +49,14 @@ namespace Tag.Vows.Tag
         protected IMakeAble SubPage = null;
         protected int Deep;
         protected BaseTag() { }
+
+        protected TempleHelper Helper
+        {
+            get
+            {
+                return TempleHelper.getTempleHelper(this.Config);
+            }
+        }
 
         /// <summary>
         /// 构造函数

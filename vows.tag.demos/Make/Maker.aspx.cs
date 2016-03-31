@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using model;
 using Tag.Vows.Tool;
+using Tag.Vows.Bean;
+using System.Collections.Generic;
 
 public partial class Admin_Temple_Maker : Page
 {
@@ -115,6 +117,7 @@ public partial class Admin_Temple_Maker : Page
         __config.creatScriptForAllPages = true;
         __config.DefaultBase = "xx.yy.PageBase";//页面默认继承类
         __config.convert = isconvert.Checked;
+        AddDialect(__config);
         if (__config.convert)
         {
             __config.convert_pairs = getCurrentTagPair(toTagpairs);
@@ -146,6 +149,45 @@ public partial class Admin_Temple_Maker : Page
         makeresult.Text += "<span style='color:green;'>" +
             (isconvert.Checked ? @"转换标签完成！转换后的文件保存在各目录的下的'\convert\'里." : "生成页面完成！")
             + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>" + DateTime.Now.ToString() + "!</span>";
+    }
+
+    private void AddDialect(TagConfig config)
+    {
+        TableDialect article = new TableDialect("Article", new HashSet<string>()
+        {
+            "文章"
+        });
+
+        article.Fields.Add(new Dialect("Id", new HashSet<string>() { "主键ID" }));
+        article.Fields.Add(new Dialect("Categ", new HashSet<string>() { "栏目", "分类" }));
+        article.Fields.Add(new Dialect("UID", new HashSet<string>() { "用户ID", "作者ID" }));
+        article.Fields.Add(new Dialect("title", new HashSet<string>() { "文章标题", "标题" }));
+        article.Fields.Add(new Dialect("Desc", new HashSet<string>() { "文章摘要", "摘要" }));
+        article.Fields.Add(new Dialect("Author", new HashSet<string>() { "作者", "作者名字" }));
+        article.Fields.Add(new Dialect("Img", new HashSet<string>() { "图片", "logo" }));
+        article.Fields.Add(new Dialect("Content", new HashSet<string>() { "文章内容", "正文" }));
+        article.Fields.Add(new Dialect("View", new HashSet<string>() { "查看", "点击" }));
+        article.Fields.Add(new Dialect("IsLock", new HashSet<string>() { "锁定", "禁止查看" }));
+        article.Fields.Add(new Dialect("IsTop", new HashSet<string>() { "置顶", "是否置顶" }));
+        article.Fields.Add(new Dialect("ding", new HashSet<string>() { "被顶", "被顶次数" }));
+        article.Fields.Add(new Dialect("time", new HashSet<string>() { "发布时间", "时间" }));
+
+        config.AddDialect(article);
+
+        TableDialect categgory = new TableDialect("Category", new HashSet<string>()
+        {
+            "栏目"
+        });
+
+        categgory.Fields.Add(new Dialect("Id", new HashSet<string>() { "主键ID" }));
+        categgory.Fields.Add(new Dialect("name", new HashSet<string>() { "栏目名称", "名称" }));
+        /*
+         * 
+         * .......
+         * 
+         */
+        config.AddDialect(categgory);
+
     }
 
     private void clearOutpu(string tempPath, string output)

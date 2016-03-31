@@ -30,6 +30,6 @@ namespace Tag.Vows.Interface
     interface IMethodDataAble
     {
         void SetDataName(string dataName, MethodType type);
-        HashSet<string> GetFieldName();
+        HashSet<string> GetItemFieldNames(string tableName);
     }
 }

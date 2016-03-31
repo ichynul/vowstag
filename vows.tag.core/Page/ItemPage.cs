@@ -59,7 +59,7 @@ namespace Tag.Vows.Page
             return this.TagList.FirstOrDefault(c => c is ListTag) == null;
         }
 
-        public HashSet<string> GetItemFields()
+        public HashSet<string> GetItemFields(string tableName)
         {
             var fields = new HashSet<string>();
             IMethodDataAble m = null;
@@ -71,7 +71,7 @@ namespace Tag.Vows.Page
                 if (c is IMethodDataAble)
                 {
                     m = c as IMethodDataAble;
-                    names = m.GetFieldName();
+                    names = m.GetItemFieldNames(tableName);
                     foreach (var fname in names)
                     {
                         fields.Add(fname.ToLower());
@@ -80,7 +80,7 @@ namespace Tag.Vows.Page
                 else if (c is IFieldDataAble)
                 {
                     f = c as IFieldDataAble;
-                    name = f.GetFieldName();
+                    name = f.GetItemFieldName(tableName);
                     if (!string.IsNullOrEmpty(name) && !fields.Contains(name.ToLower()))
                     {
                         fields.Add(name.ToLower());

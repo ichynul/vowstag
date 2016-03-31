@@ -28,6 +28,9 @@ using System.IO;
 using System.Text;
 using System.Web;
 using Tag.Vows.Page;
+using System.Collections.Generic;
+using Tag.Vows.Bean;
+using Tag.Vows.Interface;
 
 namespace Tag.Vows.Tool
 {
@@ -37,6 +40,7 @@ namespace Tag.Vows.Tool
     /// <param name="html">原始</param>
     /// <returns>处理过的html</returns>
     public delegate string GetHtml(string html);
+
     /// <summary>
     /// 获取表定义
     /// </summary>
@@ -44,6 +48,13 @@ namespace Tag.Vows.Tool
     /// <param name="tabName">表名称</param>
     /// <returns>表定义 linq-str</returns>
     public delegate string GetTableStr(string tagName, string tabName);
+
+    /// <summary>
+    /// 获取表实例，当Entity中不存在该表，调用。用此方法指定一个假的表名
+    /// </summary>
+    /// <param name="dataName"></param>
+    /// <returns>表名</returns>
+    public delegate object GetBeanObject(string dataName);
 
     /// <summary>
     /// 标签解析入口工具类
@@ -67,6 +78,16 @@ namespace Tag.Vows.Tool
         /// }
         /// </summary>
         public GetTableStr GetingTableStr = (tagName, tabName) => string.Concat("Db_Context.", tabName);
+
+        /// <summary>
+        /// 获取表实例
+        /// </summary>
+        public GetBeanObject GetModObj = (dataName) => null;
+
+        /// <summary>
+        /// 表名及其字段方言集合
+        /// </summary>
+        internal List<TableDialect> TableDialects = new List<TableDialect>();
 
         internal TagRegex tagregex;
         /// <summary>
@@ -156,6 +177,15 @@ namespace Tag.Vows.Tool
             testpage.MakePage();
             PageString = testpage.ToPageString();
             return testpage.GetMsg();
+        }
+
+        /// <summary>
+        /// 添加方言
+        /// </summary>
+        /// <param name="dialect"></param>
+        public void AddDialect(TableDialect dialect)
+        {
+            this.TableDialects.Add(dialect);
         }
 
         /// <summary>
@@ -276,6 +306,33 @@ namespace Tag.Vows.Tool
                 msg = e.Message;
             }
             return false;
+        }
+
+        internal StringBuilder GetDbContext(IMakeAble page)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (page is SubListPage || page is LabelPage)
+            {
+                sb.AppendFormat("{0}protected {1} Db_Context;\r\n", Method.Space, this.entitiesName);
+                sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.Space, "{");
+                sb.AppendFormat("{0}this.Db_Context = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.entitiesName, Method.Space, "}");
+            }
+            else
+            {
+                sb.AppendFormat("{0}private {1} _Db_Context;\r\n", Method.Space, this.entitiesName);
+                sb.AppendFormat("{0}protected {1} Db_Context\r\n", Method.Space, this.entitiesName);
+                sb.AppendFormat("{0}{1}\r\n", Method.Space, "{");
+                sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "get");
+                sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "{");
+                sb.AppendFormat("{0}if (_Db_Context == null)\r\n", Method.getSpaces(3));
+                sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "{");
+                sb.AppendFormat("{0}_Db_Context = new {1}();\r\n", Method.getSpaces(4), this.entitiesName);
+                sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(3), "}");
+                sb.AppendFormat("{0}return _Db_Context;\r\n", Method.getSpaces(3));
+                sb.AppendFormat("{0}{1}\r\n", Method.getSpaces(2), "}");
+                sb.AppendFormat("{0}{1}\r\n", Method.Space, "}");
+            }
+            return sb;
         }
     }
 }

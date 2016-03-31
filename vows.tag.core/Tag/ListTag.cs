@@ -138,7 +138,7 @@ namespace Tag.Vows.Tag
                     else
                     {
                         var lp = this.SubPage as ItemPage;
-                        this.ItemFields = lp.GetItemFields();
+                        this.ItemFields = lp.GetItemFields(this.DataName);
                         if (this.HasStyle() && Config.convert)
                         {
                             lp.ConverterTags();
@@ -241,7 +241,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    BindList.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getList(this.DataName, this.BaseParams,
+                    BindList.Body.Append(Helper.Linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pager));
                     BindList.Body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
                     BindList.Body.Append(Method.getSpaces(2) + "{\r\n");

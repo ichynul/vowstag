@@ -126,7 +126,7 @@ namespace Tag.Vows.Data
         /// <param name="obj">实例</param>
         /// <param name="name">字段名称</param>
         /// <returns>字段信息</returns>
-        internal static PropertyInfo GetProperty(object obj, string name)
+        private static PropertyInfo GetProperty(object obj, string name)
         {
             if (obj == null || name == null)
             {
@@ -137,7 +137,7 @@ namespace Tag.Vows.Data
 
         #endregion
         #region 判断字段是否存在
-        internal static bool HasProperty(object obj, string name)
+        private static bool HasProperty(object obj, string name)
         {
             return GetProperty(obj, name) != null;
         }

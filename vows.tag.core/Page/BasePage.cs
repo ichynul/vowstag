@@ -884,7 +884,7 @@ namespace Tag.Vows.Page
                 AspxCsCode.Append(Method.Space + "}\r\n");
             }
             AspxCsCode.Append("\r\n");
-            AspxCsCode.Append(TempleHelper.getTempleHelper(this.Config).GetDbContext(this));
+            AspxCsCode.Append(this.Config.GetDbContext(this));
             AspxCsCode.Append("\r\n");
             AspxCsCode.Append(Method.Space + "protected override object GetDbObject()\r\n");
             AspxCsCode.Append(Method.Space + "{\r\n");

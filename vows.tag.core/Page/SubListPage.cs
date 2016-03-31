@@ -51,6 +51,10 @@ namespace Tag.Vows.Page
                 {
                     (c as FieldTag).SetDataName(DataName, FieldType.item_value);
                 }
+                else if (c is MethodTag)
+                {
+                    (c as MethodTag).SetDataName(DataName, MethodType.item_value_method);
+                }
             }
         }
     }

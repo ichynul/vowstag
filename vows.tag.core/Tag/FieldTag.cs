@@ -114,17 +114,15 @@ namespace Tag.Vows.Tag
             }
             else if (this.Type == FieldType.item_value)
             {
-                if (!string.IsNullOrEmpty(this.Dataname))
+                if (!string.IsNullOrEmpty(this.Dataname))//sublist 中
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
+                    string itemField = Helper.GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% = {0}.{1} %>", name, itemField);
                 }
                 else
                 {
-                    return string.Format("<%# Eval(\"{0}\") %>",
-                    Regex.Replace(Obj, @"(item|\.|\{|\})", string.Empty, RegexOptions.IgnoreCase)
-                    );
+                    return string.Format("<%# Eval(\"{0}\") %>", mParams[1]);
                 }
             }
             else if (this.Type == FieldType.read_value)
@@ -132,14 +130,17 @@ namespace Tag.Vows.Tag
                 if (!string.IsNullOrEmpty(this.Dataname))
                 {
                     string name = mParams[0];
-                    string itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(Dataname, mParams[1]);
+                    string itemField = Helper.GetModFieldName(Dataname, mParams[1]);
                     return string.Format("<% ={0}.{1} %>", name, itemField);
                 }
                 return this.Text;
             }
             else if (this.Type == FieldType.form_value)
             {
-                return mParams[1];
+                string name = this.Helper.GetModFieldName(this.Dataname, mParams[1]);
+                this.Obj = string.Concat("item.", name);
+                mParams[1] = name;
+                return name;
             }
             else
             {
@@ -179,11 +180,14 @@ namespace Tag.Vows.Tag
             }
         }
 
-        public string GetFieldName()
+        public string GetItemFieldName(string tableName)
         {
             if (this.Type == FieldType.item_value)
             {
-                return Regex.Replace(Obj, @"(item|\.|\{|\})", string.Empty, RegexOptions.IgnoreCase);
+                string name = this.Helper.GetModFieldName(tableName, mParams[1]);
+                this.Obj = string.Concat("item.", name);
+                mParams[1] = name;
+                return name;
             }
             return null;
         }

@@ -54,7 +54,7 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id /}";
+            var jsonname = "{# json = article ? orderby = 时间 & pagesize = 3 & fields = 时间,time,desc,img,id /}";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
                 jsonname = "{# json = article ? orderby = time & pagesize = 3 & fields = title,time,desc,img,id & categ = call.cid /}";

@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    {#list=文章?主键ID>3&take=3}<!--分页3条-->
+    <li><a class="title" href="formTag.aspx?id={#item.id}">{#SubString(item.title,15)}</a>
+        <span class="time">{#item.时间}</span> </li>
+    {#list}
+    <hr />
+    {#read=文章?主键ID=4}<!--label中的read  读取那条ID为4的文章-->
+    <a style="color: Red;" href="read.aspx?id={#read.主键ID}">{#read.文章标题}{#SubString(read.文章标题,15)}<!--限制标题最多15个字--></a>
+    {#read}
+</body>
+</html>

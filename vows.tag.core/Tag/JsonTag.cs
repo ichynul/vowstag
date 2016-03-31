@@ -35,7 +35,6 @@ namespace Tag.Vows.Tag
     {
         private string BaseParams;
         public string DataName;
-        public List<FromVar> Vars = new List<FromVar>();
         private Method CallBack;
         private string ModType;
         public JsonTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
@@ -93,7 +92,7 @@ namespace Tag.Vows.Tag
                 }
                 else
                 {
-                    CallBack.Body.Append(TempleHelper.getTempleHelper(this.Config).Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
+                    CallBack.Body.Append(Helper.Linq_getJson(this.DataName, this.BaseParams, out ModType, this.GetTagName()));
                 }
             }
             return CallBack;

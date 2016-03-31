@@ -46,10 +46,10 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bean\Dialect.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />
     <Compile Include="Bean\TagWhere.cs" />
-    <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\TempleHelper.cs" />
     <Compile Include="Enum\FieldType.cs" />
     <Compile Include="Enum\IfType.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="Interface\IComTools.cs" />
     <Compile Include="Interface\IConvertAble.cs" />
     <Compile Include="Interface\IDeepAble.cs" />
+    <Compile Include="Interface\IDialectAble.cs" />
     <Compile Include="Interface\IFieldDataAble.cs" />
     <Compile Include="Interface\IFieldsList.cs" />
     <Compile Include="Interface\IGlobalField.cs" />

@@ -28,6 +28,6 @@ namespace Tag.Vows.Interface
 {
     interface IFieldsList
     {
-        HashSet<string> GetItemFields();
+        HashSet<string> GetItemFields(string tableName);
     }
 }

@@ -23,12 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
-using Tag.Vows.Enum;
+
 namespace Tag.Vows.Interface
 {
-    interface IFieldDataAble
+    interface IDialectAble
     {
-        void SetDataName(string dataName, FieldType type);
-        string GetItemFieldName(string tableName);
+        bool MatchName(string name);
     }
 }

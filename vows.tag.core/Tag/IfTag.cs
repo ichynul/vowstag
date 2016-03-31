@@ -37,7 +37,7 @@ namespace Tag.Vows.Tag
         private string Test;
         private string Conttent;
         private IfType Type;
-        private string ReadDataname;
+        private string Dataname;
         private HashSet<string> TestLink;
         private HashSet<ITesBeforLoading> Lodas;
 
@@ -81,10 +81,10 @@ namespace Tag.Vows.Tag
 
         public void SetDataName(string dataName, MethodType type)
         {
-            this.ReadDataname = dataName;
+            this.Dataname = dataName;
         }
 
-        public HashSet<string> GetFieldName()
+        public HashSet<string> GetItemFieldNames(string tableName)
         {
             var Fields = new HashSet<string>();
             var matches = this.Config.tagregex.ItemValue.Matches(this.Test);
@@ -92,6 +92,9 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
+                    string name = this.Helper.GetModFieldName(tableName, m.Value.Split('.')[1]);
+                    this.Test = this.Test.Replace(m.Value, string.Concat("item.", name));
+                    Fields.Add(name);
                     Fields.Add(m.Value.Split('.')[1]);
                 }
             }
@@ -100,17 +103,17 @@ namespace Tag.Vows.Tag
 
         public void CheckTestReadOrItem()
         {
-            if (!string.IsNullOrEmpty(this.ReadDataname) &&
+            if (!string.IsNullOrEmpty(this.Dataname) &&
                 this.Config.tagregex.ReadValue.IsMatch(this.Test))
             {
                 var resdMatches = this.Config.tagregex.ReadValue.Matches(this.Test);
                 if (resdMatches.Count > 0)
                 {
-                    ReadDataname = TempleHelper.getTempleHelper(this.Config).GetTableName(ReadDataname);
+                    Dataname = Helper.GetTableName(Dataname);
                     string itemField = "";
                     foreach (Match m in resdMatches)
                     {
-                        itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(ReadDataname, m.Value.Split('.')[1]);
+                        itemField = Helper.GetModFieldName(Dataname, m.Value.Split('.')[1]);
                         if (!string.IsNullOrEmpty(itemField))
                         {
                             this.Test = this.Test.Replace(m.Value, string.Concat("read.", itemField));

@@ -38,7 +38,7 @@ namespace Tag.Vows.Tag
         private string Obj;
         private string Params;
         private string Method;
-        private string ReadDataname = "";
+        private string Dataname = "";
         public MethodType Type { get; private set; }
         public string forname { get; set; }
         public MethodTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
@@ -56,6 +56,10 @@ namespace Tag.Vows.Tag
             {
                 this.Type = MethodType.read_value_method;
             }
+            else if (this.Config.tagregex.ItemValue.IsMatch(Obj))
+            {
+                this.Type = MethodType.item_value_method;
+            }
             else if (this.Config.tagregex.FormValue.IsMatch(Obj))
             {
                 this.Type = MethodType.form_method;
@@ -72,19 +76,19 @@ namespace Tag.Vows.Tag
             {
                 return string.Format("_tagcall.form('{0}',{1}); return false;", this.forname, this.Params.ToLower() == "false" ? "false" : "true");
             }
-            if (!string.IsNullOrEmpty(this.ReadDataname) && this.Type == MethodType.read_value_method)
+            if (!string.IsNullOrEmpty(this.Dataname) && this.Type == MethodType.read_value_method)
             {
                 var resdMatches = this.Config.tagregex.ReadValue.Matches(Obj);
                 if (resdMatches.Count > 0)
                 {
-                    ReadDataname = TempleHelper.getTempleHelper(this.Config).GetTableName(ReadDataname);
-                    string itemField = "";
+                    Dataname = Helper.GetTableName(Dataname);
+                    string readField = "";
                     foreach (Match m in resdMatches)
                     {
-                        itemField = TempleHelper.getTempleHelper(this.Config).GetModFieldName(ReadDataname, m.Value.Split('.')[1]);
-                        if (!string.IsNullOrEmpty(itemField))
+                        readField = Helper.GetModFieldName(Dataname, m.Value.Split('.')[1]);
+                        if (!string.IsNullOrEmpty(readField))
                         {
-                            this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", itemField));
+                            this.Obj = this.Obj.Replace(m.Value, string.Concat("read.", readField));
                         }
                     }
                 }
@@ -93,10 +97,19 @@ namespace Tag.Vows.Tag
             bool hasItem = false;
             if (matches.Count > 0)
             {
-                hasItem = true;
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
+                    if (!string.IsNullOrEmpty(this.Dataname))//sublist 中
+                    {
+                        string itemField = m.Value.Split('.')[1];
+                        itemField = Helper.GetModFieldName(Dataname, itemField);
+                        this.Obj = this.Obj.Replace(m.Value, string.Concat("item." + itemField));
+                    }
+                    else
+                    {
+                        hasItem = true;
+                        this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
+                    }
                 }
             }
             matches = this.Config.tagregex.SessionValue.Matches(Obj);
@@ -143,11 +156,11 @@ namespace Tag.Vows.Tag
         {
             if (this.Type == type)
             {
-                this.ReadDataname = dataName;
+                this.Dataname = dataName;
             }
         }
 
-        public HashSet<string> GetFieldName()
+        public HashSet<string> GetItemFieldNames(string tableName)
         {
             var Fields = new HashSet<string>();
             var matches = this.Config.tagregex.ItemValue.Matches(this.Obj);
@@ -155,7 +168,9 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    Fields.Add(m.Value.Split('.')[1]);
+                    string name = this.Helper.GetModFieldName(tableName, m.Value.Split('.')[1]);
+                    this.Obj = this.Obj.Replace(m.Value, string.Concat("item.", name));
+                    Fields.Add(name);
                 }
             }
             return Fields;
