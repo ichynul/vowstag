@@ -93,7 +93,7 @@ namespace Tag.Vows.Tool
         /// <summary>
         /// 最大镶套层次，超过这个深度的自页面略过，防止循环镶套
         /// </summary>
-        public int MAXDEEP = 10;
+        public int MAXD_EEP = 10;
         /// <summary>
         /// 请设置输入目录的相对路径
         /// </summary>
@@ -311,7 +311,7 @@ namespace Tag.Vows.Tool
         internal StringBuilder GetDbContext(IMakeAble page)
         {
             StringBuilder sb = new StringBuilder();
-            if (page is SubListPage || page is LabelPage)
+            if (page is SubListPage)
             {
                 sb.AppendFormat("{0}protected {1} Db_Context;\r\n", Method.Space, this.entitiesName);
                 sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.Space, "{");

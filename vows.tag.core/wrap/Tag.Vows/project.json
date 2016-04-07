@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net40": {
+      "wrappedProject": "../../vows.tag.core.csproj",
+      "bin": {
+        "assembly": "../../obj/{configuration}/Tag.Vows.dll",
+        "pdb": "../../obj/{configuration}/Tag.Vows.pdb"
+      },
+      "dependencies": {
+        "Newtonsoft.Json": "1.0.0-*"
+      }
+    }
+  }
+}

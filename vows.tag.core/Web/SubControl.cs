@@ -88,6 +88,18 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
+        /// 截取指定长度的字符串
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="length">长度</param>
+        /// <param name="morestr">更多..省略号</param>
+        /// <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
+        public string SubString(object str, int length, string morestr)
+        {
+            return tools.SubString(str, length, morestr);
+        }
+
+        /// <summary>
         /// 将任意值转化为字符串
         /// </summary>
         /// <param name="obj">值</param>

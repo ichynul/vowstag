@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
 using Tag.Vows.Data;
+using System;
 
 namespace Tag.Vows.Tag
 {
@@ -73,7 +74,7 @@ namespace Tag.Vows.Tag
             this.Text = mText;
             this.Origin = mOrigin;
             this.NO_ = no_;
-            this.TagName = string.Concat(this.GetType().Name, "_", this.Text.Length, "_", (this.NO_ + 1));
+            this.TagName = string.Concat(this.GetType().Name, "_", this.Text.Length, new Random(DateTime.Now.Millisecond).Next(999), "_", (this.NO_ + 1));
             this.PlaceHolderName = string.Concat("#", this.TagName, "#");
             this.In_Pairs = this.Text.LastIndexOf('/') != this.Text.Length - 2;
             this.Discover();

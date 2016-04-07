@@ -89,14 +89,23 @@ namespace Tag.Vows.Tool
 
         public string SubString(object str, int length)
         {
+            return SubString(str, length, "...");
+        }
+
+        public string SubString(object str, int length, string morestr)
+        {
             if (str == null)
             {
                 return "";
             }
+            if (length < 0)
+            {
+                return str.ToString();
+            }
             string s = str.ToString().Trim();
             if (s.Length > length)
             {
-                s = s.Substring(0, length) + "...";
+                s = s.Substring(0, length) + morestr;
             }
             return s;
         }

@@ -93,9 +93,9 @@ namespace Tag.Vows.Page
             this.Deep = mDeep + 1;
 
             this.PageName = mPageName;
-            if (Deep > config.MAXDEEP)
+            if (Deep > config.MAXD_EEP)
             {
-                this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXDEEP);
+                this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXD_EEP);
                 return;
             }
             GetTegs(false);
@@ -115,9 +115,9 @@ namespace Tag.Vows.Page
             this.Deep = mDeep + 1;
             this.PageName = fakeName;
             this.Html = style;
-            if (Deep > config.MAXDEEP)
+            if (Deep > config.MAXD_EEP)
             {
-                this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXDEEP);
+                this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXD_EEP);
                 return;
             }
             GetTegs(true);

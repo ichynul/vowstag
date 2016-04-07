@@ -31,7 +31,7 @@ using Tag.Vows.Tool;
 namespace Tag.Vows.Tag
 {
     /// <summary>
-    ///HeadTag 的摘要说明
+    ///StaticTag 的摘要说明
     /// </summary>
     class StaticTag : BaseTag, ISubAble
     {
