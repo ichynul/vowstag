@@ -221,16 +221,24 @@ namespace Tag.Vows.Data
                              w.VarName, @"item|read|\.", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
-                        if (mNullAble)
+                        if (dataType == "string")
                         {
-                            sb.AppendFormat("{0}{1} {2} = {3};\r\n", Method.getSpaces(2), dataType, vname,
-                                   string.Format("{0} == null || !{0}.{1}.HasValue ? {2}.MinValue : {0}.{1}.Value;\r\n",
-                                            itemOrRead, filed, dataType));
+                            sb.AppendFormat("{0}{1} {2} = {3 } == null ? \"!@#$%\": {3}.{4};\r\n",
+                                            Method.getSpaces(2), dataType, vname, itemOrRead, filed);
                         }
                         else
                         {
-                            sb.AppendFormat("{0}{1} {2} = {3 } == null ? {1}.MinValue: {3}.{4};\r\n",
-                                        Method.getSpaces(2), dataType, vname, itemOrRead, filed);
+                            if (mNullAble)
+                            {
+                                sb.AppendFormat("{0}{1} {2} = {3};\r\n", Method.getSpaces(2), dataType, vname,
+                                       string.Format("{0} == null || !{0}.{1}.HasValue ? {2}.MinValue : {0}.{1}.Value;\r\n",
+                                                itemOrRead, filed, dataType));
+                            }
+                            else
+                            {
+                                sb.AppendFormat("{0}{1} {2} = {3 } == null ? {1}.MinValue: {3}.{4};\r\n",
+                                            Method.getSpaces(2), dataType, vname, itemOrRead, filed);
+                            }
                         }
                     }
                     w.VarName = vname;

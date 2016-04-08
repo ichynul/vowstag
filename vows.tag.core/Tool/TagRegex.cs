@@ -91,7 +91,7 @@ namespace Tag.Vows.Tool
             /********tag tests*******/
             TagTest = new Regex(string.Concat(tagLeft, @"\s*\b.+?/?\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-            ListTest = new Regex(string.Concat(tagLeft, "list=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            ListTest = new Regex(string.Concat(tagLeft, @"list\d*=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ReadTest = new Regex(string.Concat(tagLeft, "read=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             FormTest = new Regex(string.Concat(tagLeft, "form=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             JsonTest = new Regex(string.Concat(tagLeft, "json=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);

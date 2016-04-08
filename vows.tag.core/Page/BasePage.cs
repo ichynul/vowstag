@@ -302,10 +302,15 @@ namespace Tag.Vows.Page
             TheMatch = regex.Match(text);
             if (TheMatch.Success)
             {
+                System.Web.HttpContext.Current.Response.Write(text + "/" + text + "<br />");
                 this.Html = this.Html.Replace(origin, text);
+                if (type == TagType._tag_list)
+                {
+                    text = FindFirstListTagStr(text, this.TagList.Count());
+                }
                 if (type == TagType._tag_command)
                 {
-                    CMDTag tag = new CMDTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    CMDTag tag = new CMDTag(text, origin, Deep, this.Config, this.TagList.Count);
                     GetCMD(tag);
                     this.TagList.Add(tag);
                 }
@@ -313,59 +318,78 @@ namespace Tag.Vows.Page
                 {
                     if (this is SubListPage)
                     {
-                        ListTag tag = new ListTag(TheMatch.Value, origin, Deep, (this as SubListPage).PageName, this.Config, this.TagList.Count);
+                        ListTag tag = new ListTag(text, origin, Deep, (this as SubListPage).PageName, this.Config, this.TagList.Count);
                         this.TagList.Add(tag);
                     }
                     else
                     {
-                        ListTag tag = new ListTag(TheMatch.Value, origin, Deep, this is ItemPage ? (this as ItemPage).PageName : "", this.Config, this.TagList.Count);
+                        ListTag tag = new ListTag(text, origin, Deep, this is ItemPage ? (this as ItemPage).PageName : "", this.Config, this.TagList.Count);
                         this.TagList.Add(tag);
                     }
                 }
                 else if (type == TagType._tag_read)
                 {
-                    ReadTag tag = new ReadTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    ReadTag tag = new ReadTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_label)
                 {
-                    LabelTag tag = new LabelTag(TheMatch.Value, origin, Deep, this is LabelPage ? (this as LabelPage).PageName : "", this.Config, this.TagList.Count);
+                    LabelTag tag = new LabelTag(text, origin, Deep, this is LabelPage ? (this as LabelPage).PageName : "", this.Config, this.TagList.Count);
                     tag.LazyLoad();
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_static)
                 {
-                    StaticTag tag = new StaticTag(TheMatch.Value, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.Config, this.TagList.Count);
+                    StaticTag tag = new StaticTag(text, origin, Deep, this is StaticPage ? (this as StaticPage).PageName : "", this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_filed)
                 {
-                    FieldTag tag = new FieldTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    FieldTag tag = new FieldTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_method)
                 {
-                    MethodTag tag = new MethodTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    MethodTag tag = new MethodTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_pager)
                 {
-                    PagerTag tag = new PagerTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    PagerTag tag = new PagerTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                 }
                 else if (type == TagType._tag_form)
                 {
-                    FormTag tag = new FormTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    FormTag tag = new FormTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                     this.TagCallBack = "form";
                 }
                 else if (type == TagType._tag_json)
                 {
-                    JsonTag tag = new JsonTag(TheMatch.Value, origin, Deep, this.Config, this.TagList.Count);
+                    JsonTag tag = new JsonTag(text, origin, Deep, this.Config, this.TagList.Count);
                     this.TagList.Add(tag);
                     this.TagCallBack = "json";
                 }
             }
+        }
+
+        /// 查找重复的listTag,在结尾加上序号以区分，避免替换的时候Repeater ID重复
+        /// </summary>
+        /// <param name="text">tagtext</param>
+        /// <param name="deep">深度</param>
+        /// <returns></returns>
+        protected string FindFirstListTagStr(string text, int deep)
+        {
+            if (Html.LastIndexOf(text) != Html.IndexOf(text))
+            {
+                string p1, p2;
+                int index = Html.IndexOf(text);
+                p1 = Html.Substring(0, index);
+                p2 = Html.Substring(index + text.Length);
+                text = Regex.Replace(text, @"(?is)list\s*=\s*(?-i-s)", "list" + deep + "=");
+                Html = string.Concat(p1, text, p2);
+            }
+            return text;
         }
 
         /// <summary>
