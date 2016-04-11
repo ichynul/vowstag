@@ -30,7 +30,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tag.Vows.Bean;
-using Tag.Vows.Data;
 using Tag.Vows.Enum;
 using Tag.Vows.Interface;
 using Tag.Vows.Tag;
@@ -302,7 +301,6 @@ namespace Tag.Vows.Page
             TheMatch = regex.Match(text);
             if (TheMatch.Success)
             {
-                System.Web.HttpContext.Current.Response.Write(text + "/" + text + "<br />");
                 this.Html = this.Html.Replace(origin, text);
                 if (type == TagType._tag_list)
                 {
@@ -373,6 +371,7 @@ namespace Tag.Vows.Page
             }
         }
 
+        /// <summary>
         /// 查找重复的listTag,在结尾加上序号以区分，避免替换的时候Repeater ID重复
         /// </summary>
         /// <param name="text">tagtext</param>
