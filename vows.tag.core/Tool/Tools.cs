@@ -79,10 +79,10 @@ namespace Tag.Vows.Tool
                 return "";
             }
             string str = number.ToString();
-            DateTime dt = DateTime.Now;
-            if (DateTime.TryParse(str, out dt))
+            double d = 0;
+            if (double.TryParse(str, out d))
             {
-                return dt.ToString(format);
+                return d.ToString(format);
             }
             return str;
         }

@@ -119,12 +119,12 @@ namespace Tag.Vows.Tag
 
         public void LazyLoad()
         {
-            if (ParPageName == this.ItemName)
+            if (!string.IsNullOrEmpty(ParPageName) && ParPageName == this.ItemName)
             {
                 this.Msg += string.Format("未加载套用自己的list标签--{0}<br />", this.ItemName);
                 return;
             }
-            if (this.ItemName != null)
+            if (!string.IsNullOrEmpty(this.ItemName))
             {
                 this.LoadSubPage();
                 if (SubPage != null)
@@ -149,7 +149,7 @@ namespace Tag.Vows.Tag
             else if (!this.HasStyle())
             {
                 this.Msg += string.Concat("<b style='color:orange;'>",
-                    this.Text, "<b/>：", "未指定item文件名称，list标签必须指定item样式（在参数中指定样式文件名'itemfilename'：",
+                    this.Text, "<b/>：", "未指定item文件名称，无样式的list标签必须指定item样式文件（在参数中指定样式文件名'itemfilename'：",
                     " {list=xxx?..item=itemfilename../} 或 在标签对中指定'itemstyle'： {list=xxx?.....}itemstyle{/list} <br />");
             }
         }
@@ -309,6 +309,10 @@ namespace Tag.Vows.Tag
 
         public string GetGloabalField()
         {
+            if (this.SubPage == null)
+            {
+                return string.Empty;
+            }
             StringBuilder sb = new StringBuilder();
             EmptyTag empty = (this.SubPage as ItemPage).Empty;
             if (empty != null)
