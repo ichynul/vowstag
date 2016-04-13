@@ -161,7 +161,6 @@ namespace Tag.Vows.Page
                 try
                 {
                     Html = File.ReadAllText(templatePath);
-                    Html = Config.GetingHtml(Html);
                 }
                 catch (Exception e)
                 {
@@ -174,6 +173,8 @@ namespace Tag.Vows.Page
                 Msg += string.Format("无内容，已终止。");
                 return;
             }
+            Html = Config.GetingHtml(Html);
+            ReplaceNotes();
             if (!Config.allowServerScript)
             {
                 DissAbleServerScript();
@@ -242,6 +243,14 @@ namespace Tag.Vows.Page
         {
             tagText = Regex.Replace(tagText, @"x_spcce_x", " ", RegexOptions.Singleline);
             return tagText;
+        }
+
+        /// <summary>
+        /// 替换注释 <!--# notes -->
+        /// </summary>
+        protected void ReplaceNotes()
+        {
+            this.Html = Regex.Replace(this.Html, @"<!--\s*#.*?-->", string.Empty, RegexOptions.Singleline);
         }
 
         /// <summary>

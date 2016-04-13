@@ -117,6 +117,11 @@
             服务端代码安全检测 禁用 &lt;% ...%&gt;和%&lt;cript runat="server"&gt;....&lt;/script&gt;
             </summary>
         </member>
+        <member name="M:Tag.Vows.Page.BasePage.ReplaceNotes">
+            <summary>
+            替换注释 <!--# notes -->
+            </summary>
+        </member>
         <member name="M:Tag.Vows.Page.BasePage.ReplaceSpacesAndMatchAll">
             <summary>
             将可能的标签格式化及去除空格，以作进一步匹配

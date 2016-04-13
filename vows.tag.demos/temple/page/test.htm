@@ -4,7 +4,7 @@
     <title></title>
 </head>
 <body>
-    {#list=文章?主键ID>3&take=3}<!--分页3条-->
+    {#list=文章?主键ID>3&take=3}<!--不分页3条-->
     <li><a class="title" href="formTag.aspx?id={#item.id}">{#SubString(item.title,15)}</a>
         <span class="time">{#item.时间}</span> </li>
     {#list}
@@ -12,5 +12,22 @@
     {#read=文章?主键ID=4}<!--label中的read  读取那条ID为4的文章-->
     <a style="color: Red;" href="read.aspx?id={#read.主键ID}">{#read.文章标题}{#SubString(read.文章标题,15)}<!--限制标题最多15个字--></a>
     {#read}
+    <!--#这是标签注释，以html注释为基础，内容以#号开头。此注释会在标签解析前被清除-->
+    <!--#可以
+        换行-->
+    {#list=article?<!--#读取文章表-->
+    id>3<!--#主键id大于3的-->
+    &skip=2<!--#跳过前两条-->
+    &take=3<!--#获取三条-->
+    <br />
+    <!--#也可以用<br />代表一个&号-->
+    orderby=time
+    <!--#按时排序-->
+    <!--#标签内部的注释,不影响标签的解析-->
+    &desc=true<!--#是否倒序？是-->
+    }<!--不分页3条-->
+    <li><a class="title" href="formTag.aspx?id={#item.id}">{#SubString(item.title,15)}</a>
+        <span class="time">{#item.time}</span> </li>
+    {#list}
 </body>
 </html>
