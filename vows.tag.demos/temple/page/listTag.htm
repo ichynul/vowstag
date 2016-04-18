@@ -154,8 +154,8 @@
             <p class="about">
                 文本包含'%'、不包含'!%'</p>
             <ul class="articlelist">
-                {#list=article? title % 人 &content !% "二 B"& title!%你 好&item=listTag_item /}
-                <!--titel%人          标题不包含'人'字-->
+                {#list=article? title % O &content !% "二 B"& title!%你 好&item=listTag_item /}
+                <!--titel%人          标题不包含'O'字母-->
                 <!--content!%"二B"    正文不包含"二 B"，此处文字外有引号（文字中有空格的，要用引号，否则可以省去）-->
                 <!--title!%你 好      这个不对，文字中间的空格会不在了，实际效果为 title!%你好 -->
                 <!--%和!%只对文字(string)有效，其他类型的字段不可以。另外要注意字段不能为空，若表中该字段存在NULL值，则会出错。应判断空值，如(title!=null&title%人) -->

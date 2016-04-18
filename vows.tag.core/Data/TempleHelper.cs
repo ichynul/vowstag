@@ -931,7 +931,7 @@ namespace Tag.Vows.Data
 
         #endregion
 
-        #region Linq_Form
+        #region Linq_getForm
 
         internal string Linq_Form(string tableName, object model, string BaseParams, List<FromVar> Vars, string CallName)
         {
@@ -1115,7 +1115,7 @@ namespace Tag.Vows.Data
                         linq.AppendFormat("{0}error.code = 2;\r\n", Method.getSpaces(4));
                         linq.AppendFormat("{0}error.msg = \"请输入正确的{1}\";\r\n", Method.getSpaces(4),
                             v.Type == "DateTime" ? "时间" : "int|long".Contains(v.Type) ? "整数" : "小数");
-                        linq.AppendFormat("{0}error.dom = \"{1}\";\r\n", Method.getSpaces(4), v.OName);
+                        linq.AppendFormat("{0}error.dom = \"{1}\";\r\n", Method.getSpaces(4), v.Name);
                         linq.AppendFormat("{0}return call;\r\n", Method.getSpaces(4));
                         linq.Append(Method.getSpaces(3) + "}\r\n");
                         linq.Append(Method.getSpaces(2) + "}\r\n");

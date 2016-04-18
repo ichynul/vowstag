@@ -42,7 +42,7 @@
                 {#list}
                 <!-- -->
                 <span>下一篇：</span>
-                <!--用list标签读取下一篇-->
+                <!--用read标签读取下一篇-->
                 {#read=article ? orderby=id & desc=false & id > read.id}<!--全局read的字段可作为局部read的参数 -->
                 <!--此处用字段id与read.id(read标签的一个字段)比较-->
                 <!-- -->

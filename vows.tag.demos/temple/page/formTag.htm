@@ -31,39 +31,39 @@
                 <label>
                     标题：
                 </label>
-                <input type="text" id="title" class="text" maxlength="50" name="{#form.标题}" value="{#read.title /}" />
+                <input type="text" class="text" maxlength="50" name="{#form.title}" value="{#read.title /}" />
                 <!-- name 属性是必须的，{#form.title}为占位符 ，id属性方便后面dom操作-->
             </div>
             <div>
                 <label>
                     作者：
                 </label>
-                <input type="text" id="author" class="text" maxlength="20" name="{#form.author}"
-                    value="{#read.author /}" />
+                <input type="text" class="text" maxlength="20" name="{#form.author}" value="{#read.author /}" />
             </div>
             <div>
                 <label>
                     日期：
                 </label>
-                <input type="text" id="time" class="text" maxlength="50" name="{#form.time}" value="{#read.time /}" />
+                <input type="text" class="text" maxlength="50" name="{#form.time}" value="{#read.time /}" />
             </div>
             <div>
                 <label>
                     点击：
                 </label>
-                <input type="text" id="view" class="text" maxlength="10" name="{#form.view}" value="{#read.view /}" />
+                <input type="text" class="text" maxlength="10" name="{#form.view}" value="{#read.view /}" />
             </div>
             <div style="position: relative; height: 240px;">
                 <label style="position: absolute; top: 120px;">
                     内容：
                 </label>
-                <textarea style="position: absolute; left: 43px;" id="content" name="{#form.content}"
-                    cols="40" rows="10">{#read.content /}</textarea>
+                <textarea style="position: absolute; left: 43px;" name="{#form.content}" cols="40"
+                    rows="10">{#read.content /}</textarea>
             </div>
             <div style="clear: both; margin-left: 50px;">
                 <input type="button" class="button" value="保存" onclick="{#form.submit(true)}" /><!-- 最好不要用 type="submit"-->
                 <!--{#form.submit()}为占位符，将生成 '_tagcall.form('form1',true); return false;'这里可以直接写后者-->
-                <input type="reset" class="button" value="重置" /> <input type="button" class="button" value="返回" onclick="location.href='jsonTag.aspx?backpage={#request.page/}'" />
+                <input type="reset" class="button" value="重置" />
+                <input type="button" class="button" value="返回" onclick="location.href='jsonTag.aspx?backpage={#request.page/}'" />
             </div>
             <div style="margin-left: 70px;">
                 <span id="result"></span>
@@ -102,7 +102,10 @@
                     }
                     else if (obj.result.code == 2) {
                         $('#result').html(obj.result.msg);
-                        $('#' + obj.result.dom).focus();
+                        var dom = document.getElementsByName(obj.result.dom); //尝试以 name 查找文档元素
+                        if (dom) {
+                            $(dom).focus();
+                        }
                     }
                     else if (obj.result.code == 3) {
                         $('#result').html(obj.result.msg);
