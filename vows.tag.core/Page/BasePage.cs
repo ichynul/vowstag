@@ -836,6 +836,11 @@ namespace Tag.Vows.Page
 
         private void WriteTagGit()
         {
+            if (string.IsNullOrEmpty(Html))
+            {
+                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n");
+                return;
+            }
             TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
             if (TheMatch.Success)
             {

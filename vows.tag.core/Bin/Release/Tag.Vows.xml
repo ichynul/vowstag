@@ -480,6 +480,11 @@
             所有页面默认默认处理类,默认为 Tag.Vows.TagPage
             </summary>
         </member>
+        <member name="F:Tag.Vows.Tool.TagConfig.DefaultUCBase">
+            <summary>
+            所有ascx页面默认默认处理类,默认为 Tag.Vows.SubControl
+            </summary>
+        </member>
         <member name="F:Tag.Vows.Tool.TagConfig.convert_pairs">
             <summary>
             若要转换标签对（convert==true），则传入模板标签的 new string[2]{"left","right"};
