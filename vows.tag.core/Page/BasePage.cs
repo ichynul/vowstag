@@ -45,7 +45,7 @@ namespace Tag.Vows.Page
     {
         //
         protected TagConfig Config;
-        private string Extends;
+        private string Extends = "TagPage";
         private string SubpageExtends = "SubControl";
         private bool? CallBack = null;
         private bool ValidateRequest = true;
@@ -89,8 +89,8 @@ namespace Tag.Vows.Page
             this.HtmlpPath = string.IsNullOrEmpty(mHtmlpPath) ? config.PagePath : mHtmlpPath;
             this.Config = config;
             this.Extends = config.DefaultBase;
+            this.SubpageExtends = config.DefaultUCBase;
             this.Deep = mDeep + 1;
-
             this.PageName = mPageName;
             if (Deep > config.MAXD_EEP)
             {
@@ -111,6 +111,7 @@ namespace Tag.Vows.Page
         {
             this.Config = config;
             this.Extends = config.DefaultBase;
+            this.SubpageExtends = config.DefaultUCBase;
             this.Deep = mDeep + 1;
             this.PageName = fakeName;
             this.Html = style;
@@ -446,11 +447,11 @@ namespace Tag.Vows.Page
             string value = cmd.QueryString("base");
             if (!string.IsNullOrEmpty(value))
             {
-                if (this is LabelPage)
+                if (this is IUC)
                 {
                     this.SubpageExtends = value;
                 }
-                else if (this is BasePage)
+                else
                 {
                     this.Extends = value;
                 }
@@ -938,23 +939,6 @@ namespace Tag.Vows.Page
 
         protected string[] GetCodeTyep()
         {
-            if (this is LabelPage)
-            {
-                if (this.SubpageExtends != "SubControl")
-                {
-                    this.SubpageExtends = string.Concat(this.SubpageExtends, "\r\n       /*重新指定了UserControl页面处理类，请确保 ",
-                        this.SubpageExtends, " 直接或间接继承自'Tag.Vows.Web.SubControl'*/");
-                }
-            }
-            else if (this is BasePage)
-            {
-                if (this.Extends != "TagPage")
-                {
-                    this.Extends = string.Concat(this.Extends, "\r\n       /*重新指定了页面处理类，请确保 ",
-                        this.Extends, " 直接或间接继承自'Tag.Vows.Web.TagPage'*/");
-                }
-            }
-
             string[] type = new string[] { "Page", ".aspx", ".aspx.cs", this.Extends };
             if (this is IUC)
             {
@@ -962,6 +946,19 @@ namespace Tag.Vows.Page
                 type[1] = ".ascx";
                 type[2] = ".ascx.cs";
                 type[3] = this.SubpageExtends;
+                if (this.SubpageExtends != "SubControl")
+                {
+                    this.SubpageExtends = string.Concat(this.SubpageExtends, "\r\n       /*重新指定了UserControl页面处理类，请确保 ",
+                        this.SubpageExtends, " 直接或间接继承自'Tag.Vows.Web.SubControl'*/");
+                }
+            }
+            else
+            {
+                if (this.Extends != "TagPage")
+                {
+                    this.Extends = string.Concat(this.Extends, "\r\n       /*重新指定了页面处理类，请确保 ",
+                        this.Extends, " 直接或间接继承自'Tag.Vows.Web.TagPage'*/");
+                }
             }
             return type;
         }

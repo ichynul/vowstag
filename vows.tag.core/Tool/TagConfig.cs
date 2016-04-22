@@ -125,6 +125,11 @@ namespace Tag.Vows.Tool
         /// </summary>
         public string DefaultBase = "TagPage";
 
+        /// <summary>
+        /// 所有ascx页面默认默认处理类,默认为 Tag.Vows.SubControl
+        /// </summary>
+        public string DefaultUCBase = "SubControl";
+
         internal string PagePath { get; private set; }
         internal string LabelPath { get; private set; }
         internal string StaticlPath { get; private set; }
