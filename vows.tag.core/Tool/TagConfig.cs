@@ -170,21 +170,6 @@ namespace Tag.Vows.Tool
         }
 
         /// <summary>
-        /// 页面入口，需要页面结构信息
-        /// </summary>
-        /// <param name="pagename">页面名称</param>
-        /// <param name="PageString">结构信息</param>
-        /// <returns>页面错误信息</returns>
-        public string MakePage(string pagename, out string PageString)
-        {
-            PageString = "";
-            BasePage testpage = new BasePage(pagename, this);
-            testpage.MakePage();
-            PageString = testpage.ToPageString();
-            return testpage.GetMsg();
-        }
-
-        /// <summary>
         /// 添加方言
         /// </summary>
         /// <param name="dialect"></param>
@@ -194,15 +179,56 @@ namespace Tag.Vows.Tool
         }
 
         /// <summary>
+        /// 页面入口，需要页面结构信息
+        /// </summary>
+        /// <param name="pagename">页面名称</param>
+        /// <param name="PageString">结构信息</param>
+        /// <returns>页面错误信息</returns>
+        public string MakePage(string pagename, out string PageString)
+        {
+            PageString = "";
+            BasePage testpage = new BasePage(pagename, this, false);
+            testpage.MakePage();
+            PageString = testpage.ToPageString();
+            return testpage.GetMsg();
+        }
+
+        /// <summary>
         /// 页面入口，不需要页面结构信息
         /// </summary>
         /// <param name="pagename">页面名称</param>
         /// <returns>页面错误信息</returns>
         public string MakePage(string pagename)
         {
-            BasePage testpage = new BasePage(pagename, this);
+            BasePage testpage = new BasePage(pagename, this, false);
             testpage.MakePage();
             return testpage.GetMsg();
+        }
+
+        /// <summary>
+        /// 解析并获取页面中标签列表
+        /// </summary>
+        /// <param name="pagename">页面名称</param>
+        /// <returns>taglist</returns>
+        public List<ShowTag> GetTagList(string pagename)
+        {
+            BasePage testpage = new BasePage(pagename, this, true);
+            var taglist = testpage.GetTagList();
+            List<ShowTag> lsit = new List<ShowTag>();
+            foreach (var t in taglist)
+            {
+                if (t.TagInPage == false)
+                {
+                    continue;
+                }
+                ShowTag tag = new ShowTag(t.NO_, t.Text, t.Origin, t.In_Pairs);
+                if (t is IStyleAble)
+                {
+                    tag.style = (t as IStyleAble).GetStyle();
+                }
+                lsit.Add(tag);
+            }
+            return lsit;
         }
 
         /// <summary>
@@ -296,6 +322,11 @@ namespace Tag.Vows.Tool
         private bool WriteFile(string output, string name, string text, out string msg)
         {
             msg = "";
+            if (string.IsNullOrEmpty(output))
+            {
+                msg = "输出目录为空";
+                return false;
+            }
             if (!Directory.Exists(output))
             {
                 Directory.CreateDirectory(output);

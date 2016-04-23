@@ -51,7 +51,7 @@ namespace Tag.Vows.Tag
         public ReadTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
         {
-
+            this.Lev = 2;
         }
 
         protected override string GetCodeForAspx()

@@ -37,7 +37,7 @@ namespace Tag.Vows.Page
     class ReadPage : BasePage, IUpperDataAble
     {
         public ReadPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
-            : base(mHtmlpPath, mPageName, mDeep, config)
+            : base(mHtmlpPath, mPageName, mDeep, config, false)
         {
 
         }

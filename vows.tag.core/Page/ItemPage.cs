@@ -42,7 +42,7 @@ namespace Tag.Vows.Page
         }
 
         public ItemPage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
-            : base(mHtmlpPath, mPageName, mDeep, config)
+            : base(mHtmlpPath, mPageName, mDeep, config, false)
         {
             FindEmpty();
         }

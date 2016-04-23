@@ -88,7 +88,7 @@
             By ichynul@outlook.com
              </summary>
         </member>
-        <member name="M:Tag.Vows.Page.BasePage.#ctor(System.String,System.String,System.Int32,Tag.Vows.Tool.TagConfig)">
+        <member name="M:Tag.Vows.Page.BasePage.#ctor(System.String,System.String,System.Int32,Tag.Vows.Tool.TagConfig,System.Boolean)">
             <summary>
             页面入口方法,以文件路径
             </summary>
@@ -96,6 +96,7 @@
             <param name="mPageName">页面名称,如: somepage </param>
             <param name="mDeep">嵌套深度</param>
             <param name="config">配置信息</param>
+            <param name="justGetTagList">是否仅获取页面内标签列表</param>
         </member>
         <member name="M:Tag.Vows.Page.BasePage.#ctor(System.String,System.Int32,Tag.Vows.Tool.TagConfig,System.String)">
             <summary>
@@ -106,11 +107,22 @@
             <param name="config">配置信息</param>
             <param name="fakeName">虚拟的页面名称</param>
         </member>
-        <member name="M:Tag.Vows.Page.BasePage.GetTegs(System.Boolean)">
+        <member name="M:Tag.Vows.Page.BasePage.GetMsg">
+            <summary>
+            获取页面错误信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.GetTagList">
+            <summary>
+            获取页面标签列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Page.BasePage.GetTegs">
             <summary>
             解析所有标签
             </summary>
-            <param name="style">是否是以文本初始化</param>
         </member>
         <member name="M:Tag.Vows.Page.BasePage.DissAbleServerScript">
             <summary>
@@ -513,6 +525,11 @@
             所有页面默认默认处理类,默认为 Tag.Vows.TagPage
             </summary>
         </member>
+        <member name="F:Tag.Vows.Tool.TagConfig.DefaultUCBase">
+            <summary>
+            所有ascx页面默认默认处理类,默认为 Tag.Vows.SubControl
+            </summary>
+        </member>
         <member name="F:Tag.Vows.Tool.TagConfig.convert_pairs">
             <summary>
             若要转换标签对（convert==true），则传入模板标签的 new string[2]{"left","right"};
@@ -523,6 +540,12 @@
             是否执行标签转换
             </summary>
         </member>
+        <member name="M:Tag.Vows.Tool.TagConfig.AddDialect(Tag.Vows.Bean.TableDialect)">
+            <summary>
+            添加方言
+            </summary>
+            <param name="dialect"></param>
+        </member>
         <member name="M:Tag.Vows.Tool.TagConfig.MakePage(System.String,System.String@)">
             <summary>
             页面入口，需要页面结构信息
@@ -531,18 +554,19 @@
             <param name="PageString">结构信息</param>
             <returns>页面错误信息</returns>
         </member>
-        <member name="M:Tag.Vows.Tool.TagConfig.AddDialect(Tag.Vows.Bean.TableDialect)">
-            <summary>
-            添加方言
-            </summary>
-            <param name="dialect"></param>
-        </member>
         <member name="M:Tag.Vows.Tool.TagConfig.MakePage(System.String)">
             <summary>
             页面入口，不需要页面结构信息
             </summary>
             <param name="pagename">页面名称</param>
             <returns>页面错误信息</returns>
+        </member>
+        <member name="M:Tag.Vows.Tool.TagConfig.GetTagList(System.String)">
+            <summary>
+            解析并获取页面中标签列表
+            </summary>
+            <param name="pagename">页面名称</param>
+            <returns>taglist</returns>
         </member>
         <member name="M:Tag.Vows.Tool.TagConfig.GetOutputAbsoPath">
             <summary>
@@ -926,6 +950,45 @@
              <summary>
             Method 的摘要说明
              </summary>
+        </member>
+        <member name="T:Tag.Vows.Bean.ShowTag">
+            <summary>
+            ShowTag bean
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Bean.ShowTag.#ctor(System.Int32,System.String,System.String,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="n">no_</param>
+            <param name="t">text</param>
+            <param name="o">origin</param>
+            <param name="i">in_pairs</param>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.no_">
+            <summary>
+            no_
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.text">
+            <summary>
+            text
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.origin">
+            <summary>
+            origin
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.in_pairs">
+            <summary>
+            in_pairs
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.style">
+            <summary>
+            style
+            </summary>
         </member>
     </members>
 </doc>

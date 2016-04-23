@@ -1,0 +1,232 @@
+﻿.btn
+{
+    width: 60px;
+    border-right: #7b9ebd 1px solid;
+    padding-right: 2px;
+    border-top: #7b9ebd 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde);
+    border-left: #7b9ebd 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #7b9ebd 1px solid;
+}
+
+.btn1_mouseout
+{
+    border-right: #7EBF4F 1px solid;
+    padding-right: 2px;
+    border-top: #7EBF4F 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#B3D997);
+    border-left: #7EBF4F 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #7EBF4F 1px solid;
+}
+
+.btn1_mouseover
+{
+    border-right: #7EBF4F 1px solid;
+    padding-right: 2px;
+    border-top: #7EBF4F 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,               StartColorStr=#ffffff, EndColorStr=#CAE4B6);
+    border-left: #7EBF4F 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #7EBF4F 1px solid;
+}
+
+.btn2
+{
+    padding: 2 4 0 4;
+    font-size: 12px;
+    height: 23;
+    background-color: #ece9d8;
+    border-width: 1;
+}
+
+.btn3_mouseout
+{
+    border-right: #2C59AA 1px solid;
+    padding-right: 2px;
+    border-top: #2C59AA 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,               StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+    border-left: #2C59AA 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #2C59AA 1px solid;
+}
+
+.btn3_mouseover
+{
+    border-right: #2C59AA 1px solid;
+    padding-right: 2px;
+    border-top: #2C59AA 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,               StartColorStr=#ffffff, EndColorStr=#D7E7FA);
+    border-left: #2C59AA 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #2C59AA 1px solid;
+}
+
+.btn3_mousedown
+{
+    border-right: #FFE400 1px solid;
+    padding-right: 2px;
+    border-top: #FFE400 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,              StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+    border-left: #FFE400 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #FFE400 1px solid;
+}
+
+.btn3_mouseup
+{
+    border-right: #2C59AA 1px solid;
+    padding-right: 2px;
+    border-top: #2C59AA 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,              StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+    border-left: #2C59AA 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #2C59AA 1px solid;
+}
+
+.btn_2k3
+{
+    border-right: #002D96 1px solid;
+    padding-right: 2px;
+    border-top: #002D96 1px solid;
+    padding-left: 2px;
+    font-size: 12px;
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,              StartColorStr=#FFFFFF, EndColorStr=#9DBCEA);
+    border-left: #002D96 1px solid;
+    cursor: hand;
+    color: black;
+    padding-top: 2px;
+    border-bottom: #002D96 1px solid;
+    width: 60px;
+}
+
+.lbl
+{
+    height: 18px;
+    border-right: #678fc2 1px solid;
+    border-top: #678fc2 1px solid;
+    border-left: #678fc2 1px solid;
+    border-bottom: #678fc2 1px solid;
+}
+
+.tbx
+{
+    height: 16px;
+    border-right: #678fc2 1px solid;
+    border-top: #678fc2 1px solid;
+    border-left: #678fc2 1px solid;
+    border-bottom: #678fc2 1px solid;
+}
+
+.Richtbx
+{
+    height: 200px;
+    border-right: #678fc2 1px solid;
+    border-top: #678fc2 1px solid;
+    border-left: #678fc2 1px solid;
+    border-bottom: #678fc2 1px solid;
+    font-family: Tahoma;
+}
+
+.tbxCheckCode
+{
+    height: 16px;
+    border-left: medium none;
+    border-right: medium none;
+    border-top: medium none;
+    border-bottom-color: #678fc2;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.lnk
+{
+    cursor: hand;
+}
+
+.GridViewStyle
+{
+    font-size: 12px;
+    font-family: Tahoma;
+    border: none 1px #fffff;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+.gvheader
+{
+    font-size: 14px;
+    font-family: Tahoma;
+    background-color: #006699;
+    font-weight: bold;
+}
+
+FileSelect.css文件里的 body
+{
+    background-color: #dcdcdc;
+    font-size: 0.75em;
+    font-family: Tahoma;
+}
+
+.divItem
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.divBorder
+{
+    background-color: #dcdcdc;
+    margin: 10px;
+    width: 510px;
+    height: 320px;
+}
+
+.divInnerDivHeader
+{
+    margin-left: 10px;
+}
+
+.divInnerDivItemList
+{
+    border: solid 1px;
+    margin-left: 5px;
+    background-color: #ffffff;
+    width: 496px;
+    height: 270px;
+    overflow: auto;
+}
+
+.divInnerDivFooter
+{
+    margin-left: 10px;
+}

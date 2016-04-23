@@ -49,6 +49,7 @@
     <Compile Include="Bean\Dialect.cs" />
     <Compile Include="Bean\FromVar.cs" />
     <Compile Include="Bean\Method.cs" />
+    <Compile Include="Bean\ShowTag.cs" />
     <Compile Include="Bean\TagWhere.cs" />
     <Compile Include="Data\TempleHelper.cs" />
     <Compile Include="Enum\FieldType.cs" />

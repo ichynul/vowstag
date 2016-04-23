@@ -37,16 +37,17 @@ namespace Tag.Vows.Tag
     /// </summary>
     abstract class BaseTag : IConvertAble
     {
-        public int Lev = 0;
         public int NO_ { protected set; get; }
-        protected TagConfig Config;
-        protected string TagName;
-        protected string PlaceHolderName;
         public bool In_Pairs { get; private set; }
         public string Text { get; protected set; }
         public string Origin { get; protected set; }
+        public int Lev = 0;
+        public bool? TagInPage { get; protected set; }
+
+        protected TagConfig Config;
+        protected string TagName;
+        protected string PlaceHolderName;
         protected string Msg = "";
-        protected bool? TagInPage = null;
         protected IMakeAble SubPage = null;
         protected int Deep;
         protected BaseTag() { }

@@ -19,12 +19,12 @@
         #left li
         {
             margin-left: 10px;
-            padding:1px;
-            border-bottom:1px dashed #999;
+            padding: 1px;
+            border-bottom: 1px dashed #999;
         }
         #left a
         {
-            line-height:20px;
+            line-height: 20px;
             color: #777;
             text-decoration: none;
         }
@@ -40,6 +40,7 @@
         <div id="left" style="width: 160px; position: absolute; left: 0px;">
             <ul>
                 <li><a class="selectd" href="Maker.aspx" target="rightwindow">页面管理</a></li>
+                <li><a href="TempleView.aspx" target="rightwindow">模板编辑 </a></li>
                 <li><a href="Tables.aspx" target="rightwindow">查看表结构 </a></li>
             </ul>
         </div>

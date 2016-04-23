@@ -42,7 +42,7 @@ namespace Tag.Vows.Tag
 
         protected new IHtmlAble SubPage;
 
-        private string BaseParams;
+        protected string BaseParams;
         public string ItemName { get; private set; }
         public string DataName { get; private set; }
         private Method BindList;
@@ -63,6 +63,7 @@ namespace Tag.Vows.Tag
             : base(mtext, origin, Deep, config, no_)
         {
             this.ParPageName = mParPageName;
+            this.Lev = 1;
         }
 
         public void SetUpperDataName(string upDataName, FieldType type)

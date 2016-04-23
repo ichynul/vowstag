@@ -45,8 +45,8 @@ namespace Tag.Vows.Page
     {
         //
         protected TagConfig Config;
-        private string Extends = "TagPage";
-        private string SubpageExtends = "SubControl";
+        private string Extends;
+        private string SubpageExtends;
         private bool? CallBack = null;
         private bool ValidateRequest = true;
         private bool EnableViewState = false;
@@ -71,8 +71,8 @@ namespace Tag.Vows.Page
         protected string[] colors = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
         protected BasePage() { }
 
-        public BasePage(string mPageName, TagConfig config)
-            : this(string.Empty, mPageName, 1, config)
+        public BasePage(string mPageName, TagConfig config, bool justGetTagList)
+            : this(string.Empty, mPageName, 1, config, justGetTagList)
         {
         }
 
@@ -83,10 +83,10 @@ namespace Tag.Vows.Page
         /// <param name="mPageName">页面名称,如: somepage </param>
         /// <param name="mDeep">嵌套深度</param>
         /// <param name="config">配置信息</param>
-        public BasePage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config)
+        /// <param name="justGetTagList">是否仅获取页面内标签列表</param>
+        internal BasePage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config, bool justGetTagList)
         {
             config.Init();
-            this.HtmlpPath = string.IsNullOrEmpty(mHtmlpPath) ? config.PagePath : mHtmlpPath;
             this.Config = config;
             this.Extends = config.DefaultBase;
             this.SubpageExtends = config.DefaultUCBase;
@@ -97,7 +97,24 @@ namespace Tag.Vows.Page
                 this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXD_EEP);
                 return;
             }
-            GetTegs(false);
+            if (justGetTagList) //仅获取标签列表是，直接传入要解析的文件物理路径
+            {
+                this.HtmlpPath = mPageName;
+                try
+                {
+                    Html = File.ReadAllText(HtmlpPath);
+                }
+                catch (Exception e)
+                {
+                    Msg += string.Format("无法打开文件:{0}。  {1}", HtmlpPath, e.Message);
+                }
+            }
+            else// 设置文件路径
+            {
+                this.HtmlpPath = string.IsNullOrEmpty(mHtmlpPath) ? config.PagePath : mHtmlpPath;
+                ReadFile();
+            }
+            GetTegs();
         }
 
         /// <summary>
@@ -107,7 +124,7 @@ namespace Tag.Vows.Page
         /// <param name="mDeep">嵌套深度</param>
         /// <param name="config">配置信息</param>
         /// <param name="fakeName">虚拟的页面名称</param>
-        public BasePage(string style, int mDeep, TagConfig config, string fakeName)
+        internal BasePage(string style, int mDeep, TagConfig config, string fakeName)
         {
             this.Config = config;
             this.Extends = config.DefaultBase;
@@ -120,58 +137,73 @@ namespace Tag.Vows.Page
                 this.Msg += string.Format("{0}-镶套层数达到{1}层，为防止循环套用已停止解析。<br />", this.PageName, config.MAXD_EEP);
                 return;
             }
-            GetTegs(true);
+            GetTegs();
         }
 
+
+        private void ReadFile()
+        {
+            if (!Directory.Exists(HtmlpPath))
+            {
+                Msg += string.Format("不存在该路径：{0}<br />", HtmlpPath);
+                Html = string.Format("<!--不存在该路径：{0} -->", HtmlpPath);
+                return;
+            }
+            string templatePath = HtmlpPath + PageName + ".html";
+            if (!File.Exists(templatePath))
+            {
+                templatePath = HtmlpPath + PageName + ".htm";
+                ext = ".htm";
+            }
+            if (!File.Exists(templatePath))
+            {
+                templatePath = HtmlpPath + PageName + ".txt";
+                ext = ".txt";
+            }
+            if (!File.Exists(templatePath))
+            {
+                Msg += string.Format("不存在该文件：{0}，请检查文件名或文件后缀（支持*.html、*.htm、*.txt）<br />", templatePath);
+                Html = string.Format("<!--不存在该文件：{0} -->", templatePath);
+                return;
+            }
+            try
+            {
+                Html = File.ReadAllText(templatePath);
+            }
+            catch (Exception e)
+            {
+                Msg += string.Format("无法打开文件:{0}。  {1}", templatePath, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取页面错误信息
+        /// </summary>
+        /// <returns></returns>
         public string GetMsg()
         {
             return this.Msg;
         }
 
+
+        /// <summary>
+        /// 获取页面标签列表
+        /// </summary>
+        /// <returns></returns>
+        public List<BaseTag> GetTagList()
+        {
+            this.MakePage();
+            return this.TagList;
+        }
+
         /// <summary>
         /// 解析所有标签
         /// </summary>
-        /// <param name="style">是否是以文本初始化</param>
-        protected void GetTegs(bool style)
+        protected void GetTegs()
         {
-            if (!style)//以路径初始化，读取指定文件内容
-            {
-                if (!Directory.Exists(HtmlpPath))
-                {
-                    Msg += string.Format("不存在该路径：{0}<br />", HtmlpPath);
-                    Html = string.Format("<!--不存在该路径：{0} -->", HtmlpPath);
-                    return;
-                }
-                string templatePath = HtmlpPath + PageName + ".html";
-                if (!File.Exists(templatePath))
-                {
-                    templatePath = HtmlpPath + PageName + ".htm";
-                    ext = ".htm";
-                }
-                if (!File.Exists(templatePath))
-                {
-                    templatePath = HtmlpPath + PageName + ".txt";
-                    ext = ".txt";
-                }
-                if (!File.Exists(templatePath))
-                {
-                    Msg += string.Format("不存在该文件：{0}，请检查文件名或文件后缀（支持*.html、*.htm、*.txt）<br />", templatePath);
-                    Html = string.Format("<!--不存在该文件：{0} -->", templatePath);
-                    return;
-                }
-                try
-                {
-                    Html = File.ReadAllText(templatePath);
-                }
-                catch (Exception e)
-                {
-                    Msg += string.Format("无法打开文件:{0}。  {1}", templatePath, e.Message);
-                    return;
-                }
-            }
             if (string.IsNullOrEmpty(Html))
             {
-                Msg += string.Format("无内容，已终止。");
+                Msg += string.Format("页面无内容，已停止解析。<br />");
                 return;
             }
             Html = Config.GetingHtml(Html);
@@ -202,6 +234,8 @@ namespace Tag.Vows.Page
             }
             DoForRead();
         }
+
+
 
         /// <summary>
         /// 服务端代码安全检测 禁用 &lt;% ...%&gt;和%&lt;cript runat="server"&gt;....&lt;/script&gt;
@@ -838,7 +872,7 @@ namespace Tag.Vows.Page
         {
             if (string.IsNullOrEmpty(Html))
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n");
+                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home", " -->\r\n");
                 return;
             }
             TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
@@ -848,7 +882,7 @@ namespace Tag.Vows.Page
             }
             else
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n", Html);
+                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home", " -->\r\n", Html);
             }
         }
 
@@ -897,7 +931,7 @@ namespace Tag.Vows.Page
             AspxCsCode.AppendFormat("//    如果重新生成代码，则将覆盖对此文件的手动更改。\r\n");
             AspxCsCode.AppendFormat("// </auto-generated>\r\n");
             AspxCsCode.AppendFormat("//------------------------------------------------------------------------------\r\n");
-            AspxCsCode.AppendFormat("/*  Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home  */\r\n\r\n");
+            AspxCsCode.AppendFormat("/*  Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home  */\r\n\r\n");
             AspxCsCode.AppendFormat("public partial class {0} : {1}\r\n", className, type[3]);
             AspxCsCode.Append("{\r\n");
             AspxCsCode.Append(GloabalFileds);
