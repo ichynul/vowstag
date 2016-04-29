@@ -331,7 +331,6 @@ namespace Tag.Vows.Data
                             w.VarName = vname;
                             continue;
                         }
-
                         m = Regex.Match(w.VarName, @"^DateTime\.Now$");
                         if (m.Success)
                         {
@@ -707,6 +706,10 @@ namespace Tag.Vows.Data
                     else if (w.FiledName == "take")
                     {
                         int.TryParse(w.VarName, out take);
+                        continue;
+                    }
+                    else if (w.FiledName == "page")
+                    {
                         continue;
                     }
                     else if (w.FiledName == "item")
