@@ -15,24 +15,25 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16294_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16110_3" runat="server"></asp:PlaceHolder><!--引入label-->
         <!--   label = notice   用label标签加载文件notice(/label/head.html)中的内容到当前位置-->
     </div>
     <div class="navi">
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
         <!--引入static-->
     </div>
     <div class="main">
         <div class="articles">
-            <asp:PlaceHolder ID="ListTag_67534_5" runat="server"></asp:PlaceHolder>
-<asp:Literal ID="empty_ListTag_67534_5" runat="server"></asp:Literal>
+            <asp:PlaceHolder ID="ListTag_67574_5" runat="server"></asp:PlaceHolder>
+<asp:Literal ID="empty_ListTag_67574_5" runat="server"></asp:Literal>
 
             <!--   list = category ?          用list标签读取表'Category'（表名可忽略大小写）中的数据 ? 后为标签的参数-->
             <!--   orderby = id               按字段ID（可忽略大小写）排序-->

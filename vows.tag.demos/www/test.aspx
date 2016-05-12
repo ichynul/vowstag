@@ -9,24 +9,24 @@
 </head>
 <body>
     
-<asp:Repeater ID="ListTag_24905_1" runat="server">
+<asp:Repeater ID="ListTag_2496_1" runat="server">
     <ItemTemplate><!--不分页3条-->
     <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# SubString(Eval("Title"),15) %></a>
         <span class="time"><%# Eval("Time") %></span> </li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_24905_1" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_2496_1" runat="server"></asp:Literal>
 
     <hr />
     <!--label中的read  读取那条ID为4的文章-->
-    <a style="color: Red;" href="read.aspx?id=<% =ReadTag_17905_5.ID %>"><% =ReadTag_17905_5.Title %><% = SubString(ReadTag_17905_5.Title,15) %><!--限制标题最多15个字--></a>
-<asp:Repeater ID="ListTag_57905_9" runat="server">
+    <a style="color: Red;" href="read.aspx?id=<% =ReadTag_1796_5.ID %>"><% =ReadTag_1796_5.Title %><% = SubString(ReadTag_1796_5.Title,15) %><!--限制标题最多15个字--></a>
+<asp:Repeater ID="ListTag_57618_9" runat="server">
     <ItemTemplate><!--不分页3条-->
     <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# SubString(Eval("Title"),15) %></a>
         <span class="time"><%# Eval("Time") %></span> </li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_57905_9" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_57618_9" runat="server"></asp:Literal>
 <form id="form1" runat="server">
     <script type="text/javascript">
         /* ajax 脚本支持 Created by VowsTag */

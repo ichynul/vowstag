@@ -95,8 +95,8 @@ namespace Tag.Vows.Tool
             ReadTest = new Regex(string.Concat(tagLeft, "read=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             FormTest = new Regex(string.Concat(tagLeft, "form=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             JsonTest = new Regex(string.Concat(tagLeft, "json=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            LabelTest = new Regex(string.Concat(tagLeft, @"label=\w+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            StaticTest = new Regex(string.Concat(tagLeft, @"static=\w+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            LabelTest = new Regex(string.Concat(tagLeft, @"label=[\w\-]+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            StaticTest = new Regex(string.Concat(tagLeft, @"static=[\w\-]+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             FiledTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*(?:\[""\w+""\])?/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             MethodTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*\([^\)]*\)/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             PagerTest = new Regex(string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight)
@@ -145,8 +145,8 @@ namespace Tag.Vows.Tool
             #endregion
 
             #region 标签内部字段提取正则表达式
-            DataNameRegex = new Regex(string.Concat(@"(?<=(?:list|read|label||form|json)=)\w+?(?=(\?|/?", tagRight, "))"), RegexOptions.IgnoreCase);
-            ItemPathRegex = new Regex(@"(?<=item=)\w+?(?=&|\||<[bh]r/?>|$)", RegexOptions.IgnoreCase);
+            DataNameRegex = new Regex(string.Concat(@"(?<=(?:list|read|label||form|json)=)[\w\-]+?(?=(\?|/?", tagRight, "))"), RegexOptions.IgnoreCase);
+            ItemPathRegex = new Regex(@"(?<=item=)[\w\-]+?(?=&|\||<[bh]r/?>|$)", RegexOptions.IgnoreCase);
             BaseParamsRegex = new Regex(string.Concat(@"(?<=\?).*?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
             FiledObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
             MethodObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*\([^\)]*\)(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);

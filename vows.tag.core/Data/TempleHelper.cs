@@ -1214,7 +1214,7 @@ namespace Tag.Vows.Data
             {
                 return tb.GetType().Name;
             }
-            return string.Format("/*{0} 不存在的表{1} */", tableName);
+            return string.Format("/*{0} 不存在的表{1} */", "" + tableName);
         }
 
         internal HashSet<string> GetFields(string tableName)

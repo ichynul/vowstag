@@ -12,52 +12,53 @@
     <% if (Request.QueryString["kwd"] !="22") %>
 <% { %> 
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
  
         <% if (Request.QueryString["kwd"] =="2") %>
 <% { %>
-            <asp:PlaceHolder ID="LabelTag_15382_3" runat="server"></asp:PlaceHolder>
+            <asp:PlaceHolder ID="LabelTag_15972_3" runat="server"></asp:PlaceHolder>
             <% if (Request.QueryString["xx"]=="oo") %>
 <% { %>
                 
-<asp:Repeater ID="ListTag_20919_4" runat="server">
+<asp:Repeater ID="ListTag_20735_4" runat="server">
     <ItemTemplate>
                     <%# Eval("Title") %>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_20919_4" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_20735_4" runat="server"></asp:Literal>
 
             <% } %>
 
         <% } %>
 
     <% } %>
-<asp:Repeater ID="ListTag_26919_6" runat="server">
+<asp:Repeater ID="ListTag_26258_6" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_26919_6Empty) %>
+            <% if (ListTag_26258_6Empty) %>
 <% { %>
 
                 xxoo
             
 <% } %>
-<asp:Repeater ID="ListTag_37919_10" runat="server">
+<asp:Repeater ID="ListTag_37258_10" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_37919_10Empty) %>
+            <% if (ListTag_37258_10Empty) %>
 <% { %>
 
                 xxoo

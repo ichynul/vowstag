@@ -48,8 +48,8 @@ public partial class WebMana_Temple_ViewPage : System.Web.UI.Page
 
             foreach (var x in taglist)
             {
-                sb.AppendFormat("<li data-no='{0}'><span>{1}</span>{2}</li>", x.no_, x.text.Replace(">", "&gt;").Replace("<", "&lt;"),
-                    !string.IsNullOrEmpty(x.style) ? "<textarea cols='40' rows='5'>" + x.style + "</textarea>" : "");
+                sb.AppendFormat("<li data-no='{0}'><span title='{2}'>{1}</span></li>", x.no_, x.text.Replace(">", "&gt;").Replace("<", "&lt;"),
+                      ("" + x.style).Replace(">", "&gt;").Replace("<", "&lt;"));
             }
             sb.Append("</ul>");
             tagList.Text = sb.ToString();

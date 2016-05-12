@@ -14,27 +14,28 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16747_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16637_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
     <div class="main">
         <div class="location">
             当前位置：<a href="index.aspx"><% = config.webname %></a>
-                        &gt;<a><% =ReadTag_31286_6.Name %></a>
+                        &gt;<a><% =ReadTag_31176_6.Name %></a>
                     </div>
         <div class="articles">
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_73286_8" runat="server">
+<asp:Repeater ID="ListTag_73698_8" runat="server">
     <ItemTemplate><!--每页显示4条->
                 <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>&page=<% = page %>"><%# Eval("Title") %></a> <span class="time">
@@ -45,10 +46,10 @@
                 </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_73286_8" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_73698_8" runat="server"></asp:Literal>
 
             </ul>
-            <asp:Literal ID="PagerTag_17286_15" runat="server"></asp:Literal><!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
+            <asp:Literal ID="PagerTag_17698_15" runat="server"></asp:Literal><!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
         </div>
     </div>
     <div class="foot">

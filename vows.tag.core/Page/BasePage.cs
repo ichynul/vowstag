@@ -50,6 +50,7 @@ namespace Tag.Vows.Page
         private bool? CallBack = null;
         private bool ValidateRequest = true;
         private bool EnableViewState = false;
+        private bool JustGetTagList = false;
         //
         private string TagCallBack = "";
         public string Html { get; protected set; }
@@ -87,6 +88,7 @@ namespace Tag.Vows.Page
         internal BasePage(string mHtmlpPath, string mPageName, int mDeep, TagConfig config, bool justGetTagList)
         {
             config.Init();
+            this.JustGetTagList = justGetTagList;
             this.Config = config;
             this.Extends = config.DefaultBase;
             this.SubpageExtends = config.DefaultUCBase;
@@ -213,7 +215,7 @@ namespace Tag.Vows.Page
                 DissAbleServerScript();
             }
             ReplaceSpacesAndMatchAll();
-            if (!this.Config.convert)
+            if (!this.Config.convert && !this.JustGetTagList)
             {
                 RePathJsCssImg();
             }
@@ -455,7 +457,7 @@ namespace Tag.Vows.Page
             {
                 gc = Matches[i].Groups;
                 src = gc["src"].Value;
-                if (r.Contains(src))
+                if (string.IsNullOrEmpty(src) || r.Contains(src))
                 {
                     continue;
                 }

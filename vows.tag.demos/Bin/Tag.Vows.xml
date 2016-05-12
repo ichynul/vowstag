@@ -337,6 +337,45 @@
             页码
             </summary>
         </member>
+        <member name="T:Tag.Vows.Bean.ShowTag">
+            <summary>
+            ShowTag bean
+            </summary>
+        </member>
+        <member name="M:Tag.Vows.Bean.ShowTag.#ctor(System.Int32,System.String,System.String,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="n">no_</param>
+            <param name="t">text</param>
+            <param name="o">origin</param>
+            <param name="i">in_pairs</param>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.no_">
+            <summary>
+            no_
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.text">
+            <summary>
+            text
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.origin">
+            <summary>
+            origin
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.in_pairs">
+            <summary>
+            in_pairs
+            </summary>
+        </member>
+        <member name="F:Tag.Vows.Bean.ShowTag.style">
+            <summary>
+            style
+            </summary>
+        </member>
         <member name="T:Tag.Vows.Web.Pager">
             <summary>
             2015/07/25
@@ -950,45 +989,6 @@
              <summary>
             Method 的摘要说明
              </summary>
-        </member>
-        <member name="T:Tag.Vows.Bean.ShowTag">
-            <summary>
-            ShowTag bean
-            </summary>
-        </member>
-        <member name="M:Tag.Vows.Bean.ShowTag.#ctor(System.Int32,System.String,System.String,System.Boolean)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="n">no_</param>
-            <param name="t">text</param>
-            <param name="o">origin</param>
-            <param name="i">in_pairs</param>
-        </member>
-        <member name="F:Tag.Vows.Bean.ShowTag.no_">
-            <summary>
-            no_
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Bean.ShowTag.text">
-            <summary>
-            text
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Bean.ShowTag.origin">
-            <summary>
-            origin
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Bean.ShowTag.in_pairs">
-            <summary>
-            in_pairs
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Bean.ShowTag.style">
-            <summary>
-            style
-            </summary>
         </member>
     </members>
 </doc>

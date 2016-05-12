@@ -15,15 +15,16 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16302_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16342_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
@@ -37,19 +38,19 @@
                 分页 默认会以第一个字段、降序排列，分页3条</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_2620_6" runat="server">
+<asp:Repeater ID="ListTag_26806_6" runat="server">
     <ItemTemplate><!--分页3条-->
                 <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_2620_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_26806_6" runat="server"></asp:Literal>
 
             </ul>
             <div id="kkpager" class="tcdPageCode">
             </div>
             <!-- 分页标签，一个页面最多只能有一个分页的list，最多一个分页标签-->
-            <asp:Literal ID="PagerTag_17542_10" runat="server"></asp:Literal><!--tpey=js，前端分页(可以用第三方分页实现个性化分页)，会在标签出输出分页需要的隐藏信息 -->
+            <asp:Literal ID="PagerTag_17806_10" runat="server"></asp:Literal><!--tpey=js，前端分页(可以用第三方分页实现个性化分页)，会在标签出输出分页需要的隐藏信息 -->
             <div>
                 <h4>
                     ----输出分页信息----</h4>
@@ -135,12 +136,12 @@
                 以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_41542_11" runat="server">
+<asp:Repeater ID="ListTag_41806_11" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_41542_11" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_41806_11" runat="server"></asp:Literal>
 
                 <!--读一条看看。因为不需要包含样式，所以以单标签的形式-->
                 <!--item=listTag_item 样式文件位于 /item/listTag_item.html(文件扩展名可以是.html/.htm/.txt)-->
@@ -151,12 +152,12 @@
                 逻辑且'&',查询条件之间用&分割表示逻辑且(短路的，实际效果为&&,书写的时候不要写成&&),逻辑关系与标签指令（orderby、desc、take、skip、item等）无书写位置的限定</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_5465_12" runat="server">
+<asp:Repeater ID="ListTag_54328_12" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_5465_12" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_54328_12" runat="server"></asp:Literal>
 
                 <!--id>=3    id大于等于3-->
                 <!--id<999   且id小于99-->
@@ -168,12 +169,12 @@
                 逻辑或'|'(短路的，实际效果为||),</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_7765_13" runat="server">
+<asp:Repeater ID="ListTag_77328_13" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_7765_13" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_77328_13" runat="server"></asp:Literal>
 
                 <!--id=3    id等于3-->
                 <!--id=6    或id等于6-->
@@ -187,12 +188,12 @@
                 文本包含'%'、不包含'!%'</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_67586_14" runat="server">
+<asp:Repeater ID="ListTag_67850_14" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_67586_14" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_67850_14" runat="server"></asp:Literal>
 
                 <!--titel%人          标题不包含'O'字母-->
                 <!--content!%"二B"    正文不包含"二 B"，此处文字外有引号（文字中有空格的，要用引号，否则可以省去）-->
@@ -205,12 +206,12 @@
                 时间，支持DateTime.Now的形式</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_76109_15" runat="server">
+<asp:Repeater ID="ListTag_76373_15" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_76109_15" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_76373_15" runat="server"></asp:Literal>
 
                 <!--time>2015/12/25 12:25:54          录入日期 在2015/12/25 12:15:54之后的。时间用'-'或'/'分割-->
                 <!--time < DateTime.Now               今天之后后的-->
@@ -221,12 +222,12 @@
                 session、cookie、后端变量</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_82109_16" runat="server">
+<asp:Repeater ID="ListTag_82895_16" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_82109_16" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_82895_16" runat="server"></asp:Literal>
 
                 <!--uid=session.uid           与session值比较-->
                 <!--uid=user.ID               与后端变量比较，注意字段区分大小写-->
@@ -238,13 +239,13 @@
                 受保护的表</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_22631_17" runat="server">
+<asp:Repeater ID="ListTag_22895_17" runat="server">
     <ItemTemplate><!--受保护的表'Admin'，无法使用-->
                 <li>用户名：<%# Eval("Username") %><br />
                     密码：<%# Eval("Password") %></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_22631_17" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_22895_17" runat="server"></asp:Literal>
 
             </ul>
         </div>

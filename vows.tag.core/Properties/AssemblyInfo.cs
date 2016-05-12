@@ -33,5 +33,5 @@ using System.Resources;
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.3.0.0")]
-[assembly: AssemblyFileVersion("1.3.2016.0422")]
+[assembly: AssemblyFileVersion("1.3.2016.0509")]
 [assembly: NeutralResourcesLanguage("zh-CN")]

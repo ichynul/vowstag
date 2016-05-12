@@ -13,18 +13,19 @@
 
 </head>
 <body>
-    <!-- CMDTag_43722_4 -->
+    <!-- CMDTag_43535_4 -->
     <!--callback=true指令可以不要，因为页面含有form（或json）标签，将会自动启用clllback支持 -->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16722_5" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16580_5" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
@@ -34,8 +35,8 @@
                         &gt;formTag
         </div>
         <div class="form">
-            <!-- ReadTag_30350_8 --><!--用read来绑定数据-->
-            <!-- FormTag_65872_9 --><!--用form来提交数据，一个页面只能有一个from标签-->
+            <!-- ReadTag_30166_8 --><!--用read来绑定数据-->
+            <!-- FormTag_65688_9 --><!--用form来提交数据，一个页面只能有一个from标签-->
             <!--allowempty=author,view 指定 author、view 两个字段可以为空值(不填)，不指定的字段默认不允许为空 -->
             <!--action =edit 执行 '修改'有则修改,无则返回错误。该参数可选值 both[默认]（添加/修改）|add（只添加）|edit（只修改） -->
             <form id="form1" runat="server">
@@ -73,7 +74,7 @@
                     rows="10"><% =read.Content %></textarea>
             </div>
             <div style="clear: both; margin-left: 50px;">
-                <input type="button" class="button" value="保存" onclick="_tagcall.form('FormTag_65872_9',true); return false;" /><!-- 最好不要用 type="submit"-->
+                <input type="button" class="button" value="保存" onclick="_tagcall.form('FormTag_65688_9',true); return false;" /><!-- 最好不要用 type="submit"-->
                 <!--_tagcall.form('',true); return false;为占位符，将生成 '_tagcall.form('form1',true); return false;'这里可以直接写后者-->
                 <input type="reset" class="button" value="重置" />
                 <input type="button" class="button" value="返回" onclick="location.href='jsonTag.aspx?backpage=<% = Request.QueryString["page"] %>'" />

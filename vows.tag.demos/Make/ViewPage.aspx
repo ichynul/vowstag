@@ -13,7 +13,7 @@
         #viewdiv
         {
             height: 100%;
-            overflow:auto;
+            overflow: auto;
         }
         
         table, th, td
@@ -36,6 +36,19 @@
         {
             margin: 0;
             padding: 0;
+        }
+        #tagList
+        {
+            float: left;
+            width: 100%;
+            height: 200px;
+            overflow:auto;
+        }
+        #tagList li
+        {
+            float: left;
+            padding: 3px;
+            list-style: none;
         }
     </style>
 </head>
@@ -112,8 +125,8 @@
         $(function () {
             $("#viewdiv").width($(window).width() - 10);
             $("#viewdiv").height($(window).height() - 50);
-            $("#Content").width($(window).width() - 20);
-            $("#Content").height($(window).height() - 150);
+            $("#Content").width($(window).width() - 40);
+            $("#Content").height($(window).height() - 220 - $('#tagList').height());
             if ($("#editable").val() == "yes") {
                 editAreaLoader.init({
                     id: "Content"	// id of the textarea to transform		

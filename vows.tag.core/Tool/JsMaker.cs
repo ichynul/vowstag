@@ -66,9 +66,9 @@ namespace Tag.Vows.Tool
             script.Append("            },\r\n");
             script.Append("            error: function (error ,context)//异步发起请求错误\r\n");
             script.Append("            {\r\n");
-            script.Append("                if (window.console);\r\n");
+            script.Append("                if (typeof(window.console) != undefined)\r\n");
             script.Append("                {\r\n");
-            script.Append("                    window.console.log( '出错了！--' + error );\r\n");
+            script.Append("                    window.console.debug( '出错了！--' + error );\r\n");
             script.Append("                }\r\n");
             script.Append("                //看是否有处理的方法\r\n");
             script.Append("                if (typeof(CallbackError) == 'function' )\r\n");

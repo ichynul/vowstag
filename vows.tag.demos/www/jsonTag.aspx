@@ -15,14 +15,15 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16252_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16635_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="navi">
         <ul class="navilist">
-    <li><a href="index.aspx">首页</a></li>
+    <li><a href="/">首页</a></li>
     <li><a href="listTag.aspx">listTag</a></li>
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
@@ -35,12 +36,12 @@
             <ul class="categslist" id="switch">
                 <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 
-<asp:Repeater ID="ListTag_45537_6" runat="server">
+<asp:Repeater ID="ListTag_45964_6" runat="server">
     <ItemTemplate>
                 <li><a href="javascript:;" onclick="change(this,'<%# Eval("ID") %>');"><%# Eval("Name") %></a></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_45537_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_45964_6" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -77,10 +78,10 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "JsonTag_71582_11";
+            var jsonname = "JsonTag_71964_11";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
-                jsonname = "JsonTag_85582_12";
+                jsonname = "JsonTag_85964_12";
                 //categ = call.cid 中 call.cid为一个占位符(类似于request.xxx) 代表call参数中的cid值
             }
             _tagcall.json(jsonname, "page=" + page + '&cid=' + type); ///  在这里指定cid的值
