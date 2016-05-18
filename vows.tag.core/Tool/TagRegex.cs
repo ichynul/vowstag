@@ -114,9 +114,9 @@ namespace Tag.Vows.Tool
             FormValue = new Regex(@"form\.\w+\b", RegexOptions.IgnoreCase);
             NormalIndex = new Regex(@"^.*?(\[[\w""]+\]).*?$", RegexOptions.IgnoreCase);
             /********other tests*******/
-            JsCssImageTest = new Regex(@"<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:js|css|png|jpg|jpeg|gif|bmp))['""]"
+            JsCssImageTest = new Regex(@"<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:js|css|png|jpg|jpeg|gif|bmp|svg))['""]"
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            CssBgTest = new Regex(@"background(?:\-image)?\s*:.*?url\s*\(['""]?(?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:png|jpg|jpeg|gif|bmp))\s*['""]?\)"
+            CssBgTest = new Regex(@"background(?:\-image)?\s*:.*?url\s*\(['""]?(?<src>(?:\.\./)?[\w\-][\w\-\.]*/.*?\.(?:png|jpg|jpeg|gif|bmp|svg))\s*['""]?\)"
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ThisDirTest = new Regex(@"^[\w\-][\w\-\.]*/.*$", RegexOptions.IgnoreCase);
             OtherDirTest = new Regex(@"^\.\./[\w\-][\w\-\.]*/.*$", RegexOptions.IgnoreCase);

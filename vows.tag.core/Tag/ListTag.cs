@@ -38,7 +38,7 @@ namespace Tag.Vows.Tag
     class ListTag : StyleAbleTag, IIGlobalMethod, IDeepLoadAble, ISubAble
         , IGlobalField, IUpperDataAble, ITableUseable, ITesBeforLoading
     {
-        public const string FakeItemStr = "/x-item-fake-x/";
+        public const string FakeItemStr = "-x-item-fake-x-";
 
         protected new IHtmlAble SubPage;
 

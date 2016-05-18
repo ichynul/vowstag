@@ -32,7 +32,7 @@ namespace Tag.Vows.Tag
 {
     class EmptyTag : BaseTag
     {
-        public const string FakeNameStr = "/x-empty-fake-x/";
+        public const string FakeNameStr = "-x-empty-fake-x-";
 
         public EmptyTag(string mtext, string mOrigin, int Deep, TagConfig config, int no_)
             : base(mtext, mOrigin, Deep, config, no_)
