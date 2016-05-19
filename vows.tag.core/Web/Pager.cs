@@ -107,7 +107,7 @@ namespace Tag.Vows.Web
             {
                 this.Link_to += "&";
             }
-            this.Link_to = Regex.Replace(this.Link_to , @"&{2,}", "&", RegexOptions.IgnoreCase);
+            this.Link_to = Regex.Replace(this.Link_to, @"&{2,}", "&", RegexOptions.IgnoreCase);
             this.GaculTotalPages();
         }
 
@@ -173,14 +173,18 @@ namespace Tag.Vows.Web
         public string MakeLinks()
         {
             htmlLinks = new StringBuilder();
-            if (PrevOrNext_show && Current_page > 1)
+            if (PrevOrNext_show)
             {
-                htmlLinks.AppendFormat("<a class='prev' href='{0}page={1}'>{2}</a>", Link_to, Current_page - 1, Prev_text);
+                if (Current_page > 1)
+                {
+                    htmlLinks.AppendFormat("<a class='prev' href='{0}page={1}'>{2}</a>", Link_to, Current_page - 1, Prev_text);
+                }
+                else
+                {
+                    htmlLinks.AppendFormat("<a class='disabled'>{0}</a>", Prev_text);
+                }
             }
-            else
-            {
-                htmlLinks.AppendFormat("<a class='disabled'>{0}</a>", Prev_text);
-            }
+
             List<int> drawed = new List<int>();
 
             for (int i = 1; i <= Num_edge; i += 1)
@@ -263,14 +267,16 @@ namespace Tag.Vows.Web
                     htmlLinks.AppendFormat("<span class='current'>{0}</span>", i);
                 }
             }
-
-            if (PrevOrNext_show && Current_page < TotalPage)
+            if (PrevOrNext_show)
             {
-                htmlLinks.AppendFormat("<a class='next' href='{0}page={1}'>{2}</a>", Link_to, Current_page + 1, Next_text);
-            }
-            else
-            {
-                htmlLinks.AppendFormat("<a class='disabled'>{0}</a>", Next_text);
+                if (Current_page < TotalPage)
+                {
+                    htmlLinks.AppendFormat("<a class='next' href='{0}page={1}'>{2}</a>", Link_to, Current_page + 1, Next_text);
+                }
+                else
+                {
+                    htmlLinks.AppendFormat("<a class='disabled'>{0}</a>", Next_text);
+                }
             }
             return htmlLinks.ToString();
         }

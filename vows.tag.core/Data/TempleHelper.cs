@@ -613,7 +613,7 @@ namespace Tag.Vows.Data
                     if (pager.type == PagerType.cs)
                     {
                         linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
-                            Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "fase");
+                            Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "false");
                         linq.AppendFormat("{0}{1}.Text = \"<div id='pager'>\" + pager.MakeLinks() +\"</div>\"; \r\n", Method.getSpaces(2), pager.GetTagName());
                     }
                     else
