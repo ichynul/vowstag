@@ -42,6 +42,9 @@ namespace Tag.Vows.Tag
         public int Num_display = 10;
         public string Prev_text = "上一页";
         public string Next_text = "下一页";
+        public string Dom = "div";
+        public string Dom_ID = "pager";
+        public string Dom_Class = "mypager";
         public string Ellipse_text = "...";
         public bool PrevOrNext_show = true;
 
@@ -101,6 +104,18 @@ namespace Tag.Vows.Tag
                                 else if (name == "ellipse")
                                 {
                                     Ellipse_text = value;
+                                }
+                                else if (name == "dom")
+                                {
+                                    Dom = value;
+                                }
+                                else if (name == "domid")
+                                {
+                                    Dom_ID = value;
+                                }
+                                else if (name == "domclass")
+                                {
+                                    Dom_Class = value;
                                 }
                             }
                         }

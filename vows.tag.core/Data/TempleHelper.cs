@@ -614,20 +614,19 @@ namespace Tag.Vows.Data
                     {
                         linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
                             Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "false");
-                        linq.AppendFormat("{0}{1}.Text = \"<div id='pager'>\" + pager.MakeLinks() +\"</div>\"; \r\n", Method.getSpaces(2), pager.GetTagName());
+                        linq.AppendFormat("{0}{1}.Text = \"<{2} id='{3}' class='{4}'>\" + pager.MakeLinks() +\"</div>\"; \r\n",
+                            Method.getSpaces(2), pager.GetTagName(), pager.Dom, pager.Dom_ID, pager.Dom_Class);
                     }
-                    else
-                    {
-                        linq.AppendFormat("{0}string urlparams = RemovePageParams(Request.RawUrl);\r\n", Method.getSpaces(2));
-                        linq.AppendFormat(
-                            "{0}{2}.Text = \"<div id='pagerinfo' style='display:none;'>\"\r\n{1}+ \"{3}\"\r\n{1}+ \"{4}\"\r\n{1}+ \"{5}\"\r\n{1} + \"{6}\"\r\n{1}+ \"\\r\\n</div>\";\r\n",
-                            Method.getSpaces(2), Method.getSpaces(4), pager.GetTagName(),
-                           "\\r\\n<input type='hidden' id='list_size' value='\" + totalsize + \"' data-info='总纪录条数' />",
-                            "\\r\\n<input type='hidden' id='num_per_page' value='\" + " + pagesize + " + \"' data-info='每页显示' />",
-                            "\\r\\n<input type='hidden' id='current_page' value='\" + page + \"' data-info='当前页' />",
-                            "\\r\\n<input type='hidden' id='current_url_params' value='\" + urlparams + \"' data-info='当前url参数（不带page参数）' />"
-                            );
-                    }
+                    //无论哪种分页方式，都输出分页信息
+                    linq.AppendFormat("{0}string urlparams = RemovePageParams(Request.RawUrl);\r\n", Method.getSpaces(2));
+                    linq.AppendFormat(
+                        "{0}{2}.Text = \"<div id='pagerinfo' style='display:none;'>\"\r\n{1}+ \"{3}\"\r\n{1}+ \"{4}\"\r\n{1}+ \"{5}\"\r\n{1} + \"{6}\"\r\n{1}+ \"\\r\\n</div>\";\r\n",
+                        Method.getSpaces(2), Method.getSpaces(4), pager.GetTagName(),
+                       "\\r\\n<input type='hidden' id='list_size' value='\" + totalsize + \"' data-info='总纪录条数' />",
+                        "\\r\\n<input type='hidden' id='num_per_page' value='\" + " + pagesize + " + \"' data-info='每页显示' />",
+                        "\\r\\n<input type='hidden' id='current_page' value='\" + page + \"' data-info='当前页' />",
+                        "\\r\\n<input type='hidden' id='current_url_params' value='\" + urlparams + \"' data-info='当前url参数（不带page参数）' />"
+                        );
                 }
                 else
                 {
