@@ -157,6 +157,23 @@ namespace Tag.Vows.Tag
                     this.Test = this.Test.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
                 }
             }
+            if (!string.IsNullOrEmpty(this.Dataname))
+            {
+                matches = this.Config.tagregex.ReadValue.Matches(this.Test);
+                if (matches.Count > 0)
+                {
+                    Dataname = Helper.GetTableName(Dataname);
+                    string readField = "";
+                    foreach (Match m in matches)
+                    {
+                        readField = Helper.GetModFieldName(Dataname, m.Value.Split('.')[1]);
+                        if (!string.IsNullOrEmpty(readField))
+                        {
+                            this.Test = this.Test.Replace(m.Value, string.Concat("read.", readField));
+                        }
+                    }
+                }
+            }
         }
 
         public void SetTestAndContent(string test, string content)
@@ -164,6 +181,7 @@ namespace Tag.Vows.Tag
             this.Test = test;
             this.Conttent = content;
             this.Test = Regex.Replace(this.Test, @"(?<=[^!=><])={1}(?=[^=])", "==");
+            this.Test = Regex.Replace(this.Test, @"={3,}", "==");
             this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
             this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
             CheckTestText();
@@ -199,10 +217,6 @@ namespace Tag.Vows.Tag
                     Lodas = new HashSet<ITesBeforLoading>();
                 }
                 this.Lodas.Add(tag);
-                if (tag is IfGroupTag)
-                {
-                    //this.Conttent = (tag as IfGroupTag).RecoverTagText(this.Conttent);
-                }
             }
         }
     }

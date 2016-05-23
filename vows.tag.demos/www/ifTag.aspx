@@ -9,7 +9,7 @@
 </head>
 <body>
  <input type="hidden" id="parentid" value="<% = Request.QueryString["p"] %>" />
-    <% if (Request.QueryString["kwd"] !="22") %>
+    <% if (Request.QueryString["kwd"] =="22") %>
 <% { %> 
         <ul class="navilist">
     <li><a href="/">首页</a></li>
@@ -22,43 +22,43 @@
  
         <% if (Request.QueryString["kwd"] =="2") %>
 <% { %>
-            <asp:PlaceHolder ID="LabelTag_15972_3" runat="server"></asp:PlaceHolder>
+            <asp:PlaceHolder ID="LabelTag_15461_3" runat="server"></asp:PlaceHolder>
             <% if (Request.QueryString["xx"]=="oo") %>
 <% { %>
                 
-<asp:Repeater ID="ListTag_20735_4" runat="server">
+<asp:Repeater ID="ListTag_20925_4" runat="server">
     <ItemTemplate>
                     <%# Eval("Title") %>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_20735_4" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_20925_4" runat="server"></asp:Literal>
 
             <% } %>
 
         <% } %>
 
     <% } %>
-<asp:Repeater ID="ListTag_26258_6" runat="server">
+<asp:Repeater ID="ListTag_26925_6" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_26258_6Empty) %>
+            <% if (ListTag_26925_6Empty) %>
 <% { %>
 
                 xxoo
             
 <% } %>
-<asp:Repeater ID="ListTag_37258_10" runat="server">
+<asp:Repeater ID="ListTag_37925_10" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_37258_10Empty) %>
+            <% if (ListTag_37925_10Empty) %>
 <% { %>
 
                 xxoo
@@ -100,9 +100,9 @@
             },
             error: function (error ,context)//异步发起请求错误
             {
-                if (window.console);
+                if (typeof(window.console) != undefined)
                 {
-                    window.console.log( '出错了！--' + error );
+                    window.console.debug( '出错了！--' + error );
                 }
                 //看是否有处理的方法
                 if (typeof(CallbackError) == 'function' )
