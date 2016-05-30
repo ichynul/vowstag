@@ -874,7 +874,7 @@ namespace Tag.Vows.Page
         {
             if (string.IsNullOrEmpty(Html))
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home", " -->\r\n");
+                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n");
                 return;
             }
             TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
@@ -884,7 +884,7 @@ namespace Tag.Vows.Page
             }
             else
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home", " -->\r\n", Html);
+                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n", Html);
             }
         }
 
@@ -933,7 +933,7 @@ namespace Tag.Vows.Page
             AspxCsCode.AppendFormat("//    如果重新生成代码，则将覆盖对此文件的手动更改。\r\n");
             AspxCsCode.AppendFormat("// </auto-generated>\r\n");
             AspxCsCode.AppendFormat("//------------------------------------------------------------------------------\r\n");
-            AspxCsCode.AppendFormat("/*  Powered by VowsTag http://git.oschina.net/yuyunsichuang/vowstag/wikis/home  */\r\n\r\n");
+            AspxCsCode.AppendFormat("/*  Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home  */\r\n\r\n");
             AspxCsCode.AppendFormat("public partial class {0} : {1}\r\n", className, type[3]);
             AspxCsCode.Append("{\r\n");
             AspxCsCode.Append(GloabalFileds);
