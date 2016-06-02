@@ -180,10 +180,13 @@ namespace Tag.Vows.Tag
         {
             this.Test = test;
             this.Conttent = content;
-            this.Test = Regex.Replace(this.Test, @"(?<=[^!=><])={1}(?=[^=])", "==");
+            this.Test = Regex.Replace(this.Test, @"(?<=[^!=><])=(?=[^=])", "==");
+            this.Test = Regex.Replace(this.Test, @"(?<=[^&><])&(?=[^&])", "&&");
+            this.Test = Regex.Replace(this.Test, @"(?<=[^\|])\|(?=[^\|])", "||");
             this.Test = Regex.Replace(this.Test, @"={3,}", "==");
-            this.Test = Regex.Replace(this.Test, @"&{1}", "&&");
-            this.Test = Regex.Replace(this.Test, @"\|{1}", "||");
+            this.Test = Regex.Replace(this.Test, @"&{3,}", "&&");
+            this.Test = Regex.Replace(this.Test, @"\|{3,}", "||");
+
             CheckTestText();
         }
 
