@@ -22,43 +22,43 @@
  
         <% if (Request.QueryString["kwd"] =="2") %>
 <% { %>
-            <asp:PlaceHolder ID="LabelTag_15461_3" runat="server"></asp:PlaceHolder>
+            <asp:PlaceHolder ID="LabelTag_15850_3" runat="server"></asp:PlaceHolder>
             <% if (Request.QueryString["xx"]=="oo") %>
 <% { %>
                 
-<asp:Repeater ID="ListTag_20925_4" runat="server">
+<asp:Repeater ID="ListTag_20747_4" runat="server">
     <ItemTemplate>
                     <%# Eval("Title") %>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_20925_4" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_20747_4" runat="server"></asp:Literal>
 
             <% } %>
 
         <% } %>
 
     <% } %>
-<asp:Repeater ID="ListTag_26925_6" runat="server">
+<asp:Repeater ID="ListTag_26747_6" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_26925_6Empty) %>
+            <% if (ListTag_26747_6Empty) %>
 <% { %>
 
                 xxoo
             
 <% } %>
-<asp:Repeater ID="ListTag_37925_10" runat="server">
+<asp:Repeater ID="ListTag_37270_10" runat="server">
     <ItemTemplate><!--分页3条-->
         <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
             <%# Eval("Time") %></span> </li>
             
      </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_37925_10Empty) %>
+            <% if (ListTag_37270_10Empty) %>
 <% { %>
 
                 xxoo

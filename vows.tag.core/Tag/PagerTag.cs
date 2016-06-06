@@ -47,6 +47,7 @@ namespace Tag.Vows.Tag
         public string Dom_Class = "mypager";
         public string Ellipse_text = "...";
         public bool PrevOrNext_show = true;
+        public bool Allways_show = false;
 
         protected override string GetCodeForAspx()
         {
@@ -99,7 +100,11 @@ namespace Tag.Vows.Tag
                                 }
                                 else if (name == "next_prev_show")
                                 {
-                                    PrevOrNext_show = value == "1" || value == "true" || value == "yes";
+                                    PrevOrNext_show = value == "true";
+                                }
+                                else if (name == "allways_show")
+                                {
+                                    Allways_show = value == "true";
                                 }
                                 else if (name == "ellipse")
                                 {

@@ -244,7 +244,7 @@ namespace Tag.Vows.Tag
                 {
                     BindList.Body.Append(Helper.Linq_getList(this.DataName, this.BaseParams,
                                                         this.ItemFields, out ModType, this.UpDataname, out UpModType, Pager));
-                    BindList.Body.AppendFormat("{0}if (list.Count() == 0)\r\n", Method.getSpaces(2));
+                    BindList.Body.AppendFormat("{0}if (totalsize == 0)\r\n", Method.getSpaces(2));
                     BindList.Body.Append(Method.getSpaces(2) + "{\r\n");
                     EmptyTag empty = (this.SubPage as ItemPage).Empty;
                     if (empty != null)

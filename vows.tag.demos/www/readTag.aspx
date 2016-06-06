@@ -13,9 +13,9 @@
 
 </head>
 <body>
-    <!-- ReadTag_22497_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+    <!-- ReadTag_22125_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16497_5" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16647_5" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -50,18 +50,18 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_68647_15" runat="server">
+<asp:Repeater ID="ListTag_68112_15" runat="server">
     <ItemTemplate><!--此处用字段id与read参数比较 -->
                                 <a><%# Eval("Title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_68647_15" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_68112_15" runat="server"></asp:Literal>
 
                                 <span>下一篇：</span>
                 <!--用read标签读取下一篇-->
                 <!--全局read的字段可作为局部read的参数 -->
                 <!--此处用字段id与read.id(read标签的一个字段)比较-->
-                                <a><% =ReadTag_48647_17.Title %></a>
+                                <a><% =ReadTag_48112_17.Title %></a>
                                 <!--必须有结尾，一个页面中只能有一个全局read -->
                             </div>
         </div>
@@ -112,9 +112,9 @@
             },
             error: function (error ,context)//异步发起请求错误
             {
-                if (window.console);
+                if (typeof(window.console) != undefined)
                 {
-                    window.console.log( '出错了！--' + error );
+                    window.console.debug( '出错了！--' + error );
                 }
                 //看是否有处理的方法
                 if (typeof(CallbackError) == 'function' )

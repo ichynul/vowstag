@@ -85,7 +85,7 @@ namespace Tag.Vows.Tool
         public TagRegex(string tagLeft, string tagRight)
         {
 
-            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?\w+(?:>|<|!=|>=|<=|!%|=|%)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|"".*?""|"
+            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?\w+(?:>|<|!=|=|>=|<=|!%|%|!#|#)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|"".*?""|"
                             , @"(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|\w+\.\w+(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
             #region 标签正则表达式
             /********tag tests*******/

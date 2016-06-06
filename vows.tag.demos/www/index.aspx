@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16110_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16779_3" runat="server"></asp:PlaceHolder><!--引入label-->
         <!--   label = notice   用label标签加载文件notice(/label/head.html)中的内容到当前位置-->
     </div>
     <div class="navi">
@@ -32,8 +32,8 @@
     </div>
     <div class="main">
         <div class="articles">
-            <asp:PlaceHolder ID="ListTag_67574_5" runat="server"></asp:PlaceHolder>
-<asp:Literal ID="empty_ListTag_67574_5" runat="server"></asp:Literal>
+            <asp:PlaceHolder ID="ListTag_67542_5" runat="server"></asp:PlaceHolder>
+<asp:Literal ID="empty_ListTag_67542_5" runat="server"></asp:Literal>
 
             <!--   list = category ?          用list标签读取表'Category'（表名可忽略大小写）中的数据 ? 后为标签的参数-->
             <!--   orderby = id               按字段ID（可忽略大小写）排序-->
@@ -88,9 +88,9 @@
             },
             error: function (error ,context)//异步发起请求错误
             {
-                if (window.console);
+                if (typeof(window.console) != undefined)
                 {
-                    window.console.log( '出错了！--' + error );
+                    window.console.debug( '出错了！--' + error );
                 }
                 //看是否有处理的方法
                 if (typeof(CallbackError) == 'function' )

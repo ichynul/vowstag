@@ -610,18 +610,32 @@ namespace Tag.Vows.Data
                 linq.AppendFormat("{0}/*分页，每页显示{1};*/\r\n", Method.getSpaces(2), pagesize);
                 if (pager != null)
                 {
-                    linq.Append("/*"+pager.type + "*/\r\n");
+                    linq.Append("/*" + pager.type + "*/\r\n");
                     if (pager.type == PagerType.cs)
                     {
-                        linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
-                            Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "false");
-                        linq.AppendFormat("{0}{1}.Text = \"<{2} id='{3}' class='{4}'>\" + pager.MakeLinks() +\"</{2}>\"; \r\n",
-                            Method.getSpaces(2), pager.GetTagName(), pager.Dom, pager.Dom_ID, pager.Dom_Class);
+                        if (pager.Allways_show == true)//即使列表为空仍显示分页
+                        {
+                            linq.Append(Method.getSpaces(2) + "{\r\n");
+                            linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
+                                Method.getSpaces(2), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "false");
+                            linq.AppendFormat("{0}{1}.Text = \"<{2} id='{3}' class='{4}'>\" + pager.MakeLinks() +\"</{2}>\"; \r\n",
+                                Method.getSpaces(2), pager.GetTagName(), pager.Dom, pager.Dom_ID, pager.Dom_Class);
+                        }
+                        else
+                        {
+                            linq.AppendFormat("{0}if (totalsize > {1})\r\n", Method.getSpaces(2), pagesize);
+                            linq.Append(Method.getSpaces(2) + "{\r\n");
+                            linq.AppendFormat("{0}Pager pager= new Pager(totalsize, page, {1},Request.RawUrl, {2}, \"{3}\", \"{4}\", \"{5}\", {6});\r\n",
+                                Method.getSpaces(3), pagesize, pager.Num_edge, pager.Prev_text, pager.Next_text, pager.Ellipse_text, pager.PrevOrNext_show ? "true" : "false");
+                            linq.AppendFormat("{0}{1}.Text = \"<{2} id='{3}' class='{4}'>\" + pager.MakeLinks() +\"</{2}>\"; \r\n",
+                                Method.getSpaces(3), pager.GetTagName(), pager.Dom, pager.Dom_ID, pager.Dom_Class);
+                            linq.Append(Method.getSpaces(2) + "}\r\n");
+                        }
                     }
                     //无论哪种分页方式，都输出分页信息
                     linq.AppendFormat("{0}string urlparams = RemovePageParams(Request.RawUrl);\r\n", Method.getSpaces(2));
                     linq.AppendFormat(
-                        "{0}{2}.Text += \"\r\n<div id='pagerinfo' style='display:none;'>\"\r\n{1}+ \"{3}\"\r\n{1}+ \"{4}\"\r\n{1}+ \"{5}\"\r\n{1} + \"{6}\"\r\n{1}+ \"\\r\\n</div>\";\r\n",
+                        "{0}{2}.Text += \"\\r\\n<div id='pagerinfo' style='display:none;'>\"\r\n{1}+ \"{3}\"\r\n{1}+ \"{4}\"\r\n{1}+ \"{5}\"\r\n{1} + \"{6}\"\r\n{1}+ \"\\r\\n</div>\";\r\n",
                         Method.getSpaces(2), Method.getSpaces(4), pager.GetTagName(),
                        "\\r\\n<input type='hidden' id='list_size' value='\" + totalsize + \"' data-info='总纪录条数' />",
                         "\\r\\n<input type='hidden' id='num_per_page' value='\" + " + pagesize + " + \"' data-info='每页显示' />",
