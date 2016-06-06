@@ -610,7 +610,6 @@ namespace Tag.Vows.Data
                 linq.AppendFormat("{0}/*分页，每页显示{1};*/\r\n", Method.getSpaces(2), pagesize);
                 if (pager != null)
                 {
-                    linq.Append("/*" + pager.type + "*/\r\n");
                     if (pager.type == PagerType.cs)
                     {
                         if (pager.Allways_show == true)//即使列表为空仍显示分页
