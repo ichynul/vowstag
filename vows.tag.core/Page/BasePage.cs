@@ -69,7 +69,6 @@ namespace Tag.Vows.Page
         public List<BaseTag> TagList = new List<BaseTag>();
         public List<Method> MethodsInPage = new List<Method>();
         protected int Deep;
-        protected string[] colors = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
         protected BasePage() { }
 
         public BasePage(string mPageName, TagConfig config, bool justGetTagList)
@@ -1009,11 +1008,10 @@ namespace Tag.Vows.Page
             if (TagList.Count() > 0)
             {
                 StringBuilder sb = new StringBuilder();
-                Random ran = new Random(DateTime.Now.Second);
-                sb.AppendFormat("<ul style='border:1px solid #{0}'>", GetRandomColor(ran));
+                sb.AppendFormat("<ul style='border:1px solid #{0}'>", TagHelper.GetRandomColor());
                 foreach (var c in TagList)
                 {
-                    sb.AppendFormat("<li style='border:1px solid #{0};margin-left:{1}px;'>{2}</li>", GetRandomColor(ran), Deep * 15, c.ToTagString());
+                    sb.AppendFormat("<li style='border:1px solid #{0};margin-left:{1}px;'>{2}</li>", TagHelper.GetRandomColor(), Deep * 15, c.ToTagString());
                 }
                 sb.Append("</ul>");
                 return sb.ToString();
@@ -1022,12 +1020,6 @@ namespace Tag.Vows.Page
             {
                 return "<div>此页面无标签</div>";
             }
-        }
-
-
-        private string GetRandomColor(Random ran)
-        {
-            return "" + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)] + colors[ran.Next(15)];
         }
 
         public string GetPageName()

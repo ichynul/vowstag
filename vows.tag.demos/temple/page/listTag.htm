@@ -163,6 +163,28 @@
         </div>
         <div class="articles">
             <p class="about">
+                记录为空简单文本提示</p>
+            <ul class="articlelist">
+                {#list=article? id < 0 &item=listTag_item &emptytext=没有id小于0的记录 /}
+                <!--emptytext支持简单的纯文本 -->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
+                记录为空复杂文本提示</p>
+            <ul class="articlelist">
+                {#list=article? id < 0 }<!--不使用item外部文件样式-->
+                <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+                    {#item.time}</span> </li>
+                {#empty}<!---->
+                <li>没有id小于<b style="color: Red;">0</b>的记录 ~!~ </li>
+                {#empty}<!---->
+                {#list}
+                <!--empty标签支持任意复制文本 -->
+            </ul>
+        </div>
+        <div class="articles">
+            <p class="about">
                 时间，支持DateTime.Now的形式</p>
             <ul class="articlelist">
                 {#list=article? time>2015/12/25 12:25:54&time > DateTime.Now&item=listTag_item /}

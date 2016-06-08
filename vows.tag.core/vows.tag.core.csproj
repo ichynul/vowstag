@@ -102,6 +102,7 @@
     <Compile Include="Tag\StyleAbleTag.cs" />
     <Compile Include="Tool\JsMaker.cs" />
     <Compile Include="Tool\TagConfig.cs" />
+    <Compile Include="Tool\TagHelper.cs" />
     <Compile Include="Tool\TagRegex.cs" />
     <Compile Include="Tool\Tools.cs" />
     <Compile Include="Web\CallBackResult.cs" />
