@@ -170,29 +170,6 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
-        /// callBack请求的键值对
-        /// </summary>
-        protected NameValueCollection CallString
-        {
-            get
-            {
-                if (this._CallString == null)
-                {
-                    _CallString = new NameValueCollection();
-                    if (!string.IsNullOrEmpty(this._callBackstr))
-                    {
-                        var matches = Regex.Matches(_callBackstr, @"(?<=^|&)\s*(?<key>\w+)\s*=(?<value>.*?)(?=&|$)", RegexOptions.Singleline);
-                        foreach (Match kv in matches)
-                        {
-                            _CallString.Add(kv.Groups["key"].Value, kv.Groups["value"].Value);
-                        }
-                    }
-                }
-                return this._CallString;
-            }
-        }
-
-        /// <summary>
         /// 用于获取一个tag或用法发起的callack请求结果
         /// </summary>
         /// <returns>CallbackResult</returns>
@@ -229,14 +206,17 @@ namespace Tag.Vows.Web
                 }
                 catch (Exception ex)
                 {
-                    call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message });
+                    call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message + ex });
                     call.type = "error";
                     CallbackException(ex);
                 }
             }
             if (call != null)
             {
-                call.callstr = this._callBackstr;
+                if (call.type != "error")
+                {
+                    call.callstr = this._callBackstr;
+                }
                 call.pageName = this.GetType().BaseType.BaseType.Name;
             }
             return tools.JsonSerialize(call);
@@ -259,6 +239,29 @@ namespace Tag.Vows.Web
         public string CallValue(string key)
         {
             return CallString[key];
+        }
+
+        /// <summary>
+        /// callBack请求的键值对
+        /// </summary>
+        protected NameValueCollection CallString
+        {
+            get
+            {
+                if (this._CallString == null)
+                {
+                    _CallString = new NameValueCollection();
+                    if (!string.IsNullOrEmpty(this._callBackstr))
+                    {
+                        var matches = Regex.Matches(_callBackstr, @"(?<=^|&)\s*(?<key>\w+)\s*=(?<value>.*?)(?=&|$)", RegexOptions.Singleline);
+                        foreach (Match kv in matches)
+                        {
+                            _CallString.Add(kv.Groups["key"].Value, kv.Groups["value"].Value);
+                        }
+                    }
+                }
+                return this._CallString;
+            }
         }
 
         /// <summary>

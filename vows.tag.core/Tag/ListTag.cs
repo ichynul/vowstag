@@ -284,10 +284,10 @@ namespace Tag.Vows.Tag
         private string BindPlaceHolder()
         {
             StringBuilder code = new StringBuilder();
-            code.AppendFormat("{0}foreach({1} item in list)\r\n", Method.getSpaces(2), ModType);
+            code.AppendFormat("{0}foreach({1} _item in list)\r\n", Method.getSpaces(2), ModType);
             code.Append(Method.getSpaces(2) + "{\r\n");
             code.AppendFormat("{0}SubControl uc_item=(SubControl) LoadControl( \"{1}.ascx\");\r\n", Method.getSpaces(3), this.SubPage.GetPageName());
-            code.AppendFormat("{0}uc_item.SetItem(item);\r\n", Method.getSpaces(3));
+            code.AppendFormat("{0}uc_item.SetItem(_item);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}uc_item.SetDb(this.Db_Context);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}uc_item.SetConfig(this.config);\r\n", Method.getSpaces(3));
             code.AppendFormat("{0}{1}.Controls.Add(uc_item);\r\n", Method.getSpaces(3), this.GetTagName());

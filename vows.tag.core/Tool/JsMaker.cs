@@ -126,7 +126,7 @@ namespace Tag.Vows.Tool
             script.Append("            },\r\n");
             script.Append("            json: function (jsonname ,otenparams ,async)//json标签发起请求\r\n");
             script.Append("            {\r\n");
-            script.Append("                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);\r\n");
+            script.Append("                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);\r\n");
             script.Append("            }\r\n");
             script.Append("        };\r\n");
             script.Append("        _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用\r\n");

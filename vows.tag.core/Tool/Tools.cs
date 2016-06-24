@@ -34,7 +34,7 @@ using Tag.Vows.Interface;
 
 namespace Tag.Vows.Tool
 {
-    class Tools : IComTools
+    public class Tools : IComTools
     {
         public Tools() { }
 
