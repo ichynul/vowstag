@@ -27,6 +27,8 @@ namespace Tag.Vows.Interface
 {
     interface IComTools
     {
+        string GetCookie(string strName);
+        string GetCookie(string strName, string key);
         string TimeFormat(object time);
         string TimeFormat(object time, string format);
         string FloatFormat(object number, string format);

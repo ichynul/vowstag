@@ -28,16 +28,24 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Tag.Vows.Interface;
+using System.Web;
+
 /***
  * Thanks Newtonsoft  https://github.com/JamesNK/Newtonsoft.Json
  ***/
 
 namespace Tag.Vows.Tool
 {
+    /// <summary>
+    /// tools
+    /// </summary>
     public class Tools : IComTools
     {
-        public Tools() { }
-
+        /// <summary>
+        /// 格式化时间（默认） 
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <returns>经过格式化的时间</returns>
         public string TimeFormat(object time)
         {
             if (time == null)
@@ -52,7 +60,12 @@ namespace Tag.Vows.Tool
             }
             return str;
         }
-
+        /// <summary>
+        /// 格式化时间（按指定格式）
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="format">格式</param>
+        /// <returns>经过格式化的时间</returns>
         public string TimeFormat(object time, string format)
         {
             if (time == null)
@@ -72,6 +85,12 @@ namespace Tag.Vows.Tool
             return str;
         }
 
+        /// <summary>
+        /// 格式化小数
+        /// </summary>
+        /// <param name="number">小数</param>
+        /// <param name="format">格式</param>
+        /// <returns>经过格式化的小数</returns>
         public string FloatFormat(object number, string format)
         {
             if (number == null)
@@ -86,12 +105,23 @@ namespace Tag.Vows.Tool
             }
             return str;
         }
-
+        /// <summary>
+        /// 截取指定长度的字符串,'更多'用...
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="length">长度</param>
+        /// <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
         public string SubString(object str, int length)
         {
             return SubString(str, length, "...");
         }
-
+        /// <summary>
+        /// 截取指定长度的字符串
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="length">长度</param>
+        /// <param name="morestr">'更多'省略号</param>
+        /// <returns>若原符串串长度超过指定长度就从头截取该长度，否则原样返回</returns>
         public string SubString(object str, int length, string morestr)
         {
             if (str == null)
@@ -109,7 +139,11 @@ namespace Tag.Vows.Tool
             }
             return s;
         }
-
+        /// <summary>
+        /// 将任意值转化为字符串
+        /// </summary>
+        /// <param name="obj">值</param>
+        /// <returns>转化为字符串</returns>
         public string ValueOf(object obj)
         {
             if (obj == null)
@@ -119,6 +153,11 @@ namespace Tag.Vows.Tool
             return obj.ToString();
         }
 
+        /// <summary>
+        /// 输出json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public string JsonSerialize(object obj)
         {
             IsoDateTimeConverter timeConverter = new IsoDateTimeConverter();
@@ -126,7 +165,11 @@ namespace Tag.Vows.Tool
             timeConverter.DateTimeFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";
             return JsonConvert.SerializeObject(obj, timeConverter);
         }
-
+        /// <summary>
+        /// 移除url中的 page = n 参数
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public string RemovePageParams(string url)
         {
             string pageName = Regex.Match(url, "[^/]+$").Value;
@@ -142,6 +185,37 @@ namespace Tag.Vows.Tool
             }
             pageName = Regex.Replace(pageName, @"&{2,}", "&", RegexOptions.IgnoreCase);
             return pageName;
+        }
+
+        /// <summary>
+        /// 获取一级cookie
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName)
+        {
+            if (HttpContext.Current.Request.Cookies != null && HttpContext.Current.Request.Cookies[strName] != null)
+            {
+                return HttpContext.Current.Request.Cookies[strName].Value;
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 获取二级cookie 
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName, string key)
+        {
+            if (HttpContext.Current.Request.Cookies != null
+                && HttpContext.Current.Request.Cookies[strName] != null
+                && HttpContext.Current.Request.Cookies[strName][key] != null)
+            {
+                return HttpContext.Current.Request.Cookies[strName][key];
+            }
+            return "";
         }
     }
 }

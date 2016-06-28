@@ -157,6 +157,27 @@ namespace Tag.Vows.Web
             return tools.RemovePageParams(url);
         }
 
+        /// <summary>
+        /// 获取一级cookie
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName)
+        {
+            return tools.GetCookie(strName);
+        }
+
+        /// <summary>
+        /// 获取二级cookie 
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName, string key)
+        {
+            return tools.GetCookie(strName, key);
+        }
+
         internal Tools tools
         {
             get

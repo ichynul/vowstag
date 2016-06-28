@@ -35,9 +35,8 @@ namespace Tag.Vows.Bean
             this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;
-
             Match m = Regex.Match(mVarName, @"(?<varname>.+?)(?<varright>\)+?)(?=$)");
-            if (m.Success)
+            if (this.FiledName != "data" && m.Success)
             {
                 this.VarRight = m.Groups["varright"].Value;
                 this.VarName = m.Groups["varname"].Value;
@@ -51,7 +50,6 @@ namespace Tag.Vows.Bean
             {
                 this.FieldLeft = m.Value;
             }
-
         }
         /// <summary>
         /// 属性名称

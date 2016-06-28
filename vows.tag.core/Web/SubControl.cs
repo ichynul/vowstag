@@ -110,6 +110,27 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
+        /// 获取一级cookie
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName)
+        {
+            return tools.GetCookie(strName);
+        }
+
+        /// <summary>
+        /// 获取二级cookie 
+        /// </summary>
+        /// <param name="strName"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetCookie(string strName, string key)
+        {
+            return tools.GetCookie(strName, key);
+        }
+
+        /// <summary>
         /// 页码
         /// </summary>
         protected int page

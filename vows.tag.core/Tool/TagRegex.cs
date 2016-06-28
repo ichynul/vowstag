@@ -56,6 +56,7 @@ namespace Tag.Vows.Tool
         public Regex RequestValue { private set; get; }
         public Regex SessionValue { private set; get; }
         public Regex CookieValue { private set; get; }
+        public Regex CookieValue_sub { private set; get; }
         public Regex CallValue { private set; get; }
         public Regex ItemValue { private set; get; }
         public Regex ReadValue { private set; get; }
@@ -85,8 +86,9 @@ namespace Tag.Vows.Tool
         public TagRegex(string tagLeft, string tagRight)
         {
 
-            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?\w+(?:>|<|!=|=|>=|<=|!%|%|!#|#)(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|"".*?""|"
-                            , @"(\w+,?)*?|DateTime.Now(?:\.Add\w+\(-?\d+\))?|\w+\.\w+(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
+            QueryBase = string.Concat(@"\w+(?:\?(?:(?:!?\(*)?\w+(?:>|<|!=|=|>=|<=|!%|%|!#|#)"
+                            , @"(?:[\w\-\/:]+|\-?\d+(?:\.\d+)?|"".*?""|(\w+,?)*?|\w+(?:\.\w+)*\(.*?\)|"
+                            , @"\w+(?:\.\w+)*(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
             #region 标签正则表达式
             /********tag tests*******/
             TagTest = new Regex(string.Concat(tagLeft, @"\s*\b.+?/?\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -97,8 +99,8 @@ namespace Tag.Vows.Tool
             JsonTest = new Regex(string.Concat(tagLeft, "json=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             LabelTest = new Regex(string.Concat(tagLeft, @"label=[\w\-]+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             StaticTest = new Regex(string.Concat(tagLeft, @"static=[\w\-]+/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            FiledTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*(?:\[""\w+""\])?/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            MethodTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*\([^\)]*\)/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            FiledTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*?(?:\[""\w+""\])?/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            MethodTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*?\(.*?\)/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             PagerTest = new Regex(string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             CommandTest = new Regex(string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.]+(?:&|<br/?>)?)+?/?", tagRight)
@@ -108,6 +110,7 @@ namespace Tag.Vows.Tool
             RequestValue = new Regex(@"request\.\w+\b", RegexOptions.IgnoreCase);
             SessionValue = new Regex(@"session\.\w+\b", RegexOptions.IgnoreCase);
             CookieValue = new Regex(@"cookie\.\w+\b", RegexOptions.IgnoreCase);
+            CookieValue_sub = new Regex(@"cookie\.\w+\.\w+\b", RegexOptions.IgnoreCase);
             CallValue = new Regex(@"call\.\w+\b", RegexOptions.IgnoreCase);
             ItemValue = new Regex(@"item\.\w+\b", RegexOptions.IgnoreCase);
             ReadValue = new Regex(@"read\.\w+\b", RegexOptions.IgnoreCase);
@@ -148,8 +151,8 @@ namespace Tag.Vows.Tool
             DataNameRegex = new Regex(string.Concat(@"(?<=(?:list|read|label||form|json)=)[\w\-]+?(?=(\?|/?", tagRight, "))"), RegexOptions.IgnoreCase);
             ItemPathRegex = new Regex(@"(?<=item=)[\w\-]+?(?=&|\||<[bh]r/?>|$)", RegexOptions.IgnoreCase);
             BaseParamsRegex = new Regex(string.Concat(@"(?<=\?).*?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
-            FiledObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*(\[""\w+""\])?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
-            MethodObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*\([^\)]*\)(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            FiledObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*?(\[""\w+""\])?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
+            MethodObjRegex = new Regex(string.Concat("(?<=", tagLeft, @")\w+(?:\.\w+)*?\(.*?\)(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
             PagerRegex = new Regex(string.Concat("(?<=", tagLeft, @")pager(\?(?:\w+=.+(&|<br/?>)?)*)?(?=/?", tagRight, ")"), RegexOptions.IgnoreCase);
             #endregion
         }

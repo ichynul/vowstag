@@ -45,12 +45,12 @@ namespace Tag.Vows.Tool
     /// 获取表定义
     /// </summary>
     /// <param name="tagName">标签名称(list/read/json/form)</param>
-    /// <param name="tabName">表名称</param>
+    /// <param name="beanTypeName">实体类型名称</param>
     /// <returns>表定义 linq-str</returns>
-    public delegate string GetTableStr(string tagName, string tabName);
+    public delegate string GetTableStr(string tagName, string beanTypeName);
 
     /// <summary>
-    /// 获取表实例，当Entity中不存在该表，调用。用此方法指定一个假的表名
+    /// 获取实体实例，当Entity中不存在该表，调用。用此方法指定一个假的表名
     /// </summary>
     /// <param name="dataName"></param>
     /// <returns>表名</returns>

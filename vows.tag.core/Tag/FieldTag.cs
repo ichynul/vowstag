@@ -60,6 +60,10 @@ namespace Tag.Vows.Tag
                 {
                     this.Type = FieldType.session_value;
                 }
+                else if (this.Config.tagregex.CookieValue_sub.IsMatch(Obj))
+                {
+                    this.Type = FieldType.cookie_value_sub;
+                }
                 else if (this.Config.tagregex.CookieValue.IsMatch(Obj))
                 {
                     this.Type = FieldType.cookie_value;
@@ -106,11 +110,15 @@ namespace Tag.Vows.Tag
             }
             else if (this.Type == FieldType.session_value)
             {
-                return string.Format("<% =  \"\" + Session[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% = \"\" + Session[\"{0}\"] %>", mParams[1]);
+            }
+            else if (this.Type == FieldType.cookie_value_sub)
+            {
+                return string.Format("<% = GetCookie(\"{0}\",\"{1}\") %>", mParams[1], mParams[2]);
             }
             else if (this.Type == FieldType.cookie_value)
             {
-                return string.Format("<% = \"\" + Request.Cookies[\"{0}\"] %>", mParams[1]);
+                return string.Format("<% = GetCookie(\"{0}\") %>", mParams[1]);
             }
             else if (this.Type == FieldType.item_value)
             {

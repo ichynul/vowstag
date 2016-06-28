@@ -34,6 +34,7 @@ namespace Tag.Vows.Enum
         request_value,
         session_value,
         cookie_value,
+        cookie_value_sub,
         normal_index,
         page
     }

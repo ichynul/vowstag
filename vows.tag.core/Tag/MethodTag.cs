@@ -52,6 +52,7 @@ namespace Tag.Vows.Tag
             string[] arr = Obj.Split('(');
             this.Method = arr[0];
             this.Params = arr[1].Replace(")", string.Empty);
+
             if (this.Config.tagregex.ReadValue.IsMatch(Obj))
             {
                 this.Type = MethodType.read_value_method;
@@ -108,7 +109,7 @@ namespace Tag.Vows.Tag
                     else
                     {
                         hasItem = true;
-                        this.Obj = this.Obj.Replace(m.Value, string.Concat("Eval(\"", m.Value.Split('.')[1], "\")"));
+                        this.Obj = this.Obj.Replace(m.Value, string.Format("Eval(\"{0}\")", m.Value.Split('.')[1]));
                     }
                 }
             }
@@ -117,7 +118,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Session[\"", m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Format("Session[\"{0}\"]", m.Value.Split('.')[1]));
                 }
             }
             matches = this.Config.tagregex.RequestValue.Matches(Obj);
@@ -125,7 +126,15 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.QueryString[\"", m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Format("Request.QueryString[\"{0}\"]", m.Value.Split('.')[1]));
+                }
+            }
+            matches = this.Config.tagregex.CookieValue_sub.Matches(Obj);
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    this.Obj = this.Obj.Replace(m.Value, string.Format("GetCookie(\"{0}\",\"{1}\")", m.Value.Split('.')[1], m.Value.Split('.')[2]));
                 }
             }
             matches = this.Config.tagregex.CookieValue.Matches(Obj);
@@ -133,7 +142,7 @@ namespace Tag.Vows.Tag
             {
                 foreach (Match m in matches)
                 {
-                    this.Obj = this.Obj.Replace(m.Value, string.Concat("Request.Cookies[\"", m.Value.Split('.')[1], "\"]"));
+                    this.Obj = this.Obj.Replace(m.Value, string.Format("GetCookie(\"{0}\")", m.Value.Split('.')[1]));
                 }
             }
             if (hasItem)

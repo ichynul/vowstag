@@ -58,7 +58,7 @@ namespace Tag.Vows.Tag
         {
             if (this.HasStyle())
             {
-                return Regex.Replace(this.SubPage.GetAspxCode(), @"(?<=<%.*?)\bread(?=\.\w+.*?%>)", this.TagName, RegexOptions.IgnoreCase);
+                return Regex.Replace(this.SubPage.GetAspxCode(), @"(?<=<%.*?)\bread(?=.*?%>)", this.TagName, RegexOptions.IgnoreCase);
             }
             return string.Format("<!-- {0} -->", this.TagName); ;
         }

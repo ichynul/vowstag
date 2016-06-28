@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#config.webname}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+    <link href="css/kkpager_orange.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="head">
+        {#label=notice /}<!--引入label-->
+    </div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
+    <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;ListTag
+            <!-- -->
+        </div>
+        <div class="articles">
+            <p class="about">
+                以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
+            <ul class="articlelist">
+                {#list=article?data=xxoo(request.xx,6)}
+                <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+                    {#item.time}</span> </li>
+                {#list}
+                {#list=article?id>cookie.id.id}
+                <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+                    {#item.time}</span> </li>
+                {#list}
+            </ul>
+            {#xx(cookie.xx.oo)}
+            {#xx(cookie.xx)}
+            {#cookie.xx}
+            {#cookie.xx.oo}
+        </div>
+    </div>
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
+</body>
+</html>

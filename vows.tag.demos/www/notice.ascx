@@ -5,12 +5,12 @@
 <ul class="notice">
     <li>管理猿推荐：</li>
     
-<asp:Repeater ID="ListTag_46849_1" runat="server">
+<asp:Repeater ID="ListTag_4647_1" runat="server">
     <ItemTemplate>
     <li><a href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a></li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_46849_1" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_4647_1" runat="server"></asp:Literal>
 
-    <li><asp:PlaceHolder ID="LabelTag_16849_4" runat="server"></asp:PlaceHolder><!--label中再包含另一个label--></li>
+    <li><asp:PlaceHolder ID="LabelTag_16824_4" runat="server"></asp:PlaceHolder><!--label中再包含另一个label--></li>
 </ul>
