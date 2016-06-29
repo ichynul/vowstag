@@ -108,9 +108,10 @@ namespace Tag.Vows.Data
                 {
                     continue;
                 }
+                #region data
                 else if (w.FiledName == "data")
                 {
-                    #region data
+
                     matches = this.Config.tagregex.SessionValue.Matches(w.VarName);
                     if (matches.Count > 0)
                     {
@@ -143,9 +144,28 @@ namespace Tag.Vows.Data
                             w.VarName = w.VarName.Replace(_m.Value, string.Format("GetCookie(\"{0}\")", _m.Value.Split('.')[1]));
                         }
                     }
-                    #endregion
+                    matches = this.Config.tagregex.ReadValue.Matches(w.VarName);
+                    if (matches.Count > 0)
+                    {
+                        foreach (Match _m in matches)
+                        {
+                            GetObjType(UpperDataModel, _m.Value.Split('.')[1], out mNullAble, out filed);
+                            w.VarName = w.VarName.Replace(_m.Value, string.Concat("read.", filed));
+                        }
+                    }
+                    matches = this.Config.tagregex.ItemValue.Matches(w.VarName);
+                    if (matches.Count > 0)
+                    {
+                        foreach (Match _m in matches)
+                        {
+                            GetObjType(UpperDataModel, _m.Value.Split('.')[1], out mNullAble, out filed);
+                            w.VarName = w.VarName.Replace(_m.Value, string.Concat("item.", filed));
+                        }
+                    }
                     continue;
                 }
+                #endregion
+                #region empty null string
                 if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
                 {
                     if (!Regex.IsMatch(w.VarName, @"^request|call\.\w+$", RegexOptions.IgnoreCase))
@@ -201,6 +221,8 @@ namespace Tag.Vows.Data
                     }
                     continue;
                 }
+                #endregion
+                #region valid test
                 dataType = GetObjType(model, w.FiledName, out mNullAble, out filed);
                 w.FiledName = filed;
                 if (w.VarName.ToLower() == "null")
@@ -228,6 +250,8 @@ namespace Tag.Vows.Data
                             Method.getSpaces(2), w.VarName.Contains("item") ? UpperDataModel : model, filed);
                     }
                 }
+                #endregion
+                #region read item
                 if (Regex.IsMatch(w.VarName, @"(?:read|item)\.\w+", RegexOptions.IgnoreCase))
                 {
                     w.FiledName = GetPropertyName(model, w.FiledName);
@@ -237,7 +261,6 @@ namespace Tag.Vows.Data
                         m = new Regex(@"\d+(\.\d+)?").Match(w.VarName);
                         string number = m.Value;
                         itemOrRead = w.VarName.ToLower().Contains("item") ? "item" : "read";
-
                         dataType = GetObjType(UpperDataModel, Regex.Replace(
                             w.VarName, @"item|read|[\.\+\-\*/\d]", string.Empty, RegexOptions.IgnoreCase), out mNullAble, out filed);
                         vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
@@ -281,6 +304,8 @@ namespace Tag.Vows.Data
                     }
                     w.VarName = vname;
                 }
+                #endregion
+                #region request session call
                 else if (Regex.IsMatch(w.VarName, @"(?:request|session|call)\.\w+", RegexOptions.IgnoreCase))
                 {
                     dataType = GetObjType(model, w.FiledName, out mNullAble, out filed);
@@ -312,6 +337,8 @@ namespace Tag.Vows.Data
                     w.VarName = vname;
                     requests.Add(vname);
                 }
+                #endregion
+                #region cookie
                 else if (this.Config.tagregex.CookieValue_sub.IsMatch(w.VarName))
                 {
                     dataType = GetObjType(model, w.FiledName, out mNullAble, out filed);
@@ -370,10 +397,67 @@ namespace Tag.Vows.Data
                     w.VarName = vname;
                     requests.Add(vname);
                 }
-                else if (!w.VarName.Contains("DateTime.Now") && Regex.Match(w.VarName, @"^[a-zA-Z_]\w+(?:\.\w+)+", RegexOptions.IgnoreCase).Success)
+                #endregion
+                #region #  !#
+                else if (w.Compare == "#" || w.Compare == "!#")
                 {
-                    continue;
+                    vname = string.Format("{0}_{1}_{2}", dataType, filed, i);
+
+                    if (this.Config.tagregex.SessionValue.IsMatch(w.VarName))
+                    {
+                        sb.AppendFormat("{0}string {1} = {2}[\"{3}\"];\r\n", Method.getSpaces(2), vname, query, q);
+
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(Session[\"{0}\"],{1})", w.VarName.Split('.')[1], dataType));
+                    }
+                    else if (this.Config.tagregex.RequestValue.IsMatch(w.VarName))
+                    {
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(Request.QueryString[\"{0}\"],{1})", w.VarName.Split('.')[1], dataType));
+                    }
+                    else if (this.Config.tagregex.CookieValue_sub.IsMatch(w.VarName))
+                    {
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(GetCookie(\"{0}\",\"{1}\"),{2})",
+                            w.VarName.Split('.')[1], w.VarName.Split('.')[2], dataType));
+                    }
+                    else if (this.Config.tagregex.CookieValue.IsMatch(w.VarName))
+                    {
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(GetCookie(\"{0}\"),{1})", w.VarName.Split('.')[1], dataType));
+                    }
+                    else if (this.Config.tagregex.ReadValue.IsMatch(w.VarName))
+                    {
+                        GetObjType(UpperDataModel, w.VarName.Split('.')[1], out mNullAble, out filed);
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(read.{0}),{1})", filed, dataType));
+                    }
+                    else if (this.Config.tagregex.ItemValue.IsMatch(w.VarName))
+                    {
+                        GetObjType(UpperDataModel, w.VarName.Split('.')[1], out mNullAble, out filed);
+                        w.VarName = w.VarName.Replace(w.VarName,
+                            string.Format("StrToArray(item.{0}),{1})", filed, dataType));
+                    }
+                    else
+                    {
+
+                    }
+                    if (dataType == "string")
+                    {
+                        sb.AppendFormat("{0}string {1} = {2}[\"{3}\"];\r\n", Method.getSpaces(2), vname, query, q);
+                    }
+                    else if (dataType == "bool")
+                    {
+                        sb.AppendFormat("{0}bool {1} = {2}[\"{3}\"] == \"true\";\r\n", Method.getSpaces(2), vname, query, q);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("{0}{1} {2} = {1}.MinValue;\r\n", Method.getSpaces(2), dataType, vname);
+                        sb.AppendFormat("{0}{1}.TryParse({2}[\"{3}\"],out {4});\r\n", Method.getSpaces(2), dataType, query, q, vname);
+                    }
                 }
+                #endregion
+                #region other
                 else
                 {
                     dataType = GetObjType(model, w.FiledName, out mNullAble, out filed);
@@ -392,7 +476,7 @@ namespace Tag.Vows.Data
                         m = Regex.Match(w.VarName, @"^\-?\d+$");
                         if (!m.Success)
                         {
-                            w.VarName = string.Format("-1/*--( {0} )不是有效的整数值，已设为默认值 -1--*/", w.VarName);
+                            w.VarName = string.Format("{0}/*--( {0} )可能不是有效的整数值。--*/", w.VarName);
                         }
                     }
                     else if ("double|float|decimal".Contains(dataType))
@@ -400,7 +484,7 @@ namespace Tag.Vows.Data
                         m = Regex.Match(w.VarName, @"^\-?\d+(\.\d+)?$");
                         if (!m.Success)
                         {
-                            w.VarName = string.Format("-1/*--( {0} )不是有效的小数值，已设为默认值 -1--*/", w.VarName);
+                            w.VarName = string.Format("{0}*--( {0} )可能不是有效的小数值。--*/", w.VarName);
                         }
                     }
                     else if (dataType == "DateTime")
@@ -444,16 +528,17 @@ namespace Tag.Vows.Data
                         }
                         w.VarName =
                             string.Concat(
-                            "DateTime.MinValue/*--( ", w.VarName, " )不是有效的日期或日期运算，请检查格式或数值。",
+                            w.VarName, "/*--( ", w.VarName, " )可能不是有效的日期或日期运算，请检查格式或数值。",
                             "（[年4位][-或/][月1或2位][-或/][日1或2位][/或-或空格 可有可无][时分秒均为1或2位可有可无]）。已设为默认值 DateTime.MinValue--*/"
                              );
                     }
                     else if (dataType == "bool")
                     {
                         w.VarName = w.VarName == "true" ? "true" : w.VarName == "false" ? "false"
-                            : string.Format("false/*--( {0} )不是有效的bool值，已设为默认值 false--*/", w.VarName);
+                            : string.Format("{0}/*--( {0} )可能不是有效的bool值。--*/", w.VarName);
                     }
                 }
+                #endregion
             }
             return sb;
         }
@@ -518,6 +603,16 @@ namespace Tag.Vows.Data
                 {
                     p = field_Var.Split('%');
                     wheres.Add(new TagWhere(p[0], "%", _symb, p[1]));
+                }
+                else if (field_Var.IndexOf("!#") != -1)
+                {
+                    p = field_Var.Replace("!#", "|").Split('|');
+                    wheres.Add(new TagWhere(p[0], "!#", _symb, p[1]));
+                }
+                else if (field_Var.IndexOf("#") != -1)
+                {
+                    p = field_Var.Split('#');
+                    wheres.Add(new TagWhere(p[0], "#", _symb, p[1]));
                 }
                 if (or)
                 {
@@ -621,23 +716,7 @@ namespace Tag.Vows.Data
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
-                    if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
-                    {
-                        linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else if (w.Compare == "%")
-                    {
-                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-
-                    }
-                    else if (w.Compare == "!%")
-                    {
-                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else
-                    {
-                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName, w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
+                    LogicSymb(linq, w);
                 }
                 if (!first)
                 {
@@ -867,23 +946,7 @@ namespace Tag.Vows.Data
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
-                    if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
-                    {
-                        linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else if (w.Compare == "%")
-                    {
-                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-
-                    }
-                    else if (w.Compare == "!%")
-                    {
-                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else
-                    {
-                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName, w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
+                    LogicSymb(linq, w);
                 }
                 if (!first)
                 {
@@ -1032,26 +1095,7 @@ namespace Tag.Vows.Data
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
-                    if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
-                    {
-                        linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else if (w.Compare == "%")
-                    {
-                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
-                            w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-
-                    }
-                    else if (w.Compare == "!%")
-                    {
-                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
-                            w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else
-                    {
-                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName,
-                            w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
+                    LogicSymb(linq, w);
                 }
                 if (!first)
                 {
@@ -1145,23 +1189,7 @@ namespace Tag.Vows.Data
                         w.LogicSymb = Method.getSpaces(1);
                         first = false;
                     }
-                    if (w.FiledName == "null")
-                    {
-                        linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else if (w.Compare == "%")
-                    {
-                        linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-
-                    }
-                    else if (w.Compare == "!%")
-                    {
-                        linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft, w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
-                    else
-                    {
-                        linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName, w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
-                    }
+                    LogicSymb(linq, w);
                 }
                 if (!first)
                 {
@@ -1287,6 +1315,35 @@ namespace Tag.Vows.Data
         #endregion
 
         #region some methods
+
+        /// <summary>
+        /// 解析逻辑操作符号
+        /// </summary>
+        /// <param name="linq"></param>
+        /// <param name="w"></param>
+        internal void LogicSymb(StringBuilder linq, TagWhere w)
+        {
+            if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
+            {
+                linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
+            }
+            else if (w.Compare == "%")
+            {
+                linq.AppendFormat("{0}{1}b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
+                    w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
+
+            }
+            else if (w.Compare == "!%")
+            {
+                linq.AppendFormat("{0}{1}!b.{2}.Contains({3}){4}\r\n{5}", w.LogicSymb, w.FieldLeft,
+                    w.FiledName, w.VarName, w.VarRight, Method.getSpaces(5));
+            }
+            else
+            {
+                linq.AppendFormat("{0}{1}b.{2} {3} {4}{5}\r\n{6}", w.LogicSymb, w.FieldLeft, w.FiledName,
+                    w.Compare, w.VarName, w.VarRight, Method.getSpaces(5));
+            }
+        }
 
         /// <summary>
         /// 根据表名返回一个表的实例 

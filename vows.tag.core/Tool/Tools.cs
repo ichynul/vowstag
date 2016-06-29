@@ -24,11 +24,12 @@ SOFTWARE.
 */
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Tag.Vows.Interface;
-using System.Web;
 
 /***
  * Thanks Newtonsoft  https://github.com/JamesNK/Newtonsoft.Json
@@ -216,6 +217,77 @@ namespace Tag.Vows.Tool
                 return HttpContext.Current.Request.Cookies[strName][key];
             }
             return "";
+        }
+
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <param name="toType">数组数据类型</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr, string toType)
+        {
+            List<string> list = new List<string>();
+            var arr = toType.Split(',');
+            if (string.IsNullOrEmpty(toType) || toType == "string" || toType == "String")
+            {
+                foreach (string s in arr)
+                {
+                    list.Add(s);
+                }
+                return list;
+            }
+            else if (toType == "Int16" || toType == "short"
+                || toType == "Int32" || toType == "int"
+                || toType == "Int64" || toType == "long")
+            {
+                Regex intTest = new Regex(@"\s*^\-?\d+\s*$");
+                foreach (string s in arr)
+                {
+                    if (intTest.IsMatch(s))
+                    {
+                        list.Add(s);
+                    }
+                }
+            }
+            else if (toType == "Double" || toType == "double"
+               || toType == "Float" || toType == "float"
+               || toType == "Decimal" || toType == "decimal")
+            {
+                Regex floatTest = new Regex(@"^\s*\-?\d+(\.\d+)?\s*$");
+                foreach (string s in arr)
+                {
+                    if (floatTest.IsMatch(s))
+                    {
+                        list.Add(s);
+                    }
+                }
+            }
+            else if (toType == "Boolean" || toType == "bool")
+            {
+                foreach (string s in arr)
+                {
+                    if (s.ToLower() == "true" || s == "1")
+                    {
+                        list.Add("true");
+                    }
+                    else
+                    {
+                        list.Add("false");
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr)
+        {
+            return StrToArray(arrStr, "string");
         }
     }
 }

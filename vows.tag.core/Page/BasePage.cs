@@ -60,6 +60,7 @@ namespace Tag.Vows.Page
         protected string AspxCode { get; private set; }
         protected string AspxCsCode { get; private set; }
         protected string ext = ".html";
+        protected string Usings = "";
         protected MatchCollection Matches, _Matches;
         protected Match TheMatch;
         protected StringBuilder MethodLines;
@@ -504,6 +505,16 @@ namespace Tag.Vows.Page
             value = cmd.QueryString("enableviewstate");
             this.EnableViewState = string.IsNullOrEmpty(value)
                 || value.ToLower() == "false";
+            value = cmd.QueryString("usings");
+            if (!string.IsNullOrEmpty(value))
+            {
+                this.Usings += value;
+            }
+            value = cmd.QueryString("using");
+            if (!string.IsNullOrEmpty(value))
+            {
+                this.Usings += value;
+            }
         }
 
         /// <summary>
@@ -917,6 +928,18 @@ namespace Tag.Vows.Page
             if (!string.IsNullOrEmpty(Config.dbNameSpace))
             {
                 AspxCsCode.AppendFormat("using {0};\r\n", Config.dbNameSpace);
+            }
+            if (!string.IsNullOrEmpty(this.Usings))
+            {
+                var arr = this.Usings.Split(',').Distinct();
+                foreach (string s in arr)
+                {
+                    if (!string.IsNullOrEmpty(Config.dbNameSpace) && s == Config.dbNameSpace || s == string.Empty)
+                    {
+                        continue;
+                    }
+                    AspxCsCode.AppendFormat("using {0};\r\n", s);
+                }
             }
             if (this.TagCallBack == "json" || this.TagCallBack == "form")
             {

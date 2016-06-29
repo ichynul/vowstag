@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #endregion
+using System.Collections.Generic;
 namespace Tag.Vows.Interface
 {
     interface IComTools
@@ -37,5 +38,7 @@ namespace Tag.Vows.Interface
         string ValueOf(object str);
         string RemovePageParams(string url);
         string JsonSerialize(object obj);
+        List<string> StrToArray(string arrStr, string toType);
+        List<string> StrToArray(string arrStr);
     }
 }

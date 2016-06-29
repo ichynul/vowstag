@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using Tag.Vows.Interface;
 using Tag.Vows.Tool;
@@ -131,22 +132,6 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
-        /// 页码
-        /// </summary>
-        protected int page
-        {
-            get
-            {
-                if (_page < 1)
-                {
-                    int.TryParse(Request.QueryString["page"], out _page);
-                    _page = _page < 1 ? 1 : _page;
-                }
-                return _page;
-            }
-        }
-
-        /// <summary>
         /// 输出json
         /// </summary>
         /// <param name="obj">obj</param>
@@ -166,7 +151,47 @@ namespace Tag.Vows.Web
             return tools.RemovePageParams(url);
         }
 
-        internal Tools tools
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <param name="toType">数组数据类型</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr, string toType)
+        {
+            return tools.StrToArray(arrStr, toType);
+        }
+
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr)
+        {
+            return tools.StrToArray(arrStr, "string");
+        }
+
+        /// <summary>
+        /// 页码
+        /// </summary>
+        protected int page
+        {
+            get
+            {
+                if (_page < 1)
+                {
+                    int.TryParse(Request.QueryString["page"], out _page);
+                    _page = _page < 1 ? 1 : _page;
+                }
+                return _page;
+            }
+        }
+
+        /// <summary>
+        /// tools
+        /// </summary>
+        protected Tools tools
         {
             get
             {

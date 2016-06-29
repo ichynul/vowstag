@@ -103,7 +103,7 @@ namespace Tag.Vows.Tool
             MethodTest = new Regex(string.Concat(tagLeft, @"\w+(?:\.\w+)*?\(.*?\)/?", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             PagerTest = new Regex(string.Concat(tagLeft, @"pager(?:\?(?:\w+=.+(?:&|<br/?>)?)*)?/?", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            CommandTest = new Regex(string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.]+(?:&|<br/?>)?)+?/?", tagRight)
+            CommandTest = new Regex(string.Concat(tagLeft, @"cmd\?(?:\w+=[\w\.,]+(?:&|<br/?>)?)+?/?", tagRight)
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);
             EmptyTest = new Regex(string.Concat(tagLeft, @"\s*empty\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             /********value tests*******/

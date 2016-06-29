@@ -178,6 +178,21 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Tag.Vows.Web.TagPage.StrToArray(System.String,System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <param name="toType">数组数据类型</param>
+            <returns>转换后的数组</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.TagPage.StrToArray(System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <returns>转换后的数组</returns>
+        </member>
         <member name="M:Tag.Vows.Web.TagPage.GetCallbackResult">
             <summary>
             用于获取一个tag或用法发起的callack请求结果
@@ -230,6 +245,11 @@
         <member name="P:Tag.Vows.Web.TagPage.page">
             <summary>
             页码
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Web.TagPage.tools">
+            <summary>
+            tools
             </summary>
         </member>
         <member name="P:Tag.Vows.Web.TagPage.CallString">
@@ -329,6 +349,21 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Tag.Vows.Tool.Tools.StrToArray(System.String,System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <param name="toType">数组数据类型</param>
+            <returns>转换后的数组</returns>
+        </member>
+        <member name="M:Tag.Vows.Tool.Tools.StrToArray(System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <returns>转换后的数组</returns>
+        </member>
         <member name="P:Tag.Vows.Bean.TagWhere.FiledName">
             <summary>
             属性名称
@@ -376,6 +411,13 @@
             <param name="modType">输出表对应实体的类型</param>
             <param name="tagName">查询条件</param>
             <returns></returns>
+        </member>
+        <member name="M:Tag.Vows.Data.TempleHelper.LogicSymb(System.Text.StringBuilder,Tag.Vows.Bean.TagWhere)">
+            <summary>
+            解析逻辑操作符号
+            </summary>
+            <param name="linq"></param>
+            <param name="w"></param>
         </member>
         <member name="M:Tag.Vows.Data.TempleHelper.GetModObj(System.String)">
             <summary>
@@ -705,6 +747,21 @@
             <param name="url"></param>
             <returns></returns>
         </member>
+        <member name="M:Tag.Vows.Web.SubControl.StrToArray(System.String,System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <param name="toType">数组数据类型</param>
+            <returns>转换后的数组</returns>
+        </member>
+        <member name="M:Tag.Vows.Web.SubControl.StrToArray(System.String)">
+            <summary>
+            将分割的字符串转换为数组
+            </summary>
+            <param name="arrStr">字符串</param>
+            <returns>转换后的数组</returns>
+        </member>
         <member name="M:Tag.Vows.Web.SubControl.SetConfig(System.Object)">
             <summary>
             SetConfig
@@ -732,6 +789,11 @@
         <member name="P:Tag.Vows.Web.SubControl.page">
             <summary>
             页码
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Web.SubControl.tools">
+            <summary>
+            tools
             </summary>
         </member>
         <member name="T:Tag.Vows.Tool.GetHtml">

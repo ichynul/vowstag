@@ -24,6 +24,7 @@ SOFTWARE.
 */
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Text.RegularExpressions;
@@ -119,24 +120,6 @@ namespace Tag.Vows.Web
         {
             return tools.ValueOf(obj);
         }
-
-
-        /// <summary>
-        /// 页码
-        /// </summary>
-        protected int page
-        {
-            get
-            {
-                if (_page < 1)
-                {
-                    int.TryParse(Request.QueryString["page"], out _page);
-                    _page = _page < 1 ? 1 : _page;
-                }
-                return _page;
-            }
-        }
-
         /// <summary>
         /// 输出json
         /// </summary>
@@ -178,7 +161,47 @@ namespace Tag.Vows.Web
             return tools.GetCookie(strName, key);
         }
 
-        internal Tools tools
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <param name="toType">数组数据类型</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr, string toType)
+        {
+            return tools.StrToArray(arrStr, toType);
+        }
+
+        /// <summary>
+        /// 将分割的字符串转换为数组
+        /// </summary>
+        /// <param name="arrStr">字符串</param>
+        /// <returns>转换后的数组</returns>
+        public List<string> StrToArray(string arrStr)
+        {
+            return tools.StrToArray(arrStr, "string");
+        }
+
+        /// <summary>
+        /// 页码
+        /// </summary>
+        protected int page
+        {
+            get
+            {
+                if (_page < 1)
+                {
+                    int.TryParse(Request.QueryString["page"], out _page);
+                    _page = _page < 1 ? 1 : _page;
+                }
+                return _page;
+            }
+        }
+
+        /// <summary>
+        /// tools
+        /// </summary>
+        protected Tools tools
         {
             get
             {
@@ -227,7 +250,7 @@ namespace Tag.Vows.Web
                 }
                 catch (Exception ex)
                 {
-                    call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message + ex });
+                    call = new CallbackResult(new { code = "1", msg = "出错了！-" + ex.Message });
                     call.type = "error";
                     CallbackException(ex);
                 }
