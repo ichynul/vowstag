@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16175_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16435_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -30,12 +30,12 @@
     <div class="main">
         <div class="location">
             当前位置：<a href="index.aspx"><% = config.webname %></a>
-                        &gt;<a><% =ReadTag_31639_6.Name %></a>
+                        &gt;<a><% =ReadTag_31484_6.Name %></a>
                     </div>
         <div class="articles">
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_73162_8" runat="server">
+<asp:Repeater ID="ListTag_73993_8" runat="server">
     <ItemTemplate><!--每页显示4条->
                 <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>&page=<% = page %>"><%# Eval("Title") %></a> <span class="time">
@@ -46,10 +46,10 @@
                 </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_73162_8" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_73993_8" runat="server"></asp:Literal>
 
             </ul>
-            <asp:Literal ID="PagerTag_17684_15" runat="server"></asp:Literal><!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
+            <asp:Literal ID="PagerTag_1739_15" runat="server"></asp:Literal><!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
         </div>
     </div>
     <div class="foot">
@@ -158,7 +158,7 @@
             },
             json: function (jsonname ,otenparams ,async)//json标签发起请求
             {
-                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);
+                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
             }
         };
         _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用

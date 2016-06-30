@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16779_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16951_3" runat="server"></asp:PlaceHolder><!--引入label-->
         <!--   label = notice   用label标签加载文件notice(/label/head.html)中的内容到当前位置-->
     </div>
     <div class="navi">
@@ -32,8 +32,8 @@
     </div>
     <div class="main">
         <div class="articles">
-            <asp:PlaceHolder ID="ListTag_67542_5" runat="server"></asp:PlaceHolder>
-<asp:Literal ID="empty_ListTag_67542_5" runat="server"></asp:Literal>
+            <asp:PlaceHolder ID="ListTag_67733_5" runat="server"></asp:PlaceHolder>
+<asp:Literal ID="empty_ListTag_67733_5" runat="server"></asp:Literal>
 
             <!--   list = category ?          用list标签读取表'Category'（表名可忽略大小写）中的数据 ? 后为标签的参数-->
             <!--   orderby = id               按字段ID（可忽略大小写）排序-->
@@ -148,7 +148,7 @@
             },
             json: function (jsonname ,otenparams ,async)//json标签发起请求
             {
-                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);
+                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
             }
         };
         _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用

@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16842_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16399_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="navi">
         <ul class="navilist">
     <li><a href="/">首页</a></li>
@@ -36,12 +36,12 @@
             <ul class="categslist" id="switch">
                 <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 
-<asp:Repeater ID="ListTag_459_6" runat="server">
+<asp:Repeater ID="ListTag_45106_6" runat="server">
     <ItemTemplate>
                 <li><a href="javascript:;" onclick="change(this,'<%# Eval("ID") %>');"><%# Eval("Name") %></a></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_459_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_45106_6" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -78,10 +78,10 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "JsonTag_7154_11";
+            var jsonname = "JsonTag_71786_11";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
-                jsonname = "JsonTag_8554_12";
+                jsonname = "JsonTag_85109_12";
                 //categ = call.cid 中 call.cid为一个占位符(类似于request.xxx) 代表call参数中的cid值
             }
             _tagcall.json(jsonname, "page=" + page + '&cid=' + type); ///  在这里指定cid的值
@@ -293,7 +293,7 @@
             },
             json: function (jsonname ,otenparams ,async)//json标签发起请求
             {
-                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);
+                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
             }
         };
         _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用

@@ -107,6 +107,12 @@ namespace Tag.Vows.Tool
         /// </summary>
         public string dbNameSpace { private set; get; }
         /// <summary>
+        /// 一些所有页面都使用的命名空间,将加入每个处理类的using列表 
+        /// 多个用,分割；如 xx.yy,web.site
+        /// 建议只设置使用率非常高的，对于某些特需的，可以在具体页面用cmd标签添加 如 {#cmd?using=web.site/}
+        /// </summary>
+        public string usings { set; get; }
+        /// <summary>
         /// Entities 类的类名，自动获取
         /// </summary>
         public string entitiesName { private set; get; }

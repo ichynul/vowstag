@@ -247,6 +247,11 @@
             页码
             </summary>
         </member>
+        <member name="P:Tag.Vows.Web.TagPage.caction">
+            <summary>
+            callstr 中的action 参数
+            </summary>
+        </member>
         <member name="P:Tag.Vows.Web.TagPage.tools">
             <summary>
             tools
@@ -479,6 +484,11 @@
              请求的结果
             </summary>
             <param name="result">请求的结果</param>
+        </member>
+        <member name="F:Tag.Vows.Web.CallbackResult.action">
+            <summary>
+            callstr 中的action
+            </summary>
         </member>
         <member name="F:Tag.Vows.Web.CallbackResult.pageName">
             <summary>
@@ -936,6 +946,13 @@
         <member name="P:Tag.Vows.Tool.TagConfig.dbNameSpace">
             <summary>
             Entities 类的命名空间，自动获取
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.usings">
+            <summary>
+            一些所有页面都使用的命名空间,将加入每个处理类的using列表 
+            多个用,分割；如 xx.yy,web.site
+            建议只设置使用率非常高的，对于某些特需的，可以在具体页面用cmd标签添加 如 {#cmd?using=web.site/}
             </summary>
         </member>
         <member name="P:Tag.Vows.Tool.TagConfig.entitiesName">

@@ -929,6 +929,7 @@ namespace Tag.Vows.Page
             {
                 AspxCsCode.AppendFormat("using {0};\r\n", Config.dbNameSpace);
             }
+            this.Usings = this.Config.usings + this.Usings; //合并通用的命名空间与页面特定的命名空间集合
             if (!string.IsNullOrEmpty(this.Usings))
             {
                 var arr = this.Usings.Split(',').Distinct();

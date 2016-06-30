@@ -13,9 +13,9 @@
 
 </head>
 <body>
-    <!-- ReadTag_22125_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+    <!-- ReadTag_22629_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16647_5" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16452_5" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -50,18 +50,18 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_68112_15" runat="server">
+<asp:Repeater ID="ListTag_68879_15" runat="server">
     <ItemTemplate><!--此处用字段id与read参数比较 -->
                                 <a><%# Eval("Title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_68112_15" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_68879_15" runat="server"></asp:Literal>
 
                                 <span>下一篇：</span>
                 <!--用read标签读取下一篇-->
                 <!--全局read的字段可作为局部read的参数 -->
                 <!--此处用字段id与read.id(read标签的一个字段)比较-->
-                                <a><% =ReadTag_48112_17.Title %></a>
+                                <a><% =ReadTag_48669_17.Title %></a>
                                 <!--必须有结尾，一个页面中只能有一个全局read -->
                             </div>
         </div>
@@ -172,7 +172,7 @@
             },
             json: function (jsonname ,otenparams ,async)//json标签发起请求
             {
-                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);
+                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
             }
         };
         _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用

@@ -13,11 +13,11 @@
 
 </head>
 <body>
-        <!-- CMDTag_37577_4 -->
+        <!-- CMDTag_3796_4 -->
     <!--指定页面处理类 -->
-        <!-- ReadTag_30100_5 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+        <!-- ReadTag_30309_5 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16100_6" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16917_6" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -33,7 +33,7 @@
     <div class="main">
         <div class="location">
             当前位置：<a href="index.aspx"><% = config.webname %></a>
-                        &gt;<a href="list.aspx?cid=<% =ReadTag_30654_9.ID %>&page=<% = page %>"><% =ReadTag_30654_9.Name %></a><!--局部的read-->
+                        &gt;<a href="list.aspx?cid=<% =ReadTag_3077_9.ID %>&page=<% = page %>"><% =ReadTag_3077_9.Name %></a><!--局部的read-->
                         &gt;<a><% =read.Title %></a>
         </div>
         <div class="read">
@@ -51,24 +51,24 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_71177_20" runat="server">
+<asp:Repeater ID="ListTag_71125_20" runat="server">
     <ItemTemplate><!--此处用字段id与url参数比较 -->
                                 <a href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_71177_20" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_71125_20" runat="server"></asp:Literal>
 
                                 <span>下一篇：</span>
                 <!--用list标签读取下一篇-->
                 
-<asp:Repeater ID="ListTag_55698_23" runat="server">
+<asp:Repeater ID="ListTag_55772_23" runat="server">
     <ItemTemplate>
                 <!--此处用字段id与read.id(read标签的一个字段)比较,这里跟request.id差不多-->
                                 <a href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a>
                                 
                                 </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_55698_23Empty) %>
+            <% if (ListTag_55772_23Empty) %>
 <% { %>
 <!--empty标签对，作用与emptytext差不多，但emptytext仅支持简单的文字，而empty可包含复杂的文本（如html） -->
                                 <span style="color: Red;">没有了~</span> <% = Request.QueryString["id"] %>
@@ -217,7 +217,7 @@
             },
             json: function (jsonname ,otenparams ,async)//json标签发起请求
             {
-                this.$('jsonname=' + jsonname + '&' + otenparams ,async ,jsonname);
+                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
             }
         };
         _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用

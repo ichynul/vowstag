@@ -49,6 +49,7 @@ namespace Tag.Vows.Web
         /// </summary>
         protected string _callBackstr;
         private int _page;
+        private string _caction;
         private Tools _tools;
         /// <summary>
         /// 在Page_Load里加载各标签前判断，若返回false则标签都不会加载
@@ -199,6 +200,21 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
+        /// callstr 中的action 参数
+        /// </summary>
+        protected string caction
+        {
+            get
+            {
+                if (_caction == null)
+                {
+                    _caction = "" + this.CallValue("action");
+                }
+                return _caction;
+            }
+        }
+
+        /// <summary>
         /// tools
         /// </summary>
         protected Tools tools
@@ -261,6 +277,7 @@ namespace Tag.Vows.Web
                 {
                     call.callstr = this._callBackstr;
                 }
+                call.action = caction;
                 call.pageName = this.GetType().BaseType.BaseType.Name;
             }
             return tools.JsonSerialize(call);

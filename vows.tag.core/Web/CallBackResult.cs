@@ -45,6 +45,10 @@ namespace Tag.Vows.Web
         }
 
         /// <summary>
+        /// callstr 中的action
+        /// </summary>
+        public string action = "";
+        /// <summary>
         /// 当前处理请求的页面名称
         /// </summary>
         public string pageName = "";
