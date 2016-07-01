@@ -85,7 +85,7 @@ namespace Tag.Vows.Data
         public StringBuilder GetWhereParams(object model, List<TagWhere> wheres, string baseParms)
         {
             StringBuilder sb = new StringBuilder();
-            string passNames = "|orderby|desc|pagesize|take|item|skip";
+            string passNames = "|orderby|desc|pagesize|take|item|skip|";
             string dataType = "";
             int i = 0;
             Match m = null;
@@ -349,7 +349,7 @@ namespace Tag.Vows.Data
                                 , q);
                         }
                     }
-                    if (dataType == "string")
+                    if (dataType == "string" || w.Compare == "!#" || w.Compare == "#")
                     {
                         sb.AppendFormat("{0}string {1} = {2};\r\n", Method.getSpaces(2), vname, query);
                     }
@@ -394,22 +394,6 @@ namespace Tag.Vows.Data
                             {
                                 w.VarName = string.Concat("\"", w.VarName, "\"");
                             }
-                        }
-                    }
-                    else if ("int|long".Contains(dataType))
-                    {
-                        m = Regex.Match(w.VarName, @"^\-?\d+$");
-                        if (!m.Success)
-                        {
-                            w.VarName = string.Format("{0}", w.VarName);
-                        }
-                    }
-                    else if ("double|float|decimal".Contains(dataType))
-                    {
-                        m = Regex.Match(w.VarName, @"^\-?\d+(\.\d+)?$");
-                        if (!m.Success)
-                        {
-                            w.VarName = string.Format("{0}", w.VarName);
                         }
                     }
                     else if (dataType == "DateTime")

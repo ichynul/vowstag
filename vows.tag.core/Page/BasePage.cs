@@ -34,6 +34,7 @@ using Tag.Vows.Enum;
 using Tag.Vows.Interface;
 using Tag.Vows.Tag;
 using Tag.Vows.Tool;
+using System.Reflection;
 
 namespace Tag.Vows.Page
 {
@@ -75,6 +76,7 @@ namespace Tag.Vows.Page
         public BasePage(string mPageName, TagConfig config, bool justGetTagList)
             : this(string.Empty, mPageName, 1, config, justGetTagList)
         {
+
         }
 
         /// <summary>
@@ -884,17 +886,17 @@ namespace Tag.Vows.Page
         {
             if (string.IsNullOrEmpty(Html))
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n");
+                Html = string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v);
                 return;
             }
             TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
             if (TheMatch.Success)
             {
-                Html = Html.Replace(TheMatch.Value, string.Concat(TheMatch.Value, "\r\n<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n"));
+                Html = Html.Replace(TheMatch.Value, string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v));
             }
             else
             {
-                Html = string.Concat("<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home", " -->\r\n", Html);
+                Html = string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v);
             }
         }
 
@@ -929,7 +931,7 @@ namespace Tag.Vows.Page
             {
                 AspxCsCode.AppendFormat("using {0};\r\n", Config.dbNameSpace);
             }
-            this.Usings = this.Config.usings + this.Usings; //合并通用的命名空间与页面特定的命名空间集合
+            this.Usings = this.Config.usings + "," + this.Usings; //合并通用的命名空间与页面特定的命名空间集合
             if (!string.IsNullOrEmpty(this.Usings))
             {
                 var arr = this.Usings.Split(',').Distinct();
@@ -956,7 +958,8 @@ namespace Tag.Vows.Page
             AspxCsCode.AppendFormat("//    如果重新生成代码，则将覆盖对此文件的手动更改。\r\n");
             AspxCsCode.AppendFormat("// </auto-generated>\r\n");
             AspxCsCode.AppendFormat("//------------------------------------------------------------------------------\r\n");
-            AspxCsCode.AppendFormat("/*  Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home  */\r\n\r\n");
+
+            AspxCsCode.AppendFormat("/*  Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag */\r\n\r\n", this.Config.v);
             AspxCsCode.AppendFormat("public partial class {0} : {1}\r\n", className, type[3]);
             AspxCsCode.Append("{\r\n");
             AspxCsCode.Append(GloabalFileds);

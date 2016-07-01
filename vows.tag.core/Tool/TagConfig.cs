@@ -24,13 +24,14 @@ SOFTWARE.
 */
 #endregion
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Web;
-using Tag.Vows.Page;
-using System.Collections.Generic;
 using Tag.Vows.Bean;
 using Tag.Vows.Interface;
+using Tag.Vows.Page;
 
 namespace Tag.Vows.Tool
 {
@@ -349,6 +350,21 @@ namespace Tag.Vows.Tool
             }
             return false;
         }
+
+        private Version _v;
+        internal Version v
+        {
+            get
+            {
+                if (_v == null)
+                {
+                    _v = Assembly.GetExecutingAssembly().GetName().Version;
+                }
+                return _v;
+            }
+        }
+
+
 
         internal StringBuilder GetDbContext(IMakeAble page)
         {
