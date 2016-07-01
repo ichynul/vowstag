@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16498_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16169_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -37,22 +37,22 @@
                 以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_39154_6" runat="server">
+<asp:Repeater ID="ListTag_39294_6" runat="server">
     <ItemTemplate>
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_39154_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_39294_6" runat="server"></asp:Literal>
 
                 
-<asp:Repeater ID="ListTag_3167_10" runat="server">
+<asp:Repeater ID="ListTag_31263_10" runat="server">
     <ItemTemplate>
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_3167_10" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_31263_10" runat="server"></asp:Literal>
 
             </ul>
             <% = xx(GetCookie("xx","oo")) %>

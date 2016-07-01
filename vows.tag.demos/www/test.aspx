@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="test.aspx.cs" Inherits="Page_test" EnableViewState="false" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home -->
+<!-- Powered by VowsTag v-1.4.16.630 http://git.oschina.net/ichynul/vowstag -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -9,24 +8,24 @@
 </head>
 <body>
     
-<asp:Repeater ID="ListTag_24804_1" runat="server">
+<asp:Repeater ID="ListTag_24446_1" runat="server">
     <ItemTemplate><!--不分页3条-->
     <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# SubString(Eval("Title"),15) %></a>
         <span class="time"><%# Eval("Time") %></span> </li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_24804_1" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_24446_1" runat="server"></asp:Literal>
 
     <hr />
     <!--label中的read  读取那条ID为4的文章-->
-    <a style="color: Red;" href="read.aspx?id=<% =ReadTag_17516_5.ID %>"><% =ReadTag_17516_5.Title %><% = SubString(ReadTag_17516_5.Title,15) %><!--限制标题最多15个字--></a>
-<asp:Repeater ID="ListTag_57818_9" runat="server">
+    <a style="color: Red;" href="read.aspx?id=<% =ReadTag_17898_5.ID %>"><% =ReadTag_17898_5.Title %><% = SubString(ReadTag_17898_5.Title,15) %><!--限制标题最多15个字--></a>
+<asp:Repeater ID="ListTag_5717_9" runat="server">
     <ItemTemplate><!--不分页3条-->
     <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# SubString(Eval("Title"),15) %></a>
         <span class="time"><%# Eval("Time") %></span> </li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_57818_9" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_5717_9" runat="server"></asp:Literal>
 <form id="form1" runat="server">
     <script type="text/javascript">
         /* ajax 脚本支持 Created by VowsTag */

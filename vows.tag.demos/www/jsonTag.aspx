@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="jsonTag.aspx.cs" Inherits="Page_jsonTag" EnableViewState="false" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- Powered by VowsTag http://git.oschina.net/ichynul/vowstag/wikis/home -->
+<!-- Powered by VowsTag v-1.4.16.630 http://git.oschina.net/ichynul/vowstag -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16399_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16476_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="navi">
         <ul class="navilist">
     <li><a href="/">首页</a></li>
@@ -36,12 +35,12 @@
             <ul class="categslist" id="switch">
                 <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 
-<asp:Repeater ID="ListTag_45106_6" runat="server">
+<asp:Repeater ID="ListTag_45326_6" runat="server">
     <ItemTemplate>
                 <li><a href="javascript:;" onclick="change(this,'<%# Eval("ID") %>');"><%# Eval("Name") %></a></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_45106_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_45326_6" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -78,10 +77,10 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "JsonTag_71786_11";
+            var jsonname = "JsonTag_71798_11";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
-                jsonname = "JsonTag_85109_12";
+                jsonname = "JsonTag_85821_12";
                 //categ = call.cid 中 call.cid为一个占位符(类似于request.xxx) 代表call参数中的cid值
             }
             _tagcall.json(jsonname, "page=" + page + '&cid=' + type); ///  在这里指定cid的值
