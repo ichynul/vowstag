@@ -2,16 +2,21 @@
 **标签实例：**
 1.1列表:不分页
 ```
-{#list=article?classid=3 &orderby=tiem &desc=true &take=10} <!--读取栏目编号为3的文章,按时间倒序排列,获取结果的前10条记录-->
-    <a href='read.aspx?id={#item.id}'>{#item.title}</a> <!--{item.xxx}代表某个字段'xxx'-->
-    <span>发表时间{#TimeFormat(item.DTime,"MM月dd日")}</span><!--{TimeFormat(xxxx，“”)}格式化日期时间-->
-    <p>{# SubString(item.desc,50)}</p><!--{SubString(xxxx)}为一个内置截取字符串的方法,此次截取文字描述的50个字-->
+{#list=article?classid=3 &orderby=tiem &desc=true &take=10} 
+<!--读取栏目编号为3的文章,按时间倒序排列,获取结果的前10条记录-->
+    <a href='read.aspx?id={#item.id}'>{#item.title}</a> 
+    <!--{item.xxx}代表某个字段'xxx'-->
+    <span>发表时间{#TimeFormat(item.DTime,"MM月dd日")}</span>
+    <!--{TimeFormat(xxxx，“”)}格式化日期时间-->
+    <p>{# SubString(item.desc,50)}</p>
+    <!--{SubString(xxxx)}为一个内置截取字符串的方法,此次截取文字描述的50个字-->
 {#list}<!--标签结尾-->
 ```
 
 1.2列表:分页
 ```
-{#list=article? classid >3 &id<1000 &orderby=tiem &desc=true &pzgesize=10} <!--读取栏目编号大于3且id小于1000的文章,按时间倒序排列,分页大小为10-->
+{#list=article? classid >3 &id<1000 &orderby=tiem &desc=true &pzgesize=10} 
+<!--读取栏目编号大于3且id小于1000的文章,按时间倒序排列,分页大小为10-->
     <img src='{#item.logo}'/>
     <a href='read.aspx?id={#item.id}'>{#item.title}</a>
 {#list}
@@ -20,7 +25,8 @@
 
 1.3列表:字符串包含(搜索)
 ```
-{#list=article?title%request.kwd&take=10&item=search&emptytext=暂无相关记录 /} <!--省略了orderby和desc，按默认-->
+{#list=article?title%request.kwd&take=10&item=search&emptytext=暂无相关记录 /} 
+<!--省略了orderby和desc，按默认-->
 <!--此标签为list标签的另一种形式，把样式放在另外的一个单独的文件里面（item=search）,没有{#list}相匹配，而是以/}结尾-->
 <!--%代表包含,不包含则为!%。-->
 <!--request.xxx表示url中的参数xxx的值，类似的session.xxx、cookie.xxx、cookie.xx.yy分别为取session或cookie值-->
