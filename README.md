@@ -1,109 +1,71 @@
- <table cellpadding="0">
-        <tr><td class="name">¼ò½é£º</td><td>vowsTag±êÇ©Ê¹ÓÃËµÃ÷</td></tr>
-</td></tr>
-        <tr>
-            <td class="name">ÎÄ¼ş½á¹¹£º</td>
-            <td>
-                <ul class="format" style=" ">
-                    <li>Ò³ÃæÎÄ¼şÖ§³Ö.html»ò.htm</li>
-                    <li>item/<span class="space"></span>´æ·Ålist±êÇ©µÄitemµÄÎÄ¼ş¼Ğ</li>
-                    <li>label/<span class="space"></span>´æ·ÅlabelÒ³ÃæµÄÎÄ¼ş¼Ğ</li>
-                    <li>page/<span class="space"></span>´æ·ÅÖ÷Ò³ÃæÒ³ÃæµÄÎÄ¼ş¼Ğ</li>
-                    <li>static/<span class="space"></span>´æ·ÅstaticÒ³ÃæµÄÎÄ¼ş¼Ğ</li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td class="name">¸ÅÀÀ£º</td>
-            <td>
-                <ul class="format" style=" ">
-                    <li>±êÇ©ÒÔÒ»¶Ô´óÀ¨ºÅ°üÎ§ {...}»ò{.../}»ò{...}...{/...}</li>
-                    <li>±êÇ©ÄÚ²¿¿ÉÒÔÈÎÒâ¼ÓÈë¿Õ¸ñ»ò»»ĞĞ</li>
-                    <li>¶ÔÓÚÄ³Ğ©´ø²ÎÊıµÄ±êÇ©,¿ÉÓÃ'&lt;br /&gt;' ´úÌæ'&'¡¢'&lt;hr /&gt;'´úÌæ'|'</li>
-                    <li>±êÇ©ÖĞÂß¼­¶¼ÊÇ¶ÌÂ·µÄ£¬'&'Êµ¼ÊĞ§¹ûÎª'&&'£¬'|'Êµ¼ÊĞ§¹ûÎª'||'</li>
-                </ul>
-            </td>
-        </tr>
-    </table>
+ï»¿
+**æ ‡ç­¾å®ä¾‹ï¼š**
+1.1åˆ—è¡¨:ä¸åˆ†é¡µ
 ```
-** Ê¹ÓÃ£º**
-    //1.Ìí¼ÓÒıÓÃTag.Vows.dll
-    //2.ÅäÖÃ
-     TagConfig __config= new mPaths();
-    __config.input = "~/temple/"; /*Ä£°åÎÄ¼ş¼ĞÎª¸ùÄ¿Â¼µÄ/temple/ÎÄ¼ş¼Ğ*/
-    __config.output = "~/www/"; /*Éú³ÉÎÄ¼ş¼ĞÎª¸ùÄ¿Â¼µÄ/www/ÎÄ¼ş¼Ğ*/
-    __config.db = new Entities(); /*ÉèÖÃÒ»¸ö ObjectContext »ò DbSet µÄ×ÓÊµÀı*/
-    __config.protected_tables = "Manages|Log";  /*ÉèÖÃÊÜ±£»¤µÄ±í*/
-    __config.current_pairs = new string[2]{"{#","}"};/*ÅäÖÃ±êÇ©×óÓÒ·ûºÅ {#....../}
-    __config.creatScriptForAllPages = true;//ÎªËùÓĞÒ³ÃæÉú³ÉcallbackÖ§³Ö£»
-                                        //ÎŞĞèÔÚÃ¿¸öÒ³ÃæÖĞÊ¹ÓÃ{cmd?callback=true/}
-    __config.defaultBase = "web.hello.pagebase";// Ö¸¶¨ËùÓĞÒ³Ãæ´¦ÀíÀàÄ¬ÈÏ¼Ì³ĞµÄÀà£»
-                                              //Ä¬ÈÏÎª¡®Tag.Vows.TagPage¡¯
-                            //¿ÉÔÚÔÚ¾ßÌåÒ³ÃæÊ¹ÓÃ{cmd?base=web.hello.pagebase2 /}ÁíĞĞÖ¸¶¨
-    //3.Éú³ÉÒ³Ãæ /temple/page/test.html
-    string msg = __config.MakePage("test");
-    Response.Write(msg);
-```
-**±êÇ©ÊµÀı£º**
-1.1ÁĞ±í:²»·ÖÒ³
-```
-{#list=article?classid=3&orderby=tiem&desc=true&take=10} <!--¶ÁÈ¡À¸Ä¿±àºÅÎª3µÄÎÄÕÂ,°´Ê±¼äµ¹ĞòÅÅÁĞ,»ñÈ¡½á¹ûµÄÇ°10Ìõ¼ÇÂ¼-->
-    <a href='read.aspx?id={#item.id}'>{#item.title}</a> <!--{item.xxx}´ú±íÄ³¸ö×Ö¶Î'xxx'-->
-    <p>{# SubString(item.desc,50)}</p><!--{SubString(xxxx)}ÎªÒ»¸öÄÚÖÃ½ØÈ¡×Ö·û´®µÄ·½·¨,´Ë´Î½ØÈ¡ÎÄ×ÖÃèÊöµÄ50¸ö×Ö-->
-{#list}<!--±êÇ©½áÎ²-->
+{#list=article?classid=3 &orderby=tiem &desc=true &take=10} <!--è¯»å–æ ç›®ç¼–å·ä¸º3çš„æ–‡ç« ,æŒ‰æ—¶é—´å€’åºæ’åˆ—,è·å–ç»“æœçš„å‰10æ¡è®°å½•-->
+    <a href='read.aspx?id={#item.id}'>{#item.title}</a> <!--{item.xxx}ä»£è¡¨æŸä¸ªå­—æ®µ'xxx'-->
+    <span>å‘è¡¨æ—¶é—´{#TimeFormat(item.DTime,"MMæœˆddæ—¥")}</span><!--{TimeFormat(xxxxï¼Œâ€œâ€)}æ ¼å¼åŒ–æ—¥æœŸæ—¶é—´-->
+    <p>{# SubString(item.desc,50)}</p><!--{SubString(xxxx)}ä¸ºä¸€ä¸ªå†…ç½®æˆªå–å­—ç¬¦ä¸²çš„æ–¹æ³•,æ­¤æ¬¡æˆªå–æ–‡å­—æè¿°çš„50ä¸ªå­—-->
+{#list}<!--æ ‡ç­¾ç»“å°¾-->
 ```
 
-1.2ÁĞ±í:·ÖÒ³
+1.2åˆ—è¡¨:åˆ†é¡µ
 ```
-{#list=article?classid>3&id<1000&orderby=tiem&desc=true&pzgesize=10} <!--¶ÁÈ¡À¸Ä¿±àºÅ´óÓÚ3ÇÒidĞ¡ÓÚ1000µÄÎÄÕÂ,°´Ê±¼äµ¹ĞòÅÅÁĞ,·ÖÒ³´óĞ¡Îª10-->
+{#list=article? classid >3 & id<1000 &orderby=tiem &desc=true &pzgesize=10} <!--è¯»å–æ ç›®ç¼–å·å¤§äº3ä¸”idå°äº1000çš„æ–‡ç« ,æŒ‰æ—¶é—´å€’åºæ’åˆ—,åˆ†é¡µå¤§å°ä¸º10-->
     <img src='{#item.logo}'/>
     <a href='read.aspx?id={#item.id}'>{#item.title}</a>
 {#list}
-{#pager?type=cs}<!--·ÖÒ³±êÇ©-->
+{#pager?type=cs}<!--åˆ†é¡µæ ‡ç­¾-->
 ```
 
-1.3ÁĞ±í:×Ö·û´®°üº¬(ËÑË÷)
+1.3åˆ—è¡¨:å­—ç¬¦ä¸²åŒ…å«(æœç´¢)
 ```
-{#list=article?title%request.kwd&take=10&item=search&emptytext=ÔİÎŞÏà¹Ø¼ÇÂ¼/} <!--Ê¡ÂÔÁËorderbyºÍdesc£¬°´Ä¬ÈÏ-->
-<!--´Ë±êÇ©Îªlist±êÇ©µÄÁíÒ»ÖÖĞÎÊ½£¬°ÑÑùÊ½·ÅÔÚÁíÍâµÄÒ»¸öµ¥¶ÀµÄÎÄ¼şÀïÃæ£¨item=search£©,Ã»ÓĞ{#list}ÏàÆ¥Åä£¬¶øÊÇÒÔ/}½áÎ²-->
-<!--%´ú±í°üº¬,²»°üº¬ÔòÎª!%¡£-->
-<!--request.xxx±íÊ¾urlÖĞµÄ²ÎÊıxxxµÄÖµ-->
-<!--emptytext=msgÖ¸¶¨¼ÇÂ¼Îª¿ÕÊ±µÄÌáÊ¾ĞÅÏ¢-->
+{#list=article?title%request.kwd&take=10&item=search&emptytext=æš‚æ— ç›¸å…³è®°å½• /} <!--çœç•¥äº†orderbyå’Œdescï¼ŒæŒ‰é»˜è®¤-->
+<!--æ­¤æ ‡ç­¾ä¸ºlistæ ‡ç­¾çš„å¦ä¸€ç§å½¢å¼ï¼ŒæŠŠæ ·å¼æ”¾åœ¨å¦å¤–çš„ä¸€ä¸ªå•ç‹¬çš„æ–‡ä»¶é‡Œé¢ï¼ˆitem=searchï¼‰,æ²¡æœ‰{#list}ç›¸åŒ¹é…ï¼Œè€Œæ˜¯ä»¥/}ç»“å°¾-->
+<!--%ä»£è¡¨åŒ…å«,ä¸åŒ…å«åˆ™ä¸º!%ã€‚-->
+<!--request.xxxè¡¨ç¤ºurlä¸­çš„å‚æ•°xxxçš„å€¼ï¼Œç±»ä¼¼çš„session.xxxã€cookie.xxxã€cookie.xx.yyåˆ†åˆ«ä¸ºå–sessionæˆ–cookieå€¼-->
+<!--emptytext=msgæŒ‡å®šè®°å½•ä¸ºç©ºæ—¶çš„æç¤ºä¿¡æ¯-->
+```
+1.4åˆ—è¡¨:è¢«åŒ…å«
+```
+{#list=article?id#[1,3,5,7,9,11] &title!#[hello,nihao] &take=10 &item=newslist &skip=4 /}
+<!--#ä»£è¡¨è¢«åŒ…å«ï¼Œåé¢æ¥ä¸€ä¸ª[]åŒ…å›´çš„æ•°ç»„,ä¸åŒ…å«åˆ™ä¸º!#ã€‚-->
+<!--skip=4 è·³è¿‡å‰4æ¡-->
 ```
 
-2.1£ºÄÚÈİ
+2.1ï¼šå†…å®¹
 ```
-{#read=article?id=10} <!--¶ÁÈ¡Ö¸¶¨idµÄÎÄÕÂ-->
-    <h3>{#read.title}</h3> <!--{read.xxx}´ú±íÄ³¸ö×Ö¶Î'xxx'-->
+{#read=article?id=10} <!--è¯»å–æŒ‡å®šidçš„æ–‡ç« -->
+    <h3>{#read.title}</h3> <!--{read.xxx}ä»£è¡¨æŸä¸ªå­—æ®µ'xxx'-->
     <div>{#read.content}</div>
-    {#{click()}}
-{#read}<!--±êÇ©½áÎ²-->
+    {#click(â€œarticleâ€,10) }<!--åå°æ–¹æ³•,ç‚¹å‡»è®¡æ•°-->
+{#read}<!--æ ‡ç­¾ç»“å°¾-->
 ```
 
-2.1£ºÄÚÈİurl²ÎÊı
+2.1ï¼šå†…å®¹urlå‚æ•°
 ```
-    {#read=article?id=request.id /} <!--¶ÁÈ¡Ö¸url²ÎÊıÖ¸¶¨µÄÎÄÕÂ£¬¸Ã±êÇ©ÎªÈ«¾ÖµÄ£¬ÒÔ /}½áÎ²-->
-    <h3>{#read.title}</h3> <!--×Ö¶ÎÖµ£¬¿ÉĞ´ÔÚÈÎÒâÎ»ÖÃ-->
-    <div>{#read.content}</div>
-    {#click(request.id)}<!--ºóÌ¨·½·¨£¬µã»÷¼ÆÊı-->
+{#read=article?id=request.id /} <!--è¯»å–æŒ‡urlå‚æ•°æŒ‡å®šçš„æ–‡ç« ï¼Œè¯¥æ ‡ç­¾ä¸ºå…¨å±€çš„ï¼Œä»¥ /}ç»“å°¾-->
+<h3>{#read.title}</h3> <!--å­—æ®µå€¼ï¼Œå¯å†™åœ¨ä»»æ„ä½ç½®-->
+<div>{#read.content}</div>
+{#click(â€œarticleâ€,request.id) }<!--åå°æ–¹æ³•ï¼Œç‚¹å‡»è®¡æ•°-->
 ```
 
-3.1£ºÒì²½json
+3.1ï¼šå¼‚æ­¥json
 ```
-<a href="javascript:;" onclick="prevPage()">ÉÏÒ»Ò³</a><a href="javascript:;" onclick="nextPage()">ÏÂÒ»Ò³</a>
-<!--json±êÇ©ĞèÔÚjs½Å±¾ÖĞÊ¹ÓÃ-->
+<a href="javascript:;" onclick="prevPage()">ä¸Šä¸€é¡µ</a><a href="javascript:;" onclick="nextPage()">ä¸‹ä¸€é¡µ</a>
+<!--jsonæ ‡ç­¾éœ€åœ¨jsè„šæœ¬ä¸­ä½¿ç”¨-->
 <script>
      var page = 1, pagesize;
      var pages, listsize=9999999;
      var type = 0;
      var over = false;
-    var jsonname="{#json=article?classid=3&orderby=tiem&desc=true}"; //¶ÁÈ¡À¸Ä¿±àºÅÎª3µÄÎÄÕÂ,°´Ê±¼äµ¹ĞòÅÅÁĞ
+    var jsonname="{#json=article?classid=3&orderby=tiem&desc=true}"; //è¯»å–æ ç›®ç¼–å·ä¸º3çš„æ–‡ç« ,æŒ‰æ—¶é—´å€’åºæ’åˆ—
  
     function loadMore() {
         _tagcall.$json(jsonname, "page=" + page);
     }
     
-    //ÏÂÒ»Ò³
+    //ä¸‹ä¸€é¡µ
     function nextPage()
     {
         page+=1;
@@ -114,7 +76,7 @@
         loadMore();
     }
     
-    //ÉÏÒ»Ò³
+    //ä¸Šä¸€é¡µ
     function prevPage()
     {
         page-=1;
@@ -125,11 +87,11 @@
         loadMore();
     }
     
-    //±êÇ© callbackÇëÇó³É¹¦´¦Àí
+    //æ ‡ç­¾ callbackè¯·æ±‚æˆåŠŸå¤„ç†
     function CallbackSuccess(resultstr) {
             var obj = eval('(' + resultstr + ')');
             if (obj.type) {
-                if (obj.type == "jsoncall") {//json±êÇ©ÇëÇóµÄ·µ»Ø
+                if (obj.type == "jsoncall") {//jsonæ ‡ç­¾è¯·æ±‚çš„è¿”å›
                     if (obj.result && obj.result.data) {
                         over = obj.result.over;
                         page = obj.result.page;
@@ -137,17 +99,17 @@
                         pagesize = obj.result.pagesize;
                         paging();
                         if (obj.result.data.length > 0) {
-                            //´¦ÀíjsonÊı¾İ
+                            //å¤„ç†jsonæ•°æ®
                             /*var tpl = $('#list-template').text();
                             var tempFn = doT.template(tpl);
                             $("#thelist").html(tempFn(obj.result.data));*/
                         }
                         else {
                             if (obj.result.page == 1) {
-                                alert('ÔİÎŞ¼ÇÂ¼');
+                                alert('æš‚æ— è®°å½•');
                             }
                             else {
-                                alert('Ã»ÓĞ¸ü¶àÁË');
+                                alert('æ²¡æœ‰æ›´å¤šäº†');
                             }
                         }
                     }
@@ -163,4 +125,23 @@
             }
         }
 </script>
+```
+```
+** ä½¿ç”¨ï¼š**
+    //1.æ·»åŠ å¼•ç”¨Tag.Vows.dll
+    //2.é…ç½®
+     TagConfig __config= new mPaths();
+    __config.input = "~/temple/"; /*æ¨¡æ¿æ–‡ä»¶å¤¹ä¸ºæ ¹ç›®å½•çš„/temple/æ–‡ä»¶å¤¹*/
+    __config.output = "~/www/"; /*ç”Ÿæˆæ–‡ä»¶å¤¹ä¸ºæ ¹ç›®å½•çš„/www/æ–‡ä»¶å¤¹*/
+    __config.db = new Entities(); /*è®¾ç½®ä¸€ä¸ª ObjectContext æˆ– DbSet çš„å­å®ä¾‹*/
+    __config.protected_tables = "Manages|Log";  /*è®¾ç½®å—ä¿æŠ¤çš„è¡¨*/
+    __config.current_pairs = new string[2]{"{#","}"};/*é…ç½®æ ‡ç­¾å·¦å³ç¬¦å· {#....../}
+    __config.creatScriptForAllPages = true;//ä¸ºæ‰€æœ‰é¡µé¢ç”Ÿæˆcallbackæ”¯æŒï¼›
+                                        //æ— éœ€åœ¨æ¯ä¸ªé¡µé¢ä¸­ä½¿ç”¨{cmd?callback=true/}
+    __config.defaultBase = "web.hello.pagebase";// æŒ‡å®šæ‰€æœ‰é¡µé¢å¤„ç†ç±»é»˜è®¤ç»§æ‰¿çš„ç±»ï¼›
+                                              //é»˜è®¤ä¸ºâ€˜Tag.Vows.TagPageâ€™
+                            //å¯åœ¨åœ¨å…·ä½“é¡µé¢ä½¿ç”¨{cmd?base=web.hello.pagebase2 /}å¦è¡ŒæŒ‡å®š
+    //3.ç”Ÿæˆé¡µé¢ /temple/page/test.html
+    string msg = __config.MakePage("test");
+    Response.Write(msg);
 ```
