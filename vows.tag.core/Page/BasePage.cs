@@ -73,7 +73,7 @@ namespace Tag.Vows.Page
         protected int Deep;
         protected BasePage() { }
 
-        public BasePage(string mPageName, TagConfig config, bool justGetTagList)
+        internal BasePage(string mPageName, TagConfig config, bool justGetTagList)
             : this(string.Empty, mPageName, 1, config, justGetTagList)
         {
 
@@ -502,11 +502,11 @@ namespace Tag.Vows.Page
             }
             //
             value = cmd.QueryString("validaterequest");
-            this.ValidateRequest = value != null
-                && value.ToLower() == "true";
+            this.ValidateRequest = !string.IsNullOrEmpty(value)
+                && value.ToLower() == "false";
             value = cmd.QueryString("enableviewstate");
-            this.EnableViewState = string.IsNullOrEmpty(value)
-                || value.ToLower() == "false";
+            this.EnableViewState = !string.IsNullOrEmpty(value)
+                && value.ToLower() == "true";
             value = cmd.QueryString("usings");
             if (!string.IsNullOrEmpty(value))
             {
@@ -797,7 +797,7 @@ namespace Tag.Vows.Page
             }
             else if (this is IUC && this.CallBack == true)
             {
-                Html = Html + "<!--仅顶级页面支持 callback 参数 -->>"; ;
+                Html = Html + "<!--仅顶级页面支持 callback 参数 -->"; ;
             }
 
             return Html;
@@ -882,24 +882,6 @@ namespace Tag.Vows.Page
             }
         }
 
-        private void WriteTagGit()
-        {
-            if (string.IsNullOrEmpty(Html))
-            {
-                Html = string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v);
-                return;
-            }
-            TheMatch = Regex.Match(Html, "(?s)<!DOCTYPE[^>]*>(?-s)", RegexOptions.IgnoreCase);
-            if (TheMatch.Success)
-            {
-                Html = Html.Replace(TheMatch.Value, string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v));
-            }
-            else
-            {
-                Html = string.Format("<!-- Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag -->\r\n", this.Config.v);
-            }
-        }
-
         /// <summary>
         /// 生成页面
         /// </summary>
@@ -916,12 +898,15 @@ namespace Tag.Vows.Page
             string codeFile = this.PageName + type[2];
             StringBuilder AspxCode = new StringBuilder();
             AspxCode.AppendFormat("<%@ {0} Language=\"C#\" AutoEventWireup=\"true\" CodeFile=\"{1}\" Inherits=\"{2}\"{3} {4} %>\r\n"
-                , type[0], codeFile, className, this is IUC || this.ValidateRequest ? "" : " ValidateRequest=\"false\"", this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
+                , type[0], codeFile, className, this is IUC || this.ValidateRequest ? "" : " ValidateRequest=\"false\"",
+                this is IUC || this.EnableViewState ? "" : "EnableViewState=\"false\"");
             AspxCode.AppendFormat("\r\n", codeFile, className);
             if (!(this is IUC))
             {
-                WriteTagGit();
+                AspxCode.AppendFormat("<!--{0} Powered by VowsTag v-{1} http://git.oschina.net/ichynul/vowstag -->\r\n",
+                    DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss"), this.Config.v);
             }
+
             AspxCode.Append(this.GetAspxCode());
             FindAllMethodsOrFileds();
             StringBuilder AspxCsCode = new StringBuilder("using System;\r\n");
@@ -990,6 +975,18 @@ namespace Tag.Vows.Page
             AspxCsCode.Append(Method.Space + "{\r\n");
             AspxCsCode.AppendFormat("{0}return this.Db_Context;\r\n", Method.getSpaces(2));
             AspxCsCode.Append(Method.Space + "}\r\n");
+            if (!(this is IUC))
+            {
+                AspxCsCode.Append("\r\n");
+                AspxCsCode.Append(Method.Space + "protected override void OnUnload(EventArgs e)\r\n");
+                AspxCsCode.Append(Method.Space + "{\r\n");
+                AspxCsCode.AppendFormat("{0}if (_Db_Context != null)\r\n", Method.getSpaces(2));
+                AspxCsCode.Append(Method.getSpaces(2) + "{\r\n");
+                AspxCsCode.AppendFormat("{0}_Db_Context.Dispose();\r\n", Method.getSpaces(3));
+                AspxCsCode.Append(Method.getSpaces(2) + "}\r\n");
+                AspxCsCode.AppendFormat("{0}base.OnUnload(e);\r\n", Method.getSpaces(2));
+                AspxCsCode.Append(Method.Space + "}\r\n");
+            }
             AspxCsCode.Append("}");
             string msg = "";
             string text = Regex.Replace(AspxCode.ToString(), @"(?:[\r\n]\s*[\r\n]){3,}", "\r\n");

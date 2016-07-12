@@ -369,11 +369,11 @@ namespace Tag.Vows.Tool
         internal StringBuilder GetDbContext(IMakeAble page)
         {
             StringBuilder sb = new StringBuilder();
-            if (page is SubListPage)
+            if (page is IUC)
             {
                 sb.AppendFormat("{0}protected {1} Db_Context;\r\n", Method.Space, this.entitiesName);
-                sb.AppendFormat("{0}public override void SetDb(object _db){1}\r\n", Method.Space, "{");
-                sb.AppendFormat("{0}this.Db_Context = _db as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.entitiesName, Method.Space, "}");
+                sb.AppendFormat("{0}public override void SetDb(object _dbcontext){1}\r\n", Method.Space, "{");
+                sb.AppendFormat("{0}this.Db_Context = _dbcontext as {1};\r\n{2}{3}\r\n", Method.getSpaces(2), this.entitiesName, Method.Space, "}");
             }
             else
             {
