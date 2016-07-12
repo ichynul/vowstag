@@ -11,7 +11,7 @@
 
 1.2列表:分页
 ```
-{#list=article? classid >3 & id<1000 &orderby=tiem &desc=true &pzgesize=10} <!--读取栏目编号大于3且id小于1000的文章,按时间倒序排列,分页大小为10-->
+{#list=article? classid >3 &id<1000 &orderby=tiem &desc=true &pzgesize=10} <!--读取栏目编号大于3且id小于1000的文章,按时间倒序排列,分页大小为10-->
     <img src='{#item.logo}'/>
     <a href='read.aspx?id={#item.id}'>{#item.title}</a>
 {#list}
@@ -26,10 +26,10 @@
 <!--request.xxx表示url中的参数xxx的值，类似的session.xxx、cookie.xxx、cookie.xx.yy分别为取session或cookie值-->
 <!--emptytext=msg指定记录为空时的提示信息-->
 ```
-1.4列表:被包含
+1.4列表:被包含于
 ```
 {#list=article?id#[1,3,5,7,9,11] &title!#[hello,nihao] &take=10 &item=newslist &skip=4 /}
-<!--#代表被包含，后面接一个[]包围的数组,不包含则为!#。-->
+<!--#代表被包含于，后面接一个[]包围的数组,不被包含于则为!#。-->
 <!--skip=4 跳过前4条-->
 ```
 
