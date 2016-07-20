@@ -97,11 +97,6 @@
             callBack 时请求参数
             </summary>
         </member>
-        <member name="F:Tag.Vows.Web.TagPage.db_created">
-            <summary>
-            页面是否使用了数据库
-            </summary>
-        </member>
         <member name="F:Tag.Vows.Web.TagPage.Befor_Load_Tags">
             <summary>
             在Page_Load里加载各标签前判断，若返回false则标签都不会加载

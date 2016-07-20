@@ -141,7 +141,6 @@ namespace Tag.Vows.Tool
         internal string LabelPath { get; private set; }
         internal string StaticlPath { get; private set; }
         internal string ItemPath { get; private set; }
-
         private object _db;
         private string _output;
         private string _absoUrlPath;
@@ -171,6 +170,8 @@ namespace Tag.Vows.Tool
                 StaticlPath = HttpContext.Current.Server.MapPath(input + "static/");
                 ItemPath = HttpContext.Current.Server.MapPath(input + "item/");
                 tagregex = new TagRegex(this.tagLeft, this.tagRight);
+                string msg = "";
+                this.WriteFile(PagePath + "/js", "_tagcall.js", JsMaker.GetCallBackJs().ToString(), out msg);
                 return true;
             }
             return false;

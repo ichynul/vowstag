@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="listTag.aspx.cs" Inherits="Page_listTag" EnableViewState="false" %>
 
-<!-- Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
-
+<!--2016年07月20日 13:58:16 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title><% = config.webname %></title>
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16790_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_1681_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -23,7 +23,7 @@
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
-    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/Maker.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
@@ -37,19 +37,19 @@
                 分页 默认会以第一个字段、降序排列，分页3条</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_2693_6" runat="server">
+<asp:Repeater ID="ListTag_26630_6" runat="server">
     <ItemTemplate><!--分页3条-->
                 <li><a class="title" href="formTag.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_2693_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_26630_6" runat="server"></asp:Literal>
 
             </ul>
             <div id="kkpager" class="tcdPageCode">
             </div>
             <!-- 分页标签，一个页面最多只能有一个分页的list，最多一个分页标签-->
-            <asp:Literal ID="PagerTag_17306_10" runat="server"></asp:Literal><!--tpey=js，前端分页(可以用第三方分页实现个性化分页)，会在标签出输出分页需要的隐藏信息 -->
+            <asp:Literal ID="PagerTag_17287_10" runat="server"></asp:Literal><!--tpey=js，前端分页(可以用第三方分页实现个性化分页)，会在标签出输出分页需要的隐藏信息 -->
             <div>
                 <h4>
                     ----输出分页信息----</h4>
@@ -135,12 +135,12 @@
                 以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_411_11" runat="server">
+<asp:Repeater ID="ListTag_41668_11" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_411_11" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_41668_11" runat="server"></asp:Literal>
 
                 <!--读一条看看。因为不需要包含样式，所以以单标签的形式-->
                 <!--item=listTag_item 样式文件位于 /item/listTag_item.html(文件扩展名可以是.html/.htm/.txt)-->
@@ -151,12 +151,12 @@
                 逻辑且'&',查询条件之间用&分割表示逻辑且(短路的，实际效果为&&,书写的时候不要写成&&),逻辑关系与标签指令（orderby、desc、take、skip、item等）无书写位置的限定</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_54869_12" runat="server">
+<asp:Repeater ID="ListTag_54482_12" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_54869_12" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_54482_12" runat="server"></asp:Literal>
 
                 <!--id>=3    id大于等于3-->
                 <!--id<999   且id小于99-->
@@ -168,12 +168,12 @@
                 逻辑或'|'(短路的，实际效果为||),</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_77438_13" runat="server">
+<asp:Repeater ID="ListTag_77871_13" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_77438_13" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_77871_13" runat="server"></asp:Literal>
 
                 <!--id=3    id等于3-->
                 <!--id=6    或id等于6-->
@@ -187,12 +187,12 @@
                 文本包含'%'、不包含'!%'</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_66475_14" runat="server">
+<asp:Repeater ID="ListTag_66944_14" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_66475_14" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_66944_14" runat="server"></asp:Literal>
 
                 <!--titel%人          标题不包含'O'字母-->
                 <!--content!%[二 B]    正文不包含"二 B"，此处文字外有[]（文字中有空格的，要用引号或[]包围，否则可以省去）-->
@@ -205,12 +205,12 @@
                 被包含'#'、不被包含'!#'  </p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_89204_15" runat="server">
+<asp:Repeater ID="ListTag_89168_15" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_89204_15" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_89168_15" runat="server"></asp:Literal>
 
                 <!--titel !# "你好,hello,hi"          标题不是 你好,hello,hi 中的任意一个-->
                 <!--id #[11,13,15,17]   id 为 1,2,3,4 中的任意一个-->
@@ -222,12 +222,12 @@
                 记录为空简单文本提示</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_60479_16" runat="server">
+<asp:Repeater ID="ListTag_60938_16" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_60479_16" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_60938_16" runat="server"></asp:Literal>
 
                 <!--emptytext支持简单的纯文本 -->
             </ul>
@@ -237,13 +237,13 @@
                 记录为空复杂文本提示</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_20588_17" runat="server">
+<asp:Repeater ID="ListTag_20566_17" runat="server">
     <ItemTemplate><!--不使用item外部文件样式-->
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                                 </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_20588_17Empty) %>
+            <% if (ListTag_20566_17Empty) %>
 <% { %>
                 <li>没有id小于<b style="color: Red;">0</b>的记录 ~!~ </li>
                 
@@ -257,12 +257,12 @@
                 时间，支持DateTime.Now的形式</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_76227_21" runat="server">
+<asp:Repeater ID="ListTag_76205_21" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_76227_21" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_76205_21" runat="server"></asp:Literal>
 
                 <!--time>2015/12/25 12:25:54          录入日期 在2015/12/25 12:15:54之后的。时间用'-'或'/'分割-->
                 <!--time < DateTime.Now               今天之后后的-->
@@ -273,12 +273,12 @@
                 session、cookie、后端变量</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_107270_22" runat="server">
+<asp:Repeater ID="ListTag_107731_22" runat="server">
     <ItemTemplate><li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
     <%# Eval("Time") %></span> </li>
 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_107270_22" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_107731_22" runat="server"></asp:Literal>
 
                 <!--uid=session.uid           与session值比较-->
                 <!--uid=user.ID               与后端变量比较，注意字段区分大小写-->
@@ -291,13 +291,13 @@
                 受保护的表</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_22603_23" runat="server">
+<asp:Repeater ID="ListTag_22762_23" runat="server">
     <ItemTemplate><!--受保护的表'Admin'，无法使用-->
                 <li>用户名：<%# Eval("Username") %><br />
                     密码：<%# Eval("Password") %></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_22603_23" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_22762_23" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -313,107 +313,7 @@
     </div>
 
 <form id="form1" runat="server">
-    <script type="text/javascript">
-        /* ajax 脚本支持 Created by VowsTag */
-        var _tagcall = {
-            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallbackResult DoCallback()以处理请求。
-            //用方法:this.CallValue("key1")可获取value1',context参数可省略.(详细请了解asp.net的'callback'机制)
-            $: function (arg ,async ,context)
-            {
-                //请求发起前预处理方法，一般显示一个提示
-                if (typeof(BeforCallback) == 'function' )
-                {
-                    BeforCallback();
-                }
-                if (async != false)//异步
-                {
-                    <% = ClientScript.GetCallbackEventReference(this ,"arg" ,"this.success" ,"this.error" ,"context" ,true) %>;
-                }
-                else
-                {
-                    <% = ClientScript.GetCallbackEventReference(this ,"arg" ,"this.success" ,"this.error" ,"context" ,false) %>;
-                }
-            },
-            success: function (result ,context)//异步发起请求成功
-            {
-                //看是否有处理的方法
-                if (typeof(CallbackSuccess) == 'function' )
-               {
-                    CallbackSuccess(result ,context);
-                }
-                else
-                {
-                    alert('服务端返回：\r\n' + result+'\r\n请实现js方法CallbackSuccess(result)以处理返回结果。');
-                }
-            },
-            error: function (error ,context)//异步发起请求错误
-            {
-                if (typeof(window.console) != undefined)
-                {
-                    window.console.debug( '出错了！--' + error );
-                }
-                //看是否有处理的方法
-                if (typeof(CallbackError) == 'function' )
-                {
-                    CallbackError(error ,context);
-                }
-                else
-                {
-                    alert('请求出现错误！服务端返回：\r\n' + error+'\r\n请实现js方法CallbackError(result)以处理返回结果。');
-                }
-            },
-            formqstr: '',
-            form: function (formname ,async)//form标签发起请求
-            {
-                var elemArray = theForm.elements;
-                this.formqstr ='';
-                for (var i = 0; i < elemArray.length; i++) {
-                    var element = elemArray[i];
-                    var elemType = element.type.toUpperCase();
-                    var elemName = element.name;
-                    if (elemName) {
-                        if ( elemType == 'TEXT' || elemType == 'TEXTAREA'
-                             || elemType == 'PASSWORD' || elemType == 'FILE' || elemType == 'HIDDEN')
-                        {
-                            this.getElemValue(elemName, element.value);
-                        }
-                        else if (elemType == 'CHECKBOX' && element.checked)
-                        {
-                            this.getElemValue(elemName, element.value ? element.value : 'On');
-                        }
-                        else if (elemType == 'RADIO' && element.checked)
-                        {
-                            this.getElemValue(elemName, element.value);
-                        }
-                        else if (elemType.indexOf('SELECT') != -1)
-                        {
-                            for (var j = 0; j < element.options.length; j++) {
-                                var option = element.options[j];
-                                if (option.selected)
-                                {
-                                    this.getElemValue(elemName, option.value ? option.value : option.text); }
-                                }
-                           }
-                       }
-                  }
-                this.$('formname=' + formname + '&' + this.formqstr ,async ,formname);
-            },
-            getElemValue: function(name ,value) {
-                if (name == '__VIEWSTATE' || name == '__VIEWSTATEGENERATOR'||
-                        name == '__EVENTTARGET' || name =='__EVENTARGUMENT')
-                {
-                    return;
-                }
-                this.formqstr += (this.formqstr.length > 0 ? '&' : '') + name + '=' + value;
-            },
-            json: function (jsonname ,otenparams ,async)//json标签发起请求
-            {
-                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
-            }
-        };
-        _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用
-        var _tagcallback = _tagcall;//兼容旧版
-    </script>
+    <script id="_tagcall" type="text/javascript" src="/temple/page/js/_tagcall.js" ></script>
 </form>
 </body>
 </html>

@@ -6,7 +6,7 @@
 </div>
 <ul class="articlelist">
     
-<asp:Repeater ID="ListTag_65613_3" runat="server">
+<asp:Repeater ID="ListTag_65407_3" runat="server">
     <ItemTemplate>
     <!--list中的list.本标签中引用了外层的item(categ= item.id) -->
     <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
@@ -16,6 +16,6 @@
     </li>
     </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_65613_3" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_65407_3" runat="server"></asp:Literal>
 
 </ul>

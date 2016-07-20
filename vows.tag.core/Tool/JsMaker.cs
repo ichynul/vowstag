@@ -30,8 +30,7 @@ namespace Tag.Vows.Tool
     {
         public static StringBuilder GetCallBackJs()
         {
-            StringBuilder script = new StringBuilder(300);
-            script.Append("\r\n    <script type=\"text/javascript\">\r\n");
+            StringBuilder script = new StringBuilder(600);
             script.Append("        /* ajax 脚本支持 Created by VowsTag */\r\n");
             script.Append("        var _tagcall = {\r\n");
             script.Append("            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallbackResult DoCallback()以处理请求。\r\n");
@@ -43,14 +42,7 @@ namespace Tag.Vows.Tool
             script.Append("                {\r\n");
             script.Append("                    BeforCallback();\r\n");
             script.Append("                }\r\n");
-            script.Append("                if (async != false)//异步\r\n");
-            script.Append("                {\r\n");
-            script.Append("                    <% = ClientScript.GetCallbackEventReference(this ,\"arg\" ,\"this.success\" ,\"this.error\" ,\"context\" ,true) %>;\r\n");
-            script.Append("                }\r\n");
-            script.Append("                else\r\n");
-            script.Append("                {\r\n");
-            script.Append("                    <% = ClientScript.GetCallbackEventReference(this ,\"arg\" ,\"this.success\" ,\"this.error\" ,\"context\" ,false) %>;\r\n");
-            script.Append("                }\r\n");
+            script.Append("                WebForm_DoCallback('__Page', arg, this.success, this.error, context, async == true);\r\n"); ;
             script.Append("            },\r\n");
             script.Append("            success: function (result ,context)//异步发起请求成功\r\n");
             script.Append("            {\r\n");
@@ -131,7 +123,6 @@ namespace Tag.Vows.Tool
             script.Append("        };\r\n");
             script.Append("        _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用\r\n");
             script.Append("        var _tagcallback = _tagcall;//兼容旧版\r\n");
-            script.Append("    </script>\r\n");
             return script;
         }
     }

@@ -787,7 +787,9 @@ namespace Tag.Vows.Page
                     TheMatch = Regex.Match(Html, "</form>", RegexOptions.IgnoreCase);
                     if (TheMatch.Success)
                     {
-                        Html = Html.Replace("</form>", string.Concat(JsMaker.GetCallBackJs().ToString(), "</form>"));
+                        Html = Html.Replace("</form>", string.Concat("\r\n    <script id=\"_tagcall\" type=\"text/javascript\" src=\"",
+                            Config.input.Replace("~", ""), this.Config.input.EndsWith("/") ? "" : "/",
+                            "page/js/_tagcall.js\" ></script>", "\r\n</form>"));
                     }
                     else
                     {
@@ -797,9 +799,8 @@ namespace Tag.Vows.Page
             }
             else if (this is IUC && this.CallBack == true)
             {
-                Html = Html + "<!--仅顶级页面支持 callback 参数 -->"; ;
+                Html = Html + "<!--仅顶级页面支持 callback 参数 -->";
             }
-
             return Html;
         }
 
@@ -943,7 +944,6 @@ namespace Tag.Vows.Page
             AspxCsCode.AppendFormat("//    如果重新生成代码，则将覆盖对此文件的手动更改。\r\n");
             AspxCsCode.AppendFormat("// </auto-generated>\r\n");
             AspxCsCode.AppendFormat("//------------------------------------------------------------------------------\r\n");
-
             AspxCsCode.AppendFormat("/*  Powered by VowsTag v-{0} http://git.oschina.net/ichynul/vowstag */\r\n\r\n", this.Config.v);
             AspxCsCode.AppendFormat("public partial class {0} : {1}\r\n", className, type[3]);
             AspxCsCode.Append("{\r\n");
@@ -952,6 +952,11 @@ namespace Tag.Vows.Page
             AspxCsCode.Append(Method.Space + "{\r\n");
             AspxCsCode.AppendFormat("{0}if (!this.IsPostBack)\r\n", Method.getSpaces(2));
             AspxCsCode.Append(Method.getSpaces(2) + "{\r\n");
+            if (!(this is IUC) && (this.TagCallBack == "json" || this.TagCallBack == "form" ||
+               (this.CallBack == null && Config.creatScriptForAllPages) || this.CallBack == true))
+            {
+                AspxCsCode.AppendFormat("{0}ClientScript.GetCallbackEventReference(this, \"\", \"\", \"\");\r\n", Method.getSpaces(3));
+            }
             AspxCsCode.AppendFormat("{0}if (this.Befor_Load_Tags())\r\n", Method.getSpaces(3));
             AspxCsCode.Append(Method.getSpaces(3) + "{\r\n");
             AspxCsCode.AppendFormat("{0}", MethodLines);

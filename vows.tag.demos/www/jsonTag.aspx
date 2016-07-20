@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="jsonTag.aspx.cs" Inherits="Page_jsonTag" EnableViewState="false" %>
 
-<!-- Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
-
+<!--2016年07月20日 13:58:16 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title><% = config.webname %></title>
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16256_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16196_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="navi">
         <ul class="navilist">
     <li><a href="/">首页</a></li>
@@ -22,7 +22,7 @@
     <li><a href="readTag.aspx">ReadTag</a></li>
     <li><a href="jsonTag.aspx">jsonTag</a></li>
     <li><a href="formTag.aspx">formTag</a></li>
-    <li><a style="color: Red; font-size: 16px;" href="/Make/index.aspx">后台管理&gt;&gt;</a></li>
+    <li><a style="color: Red; font-size: 16px;" href="/Make/Maker.aspx">后台管理&gt;&gt;</a></li>
 </ul>
 
     </div>
@@ -35,12 +35,12 @@
             <ul class="categslist" id="switch">
                 <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 
-<asp:Repeater ID="ListTag_45129_6" runat="server">
+<asp:Repeater ID="ListTag_45801_6" runat="server">
     <ItemTemplate>
                 <li><a href="javascript:;" onclick="change(this,'<%# Eval("ID") %>');"><%# Eval("Name") %></a></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_45129_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_45801_6" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -77,10 +77,10 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "JsonTag_71484_11";
+            var jsonname = "JsonTag_71769_11";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
-                jsonname = "JsonTag_85630_12";
+                jsonname = "JsonTag_85915_12";
                 //categ = call.cid 中 call.cid为一个占位符(类似于request.xxx) 代表call参数中的cid值
             }
             _tagcall.json(jsonname, "page=" + page + '&cid=' + type); ///  在这里指定cid的值
@@ -197,107 +197,7 @@
     </script>
 
 <form id="form1" runat="server">
-    <script type="text/javascript">
-        /* ajax 脚本支持 Created by VowsTag */
-        var _tagcall = {
-            //发起请求. arg以'key1=value1&key2=value2..'的形式组成键值对,服务端重写public override CallbackResult DoCallback()以处理请求。
-            //用方法:this.CallValue("key1")可获取value1',context参数可省略.(详细请了解asp.net的'callback'机制)
-            $: function (arg ,async ,context)
-            {
-                //请求发起前预处理方法，一般显示一个提示
-                if (typeof(BeforCallback) == 'function' )
-                {
-                    BeforCallback();
-                }
-                if (async != false)//异步
-                {
-                    <% = ClientScript.GetCallbackEventReference(this ,"arg" ,"this.success" ,"this.error" ,"context" ,true) %>;
-                }
-                else
-                {
-                    <% = ClientScript.GetCallbackEventReference(this ,"arg" ,"this.success" ,"this.error" ,"context" ,false) %>;
-                }
-            },
-            success: function (result ,context)//异步发起请求成功
-            {
-                //看是否有处理的方法
-                if (typeof(CallbackSuccess) == 'function' )
-               {
-                    CallbackSuccess(result ,context);
-                }
-                else
-                {
-                    alert('服务端返回：\r\n' + result+'\r\n请实现js方法CallbackSuccess(result)以处理返回结果。');
-                }
-            },
-            error: function (error ,context)//异步发起请求错误
-            {
-                if (typeof(window.console) != undefined)
-                {
-                    window.console.debug( '出错了！--' + error );
-                }
-                //看是否有处理的方法
-                if (typeof(CallbackError) == 'function' )
-                {
-                    CallbackError(error ,context);
-                }
-                else
-                {
-                    alert('请求出现错误！服务端返回：\r\n' + error+'\r\n请实现js方法CallbackError(result)以处理返回结果。');
-                }
-            },
-            formqstr: '',
-            form: function (formname ,async)//form标签发起请求
-            {
-                var elemArray = theForm.elements;
-                this.formqstr ='';
-                for (var i = 0; i < elemArray.length; i++) {
-                    var element = elemArray[i];
-                    var elemType = element.type.toUpperCase();
-                    var elemName = element.name;
-                    if (elemName) {
-                        if ( elemType == 'TEXT' || elemType == 'TEXTAREA'
-                             || elemType == 'PASSWORD' || elemType == 'FILE' || elemType == 'HIDDEN')
-                        {
-                            this.getElemValue(elemName, element.value);
-                        }
-                        else if (elemType == 'CHECKBOX' && element.checked)
-                        {
-                            this.getElemValue(elemName, element.value ? element.value : 'On');
-                        }
-                        else if (elemType == 'RADIO' && element.checked)
-                        {
-                            this.getElemValue(elemName, element.value);
-                        }
-                        else if (elemType.indexOf('SELECT') != -1)
-                        {
-                            for (var j = 0; j < element.options.length; j++) {
-                                var option = element.options[j];
-                                if (option.selected)
-                                {
-                                    this.getElemValue(elemName, option.value ? option.value : option.text); }
-                                }
-                           }
-                       }
-                  }
-                this.$('formname=' + formname + '&' + this.formqstr ,async ,formname);
-            },
-            getElemValue: function(name ,value) {
-                if (name == '__VIEWSTATE' || name == '__VIEWSTATEGENERATOR'||
-                        name == '__EVENTTARGET' || name =='__EVENTARGUMENT')
-                {
-                    return;
-                }
-                this.formqstr += (this.formqstr.length > 0 ? '&' : '') + name + '=' + value;
-            },
-            json: function (jsonname ,otenparams ,async)//json标签发起请求
-            {
-                this.$('jsonname=' + jsonname + '&' + (otenparams || '') ,async ,jsonname);
-            }
-        };
-        _tagcall.$json =_tagcall.json;//   _tagcall.$json 将弃用
-        var _tagcallback = _tagcall;//兼容旧版
-    </script>
+    <script id="_tagcall" type="text/javascript" src="/temple/page/js/_tagcall.js" ></script>
 </form>
 </body>
 </html>
