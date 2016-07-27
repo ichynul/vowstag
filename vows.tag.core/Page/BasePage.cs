@@ -463,15 +463,21 @@ namespace Tag.Vows.Page
                 {
                     continue;
                 }
-                if (this.Config.tagregex.ThisDirTest.IsMatch(src))
-                {
-                    Html = Html.Replace(src, string.Format("{0}{1}/{2}", Config.input.Replace("~", ""), this is LabelPage ? "label" :
-                        this is StaticPage ? "static" : this is SubListPage ? "item" : "page", src));
-                }
-                else if (this.Config.tagregex.OtherDirTest.IsMatch(src))
+                if (this.Config.tagregex.OtherDirTest.IsMatch(src))
                 {
                     Html = Html.Replace(src, string.Format("{0}{1}", Config.input.Replace("~", ""), src.Replace("../", "")));
                 }
+                else if (this.Config.tagregex.ThisDirTest.IsMatch(src))
+                {
+                    if (src.Substring(0, 2) == "./") //   ./xx/oo.js ==>xx/oo.js
+                    {
+                        Html = Html.Replace(src, src.Substring(2));
+                        src = src.Substring(2);
+                    }
+                    Html = Html.Replace(src, string.Format("{0}{1}/{2}?x", Config.input.Replace("~", ""), this is LabelPage ? "label" :
+                        this is StaticPage ? "static" : this is SubListPage ? "item" : "page", src));
+                }
+
                 r.Add(src);
             }
         }
