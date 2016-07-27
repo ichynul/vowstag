@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="datasource.aspx.cs" Inherits="Page_datasource" EnableViewState="false" %>
 
-<!--2016年07月20日 13:58:16 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!--2016年07月25日 16:08:22 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16132_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16811_3" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -37,22 +37,22 @@
                 以下list标签均读取article表的数据，且显示的样式一样，这时可以把样式放到一个文件里面，然后用 item=filename 引用，避免重复书写，维护方便</p>
             <ul class="articlelist">
                 
-<asp:Repeater ID="ListTag_39878_6" runat="server">
+<asp:Repeater ID="ListTag_39114_6" runat="server">
     <ItemTemplate>
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_39878_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_39114_6" runat="server"></asp:Literal>
 
                 
-<asp:Repeater ID="ListTag_31133_10" runat="server">
+<asp:Repeater ID="ListTag_3194_10" runat="server">
     <ItemTemplate>
                 <li><a class="title" href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a> <span class="time">
                     <%# Eval("Time") %></span> </li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_31133_10" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_3194_10" runat="server"></asp:Literal>
 
             </ul>
             <% = xx(GetCookie("xx","oo")) %>

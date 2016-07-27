@@ -171,7 +171,7 @@ namespace Tag.Vows.Tool
                 ItemPath = HttpContext.Current.Server.MapPath(input + "item/");
                 tagregex = new TagRegex(this.tagLeft, this.tagRight);
                 string msg = "";
-                this.WriteFile(PagePath + "/js", "_tagcall.js", JsMaker.GetCallBackJs().ToString(), out msg);
+                this.WriteFile(PagePath + "/js/", "_tagcall.js", JsMaker.GetCallBackJs().ToString(), out msg);
                 return true;
             }
             return false;

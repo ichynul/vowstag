@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="Page_index" EnableViewState="false" %>
 
-<!--2016年07月20日 13:58:16 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!--2016年07月25日 16:08:22 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16538_3" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_1671_3" runat="server"></asp:PlaceHolder><!--引入label-->
         <!--   label = notice   用label标签加载文件notice(/label/head.html)中的内容到当前位置-->
     </div>
     <div class="navi">
@@ -31,8 +31,8 @@
     </div>
     <div class="main">
         <div class="articles">
-            <asp:PlaceHolder ID="ListTag_67650_5" runat="server"></asp:PlaceHolder>
-<asp:Literal ID="empty_ListTag_67650_5" runat="server"></asp:Literal>
+            <asp:PlaceHolder ID="ListTag_67928_5" runat="server"></asp:PlaceHolder>
+<asp:Literal ID="empty_ListTag_67928_5" runat="server"></asp:Literal>
 
             <!--   list = category ?          用list标签读取表'Category'（表名可忽略大小写）中的数据 ? 后为标签的参数-->
             <!--   orderby = id               按字段ID（可忽略大小写）排序-->
