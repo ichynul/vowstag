@@ -459,7 +459,6 @@ namespace Tag.Vows.Page
             {
                 gc = Matches[i].Groups;
                 src = gc["src"].Value;
-                System.Web.HttpContext.Current.Response.Write(src + "<br />");
                 if (string.IsNullOrEmpty(src) || r.Contains(src))
                 {
                     continue;
