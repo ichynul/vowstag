@@ -110,7 +110,7 @@ public partial class Admin_Temple_Maker : Page
         __config.GetingHtml += new GetHtml(getHtml);
         __config.GetingTableStr += new GetTableStr(getTable);
         __config.current_pairs = getCurrentTagPair(currenttagpair);
-        __config.input = mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/";
+        __config.input = mod_type.SelectedIndex == 0 ? "~/temple/www/" : "~/temple/m/";
         __config.output = mod_type.SelectedIndex == 0 ? "~/www/" : "~/m/";
         __config.db = new Entities();
         __config.protected_tables = "Admin";//受保护的表，不允许通过标签在前台展示

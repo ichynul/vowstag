@@ -1,22 +1,22 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="read.aspx.cs" Inherits="Page_read" ValidateRequest="false" EnableViewState="false" %>
 
-<!--2016年07月27日 17:24:47 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!--2016年07月28日 15:48:54 Powered by VowsTag v-1.4.16.727 http://git.oschina.net/ichynul/vowstag -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title><% =read.Title %>--<% = config.webname %></title>
     <!--引入公共样式、脚本-->
-    <link href="/temple/page/css/style.css" rel="stylesheet" type="text/css" />
-<script src="/temple/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <link href="/temple/www/page/css/style.css" rel="stylesheet" type="text/css" />
+<script src="/temple/www/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <meta name="keywords" content="<% = config.keyword %>" />
 
 </head>
 <body>
-        <!-- CMDTag_3717_4 -->
+        <!-- CMDTag_37736_4 -->
     <!--指定页面处理类 -->
-        <!-- ReadTag_30323_5 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+        <!-- ReadTag_30507_5 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16440_6" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16486_6" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -32,7 +32,7 @@
     <div class="main">
         <div class="location">
             当前位置：<a href="index.aspx"><% = config.webname %></a>
-                        &gt;<a href="list.aspx?cid=<% =ReadTag_3048_9.ID %>&page=<% = page %>"><% =ReadTag_3048_9.Name %></a><!--局部的read-->
+                        &gt;<a href="list.aspx?cid=<% =ReadTag_30685_9.ID %>&page=<% = page %>"><% =ReadTag_30685_9.Name %></a><!--局部的read-->
                         &gt;<a><% =read.Title %></a>
         </div>
         <div class="read">
@@ -50,24 +50,24 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_7181_20" runat="server">
+<asp:Repeater ID="ListTag_71566_20" runat="server">
     <ItemTemplate><!--此处用字段id与url参数比较 -->
                                 <a href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_7181_20" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_71566_20" runat="server"></asp:Literal>
 
                                 <span>下一篇：</span>
                 <!--用list标签读取下一篇-->
                 
-<asp:Repeater ID="ListTag_55888_23" runat="server">
+<asp:Repeater ID="ListTag_55828_23" runat="server">
     <ItemTemplate>
                 <!--此处用字段id与read.id(read标签的一个字段)比较,这里跟request.id差不多-->
                                 <a href="read.aspx?id=<%# Eval("ID") %>"><%# Eval("Title") %></a>
                                 
                                 </ItemTemplate>
 </asp:Repeater>
-            <% if (ListTag_55888_23Empty) %>
+            <% if (ListTag_55828_23Empty) %>
 <% { %>
 <!--empty标签对，作用与emptytext差不多，但emptytext仅支持简单的文字，而empty可包含复杂的文本（如html） -->
                                 <span style="color: Red;">没有了~</span> <% = Request.QueryString["id"] %>
@@ -121,7 +121,7 @@
     
 
 <form id="form1" runat="server">
-    <script id="_tagcall" type="text/javascript" src="/temple/page/js/_tagcall.js" ></script>
+    <script id="_tagcall" type="text/javascript" src="/temple/www/page/js/_tagcall.js" ></script>
 </form>
 </body>
 </html>

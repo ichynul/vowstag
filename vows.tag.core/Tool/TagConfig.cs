@@ -93,7 +93,7 @@ namespace Tag.Vows.Tool
         /// <summary>
         /// 资源路径转换
         /// </summary>
-        internal RePathTool repathtool;
+        internal IRePath repathtool;
 
         internal TagRegex tagregex;
         /// <summary>
@@ -172,8 +172,7 @@ namespace Tag.Vows.Tool
                 StaticlPath = HttpContext.Current.Server.MapPath(input + "static/");
                 ItemPath = HttpContext.Current.Server.MapPath(input + "item/");
                 tagregex = new TagRegex(this.tagLeft, this.tagRight);
-                repathtool = new RePathTool();
-                repathtool.SetInputPath(input);
+                repathtool = new RePathTool(input);
                 string msg = "";
                 this.WriteFile(PagePath + "/js/", "_tagcall.js", JsMaker.GetCallBackJs().ToString(), out msg);
                 return true;
@@ -269,7 +268,7 @@ namespace Tag.Vows.Tool
                 _input = value;
                 if (!value.EndsWith("/"))
                 {
-                    _input += '/';
+                    _input += "/";
                 }
             }
             get { return _input; }

@@ -1,20 +1,20 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="jsonTag.aspx.cs" Inherits="Page_jsonTag" EnableViewState="false" %>
 
-<!--2016年07月27日 17:24:47 Powered by VowsTag v-1.4.16.711 http://git.oschina.net/ichynul/vowstag -->
+<!--2016年07月28日 15:48:54 Powered by VowsTag v-1.4.16.727 http://git.oschina.net/ichynul/vowstag -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title><% = config.webname %></title>
     <!--引入公共样式、脚本-->
-    <link href="/temple/page/css/style.css" rel="stylesheet" type="text/css" />
-<script src="/temple/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <link href="/temple/www/page/css/style.css" rel="stylesheet" type="text/css" />
+<script src="/temple/www/page/js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <meta name="keywords" content="<% = config.keyword %>" />
 
-    <link href="/temple/page/css/kkpager_orange.css" rel="stylesheet" type="text/css" />
+    <link href="/temple/www/page/css/kkpager_orange.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_1663_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
+        <asp:PlaceHolder ID="LabelTag_16152_3" runat="server"></asp:PlaceHolder><!--引入label--></div>
     <div class="navi">
         <ul class="navilist">
     <li><a href="/">首页</a></li>
@@ -35,12 +35,12 @@
             <ul class="categslist" id="switch">
                 <li><a href="javascript:;" onclick="change(this,'');" class="on">全部</a></li>
                 
-<asp:Repeater ID="ListTag_45622_6" runat="server">
+<asp:Repeater ID="ListTag_4590_6" runat="server">
     <ItemTemplate>
                 <li><a href="javascript:;" onclick="change(this,'<%# Eval("ID") %>');"><%# Eval("Name") %></a></li>
                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_45622_6" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_4590_6" runat="server"></asp:Literal>
 
             </ul>
         </div>
@@ -60,8 +60,8 @@
 </ul>
 <!--引入static-->
     </div>
-    <script src="/temple/page/js/kkpager.min.js" type="text/javascript"></script>
-    <script src="/temple/page/js/doT.min.js" type="text/javascript"></script>
+    <script src="/temple/www/page/js/kkpager.min.js" type="text/javascript"></script>
+    <script src="/temple/www/page/js/doT.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
             loadMore(); //页面加载完事自动获取第一页的数据
@@ -77,10 +77,10 @@
         var over = false;
 
         function loadMore() {
-            var jsonname = "JsonTag_71175_11";
+            var jsonname = "JsonTag_71689_11";
             //fields = title,time,desc,img,id 读指定读取的字段，节省流量。若不指定将读取所有字段
             if (type != '') { //按具体分类
-                jsonname = "JsonTag_85592_12";
+                jsonname = "JsonTag_85707_12";
                 //categ = call.cid 中 call.cid为一个占位符(类似于request.xxx) 代表call参数中的cid值
             }
             _tagcall.json(jsonname, "page=" + page + '&cid=' + type); ///  在这里指定cid的值
@@ -197,7 +197,7 @@
     </script>
 
 <form id="form1" runat="server">
-    <script id="_tagcall" type="text/javascript" src="/temple/page/js/_tagcall.js" ></script>
+    <script id="_tagcall" type="text/javascript" src="/temple/www/page/js/_tagcall.js" ></script>
 </form>
 </body>
 </html>

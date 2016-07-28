@@ -989,6 +989,20 @@
             请传入Entities类的实例，
             </summary>
         </member>
+        <member name="M:Tag.Vows.Tool.RePathTool.#ctor(System.String)">
+            <summary>
+             RePathTool
+            </summary>
+            <param name="_inputPath"></param>
+        </member>
+        <member name="M:Tag.Vows.Tool.RePathTool.RePathJsCssImg(System.String,Tag.Vows.Page.BasePage)">
+            <summary>
+            处理html中的资源src
+            </summary>
+            <param name="html">html</param>
+            <param name="page">page</param>
+            <returns>html</returns>
+        </member>
         <member name="T:Tag.Vows.Bean.ShowTag">
             <summary>
             ShowTag bean
