@@ -219,7 +219,7 @@ namespace Tag.Vows.Page
             ReplaceSpacesAndMatchAll();
             if (!this.Config.convert && !this.JustGetTagList)
             {
-                RePathJsCssImg();
+                this.Html = this.Config.repathtool.RePathJsCssImg(this.Html, this);
             }
             ReplaceEnd(false);
             FindListOrReadPairs(Html, 1);
@@ -437,49 +437,6 @@ namespace Tag.Vows.Page
                 Html = string.Concat(p1, text, p2);
             }
             return text;
-        }
-
-        /// <summary>
-        /// 替换html中的image、js、css background-img等资源的路径
-        /// </summary>
-        protected void RePathJsCssImg()
-        {
-            Matches = this.Config.tagregex.JsCssImageTest.Matches(Html);
-            ReplaceLinks();
-            Matches = this.Config.tagregex.CssBgTest.Matches(Html);
-            ReplaceLinks();
-        }
-
-        private void ReplaceLinks()
-        {
-            GroupCollection gc = null;
-            string src = "";
-            List<string> r = new List<string>();
-            for (int i = 0; i < Matches.Count; i += 1)
-            {
-                gc = Matches[i].Groups;
-                src = gc["src"].Value;
-                if (string.IsNullOrEmpty(src) || r.Contains(src))
-                {
-                    continue;
-                }
-                if (this.Config.tagregex.OtherDirTest.IsMatch(src))
-                {
-                    Html = Html.Replace(src, string.Format("{0}{1}", Config.input.Replace("~", ""), src.Replace("../", "")));
-                }
-                else if (this.Config.tagregex.ThisDirTest.IsMatch(src))
-                {
-                    if (src.Substring(0, 2) == "./") //   ./xx/oo.js ==>xx/oo.js
-                    {
-                        Html = Html.Replace(src, src.Substring(2));
-                        src = src.Substring(2);
-                    }
-                    Html = Html.Replace(src, string.Format("{0}{1}/{2}?x", Config.input.Replace("~", ""), this is LabelPage ? "label" :
-                        this is StaticPage ? "static" : this is SubListPage ? "item" : "page", src));
-                }
-
-                r.Add(src);
-            }
         }
 
         /// <summary>
@@ -894,6 +851,10 @@ namespace Tag.Vows.Page
         /// </summary>
         public void MakePage()
         {
+            if (string.IsNullOrEmpty(Html))
+            {
+                return;
+            }
             if (Config.convert)
             {
                 this.ConverterTags();

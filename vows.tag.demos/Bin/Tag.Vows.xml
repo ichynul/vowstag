@@ -584,11 +584,6 @@
             <param name="deep">深度</param>
             <returns></returns>
         </member>
-        <member name="M:Tag.Vows.Page.BasePage.RePathJsCssImg">
-            <summary>
-            替换html中的image、js、css background-img等资源的路径
-            </summary>
-        </member>
         <member name="M:Tag.Vows.Page.BasePage.GetCMD(Tag.Vows.Tag.CMDTag)">
             <summary>
             获取cmd标签的内容
@@ -862,14 +857,14 @@
             表名及其字段方言集合
             </summary>
         </member>
+        <member name="F:Tag.Vows.Tool.TagConfig.repathtool">
+            <summary>
+            资源路径转换
+            </summary>
+        </member>
         <member name="F:Tag.Vows.Tool.TagConfig.MAXD_EEP">
             <summary>
             最大镶套层次，超过这个深度的自页面略过，防止循环镶套
-            </summary>
-        </member>
-        <member name="F:Tag.Vows.Tool.TagConfig.input">
-            <summary>
-            请设置输入目录的相对路径
             </summary>
         </member>
         <member name="F:Tag.Vows.Tool.TagConfig.protected_tables">
@@ -977,6 +972,11 @@
             {@.../}、{#.../}、{$.../}、{%.../}，不建议，这样的话可以同时使用不同风格的标签对。
             也可只传入其中一种如 new string[2]{"\{@","\}"}。
             某些情况下会引起正则表达式的混淆，则应进行\转义。
+            </summary>
+        </member>
+        <member name="P:Tag.Vows.Tool.TagConfig.input">
+            <summary>
+            请设置输入目录的相对路径
             </summary>
         </member>
         <member name="P:Tag.Vows.Tool.TagConfig.output">

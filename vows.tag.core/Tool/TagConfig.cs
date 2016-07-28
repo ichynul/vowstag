@@ -90,15 +90,16 @@ namespace Tag.Vows.Tool
         /// </summary>
         internal List<TableDialect> TableDialects = new List<TableDialect>();
 
+        /// <summary>
+        /// 资源路径转换
+        /// </summary>
+        internal RePathTool repathtool;
+
         internal TagRegex tagregex;
         /// <summary>
         /// 最大镶套层次，超过这个深度的自页面略过，防止循环镶套
         /// </summary>
         public int MAXD_EEP = 10;
-        /// <summary>
-        /// 请设置输入目录的相对路径
-        /// </summary>
-        public string input;
         /// <summary>
         /// 受保护的表名，多个用|分割。
         /// </summary>
@@ -143,6 +144,7 @@ namespace Tag.Vows.Tool
         internal string ItemPath { get; private set; }
         private object _db;
         private string _output;
+        private string _input;
         private string _absoUrlPath;
         /// <summary>
         /// 若要转换标签对（convert==true），则传入模板标签的 new string[2]{"left","right"};
@@ -170,6 +172,8 @@ namespace Tag.Vows.Tool
                 StaticlPath = HttpContext.Current.Server.MapPath(input + "static/");
                 ItemPath = HttpContext.Current.Server.MapPath(input + "item/");
                 tagregex = new TagRegex(this.tagLeft, this.tagRight);
+                repathtool = new RePathTool();
+                repathtool.SetInputPath(input);
                 string msg = "";
                 this.WriteFile(PagePath + "/js/", "_tagcall.js", JsMaker.GetCallBackJs().ToString(), out msg);
                 return true;
@@ -254,6 +258,23 @@ namespace Tag.Vows.Tool
                 this.tagRight = value[1];
             }
         }
+
+        /// <summary>
+        /// 请设置输入目录的相对路径
+        /// </summary>
+        public string input
+        {
+            set
+            {
+                _input = value;
+                if (!value.EndsWith("/"))
+                {
+                    _input += '/';
+                }
+            }
+            get { return _input; }
+        }
+
         /// <summary>
         /// 请设置输出目录的相对路径
         /// </summary>
@@ -364,8 +385,6 @@ namespace Tag.Vows.Tool
                 return _v;
             }
         }
-
-
 
         internal StringBuilder GetDbContext(IMakeAble page)
         {

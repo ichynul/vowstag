@@ -63,10 +63,6 @@ namespace Tag.Vows.Tool
         public Regex FormValue { private set; get; }
         public Regex NormalIndex { private set; get; }
         /********other tests*******/
-        public Regex JsCssImageTest { private set; get; }
-        public Regex CssBgTest { private set; get; }
-        public Regex ThisDirTest { private set; get; }
-        public Regex OtherDirTest { private set; get; }
         public Regex ServerCodeTest { private set; get; }
         public Regex ServerScriptTest { private set; get; }
         public Regex NotEmptyStringTest { private set; get; }
@@ -116,13 +112,6 @@ namespace Tag.Vows.Tool
             ReadValue = new Regex(@"read\.\w+\b", RegexOptions.IgnoreCase);
             FormValue = new Regex(@"form\.\w+\b", RegexOptions.IgnoreCase);
             NormalIndex = new Regex(@"^.*?(\[[\w""]+\]).*?$", RegexOptions.IgnoreCase);
-            /********other tests*******/
-            JsCssImageTest = new Regex(@"<(?:script|link|img).*?(?:src|href)=['""](?<src>(?:\.\./|\./)?[^/<>]+?/[^<>'""]+?\.(?:js|css|png|jpg|jpeg|gif|bmp|svg))['""]"
-                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            CssBgTest = new Regex(@"background(?:\-image)?\s*:.*?url\s*\(['""]?(?<src>(?:\.\./|\./)?[^/<>]+?/[^<>'""]+?\.(?:png|jpg|jpeg|gif|bmp|svg))\s*['""]?\)"
-                                , RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            ThisDirTest = new Regex(@"^(?:\./)?[^/>'""]+/.*$", RegexOptions.IgnoreCase);
-            OtherDirTest = new Regex(@"^\.\./[^/>'""]+/.*$", RegexOptions.IgnoreCase);
             ServerCodeTest = new Regex(@"<%(?<code>.*?)%>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ServerScriptTest = new Regex(@"<script[^>]*?runat\s*=\s*['""]*\s*server\s*['""][^>]*?>(?<script>.*?)</script>"
                                 , RegexOptions.IgnoreCase | RegexOptions.Singleline);

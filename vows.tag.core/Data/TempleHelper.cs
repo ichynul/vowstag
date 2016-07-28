@@ -798,9 +798,11 @@ namespace Tag.Vows.Data
             GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
+
             int pagesize = 0;//每页显示条数
             int take = 0;
             HashSet<string> fields = new HashSet<string>();
+            bool hasParamFields = false;
             #region where 筛选
             if (baseWheres.Count > 0)
             {
@@ -857,6 +859,7 @@ namespace Tag.Vows.Data
                     else if (w.FiledName == "fields")
                     {
                         var names = w.VarName.ToLower().Split(',');
+                        hasParamFields = names.Length > 0;
                         foreach (var x in names)
                         {
                             fields.Add(x.ToLower());
@@ -889,7 +892,7 @@ namespace Tag.Vows.Data
                         }
                     }
                 }
-                if (fields.Count < 1)
+                if (!hasParamFields || fields.Count < 1)
                 {
                     fields = GetFields(tableName);
                 }

@@ -70,6 +70,7 @@
     <Compile Include="Interface\IMakeAble.cs" />
     <Compile Include="Interface\IMethodDataAble.cs" />
     <Compile Include="Interface\IPageLoadMethod.cs" />
+    <Compile Include="Interface\IRePath.cs" />
     <Compile Include="Interface\IStyleAble.cs" />
     <Compile Include="Interface\ISubAble.cs" />
     <Compile Include="Interface\ITableUseable.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Tag\StaticTag.cs" />
     <Compile Include="Tag\StyleAbleTag.cs" />
     <Compile Include="Tool\JsMaker.cs" />
+    <Compile Include="Tool\RePathTool.cs" />
     <Compile Include="Tool\TagConfig.cs" />
     <Compile Include="Tool\TagHelper.cs" />
     <Compile Include="Tool\TagRegex.cs" />
