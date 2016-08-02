@@ -60,7 +60,7 @@
                     模板类型：
                 </td>
                 <td>
-                    <asp:DropDownList ID="mod_type" runat="server" AutoPostBack="true" OnSelectedIndexChanged="typechanged">
+                    <asp:DropDownList ID="temple_type" runat="server" AutoPostBack="true" OnSelectedIndexChanged="typechanged">
                         <asp:ListItem>PC</asp:ListItem>
                         <asp:ListItem>Mobile</asp:ListItem>
                     </asp:DropDownList>

@@ -71,7 +71,8 @@ namespace Tag.Vows.Tool
         private string ReplaceLinks(string html, BasePage page)
         {
             GroupCollection gc = null;
-            string src = "";
+            string src = "", s = "";
+            int n = 0, d = 0;
             List<string> r = new List<string>();
             for (int i = 0; i < Matches.Count; i += 1)
             {
@@ -86,7 +87,11 @@ namespace Tag.Vows.Tool
                     continue;
                 }
                 srcDirs = src.Split('/').Where(x => x.Length > 0).ToList();
-                int n = srcDirs.Where(x => x == "..").Count();
+                if (srcDirs[0] == "http:" || srcDirs[0] == "https:")
+                {
+                    continue;
+                }
+                n = srcDirs.Where(x => x == "..").Count();
                 if (n == 0)
                 {
                     html = html.Replace(src, string.Format("{0}{1}/{2}", inputPath,
@@ -101,8 +106,8 @@ namespace Tag.Vows.Tool
                     }
                     else if (n < baseDirs.Count())
                     {
-                        int d = baseDirs.Count() - n;
-                        string s = "/";
+                        d = baseDirs.Count() - n;
+                        s = "/";
                         for (int j = 0; j <= n; j += 1)
                         {
                             s += baseDirs[j] + "/";

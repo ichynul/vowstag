@@ -1,3 +1,4 @@
+
 #region  The MIT License (MIT)
 /*
 The MIT License (MIT)
@@ -49,7 +50,7 @@ namespace Tag.Vows.Web
         /// </summary>
         protected string _callBackstr;
         private int _page;
-        private string _caction;
+        private string _action;
         private Tools _tools;
         /// <summary>
         /// 在Page_Load里加载各标签前判断，若返回false则标签都不会加载
@@ -202,15 +203,15 @@ namespace Tag.Vows.Web
         /// <summary>
         /// callstr 中的action 参数
         /// </summary>
-        protected string caction
+        protected string action
         {
             get
             {
-                if (_caction == null)
+                if (_action == null)
                 {
-                    _caction = "" + this.CallValue("action");
+                    _action = "" + this.CallValue("action");
                 }
-                return _caction;
+                return _action;
             }
         }
 
@@ -277,7 +278,7 @@ namespace Tag.Vows.Web
                 {
                     call.callstr = this._callBackstr;
                 }
-                call.action = caction;
+                call.action = action;
                 call.pageName = this.GetType().BaseType.BaseType.Name;
             }
             return tools.JsonSerialize(call);

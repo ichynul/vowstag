@@ -247,7 +247,7 @@
             页码
             </summary>
         </member>
-        <member name="P:Tag.Vows.Web.TagPage.caction">
+        <member name="P:Tag.Vows.Web.TagPage.action">
             <summary>
             callstr 中的action 参数
             </summary>

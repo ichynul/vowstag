@@ -13,25 +13,72 @@ using System.Collections.Generic;
 public partial class Admin_Temple_Maker : Page
 {
     private DirectoryInfo di;
+    List<myTemple> temples = new List<myTemple>();
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        getTempleList();
         if (!this.IsPostBack)
         {
+            bindTempleTypes();
+            tagTypeCHange(null, null);
+            findPages();
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        getTempleList();
+        if (!this.IsPostBack)
+        {
+            bindTempleTypes();
             findPages();
             tagTypeCHange(null, null);
         }
     }
 
+    private void getTempleList()
+    {
+        temples.Add(new myTemple()
+        {
+            name = "PC",
+            key = "pc",
+            inpath = "~/temple/www/",
+            outpath = "~/www/",
+            viewurl = "/"
+        });
+        temples.Add(new myTemple()
+        {
+            name = "Mobile",
+            key = "m",
+            inpath = "~/temple/m/",
+            outpath = "~/m/",
+            viewurl = "/m/"
+        });
+    }
+
+    private void bindTempleTypes()
+    {
+        temple_type.DataSource = temples;
+        temple_type.DataTextField = "name";
+        temple_type.DataValueField = "key";
+        temple_type.DataBind();
+    }
+
     private void findPages()
     {
-        string path = Server.MapPath(mod_type.SelectedIndex == 0 ? "~/temple/" : "~/temple_m/");
+        var temple = temples.FirstOrDefault(x => x.key == temple_type.SelectedValue);
+        if (temple == null)
+        {
+            return;
+        }
+        string path = Server.MapPath(temple.inpath);
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
         checkDirs(path);
-        pageinfo.Text = "";
         makeresult.Text = "";
         path += "page\\";
         di = new DirectoryInfo(path);
@@ -44,8 +91,8 @@ public partial class Admin_Temple_Maker : Page
                 f.Extension,
                 Length = f.Length / 1024.00,
                 f.LastWriteTime,
-                _path = this.input_path.Text + "page/",
-                www = (mod_type.SelectedIndex == 0 ? "/www/" : "/m/") + Regex.Replace(f.Name, @"\.(?:html|htm)", "") + ".aspx",
+                _path = temple.inpath + "page/",
+                www = temple.viewurl + Regex.Replace(f.Name, @"\.(?:html|htm)", "") + (viewType.SelectedIndex == 0 ? ".aspx" : viewType.SelectedIndex == 1 ? "" : viewType.SelectedIndex == 2 ? ".html" : ".htm"),
             });
         pages.DataBind();
     }
@@ -64,7 +111,7 @@ public partial class Admin_Temple_Maker : Page
         }
     }
 
-    protected string toPageNaem(object name)
+    protected string toPageName(object name)
     {
         if (name == null)
         {
@@ -100,7 +147,12 @@ public partial class Admin_Temple_Maker : Page
     protected void doMake(object sender, EventArgs e)
     {
         makeresult.Text = "";
-        string path = HttpContext.Current.Server.MapPath("~" + this.input_path.Text);
+        var temple = temples.FirstOrDefault(x => x.key == temple_type.SelectedValue);
+        if (temple == null)
+        {
+            return;
+        }
+        string path = HttpContext.Current.Server.MapPath(temple.inpath);
         di = new DirectoryInfo(path);
         if (!di.Exists)
         {
@@ -110,8 +162,8 @@ public partial class Admin_Temple_Maker : Page
         __config.GetingHtml += new GetHtml(getHtml);
         __config.GetingTableStr += new GetTableStr(getTable);
         __config.current_pairs = getCurrentTagPair(currenttagpair);
-        __config.input = mod_type.SelectedIndex == 0 ? "~/temple/www/" : "~/temple/m/";
-        __config.output = mod_type.SelectedIndex == 0 ? "~/www/" : "~/m/";
+        __config.input = temple.inpath;
+        __config.output = temple.outpath;
         __config.db = new Entities();
         __config.protected_tables = "Admin";//受保护的表，不允许通过标签在前台展示
         __config.creatScriptForAllPages = true;
@@ -215,9 +267,14 @@ public partial class Admin_Temple_Maker : Page
 
     protected void typechanged(object sender, EventArgs e)
     {
-        output_path.Text = mod_type.SelectedIndex == 0 ? "/www/" : "/m/";
-        input_path.Text = mod_type.SelectedIndex == 0 ? "/temple/" : "/temple_m/";
-        toview.NavigateUrl = mod_type.SelectedIndex == 0 ? "/www/" : "/m/";
+        var temple = temples.FirstOrDefault(x => x.key == temple_type.SelectedValue);
+        if (temple == null)
+        {
+            return;
+        }
+        output_path.Text = temple.outpath;
+        input_path.Text = temple.inpath;
+        toview.NavigateUrl = temple.viewurl;
         findPages();
     }
 
@@ -281,4 +338,13 @@ public partial class Admin_Temple_Maker : Page
         }
         return new string[] { tagLeft, tagRight };
     }
+}
+
+class myTemple
+{
+    public string name { get; set; }
+    public string key { get; set; }
+    public string inpath { get; set; }
+    public string outpath { get; set; }
+    public string viewurl { get; set; }
 }

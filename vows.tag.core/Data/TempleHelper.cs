@@ -392,7 +392,7 @@ namespace Tag.Vows.Data
                             }
                             else
                             {
-                                w.VarName = string.Concat("\"", w.VarName, "\"");
+                                w.VarName = string.Concat(w.VarName, "/* 全局变量? 如果是纯字符串请写成[..]或\"..\"*/");
                             }
                         }
                     }

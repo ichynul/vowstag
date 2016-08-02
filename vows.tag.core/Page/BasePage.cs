@@ -465,8 +465,8 @@ namespace Tag.Vows.Page
             }
             //
             value = cmd.QueryString("validaterequest");
-            this.ValidateRequest = !string.IsNullOrEmpty(value)
-                && value.ToLower() == "false";
+            this.ValidateRequest = string.IsNullOrEmpty(value)
+                || value.ToLower() == "true";
             value = cmd.QueryString("enableviewstate");
             this.EnableViewState = !string.IsNullOrEmpty(value)
                 && value.ToLower() == "true";
