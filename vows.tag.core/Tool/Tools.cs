@@ -228,8 +228,12 @@ namespace Tag.Vows.Tool
         public List<string> StrToArray(string arrStr, string toType)
         {
             List<string> list = new List<string>();
-            var arr = toType.Split(',');
-            if (string.IsNullOrEmpty(toType) || toType == "string" || toType == "String")
+            if (string.IsNullOrEmpty(arrStr) || string.IsNullOrEmpty(toType))
+            {
+                return list;
+            }
+            var arr = arrStr.Split(',');
+            if (string.IsNullOrEmpty(toType) || toType.ToLower() == "string")
             {
                 foreach (string s in arr)
                 {
@@ -237,29 +241,32 @@ namespace Tag.Vows.Tool
                 }
                 return list;
             }
-            else if (toType == "Int16" || toType == "short"
-                || toType == "Int32" || toType == "int"
-                || toType == "Int64" || toType == "long")
+            else if (toType == "Int16" || toType.ToLower() == "short"
+                || toType == "Int32" || toType.ToLower() == "int"
+                || toType == "Int64" || toType.ToLower() == "long")
             {
-                Regex intTest = new Regex(@"\s*^\-?\d+\s*$");
+                Regex intTest = new Regex(@"^\-?\d+$");
+                string num = "";
                 foreach (string s in arr)
                 {
-                    if (intTest.IsMatch(s))
+                    num = s.Trim();
+                    if (intTest.IsMatch(num))
                     {
-                        list.Add(s);
+                        list.Add(num);
                     }
                 }
             }
-            else if (toType == "Double" || toType == "double"
-               || toType == "Float" || toType == "float"
-               || toType == "Decimal" || toType == "decimal")
+            else if (toType.ToLower() == "double" || toType.ToLower() == "float"
+                || toType.ToLower() == "decimal")
             {
-                Regex floatTest = new Regex(@"^\s*\-?\d+(\.\d+)?\s*$");
+                Regex floatTest = new Regex(@"^\-?\d+(\.\d+)?$");
+                string num = "";
                 foreach (string s in arr)
                 {
-                    if (floatTest.IsMatch(s))
+                    num = s.Trim();
+                    if (floatTest.IsMatch(num))
                     {
-                        list.Add(s);
+                        list.Add(num);
                     }
                 }
             }
