@@ -26,18 +26,6 @@ public partial class Admin_Temple_Maker : Page
         }
     }
 
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        getTempleList();
-        if (!this.IsPostBack)
-        {
-            bindTempleTypes();
-            findPages();
-            tagTypeCHange(null, null);
-        }
-    }
-
     private void getTempleList()
     {
         temples.Add(new myTemple()

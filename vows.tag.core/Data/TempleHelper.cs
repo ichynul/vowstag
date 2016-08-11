@@ -227,7 +227,7 @@ namespace Tag.Vows.Data
                 w.FiledName = filed;
                 if (w.VarName.ToLower() == "null")
                 {
-                    if (dataType != "string" && mNullAble)
+                    if (!(dataType == "string" || mNullAble))
                     {
                         w.VarName = "null/*错误！该字段不是string或者NullAble类型*/";
                     }

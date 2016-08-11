@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="readTag.aspx.cs" Inherits="Page_readTag" EnableViewState="false" %>
 
-<!--2016年07月28日 15:48:54 Powered by VowsTag v-1.4.16.727 http://git.oschina.net/ichynul/vowstag -->
+<!--2016年08月06日 16:44:56 Powered by VowsTag v-1.4.16.727 http://git.oschina.net/ichynul/vowstag -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,9 +12,9 @@
 
 </head>
 <body>
-    <!-- ReadTag_22696_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
+    <!-- ReadTag_2274_4 --><!--单标签形式的read,可以在页面任何位置读取其read字段值；每个页面最多只能有一个全局read-->
     <div class="head">
-        <asp:PlaceHolder ID="LabelTag_16650_5" runat="server"></asp:PlaceHolder><!--引入label-->
+        <asp:PlaceHolder ID="LabelTag_16983_5" runat="server"></asp:PlaceHolder><!--引入label-->
     </div>
     <div class="navi">
         <ul class="navilist">
@@ -49,18 +49,18 @@
                 <span>上一篇： </span>
                 <!--用list标签读取上一篇-->
                 
-<asp:Repeater ID="ListTag_68259_15" runat="server">
+<asp:Repeater ID="ListTag_68453_15" runat="server">
     <ItemTemplate><!--此处用字段id与read参数比较 -->
                                 <a><%# Eval("Title") %></a>
                                 </ItemTemplate>
 </asp:Repeater>
-<asp:Literal ID="empty_ListTag_68259_15" runat="server"></asp:Literal>
+<asp:Literal ID="empty_ListTag_68453_15" runat="server"></asp:Literal>
 
                                 <span>下一篇：</span>
                 <!--用read标签读取下一篇-->
                 <!--全局read的字段可作为局部read的参数 -->
                 <!--此处用字段id与read.id(read标签的一个字段)比较-->
-                                <a><% =ReadTag_48106_17.Title %></a>
+                                <a><% =ReadTag_48394_17.Title %></a>
                                 <!--必须有结尾，一个页面中只能有一个全局read -->
                             </div>
         </div>

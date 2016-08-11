@@ -139,9 +139,9 @@
                 逻辑或'|'(短路的，实际效果为||),</p>
             <ul class="articlelist">
                 {#list=article?desc=false&id=3
-                <hr />
+                |
                 id=6&take=5|(id<=15&id>12)
-                <br />
+                &
                 item=listTag_item /}
                 <!--id=3    id等于3-->
                 <!--id=6    或id等于6-->
@@ -167,7 +167,7 @@
             <ul class="articlelist">
                 {#list=article? title !# [你好,hello,hi] & (id #[11,13,15,17]|id # request.key) &item=listTag_item /}
                 <!--titel !# "你好,hello,hi"          标题不是 你好,hello,hi 中的任意一个-->
-                <!--id #[11,13,15,17]   id 为 1,2,3,4 中的任意一个-->
+                <!--id #[11,13,15,17]   id 为 11,13,15,17 中的任意一个-->
                 <!--数组用双引号""或[]包围-->
             </ul>
         </div>
@@ -197,7 +197,7 @@
             <p class="about">
                 时间，支持DateTime.Now的形式</p>
             <ul class="articlelist">
-                {#list=article? time>2015/12/25 12:25:54&time > DateTime.Now&item=listTag_item /}
+                {#list=article? time>2015/12/25 12:25:54&time > DateTime.Now &item=listTag_item /}
                 <!--time>2015/12/25 12:25:54          录入日期 在2015/12/25 12:15:54之后的。时间用'-'或'/'分割-->
                 <!--time < DateTime.Now               今天之后后的-->
             </ul>
@@ -212,6 +212,7 @@
                 <!--uid=user.ID               与后端变量比较，注意字段区分大小写-->
                 <!--author=cookie.uname       与cookie比较-->
                 <!--author=cookie.user.uname  与二级cookie比较-->
+                ""+Session["uid"]
             </ul>
         </div>
         <div class="articles">

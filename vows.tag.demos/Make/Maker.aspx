@@ -140,8 +140,13 @@
                             <th style="text-align: left;">
                                 路径
                             </th>
-                             <th style="width: 175px;">
-                                查看
+                            <th style="text-align: left;">
+                                前台预览：<asp:DropDownList ID="viewType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rebind">
+                                    <asp:ListItem>/xxx.aspx</asp:ListItem>
+                                    <asp:ListItem>/xxx</asp:ListItem>
+                                    <asp:ListItem>/xxx.html</asp:ListItem>
+                                    <asp:ListItem>/xxx.htm</asp:ListItem>
+                                </asp:DropDownList>
                             </th>
                             <th style="width: 75px;">
                                 扩展名
@@ -157,7 +162,7 @@
                             <ItemTemplate>
                                 <tr>
                                     <td style="text-align: left;">
-                                        <asp:CheckBox ID="cb_id" CssClass="checkall" runat="server" Text='<%# toPageNaem(Eval("Name"))%>' />
+                                        <asp:CheckBox ID="cb_id" CssClass="checkall" runat="server" Text='<%# toPageName(Eval("Name"))%>' />
                                     </td>
                                     <td style="text-align: left;">
                                         <%# Eval("_path")+""+ Eval("Name")%>

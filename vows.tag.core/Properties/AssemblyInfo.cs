@@ -32,6 +32,6 @@ using System.Resources;
 // 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.16.0727")]
-[assembly: AssemblyFileVersion("1.4.2016.0727")]
+[assembly: AssemblyVersion("1.4.16.0800")]
+[assembly: AssemblyFileVersion("1.4.2016.0811")]
 [assembly: NeutralResourcesLanguage("zh-CN")]
