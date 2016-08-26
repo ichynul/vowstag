@@ -444,6 +444,7 @@ namespace Tag.Vows.Data
                 }
                 if (w.Compare == "!#" || w.Compare == "#")
                 {
+                    dataType = GetObjType(model, w.FiledName, out mNullAble, out filed);
                     vname = string.Format("{0}_arr_{1}_{2}", dataType, filed, i);
                     if (dataType == "string")
                     {
