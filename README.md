@@ -10,7 +10,8 @@
 ```
 1.2 列表-分页
 ```
-{#list = article? classid >3 &id<1000 &orderby=tiem &desc=true &pzgesize=10 <!--# 分页时需要'pagesize'参数,不分页就用'take'这是注释，解析是略过-->}
+{#list = article? classid >3 &id<1000 &orderby=tiem &desc=true &pzgesize=10 
+<!--# 分页时需要'pagesize'参数,不分页就用'take'这是注释，解析是略过-->}
     <img src='{#item.logo}'/>
     <a href='read.aspx?id={#item.id}'>{#item.title}</a>
 {#list}
