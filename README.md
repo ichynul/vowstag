@@ -35,8 +35,7 @@
 1.5 复杂逻辑支持
 ```
 {#list= article ? classid >3 & ( none = req.id | id= req.id ) &item=newslist &skip=4 &take=10 /}
-<!--#代表被包含于，后面接一个[]包围的数组,不被包含于则为!#。-->
-<!--skip=4 跳过前4条-->
+<!--如果 url 中 参数 id不为空 则筛选id为url值的，否则不限-->
 ```
 2.1 内容-有范围限制
 ```
