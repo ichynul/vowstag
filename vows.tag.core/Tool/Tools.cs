@@ -270,7 +270,7 @@ namespace Tag.Vows.Tool
                     }
                 }
             }
-            else if (toType == "Boolean" || toType == "bool")
+            else if (toType.ToLower() == "boolean" || toType.ToLower() == "bool")
             {
                 foreach (string s in arr)
                 {

@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    {#list=article? "3"=url.type &id=4&pagesize=3}<!--分页3条-->
+    <li><a class="title" href="formTag.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+        {#item.time}</span> </li>
+    {#list}
+</body>
+</html>

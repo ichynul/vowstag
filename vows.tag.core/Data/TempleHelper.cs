@@ -166,23 +166,16 @@ namespace Tag.Vows.Data
                 }
                 #endregion
                 #region empty null string
-                if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
+                if (Regex.IsMatch(w.VarName, @"^request|url|req|call\.\w+$", RegexOptions.IgnoreCase))
                 {
-                    if (!Regex.IsMatch(w.VarName, @"^request|call\.\w+$", RegexOptions.IgnoreCase))
-                    {
-                        sb.AppendFormat(
-                            "{0}/* {1}有误！仅支持 null|empty|none  与request或req或url或 call 参数进行比较，"
-                            + "如 null判断url参数是否存在(==null)，empty 判断url参数存在但为空(==\"\")，none为null或empey其一(string.IsNullOrEmpty). */\r\n",
-                            Method.getSpaces(2), w.VarName);
-                    }
-                    else if (w.Compare != "==" && w.Compare != "!=")
+                    if (w.Compare != "==" && w.Compare != "!=")
                     {
                         sb.AppendFormat("{0}/* 错误的操作 只能为 = 或 != */\r\n", Method.getSpaces(2), w.VarName);
                     }
                     else
                     {
-                        query = this.Config.tagregex.RequestValue.IsMatch(w.VarName) ? "\"\" + Request.QueryString" : "\"\" + CallString";
-                        vname = Regex.Replace(w.VarName, @"(?:request|call)\.", string.Empty, RegexOptions.IgnoreCase);
+                        query = this.Config.tagregex.RequestValue.IsMatch(w.VarName) ? "Request.QueryString" : "CallString";
+                        vname = Regex.Replace(w.VarName, @"(?:request|url|req|call)\.", string.Empty, RegexOptions.IgnoreCase);
                         ifTag = string.Format("{0}{1}|", w.FiledName, vname);
                         if (w.FiledName == "null")
                         {
@@ -216,6 +209,26 @@ namespace Tag.Vows.Data
                             }
                             sb.AppendFormat("{0}bool {1} =  {2}string.IsNullOrEmpty({3}[\"{4}\"]);\r\n",
                                     Method.getSpaces(2), ifNullvar, w.Compare == "==" ? null : "!", query, vname);
+                        }
+                        else
+                        {
+                            m = Regex.Match(w.FiledName, @"[""\[](?<arrstr>.*?)[""\]]");
+                            if (m.Success) //如果用[]号包围 
+                            {
+                                w.FiledName = string.Concat("\"", m.Groups["arrstr"].Value, "\"");
+                            }
+                            else
+                            {
+                                w.FiledName = string.Concat("\"", w.FiledName, "\"");
+                            }
+                            ifNullvar = string.Format("ifEqual_{0}", w.VarName.Split('.')[1]);
+                            w.VarName = ifNullvar;
+                            if (requestTests.Contains(ifTag))
+                            {
+                                continue;
+                            }
+                            sb.AppendFormat("{0}bool {1} = {2} {3} {4}[\"{5}\"];\r\n",
+                                Method.getSpaces(2), ifNullvar, w.FiledName, w.Compare, query, vname);
                         }
                         requestTests.Add(ifTag);
                     }
@@ -1258,7 +1271,7 @@ namespace Tag.Vows.Data
         /// <param name="w"></param>
         internal void LogicSymb(StringBuilder linq, TagWhere w)
         {
-            if (w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
+            if (w.FiledName.StartsWith("\"") || w.FiledName == "null" || w.FiledName == "empty" || w.FiledName == "none")
             {
                 linq.AppendFormat("{0}{1}{2} {3}\r\n{4}", w.LogicSymb, w.FieldLeft, w.VarName, w.VarRight, Method.getSpaces(5));
             }
