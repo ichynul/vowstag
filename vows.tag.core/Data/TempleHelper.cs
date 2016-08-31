@@ -166,7 +166,7 @@ namespace Tag.Vows.Data
                 }
                 #endregion
                 #region empty null string
-                if (Regex.IsMatch(w.VarName, @"^(?:request|url|req|call)\.\w+$", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(w.VarName, @"^(?:request|url|req|call)\.\w+$", RegexOptions.IgnoreCase) && Regex.IsMatch(w.FiledName, @"empty|null|none|[""\[](?<arrstr>.*?)[""\]]"))
                 {
                     if (w.Compare != "==" && w.Compare != "!=")
                     {
@@ -215,20 +215,15 @@ namespace Tag.Vows.Data
                             m = Regex.Match(w.FiledName, @"[""\[](?<arrstr>.*?)[""\]]");
                             if (m.Success) //如果用[]号包围 
                             {
-                                w.FiledName = string.Concat("\"", m.Groups["arrstr"].Value, "\"");
+                                ifNullEqualvar = string.Format("ifEqual_{0}_{1}", w.VarName.Split('.')[1], i);
+                                w.VarName = ifNullEqualvar;
+                                if (requestTests.Contains(ifTag))
+                                {
+                                    continue;
+                                }
+                                sb.AppendFormat("{0}bool {1} = {2} {3} {4}[\"{5}\"];\r\n",
+                                    Method.getSpaces(2), ifNullEqualvar, w.FiledName, w.Compare, query, vname);
                             }
-                            else
-                            {
-                                w.FiledName = string.Concat("\"", w.FiledName, "\"");
-                            }
-                            ifNullEqualvar = string.Format("ifEqual_{0}_{1}", w.VarName.Split('.')[1], i);
-                            w.VarName = ifNullEqualvar;
-                            if (requestTests.Contains(ifTag))
-                            {
-                                continue;
-                            }
-                            sb.AppendFormat("{0}bool {1} = {2} {3} {4}[\"{5}\"];\r\n",
-                                Method.getSpaces(2), ifNullEqualvar, w.FiledName, w.Compare, query, vname);
                         }
                         requestTests.Add(ifTag);
                     }
