@@ -166,14 +166,7 @@ namespace Tag.Vows.Data
                 }
                 #endregion
                 #region empty null string
-                if (Regex.IsMatch(w.FiledName, @"^request|url|req|call\.\w+$", RegexOptions.IgnoreCase)) //如果 url/call 参数在左边，左右交换
-                {
-                    ifNullEqualvar = w.FiledName;
-                    w.FiledName = w.VarName;
-                    w.VarName = ifNullEqualvar;
-                    ifNullEqualvar = "";
-                }
-                if (Regex.IsMatch(w.VarName, @"^request|url|req|call\.\w+$", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(w.VarName, @"^(?:request|url|req|call)\.\w+$", RegexOptions.IgnoreCase))
                 {
                     if (w.Compare != "==" && w.Compare != "!=")
                     {

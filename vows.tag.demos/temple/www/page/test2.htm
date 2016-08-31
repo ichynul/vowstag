@@ -8,5 +8,10 @@
     <li><a class="title" href="formTag.aspx?id={#item.id}">{#item.title}</a> <span class="time">
         {#item.time}</span> </li>
     {#list}
+
+    {#list=article? url.type="4" &id=4&pagesize=3}<!--分页3条-->
+    <li><a class="title" href="formTag.aspx?id={#item.id}">{#item.title}</a> <span class="time">
+        {#item.time}</span> </li>
+    {#list}
 </body>
 </html>

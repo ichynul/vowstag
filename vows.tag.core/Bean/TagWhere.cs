@@ -32,6 +32,13 @@ namespace Tag.Vows.Bean
         private TagWhere() { }
         public TagWhere(string mFiledName, string mCompare, string mLogicSymb, string mVarName)
         {
+
+            if (Regex.IsMatch(mFiledName, @"^(?:request|url|req|call)\.\w+$", RegexOptions.IgnoreCase)) //如果 url/call 参数在左边，左右交换
+            {
+                string tmp = mFiledName;
+                mFiledName = mVarName;
+                mVarName = tmp;
+            }
             this.FiledName = Regex.Replace(mFiledName, @"\W", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;
