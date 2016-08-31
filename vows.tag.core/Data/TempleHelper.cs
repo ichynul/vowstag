@@ -92,7 +92,7 @@ namespace Tag.Vows.Data
             string itemOrRead = "";
             string filed = "";
             string vname = "";
-            string ifNullvar = "";
+            string ifNullEqualvar = "";
             string ifTag = "";
             string query = "";
             string q = "";
@@ -166,6 +166,13 @@ namespace Tag.Vows.Data
                 }
                 #endregion
                 #region empty null string
+                if (Regex.IsMatch(w.FiledName, @"^request|url|req|call\.\w+$", RegexOptions.IgnoreCase)) //如果 url/call 参数在左边，左右交换
+                {
+                    ifNullEqualvar = w.FiledName;
+                    w.FiledName = w.VarName;
+                    w.VarName = ifNullEqualvar;
+                    ifNullEqualvar = "";
+                }
                 if (Regex.IsMatch(w.VarName, @"^request|url|req|call\.\w+$", RegexOptions.IgnoreCase))
                 {
                     if (w.Compare != "==" && w.Compare != "!=")
@@ -179,36 +186,36 @@ namespace Tag.Vows.Data
                         ifTag = string.Format("{0}{1}|", w.FiledName, vname);
                         if (w.FiledName == "null")
                         {
-                            ifNullvar = string.Format("ifNull_{0}", w.VarName.Split('.')[1]);
-                            w.VarName = ifNullvar;
+                            ifNullEqualvar = string.Format("ifNull_{0}", w.VarName.Split('.')[1]);
+                            w.VarName = ifNullEqualvar;
                             if (requestTests.Contains(ifTag))
                             {
                                 continue;
                             }
                             sb.AppendFormat("{0}bool {1} = null {2} {3}[\"{4}\"];\r\n",
-                                Method.getSpaces(2), ifNullvar, w.Compare, query, vname);
+                                Method.getSpaces(2), ifNullEqualvar, w.Compare, query, vname);
                         }
                         else if (w.FiledName == "empty")
                         {
-                            ifNullvar = string.Format("ifEmpty_{0}", w.VarName.Split('.')[1]);
-                            w.VarName = ifNullvar;
+                            ifNullEqualvar = string.Format("ifEmpty_{0}", w.VarName.Split('.')[1]);
+                            w.VarName = ifNullEqualvar;
                             if (requestTests.Contains(ifTag))
                             {
                                 continue;
                             }
                             sb.AppendFormat("{0}bool {1} = \"\" {2} {3}[\"{4}\"];\r\n",
-                                    Method.getSpaces(2), ifNullvar, w.Compare, query, vname);
+                                    Method.getSpaces(2), ifNullEqualvar, w.Compare, query, vname);
                         }
                         else if (w.FiledName == "none")
                         {
-                            ifNullvar = string.Format("ifNullOrEmpty_{0}", w.VarName.Split('.')[1]);
-                            w.VarName = ifNullvar;
+                            ifNullEqualvar = string.Format("ifNullOrEmpty_{0}", w.VarName.Split('.')[1]);
+                            w.VarName = ifNullEqualvar;
                             if (requestTests.Contains(ifTag))
                             {
                                 continue;
                             }
                             sb.AppendFormat("{0}bool {1} =  {2}string.IsNullOrEmpty({3}[\"{4}\"]);\r\n",
-                                    Method.getSpaces(2), ifNullvar, w.Compare == "==" ? null : "!", query, vname);
+                                    Method.getSpaces(2), ifNullEqualvar, w.Compare == "==" ? null : "!", query, vname);
                         }
                         else
                         {
@@ -221,14 +228,14 @@ namespace Tag.Vows.Data
                             {
                                 w.FiledName = string.Concat("\"", w.FiledName, "\"");
                             }
-                            ifNullvar = string.Format("ifEqual_{0}", w.VarName.Split('.')[1]);
-                            w.VarName = ifNullvar;
+                            ifNullEqualvar = string.Format("ifEqual_{0}_{1}", w.VarName.Split('.')[1], i);
+                            w.VarName = ifNullEqualvar;
                             if (requestTests.Contains(ifTag))
                             {
                                 continue;
                             }
                             sb.AppendFormat("{0}bool {1} = {2} {3} {4}[\"{5}\"];\r\n",
-                                Method.getSpaces(2), ifNullvar, w.FiledName, w.Compare, query, vname);
+                                Method.getSpaces(2), ifNullEqualvar, w.FiledName, w.Compare, query, vname);
                         }
                         requestTests.Add(ifTag);
                     }

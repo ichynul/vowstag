@@ -507,7 +507,7 @@
         </member>
         <member name="P:Tag.Vows.Web.CallbackResult.result">
             <summary>
-            请求类型
+            请求结果
             </summary>
         </member>
         <member name="T:Tag.Vows.Page.BasePage">

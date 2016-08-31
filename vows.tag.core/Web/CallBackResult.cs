@@ -61,7 +61,7 @@ namespace Tag.Vows.Web
         /// </summary>
         public string type = "none";
         /// <summary>
-        /// 请求类型
+        /// 请求结果
         /// </summary>
         public object result { get; private set; }
     }
