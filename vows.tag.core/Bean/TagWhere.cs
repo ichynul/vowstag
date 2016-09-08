@@ -39,6 +39,10 @@ namespace Tag.Vows.Bean
                 mFiledName = mVarName;
                 mVarName = tmp;
             }
+            if (!Regex.IsMatch(mFiledName, @"[""\[].*?[""\]]"))
+            {
+                mFiledName = Regex.Replace(mFiledName, @"\s", "");
+            }
             this.FiledName = Regex.Replace(mFiledName, @"^[!\(]*|[\)]*$", "").ToLower();
             this.Compare = mCompare;
             this.LogicSymb = mLogicSymb;

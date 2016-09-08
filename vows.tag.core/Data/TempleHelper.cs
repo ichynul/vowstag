@@ -237,7 +237,7 @@ namespace Tag.Vows.Data
                 {
                     if (!(dataType == "string" || mNullAble))
                     {
-                        w.VarName = "null/*错误！该字段不是string或者NullAble类型*/";
+                        w.VarName = "null/*错误！该字段[" + w.FiledName + "]不是string或者NullAble类型*/";
                     }
                     continue;
                 }
@@ -245,7 +245,7 @@ namespace Tag.Vows.Data
                 {
                     if (dataType != "string")
                     {
-                        w.VarName = string.Concat(w.VarName, "/*错误！该字段不是string类型*/");
+                        w.VarName = string.Concat(w.VarName, "/*错误！该字段[" + w.FiledName + "]不是string类型*/");
                     }
                     continue;
                 }
@@ -1407,7 +1407,7 @@ namespace Tag.Vows.Data
         internal string GetObjType(object obj, string name, out bool isNullAble, out string newName)
         {
             isNullAble = false;
-            newName = name;
+            newName = name.Trim();
             if (obj == null)
             {
                 return "/*obj 不能为空*/";
