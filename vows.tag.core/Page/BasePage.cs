@@ -832,7 +832,7 @@ namespace Tag.Vows.Page
                 {
                     if (method.WillTestBeforLoad)
                     {
-                        MethodLines.AppendFormat("{0}if ( {1} )\r\n", Method.getSpaces(3), method.GetTestBeforLoadStr());
+                        MethodLines.AppendFormat("{0}if ( {1} )\r\n", Method.getSpaces(4), method.GetTestBeforLoadStr());
                         MethodLines.Append(Method.getSpaces(4) + "{\r\n");
                         MethodLines.AppendFormat("{0}{1}();\r\n", Method.getSpaces(5), method.Name);
                         MethodLines.Append(Method.getSpaces(4) + "}\r\n");

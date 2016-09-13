@@ -49,6 +49,7 @@ namespace Tag.Vows.Data
         private TempleHelper() { }
         private TagConfig Config;
         private static Dictionary<string, string> _dataTypes;
+        int max = 20, c = 0;
         private static Dictionary<string, string> dataTypes
         {
             get
@@ -480,6 +481,12 @@ namespace Tag.Vows.Data
         #region GetWheres
         private void GetWheres(List<TagWhere> wheres, string _params, string _symb)
         {
+            c += 1;
+            if (c > max)
+            {
+                System.Web.HttpContext.Current.Response.Write(_params);
+                return;
+            }
             string[] arr = _params.Split('&');
             string[] p = null;//拆分键值对
             bool or = false;
@@ -1407,7 +1414,7 @@ namespace Tag.Vows.Data
         internal string GetObjType(object obj, string name, out bool isNullAble, out string newName)
         {
             isNullAble = false;
-            newName = name.Trim();
+            newName = name;
             if (obj == null)
             {
                 return "/*obj 不能为空*/";
