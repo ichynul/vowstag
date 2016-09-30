@@ -1,6 +1,7 @@
 ﻿using Tag.Vows.Web;
 using model;
 using System.Web;
+using model;
 
 namespace xx.yy
 {
@@ -49,6 +50,29 @@ namespace xx.yy
             cookie.Value = strValue;
             Response.AppendCookie(cookie);
         }
+
+        private Entities ___db;
+        protected Entities __db
+        {
+            get
+            {
+                if (___db == null)
+                {
+                    object d = this.GetDbObject();
+                    if (d != null)// 某些情况下，此时调用this.GetDbObject() 为null（直接 new UserBase(); ）
+                    {
+                        ___db = d as Entities;
+                    }
+                    else
+                    {
+                        ___db = new Entities();
+                    }
+                }
+                return ___db;
+            }
+        }
     }
+
+
 
 }

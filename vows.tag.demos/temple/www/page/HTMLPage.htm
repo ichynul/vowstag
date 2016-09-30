@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#config.webname}</title>
+    <!--引入公共样式、脚本-->
+    {#static=head /}
+</head>
+<body>
+    <div class="head">
+        {#label=notice /}<!--引入label-->
+    </div>
+    <div class="navi">
+        {# static=navi /}
+    </div>
+    <div class="main">
+        <div class="location">
+            当前位置：<a href="index.aspx">{#config.webname}</a>
+            <!-- -->
+            &gt;{# read = category ? id = request.cid}<a>{#read.name }</a>{#read}
+            <!-- -->
+        </div>
+        <div class="articles">
+            <ul class="articlelist">
+                {#list=article?categ= request.cid & orderby=time,istop&desc=true & pagesize =4<!--每页显示4条->
+                <!--list中的list.本标签中引用了url参数(categ= request.cid) -->
+                <li><a class="title" href="read.aspx?id={#item.id}&page={#page}">{#item.title}</a> <span class="time">
+                    {#item.time}</span>
+                    <div class="desc">
+                        <span>{#SubString(item.content,200)}</span></div>
+                    <img src="{#item.img}" style="width: 100px; height: 100px; float: right" alt='' />
+                </li>
+                {#list}
+            </ul>
+            {#pager?type=cs /}<!--分页标签 type=cs为cs代码直接输出分页html,type=js则会输出分页需要的参数-->
+        </div>
+    </div>
+    <div class="foot">
+        {#static=foot /}<!--引入static-->
+    </div>
+</body>
+</html>

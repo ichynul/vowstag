@@ -49,7 +49,8 @@ namespace Tag.Vows.Data
         private TempleHelper() { }
         private TagConfig Config;
         private static Dictionary<string, string> _dataTypes;
-        int max = 20, c = 0;
+        private int MAX = 100, C = 0;
+
         private static Dictionary<string, string> dataTypes
         {
             get
@@ -369,6 +370,7 @@ namespace Tag.Vows.Data
                     else
                     {
                         sb.AppendFormat("{0}{1} {2} = {1}.MinValue;\r\n", Method.getSpaces(2), dataType, vname);
+                        /*?*/
                         sb.AppendFormat("{0}{1}.TryParse({2},out {3});\r\n", Method.getSpaces(2), dataType, query, vname);
                     }
                     w.VarName = vname;
@@ -401,7 +403,7 @@ namespace Tag.Vows.Data
                             }
                             else
                             {
-                                w.VarName = string.Concat(w.VarName, "/* 全局变量? 如果是纯字符串请写成[..]或\"..\"*/");
+                                w.VarName = string.Concat("\"", w.VarName, "\"", "/* 全局变量? 如果是全局变量请写成this.", w.VarName, "*/");
                             }
                         }
                     }
@@ -481,8 +483,8 @@ namespace Tag.Vows.Data
         #region GetWheres
         private void GetWheres(List<TagWhere> wheres, string _params, string _symb)
         {
-            c += 1;
-            if (c > max)
+            C += 1;
+            if (C > MAX)
             {
                 System.Web.HttpContext.Current.Response.Write(_params);
                 return;
@@ -589,6 +591,7 @@ namespace Tag.Vows.Data
 
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + baseParms + "*/\r\n");
             List<TagWhere> baseWheres = new List<TagWhere>();
+            C = 0;
             GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
             bool desc = true;
@@ -810,6 +813,7 @@ namespace Tag.Vows.Data
             linq.Append(Method.getSpaces(2) + "{\r\n");
             linq.Append(Method.getSpaces(3) + "return null;\r\n");
             linq.Append(Method.getSpaces(2) + "}\r\n");
+            C = 0;
             List<TagWhere> baseWheres = new List<TagWhere>();
             GetWheres(baseWheres, baseParms, " && ");
             List<string> orderbylist = new List<string>();
@@ -997,6 +1001,7 @@ namespace Tag.Vows.Data
             }
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + query + "*/\r\n");
             List<TagWhere> baseWheres = new List<TagWhere>();
+            C = 0;
             GetWheres(baseWheres, query, " && ");
             if (baseWheres.Count > 0)
             {
@@ -1085,6 +1090,7 @@ namespace Tag.Vows.Data
             string dataName = "_" + modType.ToLower();
             string allowempty = "", action = "both";
             List<TagWhere> baseWheres = new List<TagWhere>();
+            C = 0;
             GetWheres(baseWheres, BaseParams, " && ");
             StringBuilder linq = new StringBuilder(Method.getSpaces(2) + "/*" + BaseParams + "*/\r\n");
             linq.AppendFormat("{0}string formname = this.CallValue(\"formname\");\r\n", Method.getSpaces(2));

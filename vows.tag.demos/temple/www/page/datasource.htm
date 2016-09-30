@@ -12,9 +12,10 @@
     <link href="../../m/page/style.css" rel="stylesheet" type="text/css" />
     <link href="../../../Make/css/style.css" rel="stylesheet" type="text/css" />
     <link href="/Make/css/control.css" rel="stylesheet" type="text/css" />
-     <!--测试相对路径的转换-->
+    <!--测试相对路径的转换-->
 </head>
 <body>
+    {#cmd?base=Test}
     <div class="head">
         {#label=notice /}<!--引入label-->
     </div>
@@ -35,18 +36,12 @@
                 {#list=article?data=xxoo(request.xx,6)}
                 <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
                     {#item.time}</span> </li>
-                {#list}
-                {#list=article?id>cookie.id.id}
+                {#list} {#list=article?id>cookie.id.id}
                 <li><a class="title" href="read.aspx?id={#item.id}">{#item.title}</a> <span class="time">
                     {#item.time}</span> </li>
                 {#list}
             </ul>
-            {#xx(cookie.xx.oo)}
-            {#xx(cookie.xx)}
-            {#cookie.xx}
-            {#cookie.xx.oo}
-            {#req.xxoo}
-            {#url.xxoo}
+            {#xx(cookie.xx.oo)} {#xx(cookie.xx)} {#cookie.xx} {#cookie.xx.oo} {#req.xxoo} {#url.xxoo}
         </div>
     </div>
     <div class="foot">
