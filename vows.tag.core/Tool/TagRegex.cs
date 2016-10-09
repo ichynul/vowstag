@@ -87,7 +87,7 @@ namespace Tag.Vows.Tool
                             , @"\w+(?:\.\w+)*(?:[\+\-\*\/]\d+(?:\.\d+)?)?)\)*(?:&|\||<[bh]r/?>)??)+?)?/?");
             #region 标签正则表达式
             /********tag tests*******/
-            TagTest = new Regex(string.Concat(tagLeft, @"\s*\b.+?/?\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            TagTest = new Regex(string.Concat(tagLeft, @"\s*\w+?((?!", tagLeft, @").)+?/?\s*", tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             ListTest = new Regex(string.Concat(tagLeft, @"list\d*=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ReadTest = new Regex(string.Concat(tagLeft, "read=", QueryBase, tagRight), RegexOptions.IgnoreCase | RegexOptions.Singleline);
